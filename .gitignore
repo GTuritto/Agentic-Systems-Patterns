@@ -35,3 +35,6 @@ venv/
 # Misc
 *.log
 *.tmp
+
+# Migration tool
+.migration-report.json
