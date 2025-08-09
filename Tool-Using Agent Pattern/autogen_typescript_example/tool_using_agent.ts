@@ -3,6 +3,7 @@
 
 import axios from 'axios';
 import * as readline from 'readline';
+import { evaluate } from 'mathjs';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,8 +12,8 @@ const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
 
 function calculatorTool(input: string): string {
   try {
-    // WARNING: eval is dangerous in production! Use a safe math parser instead.
-    return eval(input).toString();
+    const val = evaluate(input);
+    return val.toString();
   } catch (e) {
     return `Error: ${e}`;
   }
