@@ -23,6 +23,7 @@
     "environment-interactive-agent": "ts-node --esm \"./Environment-Interactive Agent Pattern/autogen_typescript_example/environment_interactive_agent.ts\"",
     "distributed-agent": "ts-node --esm \"./Distributed Agent Pattern/autogen_typescript_example/distributed_agent.ts\"",
     "hybrid-agent": "ts-node --esm \"./Hybrid Agent Pattern/autogen_typescript_example/hybrid_agent.ts\"",
+  "prompt-examples": "ts-node --esm \"./Prompt Engineering Pattern/autogen_typescript_example/prompt_examples.ts\"",
     "secure-agent": "ts-node --esm \"./Secure Agent Communication Pattern/autogen_typescript_example/secure_agent.ts\""
   },
   "dependencies": {
