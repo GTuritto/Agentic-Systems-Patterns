@@ -86,10 +86,10 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 
 
-## 13. Consensus/Negotiation Pattern
+## 13. [Consensus-Seeking Multi-Agent System Pattern](./consensus-seeking-multi-agent-system-pattern/README.md)
 
-- **Description:** Multiple agents negotiate or vote to reach a consensus on a decision.
-- **Example:** Agents voting on the best solution to a problem.
+- **Description:** Multiple agents propose answers and a meta-agent synthesizes a consensus using voting, ranking, or critique loops.
+- **Example:** Independent solvers generate proposals; a judge agent aggregates into a final decision.
 
 
 
@@ -167,6 +167,46 @@ This document provides an overview of the most important patterns in Agentic Sys
 - **Example:** Retrieval-augmented generation and dynamic context injection.
 
 ---
+
+## 26. [Context-Aware Routing Agent Pattern](./context-aware-routing-agent-pattern/README.md)
+
+- **Description:** Orchestrator that dynamically routes incoming queries to the most suitable specialist agent based on intent classification or semantic similarity.
+- **Example:** Router selects between code assistant, data analyst, or support bot using embeddings + rules.
+
+## 27. [Long-Term Episodic Memory Agent Pattern](./long-term-episodic-memory-agent-pattern/README.md)
+
+- **Description:** Maintains a timeline of episodic memories in a vector DB and retrieves relevant events for reasoning.
+- **Example:** Personal assistant recalls past meetings and preferences across sessions.
+
+## 28. [Adversarial Testing Agent Pattern](./adversarial-testing-agent-pattern/README.md)
+
+- **Description:** “Red team” agent that attempts to mislead or break another agent to test robustness.
+- **Example:** Safe prompt injection attempts and robustness checklist generation.
+
+## 29. [Self-Healing Workflow Agent Pattern](./self-healing-workflow-agent-pattern/README.md)
+
+- **Description:** Detects and recovers from workflow failures by retrying or re-planning.
+- **Example:** ETL agent retries with fallback data sources on transient failures.
+
+## 30. [Simulation-Based Planner Agent Pattern](./simulation-based-planner-agent-pattern/README.md)
+
+- **Description:** Simulates potential action sequences to pick the optimal execution plan.
+- **Example:** Simulated rollouts to choose best sequence for a deployment or logistics task.
+
+## 31. [Event-Triggered Agent Pattern](./event-triggered-agent-pattern/README.md)
+
+- **Description:** Activated only by external events (webhooks, Kafka, Pub/Sub) to reduce latency and compute.
+- **Example:** Webhook-triggered summarization pipeline.
+
+---
+
+## Applied Examples
+
+- [API Integration Copilot](./api-integration-copilot/README.md)
+- [Data Pipeline Orchestrator Agent](./data-pipeline-orchestrator-agent/README.md)
+- [Human-in-the-Loop Approval Agent](./human-in-the-loop-approval-agent/README.md)
+- [Compliance/Policy Enforcer Agent](./compliance-policy-enforcer-agent/README.md)
+- [Multi-Modal Tool-Using Agent](./multi-modal-tool-using-agent/README.md)
 
 **References:**
 
