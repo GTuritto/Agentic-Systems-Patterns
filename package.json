@@ -1,0 +1,47 @@
+  ,
+  "secure-agent": "ts-node ./Secure Agent Communication Pattern/autogen_typescript_example/secure_agent.ts"
+{
+  "name": "agentic-systems-example",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+  "single-agent": "ts-node ./Single Agent Pattern/autogen_typescript_example/single_agent.ts",
+  "tool-using-agent": "ts-node ./Tool-Using Agent Pattern/autogen_typescript_example/tool_using_agent.ts",
+  "cot-agent": "ts-node ./Chain-of-Thought (CoT) Pattern/autogen_typescript_example/cot_agent.ts",
+  "react-agent": "ts-node ./ReAct Pattern (Reason + Act)/autogen_typescript_example/react_agent.ts",
+  "multi-agent-collab": "ts-node ./Multi-Agent Collaboration Pattern/autogen_typescript_example/multi_agent_collab.ts",
+  "task-delegation": "ts-node ./Task Delegation Pattern/autogen_typescript_example/task_delegation.ts",
+  "agent-swarm": "ts-node ./Agent Swarm Pattern/autogen_typescript_example/agent_swarm.ts",
+  "agent-chain": "ts-node ./Agent Chain - Pipeline Pattern/autogen_typescript_example/agent_chain.ts",
+  "agent-orchestration": "ts-node ./Agent Orchestration Pattern/autogen_typescript_example/agent_orchestration.ts",
+  "agent-marketplace": "ts-node ./Agent Marketplace Pattern/autogen_typescript_example/agent_marketplace.ts",
+  "recursive-agent": "ts-node ./Recursive Agent Pattern/autogen_typescript_example/recursive_agent.ts"
+  ,
+  "reflection-self-improvement-agent": "ts-node ./Reflection and Self-Improvement Pattern/autogen_typescript_example/reflection_agent.ts"
+  ,
+  "memory-augmented-agent": "ts-node ./Memory-Augmented Agent Pattern/autogen_typescript_example/memory_agent.ts"
+  ,
+  "meta-cognitive-agent": "ts-node ./Meta-Cognitive Agent Pattern/autogen_typescript_example/meta_cognitive_agent.ts"
+  ,
+  "goal-conditioned-agent": "ts-node ./Goal-Conditioned Agent Pattern/autogen_typescript_example/goal_conditioned_agent.ts"
+  ,
+  "hierarchical-agent": "ts-node ./Hierarchical Agent Pattern/autogen_typescript_example/hierarchical_agent.ts"
+  ,
+  "planning-agent": "ts-node ./Planning Agent Pattern/autogen_typescript_example/planning_agent.ts"
+  ,
+  "environment-interactive-agent": "ts-node ./Environment-Interactive Agent Pattern/autogen_typescript_example/environment_interactive_agent.ts"
+  ,
+  "distributed-agent": "ts-node ./Distributed Agent Pattern/autogen_typescript_example/distributed_agent.ts"
+  ,
+  "hybrid-agent": "ts-node ./Hybrid Agent Pattern/autogen_typescript_example/hybrid_agent.ts"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  }
+}
