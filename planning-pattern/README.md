@@ -13,4 +13,6 @@ How to run (TS):
 - Test: `ts-node --esm ./planning-pattern/typescript/test/planning.spec.ts`
 
 
-Python: TBD (mirror planner/executor).
+Python:
+
+- `npm run plan:py` (uses deterministic fallback without API key)
