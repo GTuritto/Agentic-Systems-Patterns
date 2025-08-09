@@ -1,6 +1,6 @@
-import { BusMemory } from './bus_memory.js';
-import { AgentA } from './agent_a.js';
-import { AgentB } from './agent_b.js';
+import { BusMemory } from './bus_memory.ts';
+import { AgentA } from './agent_a.ts';
+import { AgentB } from './agent_b.ts';
 
 async function run() {
   const bus = new BusMemory();

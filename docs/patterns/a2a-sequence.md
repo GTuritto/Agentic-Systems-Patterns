@@ -1,4 +1,4 @@
-# A2A Sequence Diagram
+# A2A Protocol — Sequence
 
 ```mermaid
 sequenceDiagram

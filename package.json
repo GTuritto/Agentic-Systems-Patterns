@@ -28,7 +28,14 @@
   "mcp:server": "ts-node --esm ./mcp-context-exchange-pattern/typescript/src/mcp_server.ts",
   "mcp:client": "ts-node --esm ./mcp-context-exchange-pattern/typescript/src/mcp_client.ts",
   "a2a:run": "ts-node --esm ./agent-to-agent-communication-pattern/src/run_demo.ts",
-  "a2a:test": "ts-node --esm ./agent-to-agent-communication-pattern/test/a2a.spec.ts"
+    "a2a:test": "ts-node --esm ./agent-to-agent-communication-pattern/test/a2a.spec.ts",
+    "plan:run": "ts-node --esm ./planning-pattern/typescript/src/run.ts",
+    "plan:test": "ts-node --esm ./planning-pattern/typescript/test/planning.spec.ts",
+    "codeact:ts": "ts-node --esm ./codeact-agent-pattern/typescript/src/codeact_agent.ts",
+    "codeact:py": "python3 ./codeact-agent-pattern/python/codeact_agent.py",
+    "mcp:search": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_search_server.ts",
+    "mcp:cloud": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_cloud_server.ts",
+    "mcp:agent": "ts-node --esm ./modern-tool-use-pattern/typescript/src/agent.ts"
   },
   "dependencies": {
     "axios": "^1.6.0",
