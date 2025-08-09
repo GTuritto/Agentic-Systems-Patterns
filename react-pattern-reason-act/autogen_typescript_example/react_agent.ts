@@ -57,17 +57,30 @@ async function reactAgent(userInput: string): Promise<string> {
   return result;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-rl.question('Task: ', async (userInput: string) => {
-  try {
-    const agentResponse = await reactAgent(userInput);
-    console.log('Final Answer:', agentResponse);
-  } catch (err) {
-    console.error('Error:', err);
+async function main() {
+  const idx = process.argv.indexOf('--input');
+  const cliInput = idx !== -1 ? process.argv[idx + 1] : undefined;
+  const nonInteractive = cliInput || process.env.NON_INTERACTIVE_INPUT;
+  if (nonInteractive) {
+    try {
+      const agentResponse = await reactAgent(String(nonInteractive));
+      console.log('Final Answer:', agentResponse);
+    } catch (err) {
+      console.error('Error:', err);
+      process.exitCode = 1;
+    }
+    return;
   }
-  rl.close();
-});
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  rl.question('Task: ', async (userInput: string) => {
+    try {
+      const agentResponse = await reactAgent(userInput);
+      console.log('Final Answer:', agentResponse);
+    } catch (err) {
+      console.error('Error:', err);
+    }
+    rl.close();
+  });
+}
+
+main();
