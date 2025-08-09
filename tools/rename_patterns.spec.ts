@@ -36,7 +36,7 @@ function assertEqual(actual: any, expected: any, msg: string) {
   if (!mdOut.includes('./react-pattern-reason-act/README.md')) { console.error('Failed to rewrite encoded MD link'); process.exit(1); }
 
   const pkgIn = JSON.stringify({ scripts: {
-    react: 'ts-node --esm "./ReAct Pattern (Reason + Act)/autogen_typescript_example/react_agent.ts"'
+    react: 'ts-node --esm "./react-pattern-reason-act/autogen_typescript_example/react_agent.ts"'
   } }, null, 2);
   const { changed: pkgChanged, newContent: pkgOut } = rewriteFileRefs('/repo/package.json', pkgIn, renames);
   if (!pkgChanged) { console.error('Expected package.json to change'); process.exit(1); }

@@ -8,7 +8,7 @@ type MemoryMessage = { role: string; content: string };
 
 const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
 const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
-const MEMORY_FILE = './Memory-Augmented Agent Pattern/autogen_typescript_example/memory.json';
+const MEMORY_FILE = './memory-augmented-agent-pattern/autogen_typescript_example/memory.json';
 
 if (!MISTRAL_API_KEY) {
   console.error('Please set MISTRAL_API_KEY in your .env file');
