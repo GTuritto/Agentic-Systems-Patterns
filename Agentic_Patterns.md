@@ -154,10 +154,19 @@ This document provides an overview of the most important patterns in Agentic Sys
 - **Description:** Agents generate, evaluate, and execute multi-step plans to achieve complex goals, adapting plans based on feedback or changing circumstances.
 - **Example:** Automated workflow execution.
 
+## 23. [DSPy Pattern](./DSPy Pattern/README.md)
+- **Description:** Modular, composable pipelines for LLMs and agentic systems using DSPy framework.
+- **Example:** Tool-using agent with modular skills and pipeline optimization.
 
+## 24. [Prompt Engineering Pattern](./Prompt Engineering Pattern/README.md)
+- **Description:** Best practices and techniques for designing effective prompts for LLMs and agents.
+- **Example:** Using prompt templates and few-shot examples for robust outputs.
+
+## 25. [Context Engineering Pattern](./Context Engineering Pattern/README.md)
+- **Description:** Structuring and managing context for LLMs and agents to maximize effectiveness.
+- **Example:** Retrieval-augmented generation and dynamic context injection.
 
 ---
-
 
 **References:**
 

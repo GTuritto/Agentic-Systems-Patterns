@@ -1,0 +1,4 @@
+langchain-community
+langchain-mistralai
+mistralai
+faiss-cpu
