@@ -1,27 +1,40 @@
 
-# Minimal DSPy pipeline example using Mistral LLM
-# Requires: pip install dspy-ai mistral-common mistralai
-import dspy
-from mistralai.client import MistralClient
+"""
+Minimal DSPy pipeline example using Mistral LLM via raw HTTP (requests).
+Requirements: pip install dspy-ai requests
+"""
 import os
+import requests
+import dspy
 
-# Set up Mistral LLM for DSPy
+MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 if not MISTRAL_API_KEY:
     raise RuntimeError("Set MISTRAL_API_KEY in your environment.")
 
-class MistralLLM(dspy.LLM):
-    def __init__(self):
-        self.client = MistralClient(api_key=MISTRAL_API_KEY)
-    def __call__(self, prompt, **kwargs):
-        response = self.client.chat(
-            model="mistral-tiny",  # or another available model
-            messages=[{"role": "user", "content": prompt}]
+class MistralHTTP(dspy.LLM):
+    def __call__(self, prompt: str, **kwargs) -> str:
+        resp = requests.post(
+            MISTRAL_API_URL,
+            headers={
+                "Authorization": f"Bearer {MISTRAL_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "mistral-large-latest",
+                "messages": [
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.2,
+            },
+            timeout=60,
         )
-        return response.choices[0].message.content
+        resp.raise_for_status()
+        data = resp.json()
+        return (data.get("choices") or [{}])[0].get("message", {}).get("content", "")
 
-# Register Mistral as the LLM backend
-dspy.settings.configure(llm=MistralLLM())
+# Register Mistral HTTP client as the LLM backend
+dspy.settings.configure(llm=MistralHTTP())
 
 # Define a simple DSPy module
 class Summarizer(dspy.Module):

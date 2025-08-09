@@ -1,4 +1,4 @@
 langchain-community
-langchain-mistralai
-mistralai
+sentence-transformers
 faiss-cpu
+requests

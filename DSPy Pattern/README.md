@@ -16,3 +16,27 @@ DSPy is a framework for building modular, composable pipelines for LLMs and agen
 ## References
 - [DSPy GitHub](https://github.com/stanfordnlp/dspy)
 - [DSPy Paper](https://arxiv.org/abs/2402.19149)
+
+## How to run
+
+This repo's DSPy example uses Mistral via raw HTTP (no vendor SDKs).
+
+1) Create and activate a virtual environment, then install deps:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r "DSPy Pattern/langgraph_python_example/requirements.txt"
+```
+
+2) Export your Mistral API key and run the example:
+
+```bash
+export MISTRAL_API_KEY=your_key_here
+python "DSPy Pattern/langgraph_python_example/dspy_minimal_pipeline.py"
+```
+
+Notes:
+- Model: mistral-large-latest
+- HTTP endpoint: https://api.mistral.ai/v1/chat/completions
+- Library usage: requests for HTTP; dspy-ai for the pipeline abstraction

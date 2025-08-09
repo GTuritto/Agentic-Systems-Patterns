@@ -27,12 +27,17 @@ load_dotenv()
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
 
+import sympy as _sp
+
+def safe_calc(expr: str) -> str:
+    try:
+        return str(_sp.sympify(expr, evaluate=True))
+    except Exception as e:
+        return f"Error: {e}"
+
 class CalculatorTool(Tool):
     def call(self, input_str):
-        try:
-            return str(eval(input_str))
-        except Exception as e:
-            return f"Error: {e}"
+        return safe_calc(input_str)
 
 class SimpleEnvironment(Environment):
     def get_observation(self):
