@@ -208,6 +208,13 @@ This document provides an overview of the most important patterns in Agentic Sys
 - [Compliance/Policy Enforcer Agent](./compliance-policy-enforcer-agent/README.md)
 - [Multi-Modal Tool-Using Agent](./multi-modal-tool-using-agent/README.md)
 
+---
+
+## Interoperability Patterns
+
+- [MCP Context Exchange Pattern](./mcp-context-exchange-pattern/README.md)
+- [A2A Agent-to-Agent Communication Protocol](./agent-to-agent-communication-pattern/README.md)
+
 **References:**
 
 - MCP (Model Context Protocol)

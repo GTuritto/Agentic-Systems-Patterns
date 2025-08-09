@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/a2a.schema.json",
+  "title": "A2A Protocol",
+  "type": "object",
+  "properties": {
+    "Handshake": {
+      "type": "object",
+      "required": ["version", "capabilities"],
+      "properties": {
+        "version": { "type": "string" },
+        "capabilities": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "TaskRequest": {
+      "type": "object",
+      "required": ["id", "task_type", "input", "meta"],
+      "properties": {
+        "id": { "type": "string" },
+        "task_type": { "type": "string" },
+        "input": { "type": "object" },
+        "meta": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "TaskResponse": {
+      "type": "object",
+      "required": ["id", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "type": "string", "enum": ["success", "error", "refused"] },
+        "output": { "type": ["object", "null"] },
+        "error": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "Progress": {
+      "type": "object",
+      "required": ["id", "stage", "pct"],
+      "properties": {
+        "id": { "type": "string" },
+        "stage": { "type": "string" },
+        "pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "message": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "Cancel": {
+      "type": "object",
+      "required": ["id", "reason"],
+      "properties": {
+        "id": { "type": "string" },
+        "reason": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

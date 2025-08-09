@@ -1,0 +1,1 @@
+This project uses the root TypeScript toolchain (ts-node --esm). No separate package.json needed. Ensure root has Ajv as dependency if required for TS files importing it.
