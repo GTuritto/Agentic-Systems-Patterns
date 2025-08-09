@@ -5,7 +5,7 @@ build/
 
 # Environment and config
 .env
-.env.*
+
 
 # VS Code settings
 .vscode/

@@ -32,8 +32,8 @@ async function recursiveAgent(task: string, depth: number = 0): Promise<string> 
   const output = response.data.choices[0].message.content.trim();
   if (output.toLowerCase().includes('subtask')) {
     // Extract subtasks (simple split for demo)
-    const subtasks = output.split(/subtask\s*\d*[:\-]?/i).map(s => s.trim()).filter(Boolean);
-    const results = await Promise.all(subtasks.map(st => recursiveAgent(st, depth + 1)));
+  const subtasks = output.split(/subtask\s*\d*[:\-]?/i).map((s: string) => s.trim()).filter(Boolean);
+  const results = await Promise.all(subtasks.map((st: string) => recursiveAgent(st, depth + 1)));
     return `Results at depth ${depth}:\n` + results.join('\n');
   } else {
     return `Solved at depth ${depth}: ${output}`;

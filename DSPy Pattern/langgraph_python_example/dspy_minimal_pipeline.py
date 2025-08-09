@@ -7,12 +7,22 @@ import os
 import requests
 import dspy
 
+# Optionally load environment variables from a .env file if present
+try:
+    from dotenv import load_dotenv, find_dotenv
+    load_dotenv(find_dotenv(usecwd=True), override=True)
+except Exception:
+    pass
+
 MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 if not MISTRAL_API_KEY:
     raise RuntimeError("Set MISTRAL_API_KEY in your environment.")
 
-class MistralHTTP(dspy.LLM):
+class MistralHTTP(dspy.LM):
+    def __init__(self, model: str = "mistral-large-latest", **kwargs):
+        super().__init__(model=model)
+
     def __call__(self, prompt: str, **kwargs) -> str:
         resp = requests.post(
             MISTRAL_API_URL,
@@ -21,7 +31,7 @@ class MistralHTTP(dspy.LLM):
                 "Content-Type": "application/json",
             },
             json={
-                "model": "mistral-large-latest",
+                "model": self.model,
                 "messages": [
                     {"role": "user", "content": prompt}
                 ],
@@ -33,19 +43,16 @@ class MistralHTTP(dspy.LLM):
         data = resp.json()
         return (data.get("choices") or [{}])[0].get("message", {}).get("content", "")
 
-# Register Mistral HTTP client as the LLM backend
-dspy.settings.configure(llm=MistralHTTP())
-
-# Define a simple DSPy module
+# Define a simple DSPy module that uses the provided LM
 class Summarizer(dspy.Module):
-    def forward(self, text):
-        return self.llm("Summarize: " + text)
-
-# Instantiate pipeline
-pipeline = dspy.Pipeline([
-    Summarizer()
-])
+    def __init__(self, lm: MistralHTTP):
+        super().__init__()
+        self.lm = lm
+    def forward(self, text: str):
+        return self.lm("Summarize: " + text)
 
 if __name__ == "__main__":
-    result = pipeline("Large language models are powerful tools for many tasks.")
+    lm = MistralHTTP()
+    summarizer = Summarizer(lm)
+    result = summarizer("Large language models are powerful tools for many tasks.")
     print("Summary:", result)
