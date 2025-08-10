@@ -76,6 +76,10 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
    npm run mcp:search &
    npm run mcp:cloud &
    npm run mcp:agent
+
+   # LLM Router Pattern (LLM classifier + embedding router + policies)
+   npm run router:test
+   npm run router:run -- "I need a refund for a wrong charge on my invoice."
    ```
 
 5. **Python demos:**

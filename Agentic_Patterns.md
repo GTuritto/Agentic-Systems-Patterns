@@ -155,14 +155,17 @@ This document provides an overview of the most important patterns in Agentic Sys
 - **Example:** Automated workflow execution.
 
 ## 23. [DSPy Pattern](./dspy-pattern/README.md)
+
 - **Description:** Modular, composable pipelines for LLMs and agentic systems using DSPy framework.
 - **Example:** Tool-using agent with modular skills and pipeline optimization.
 
 ## 24. [Prompt Engineering Pattern](./prompt-engineering-pattern/README.md)
+
 - **Description:** Best practices and techniques for designing effective prompts for LLMs and agents.
 - **Example:** Using prompt templates and few-shot examples for robust outputs.
 
 ## 25. [Context Engineering Pattern](./context-engineering-pattern/README.md)
+
 - **Description:** Structuring and managing context for LLMs and agents to maximize effectiveness.
 - **Example:** Retrieval-augmented generation and dynamic context injection.
 
@@ -225,6 +228,8 @@ This document provides an overview of the most important patterns in Agentic Sys
 	- Deterministic fallback; optional Mistral HTTP planning.
 - [Modern Tool Use Pattern (MCP-first)](./modern-tool-use-pattern/README.md)
 	- Agent discovers MCP manifests (search, cloud) and invokes tools with Ajv validation.
+- [LLM Router Pattern](./llm-router-pattern/README.md)
+	- Routes to billing/tech/sales specialists using LLM classifier + embedding similarity with policy-aware tie-break and fallback.
 
 **References:**
 

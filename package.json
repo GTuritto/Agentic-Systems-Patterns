@@ -36,7 +36,9 @@
     "plan:py": "python3 ./planning-pattern/python/run.py",
     "mcp:search": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_search_server.ts",
     "mcp:cloud": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_cloud_server.ts",
-    "mcp:agent": "ts-node --esm ./modern-tool-use-pattern/typescript/src/agent.ts"
+  "mcp:agent": "ts-node --esm ./modern-tool-use-pattern/typescript/src/agent.ts",
+    "router:run": "ts-node --esm ./llm-router-pattern/typescript/src/run_router.ts",
+    "router:test": "ts-node --esm ./llm-router-pattern/typescript/test/router.spec.ts"
   },
   "dependencies": {
     "axios": "^1.6.0",
