@@ -149,7 +149,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 
 
-## 22. [Planning Agent Pattern](./planning-agent-pattern/README.md)
+## 22. [Planning Agent Pattern](./planning-pattern/README.md)
 
 - **Description:** Agents generate, evaluate, and execute multi-step plans to achieve complex goals, adapting plans based on feedback or changing circumstances.
 - **Example:** Automated workflow execution.
@@ -214,6 +214,17 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 - [MCP Context Exchange Pattern](./mcp-context-exchange-pattern/README.md)
 - [A2A Agent-to-Agent Communication Protocol](./agent-to-agent-communication-pattern/README.md)
+
+---
+
+## Runnable demo patterns (this repo)
+
+- [CodeAct Agent Pattern](./codeact-agent-pattern/README.md)
+	- Think → plan tiny JS snippet → execute in sandbox → observe → iterate.
+- [Planning Pattern (Planner + Executor)](./planning-pattern/README.md)
+	- Deterministic fallback; optional Mistral HTTP planning.
+- [Modern Tool Use Pattern (MCP-first)](./modern-tool-use-pattern/README.md)
+	- Agent discovers MCP manifests (search, cloud) and invokes tools with Ajv validation.
 
 **References:**
 
