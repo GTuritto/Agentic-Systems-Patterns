@@ -23,6 +23,16 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Pattern Selection',
+        items: [
+          { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
+          { text: 'Prompt Chaining and Gates', link: '/pattern-selection/prompt-chaining-and-gates' },
+          { text: 'Routing and Handoffs', link: '/pattern-selection/routing-and-handoffs' },
+          { text: 'Circuit Breakers, Fallbacks, and Replay', link: '/pattern-selection/circuit-breakers-fallbacks-replay' },
+          { text: 'Source Map', link: '/pattern-selection/source-map' }
+        ]
+      },
+      {
         text: 'Control Loops',
         items: [
           { text: 'Planning and Execution', link: '/control-loops/planning-and-execution' },

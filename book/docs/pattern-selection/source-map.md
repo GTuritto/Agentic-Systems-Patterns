@@ -1,0 +1,74 @@
+---
+title: Source Map
+---
+
+# Source Map
+
+This page maps external references to this book's chapters. Use it as a reading guide, not as a replacement for the book's pattern language.
+
+The sources repeat several core ideas: start simple, separate workflows from agents, use tools through typed contracts, add memory deliberately, evaluate behavior, and reserve multi-agent systems for cases where specialization justifies orchestration cost.
+
+## Primary References
+
+| Source | Useful Ideas | Book Mapping |
+| --- | --- | --- |
+| [Anthropic: Building Effective Agents](https://www.anthropic.com/engineering/building-effective-agents) | Workflows vs agents, prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer, autonomous agents. | [Choosing the Right Pattern](./choosing-the-right-pattern), [Prompt Chaining and Gates](./prompt-chaining-and-gates), [Routing and Handoffs](./routing-and-handoffs), [Evaluator-Optimizer](../control-loops/evaluator-optimizer), [Agent Loop](../foundations/agent-loop). |
+| [Google Cloud: Choose a design pattern for your agentic AI system](https://docs.cloud.google.com/architecture/choose-design-pattern-agentic-ai-system) | Requirements-first selection, single-agent and multi-agent patterns, sequential, parallel, iterative refinement, human-in-the-loop, custom logic. | [Choosing the Right Pattern](./choosing-the-right-pattern), [Parallel Agents](../multi-agent-systems/parallel-agents), [Human Approval Gates](../tools-skills-protocols/human-approval-gates), [Agentic System Architecture](../systems-architecture/agentic-system-architecture). |
+| [Databricks: Agent system design patterns](https://docs.databricks.com/gcp/en/agents/agent-system-design-patterns) | Complexity continuum from prompt to deterministic chain to single-agent and multi-agent systems, plus production guidance for testing, tracing, failure handling, model updates, and cost. | [Choosing the Right Pattern](./choosing-the-right-pattern), [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay), [Observability and Evals](../production-runtime/observability-and-evals). |
+| [MongoDB: 7 Practical Design Patterns for Agentic Systems](https://www.mongodb.com/resources/basics/artificial-intelligence/agentic-systems) | Controlled flows, LLM routing, parallelization, reflection, human-in-the-loop, agents, and multi-agent architectures. | [Prompt Chaining and Gates](./prompt-chaining-and-gates), [Routing and Handoffs](./routing-and-handoffs), [Reflection](../control-loops/reflection), [Supervisor / Worker](../multi-agent-systems/supervisor-worker). |
+| [Agentic Patterns Graph](https://www.agentic-patterns.com/graph) | Large pattern catalog with categories for context, orchestration, reliability, security, tool use, learning, and UX. | [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay), [Context Engineering](../foundations/context-engineering), [Working Memory](../memory-knowledge/working-memory), [Policy Enforcement](../production-runtime/policy-enforcement). |
+| [GitHub: awesome-agentic-patterns](https://github.com/nibzard/awesome-agentic-patterns) | Curated repository of production and emerging patterns, useful as a discovery index. | This source informs the extended catalog and future additions, especially reliability, context, coding-agent, and tool-use patterns. |
+
+## Secondary References
+
+| Source | Useful Ideas | How To Use |
+| --- | --- | --- |
+| [ByteByteGo: Top AI Agentic Workflow Patterns](https://blog.bytebytego.com/p/top-ai-agentic-workflow-patterns) | Accessible explanations of reflection, tool use, ReAct, planning, and multi-agent patterns. | Good introductory reading for readers who want a lighter explanation before the deeper chapters. |
+| [Phil Schmid: Zero to One - Learning Agentic Patterns](https://www.philschmid.de/agentic-pattern) | Practical examples for routing, parallelization, tool use, orchestrator-workers, and multi-agent systems. | Useful for implementation intuition and example shapes. |
+| [ProjectPro: Agentic AI Design Patterns](https://www.projectpro.io/article/agentic-ai-design-patterns/1126) | Planning, tool use, reflection, multi-agent examples, and a practical MCP discussion. | Useful for explaining common enterprise examples. |
+| [Tungsten Automation: Tool-Use Pattern](https://www.tungstenautomation.com/learn/blog/the-agentic-ai-tool-use-pattern) | Enterprise framing for tool use, ground truth, and workflow APIs. | Maps to [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use) and [Policy Enforcement](../production-runtime/policy-enforcement). |
+| [Towards AI: 5 Design Patterns in Agentic AI Workflow](https://pub.towardsai.net/5-design-patterns-in-agentic-ai-workflow-c972c83f77e4) | Introductory framing for prompt chaining and workflow decomposition. | Useful as a light overview; the article is partially gated. |
+| [Medium: Agentic Design Patterns](https://medium.com/@bijit211987/agentic-design-patterns-cbd0aae2962f) | Common pattern explanations for reflection, tool use, planning, and multi-agent design. | Duplicates core concepts already covered here. |
+| [Medium: Agentic Patterns - Architectures for Coordinated AI Systems](https://medium.com/@learning_37638/agentic-patterns-architectures-for-coordinated-ai-systems-34d9d8d8e1e2) | Hierarchical, peer-to-peer, market-based, and swarm coordination. | Useful for future expansion of multi-agent coordination patterns. |
+| [YouTube: AI agent design patterns](https://www.youtube.com/watch?v=GDm_uH6VxPY) | Video walkthrough of agent design patterns. | Use as companion media, not as a primary textual source unless transcript review is added. |
+| [YouTube: Master ALL 20 Agentic AI Design Patterns](https://www.youtube.com/watch?v=e2zIr_2JMbE) | Broad video catalog of pattern names and examples. | Use as discovery material; validate individual claims against primary sources. |
+
+The LinkedIn checkpoint link was not useful as a public source because it requires a login challenge.
+
+## Pattern Coverage Map
+
+| External Pattern Name | Current Book Chapter |
+| --- | --- |
+| Augmented LLM | [Single Agent](../foundations/single-agent), [Tool Use](../foundations/tool-use), [Structured Output](../foundations/structured-output) |
+| Prompt chaining | [Prompt Chaining and Gates](./prompt-chaining-and-gates) |
+| Routing | [Routing and Handoffs](./routing-and-handoffs) |
+| Parallelization | [Parallel Agents](../multi-agent-systems/parallel-agents) |
+| Orchestrator-workers | [Supervisor / Worker](../multi-agent-systems/supervisor-worker), [Planning and Execution](../control-loops/planning-and-execution) |
+| Evaluator-optimizer | [Evaluator-Optimizer](../control-loops/evaluator-optimizer) |
+| Reflection | [Reflection](../control-loops/reflection) |
+| ReAct | [ReAct](../control-loops/react) |
+| Agent loop | [Agent Loop](../foundations/agent-loop) |
+| Human-in-the-loop | [Human Approval Gates](../tools-skills-protocols/human-approval-gates) |
+| Tool use | [Tool Use](../foundations/tool-use), [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use) |
+| Memory and context | [Context Engineering](../foundations/context-engineering), [Working Memory](../memory-knowledge/working-memory), [Long-Term Episodic Memory](../memory-knowledge/long-term-episodic-memory) |
+| Agentic RAG | [Semantic Recall and RAG](../memory-knowledge/semantic-recall-rag), [Agentic RAG Systems](../systems-architecture/agentic-rag-systems) |
+| Multi-agent supervisor | [Supervisor / Worker](../multi-agent-systems/supervisor-worker) |
+| Peer or network agents | [A2A Agent Interoperability](../tools-skills-protocols/a2a-agent-interoperability), [Debate and Consensus](../multi-agent-systems/debate-and-consensus) |
+| Circuit breaker | [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay) |
+| Action replay | [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay), [Observability and Evals](../production-runtime/observability-and-evals) |
+| Deterministic chain | [Choosing the Right Pattern](./choosing-the-right-pattern), [Durable Workflows](../production-runtime/durable-workflows) |
+| Coding agent | [Coding Agents](../systems-architecture/coding-agents) |
+
+## Editorial Rule
+
+External sources are used to validate coverage and expose missing patterns. The book keeps its own taxonomy:
+
+- foundations first;
+- control loops second;
+- memory and knowledge as a separate concern;
+- tools, skills, and protocols as integration boundaries;
+- multi-agent systems only when specialization has value;
+- production runtime patterns for safety, evaluation, and operations;
+- source-informed pattern selection as the entry point for choosing the right design.
+
+This keeps the book useful as a reference instead of turning it into a link dump.

@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Agentic Systems Patterns
   text: A practical reference for modern agent architecture
-  tagline: Patterns for goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.
+  tagline: Patterns and selection guides for goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.
   actions:
     - theme: brand
       text: Start Reading
@@ -19,6 +19,8 @@ hero:
 features:
   - title: Pattern Catalog
     details: A structured map of active agentic system patterns with deprecated material archived separately.
+  - title: Selection Guide
+    details: Source-informed guidance for choosing between chains, routing, agents, multi-agent systems, and reliability controls.
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.
   - title: Publishable Reference
