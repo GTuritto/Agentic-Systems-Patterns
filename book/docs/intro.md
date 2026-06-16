@@ -7,9 +7,9 @@ slug: /
 
 This book is a practical reference for designing, testing, and operating agentic systems.
 
-The catalog favors patterns that help engineers build real systems: control loops, goals, state, tools, skills, protocols, memory, multi-agent coordination, runtime observability, and evaluation.
+The catalog favors patterns that help engineers build real systems: control loops, goals, state, tools, skills, protocols, memory, multi-agent coordination, systems architecture, runtime observability, and evaluation.
 
-Runnable examples live in the repository root. Each chapter links back to the relevant source folder when code is available.
+Runnable examples live in the repository root. Pattern chapters link back to the relevant source folder when code is available. Systems Architecture chapters explain how the patterns fit together into deployable systems.
 
 ## Publishing
 

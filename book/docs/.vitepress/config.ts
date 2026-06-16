@@ -64,6 +64,17 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Systems Architecture',
+        items: [
+          { text: 'Agentic System Architecture', link: '/systems-architecture/agentic-system-architecture' },
+          { text: 'Agentic RAG Systems', link: '/systems-architecture/agentic-rag-systems' },
+          { text: 'Open Personal Agent Architectures', link: '/systems-architecture/open-personal-agent-architectures' },
+          { text: 'Coding Agents', link: '/systems-architecture/coding-agents' },
+          { text: 'Architecture Decision Records', link: '/systems-architecture/architecture-decision-records' },
+          { text: 'Reference Architecture', link: '/systems-architecture/reference-architecture' }
+        ]
+      },
+      {
         text: 'Production Runtime',
         items: [
           { text: 'Durable Workflows', link: '/production-runtime/durable-workflows' },

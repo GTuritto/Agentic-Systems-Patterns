@@ -28,6 +28,7 @@ The active catalog is organized around current agent engineering practice:
 - Memory and knowledge: working memory, episodic memory, semantic recall, RAG, and knowledge-bound agents.
 - Tools, skills, and protocols: Skills, MCP-first tool use, A2A interoperability, secure communication, and human approval gates.
 - Multi-agent systems: delegation, supervisor-worker designs, debate and consensus, parallel agents, and CrewAI flows.
+- Systems architecture: system composition, Agentic RAG, open personal agents, coding agents, ADRs, and reference architecture.
 - Production runtime: durable workflows, observability, evals, policy enforcement, event triggers, and Mastra runtime patterns.
 
 Start with [Agentic_Patterns.md](./Agentic_Patterns.md) for the complete index.
@@ -112,7 +113,7 @@ Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/pu
 
 The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
 
-Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`.
+Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`. Architecture chapters under `book/docs/systems-architecture/` are hand-written because they describe cross-pattern composition rather than one source folder.
 
 ## Repository Map
 
@@ -136,6 +137,7 @@ Pattern chapters and source download bundles are generated from [book/scripts/pa
 - Prefer deterministic example paths for tests and demos.
 - When adding book chapters, update `book/docs/.vitepress/config.ts` so the sidebar and PDF order stay aligned.
 - When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
+- When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and update `book/scripts/generate-pdf.mjs`.
 - Run `npm test`, `npm run typecheck`, `npm run book:pdf`, and `npm run book:build` before publishing larger changes.
 
 ## License

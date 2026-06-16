@@ -57,6 +57,15 @@ https://gturitto.github.io/Agentic-Systems-Patterns/
 - [Agent Orchestration](./agent-orchestration-pattern/README.md): A coordinator assigning roles and managing multi-agent flow.
 - [CrewAI Flows and Crews](./crewai-flows-and-crews-pattern/README.md): Python flow state plus collaborative crews.
 
+## Systems Architecture
+
+- [Agentic System Architecture](./book/docs/systems-architecture/agentic-system-architecture.md): How to compose agents, tools, memory, state, workflows, policies, evals, and observability.
+- [Agentic RAG Systems](./book/docs/systems-architecture/agentic-rag-systems.md): Query planning, retrieval routing, grounding, corrective loops, and production controls for RAG with agents.
+- [Open Personal Agent Architectures](./book/docs/systems-architecture/open-personal-agent-architectures.md): OpenClaw, Hermes Agent, and related self-hosted personal-agent architectures.
+- [Coding Agents](./book/docs/systems-architecture/coding-agents.md): Codex, Cursor, Claude Code, OpenHands, and repo-operating agents that edit files, run checks, and produce diffs.
+- [Architecture Decision Records for Agents](./book/docs/systems-architecture/architecture-decision-records.md): ADRs for model, memory, tool, workflow, policy, and eval decisions.
+- [Reference Architecture](./book/docs/systems-architecture/reference-architecture.md): A conservative end-to-end production architecture for agentic systems.
+
 ## Routing and Interaction
 
 - [LLM Router](./llm-router-pattern/README.md): Routing requests to specialists using classifier, embedding, policy, and fallback logic.
