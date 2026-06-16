@@ -23,6 +23,13 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Publishing',
+        items: [
+          { text: 'How To Read This Book', link: '/publishing/how-to-read' },
+          { text: 'Publishing and Releases', link: '/publishing/publishing-and-releases' }
+        ]
+      },
+      {
         text: 'Pattern Selection',
         items: [
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },

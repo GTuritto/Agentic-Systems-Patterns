@@ -10,9 +10,15 @@ const docsRoot = path.join(bookRoot, 'docs');
 const releasesRoot = path.join(bookRoot, 'releases');
 const publicReleasesRoot = path.join(docsRoot, 'public', 'releases');
 const pdfName = 'Agentic-Systems-Patterns.pdf';
+const edition = '2026-06-16';
+const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
+const pdfUrl = `${siteUrl}releases/${pdfName}`;
+const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 
 const chapters = [
   ['Introduction', 'intro.md'],
+  ['Publishing / How To Read This Book', 'publishing/how-to-read.md'],
+  ['Publishing / Publishing and Releases', 'publishing/publishing-and-releases.md'],
   ['Foundations / Single Agent', 'foundations/single-agent.md'],
   ['Foundations / Agent Loop', 'foundations/agent-loop.md'],
   ['Foundations / Goals and State', 'foundations/goals-and-state.md'],
@@ -112,6 +118,30 @@ async function renderChapters() {
   return rendered.join('\n');
 }
 
+function renderTableOfContents() {
+  const pageSize = 46;
+  const pages = [];
+
+  for (let offset = 0; offset < chapters.length; offset += pageSize) {
+    const items = chapters
+      .slice(offset, offset + pageSize)
+      .map(([title]) => `<li>${title}</li>`)
+      .join('\n');
+    const title = offset === 0 ? 'Table of Contents' : 'Table of Contents, Continued';
+    pages.push(`
+      <section class="toc">
+        <div class="chapter-label">Front Matter</div>
+        <h1>${title}</h1>
+        <ol start="${offset + 1}">
+          ${items}
+        </ol>
+      </section>
+    `);
+  }
+
+  return pages.join('\n');
+}
+
 function htmlDocument(body) {
   return `<!doctype html>
 <html lang="en">
@@ -152,10 +182,36 @@ function htmlDocument(body) {
       max-width: 620px;
     }
 
+    .cover-meta {
+      color: #4f5b62;
+      font-size: 10pt;
+      line-height: 1.7;
+      margin-top: 30px;
+    }
+
     .license {
       color: #66737a;
       font-size: 9pt;
       margin-top: 42px;
+    }
+
+    .toc {
+      break-before: page;
+      page-break-after: always;
+    }
+
+    .toc ol {
+      columns: 2;
+      column-gap: 28px;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      margin-top: 18px;
+      padding-left: 22px;
+    }
+
+    .toc li {
+      break-inside: avoid;
+      margin-bottom: 5px;
     }
 
     .chapter {
@@ -240,8 +296,15 @@ function htmlDocument(body) {
   <section class="cover">
     <h1>Agentic Systems Patterns</h1>
     <p>A practical reference for modern agent architecture: goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.</p>
+    <div class="cover-meta">
+      <div>Edition: ${edition}</div>
+      <div>Site: ${siteUrl}</div>
+      <div>PDF: ${pdfUrl}</div>
+      <div>Repository: ${repoUrl}</div>
+    </div>
     <div class="license">Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).</div>
   </section>
+  ${renderTableOfContents()}
   ${body}
 </body>
 </html>`;

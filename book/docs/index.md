@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: Start Reading
-      link: /foundations/single-agent
+      link: /publishing/how-to-read
     - theme: alt
       text: Start Labs
       link: /hands-on-labs/
@@ -20,6 +20,8 @@ hero:
       link: /releases/Agentic-Systems-Patterns.pdf
 
 features:
+  - title: Reader Paths
+    details: Start with a guided path for first-time readers, builders, lab users, or reference lookup.
   - title: Pattern Catalog
     details: A structured map of active agentic system patterns with deprecated material archived separately.
   - title: Selection Guide
@@ -31,7 +33,7 @@ features:
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.
   - title: Publishable Reference
-    details: Built for GitHub Pages at gturitto.github.io/Agentic-Systems-Patterns.
+    details: Built for GitHub Pages with a downloadable PDF, checked-in release artifact, and workflow PDF artifact.
 ---
 
 ## License

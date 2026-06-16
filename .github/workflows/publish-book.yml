@@ -32,6 +32,11 @@ jobs:
       - run: npx --prefix book playwright install --with-deps chromium
       - run: npm run book:pdf
       - run: npm run book:build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Agentic-Systems-Patterns.pdf
+          path: book/releases/Agentic-Systems-Patterns.pdf
+          retention-days: 30
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

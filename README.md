@@ -5,6 +5,7 @@ A practical book and example library for designing modern agentic systems.
 The project covers patterns for goals, loops, tools, skills, memory, structured output, protocols, multi-agent coordination, durable execution, observability, evals, and production runtimes. It is maintained as both a source-code reference and a publishable book.
 
 - Read the book: https://gturitto.github.io/Agentic-Systems-Patterns/
+- How to read it: https://gturitto.github.io/Agentic-Systems-Patterns/publishing/how-to-read
 - Download the PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
 - Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/hands-on-labs/
 - Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
@@ -15,6 +16,7 @@ This repository has three related parts:
 
 - `book/docs/`: VitePress source for the published book.
 - `book/docs/hands-on-labs/`: guided labs that use the runnable examples as a learning path.
+- `book/docs/publishing/`: reader paths, publishing commands, release artifact guidance, and license notes.
 - Pattern folders such as `agent-loop-pattern/`, `skills-pattern/`, and `modern-tool-use-pattern/`: source material and runnable examples.
 - `deprecated/`: historical patterns kept for reference, but no longer recommended as primary architecture patterns.
 - `book/docs/public/downloads/`: generated ZIP bundles for pattern source downloads during the publishing pipeline.
@@ -118,6 +120,8 @@ npm run book:pdf
 Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the PDF, builds the VitePress site, uploads the Pages artifact, and deploys the site.
 
 The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
+
+Each `Publish Book` workflow run also uploads the generated PDF as a GitHub Actions artifact for run-specific inspection.
 
 Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`. Architecture chapters under `book/docs/systems-architecture/` are hand-written because they describe cross-pattern composition rather than one source folder.
 
