@@ -1,5 +1,6 @@
 import axios from 'axios';
 import vm from 'node:vm';
+import { pathToFileURL } from 'node:url';
 
 const MISTRAL_API = 'https://api.mistral.ai/v1/chat/completions';
 
@@ -51,4 +52,6 @@ async function main() {
   console.log('FINAL', result);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}

@@ -1,7 +1,7 @@
 # Context Engineering Pattern
 
 ## Description
-Context engineering is the art of structuring, managing, and injecting relevant information into LLMs and agentic systems. It is crucial for maximizing the effectiveness of agents, especially in complex or multi-turn scenarios.
+Context engineering structures the information an LLM receives before it answers or acts. It covers retrieval, memory, state, and prompt assembly, especially in multi-turn or high-context agent workflows.
 
 ## Why Context Engineering is Important
 - Ensures the model has access to all necessary information
@@ -23,21 +23,21 @@ Context engineering is the art of structuring, managing, and injecting relevant 
 
 ## How to run (Python RAG)
 
-This example uses Hugging Face embeddings (all-MiniLM-L6-v2), FAISS, and requests → Mistral chat completions.
+This example uses Hugging Face embeddings (`all-MiniLM-L6-v2`), FAISS, and `requests` to call Mistral chat completions.
 
-1) Create a virtual environment and install deps:
+1. Create a virtual environment and install dependencies:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r "Context Engineering Pattern/langgraph_python_example/requirements.txt"
+pip install -r context-engineering-pattern/langgraph_python_example/requirements.txt
 ```
 
-2) Export your Mistral key and run the example:
+2. Export your Mistral key and run the example:
 
 ```bash
 export MISTRAL_API_KEY=your_key_here
-python "Context Engineering Pattern/langgraph_python_example/rag_example.py"
+python context-engineering-pattern/langgraph_python_example/rag_example.py
 ```
 
 Notes:

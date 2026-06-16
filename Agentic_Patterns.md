@@ -1,6 +1,6 @@
 # Agentic Systems Patterns
 
-This document provides an overview of the most important patterns in Agentic Systems, focusing on multi-agent and autonomous agent architectures. The patterns are listed from the most basic and common to the more advanced and complex, with references to MCP (Model Context Protocol), Agent Communication Protocols (A2A), Autogen, and LangGraph where relevant.
+This document is the manuscript index for the pattern catalog. It starts with foundational agent patterns, then moves toward multi-agent, memory, planning, routing, and interoperability patterns. Each entry links to a folder with documentation and runnable examples where available.
 
 ## 1. [Single Agent Pattern](./single-agent-pattern/README.md)
 
@@ -11,7 +11,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 ## 2. [Tool-Using Agent Pattern](./tool-using-agent-pattern/README.md)
 
-- **Description:** An agent that leverages external tools or APIs to enhance its capabilities.
+- **Description:** An agent uses external tools or APIs to extend what it can do.
 - **Example:** An agent that uses a calculator API to solve math problems.
 
 
@@ -61,7 +61,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 ## 9. [Agent Orchestration Pattern](./agent-orchestration-pattern/README.md)
 
 - **Description:** An orchestrator coordinates multiple agents, possibly with dynamic role assignment and communication.
-- **Example:** LangGraph workflows, Autogen orchestrators.
+- **Example:** LangGraph workflows and Autogen-style orchestrators.
 
 
 
@@ -109,7 +109,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 ## 16. [Distributed Agent Pattern](./distributed-agent-pattern/README.md)
 
-- **Description:** Multiple agents operate across different locations or systems, collaborating to achieve shared or individual goals. They communicate, coordinate, and partition tasks for scalable, robust, and fault-tolerant systems.
+- **Description:** Multiple agents operate across locations or systems. They communicate, coordinate, and partition work for scale and fault tolerance.
 - **Example:** Multi-agent systems in cloud or edge computing.
 
 
@@ -137,14 +137,14 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 ## 20. [Hybrid Agent Pattern](./hybrid-agent-pattern/README.md)
 
-- **Description:** Combines multiple agentic patterns or reasoning approaches (e.g., symbolic, ML, rule-based) within a single agent or system for greater flexibility and robustness.
+- **Description:** Combines multiple patterns or reasoning approaches, such as symbolic logic, machine learning, and rules, within one agent or system.
 - **Example:** Agents that use both rules and LLMs for decision making.
 
 
 
 ## 21. [Meta-Cognitive Agent Pattern](./meta-cognitive-agent-pattern/README.md)
 
-- **Description:** Agents reason about their own reasoning, monitor confidence, and adapt strategies dynamically. Enables self-awareness, transparency, and improved robustness.
+- **Description:** Agents reason about their own reasoning, monitor confidence, and adapt strategies dynamically.
 - **Example:** Agents that explain their reasoning and confidence.
 
 
@@ -162,7 +162,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 ## 24. [Prompt Engineering Pattern](./prompt-engineering-pattern/README.md)
 
 - **Description:** Best practices and techniques for designing effective prompts for LLMs and agents.
-- **Example:** Using prompt templates and few-shot examples for robust outputs.
+- **Example:** Using prompt templates and few-shot examples for consistent outputs.
 
 ## 25. [Context Engineering Pattern](./context-engineering-pattern/README.md)
 
@@ -183,7 +183,7 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 ## 28. [Adversarial Testing Agent Pattern](./adversarial-testing-agent-pattern/README.md)
 
-- **Description:** “Red team” agent that attempts to mislead or break another agent to test robustness.
+- **Description:** Red-team agent that attempts to mislead or break another agent to test resilience.
 - **Example:** Safe prompt injection attempts and robustness checklist generation.
 
 ## 29. [Self-Healing Workflow Agent Pattern](./self-healing-workflow-agent-pattern/README.md)
@@ -235,8 +235,5 @@ This document provides an overview of the most important patterns in Agentic Sys
 
 - MCP (Model Context Protocol)
 - Agent Communication Protocols (A2A)
-- Autogen
-- LangGraph
-
-
-This list can be expanded with examples and code for each pattern as needed.
+- Autogen-style multi-agent orchestration
+- LangGraph-style graph workflows

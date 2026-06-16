@@ -1,0 +1,22 @@
+{
+  "sessions": {
+    "019ecfcd-2508-77f1-b7bf-972bccc820b9": {
+      "user_message_count": 2,
+      "agent_message_count": 117,
+      "start_timestamp": "2026-06-16T09:40:31.690Z",
+      "end_timestamp": "2026-06-16T09:45:19.525Z",
+      "markdown_size_bytes": 199685,
+      "provider": "codex-cli",
+      "last_updated": "2026-06-16T09:45:19Z"
+    },
+    "chat-ws-1781602760899-uwpovj": {
+      "user_message_count": 2,
+      "agent_message_count": 2,
+      "start_timestamp": "2026-06-16T09:39:36.246Z",
+      "end_timestamp": "2026-06-16T09:41:52.703Z",
+      "markdown_size_bytes": 23435,
+      "provider": "gemini-cli",
+      "last_updated": "2026-06-16T09:41:52Z"
+    }
+  }
+}

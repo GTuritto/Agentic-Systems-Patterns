@@ -1,4 +1,4 @@
-import { runSnippet, runLoop } from '../src/codeact_agent.js';
+import { runSnippet, runLoop } from '../src/codeact_agent.ts';
 
 (async () => {
   const code = 'const arr=[1,2,3,4]; result = arr.reduce((a,b)=>a+b,0)/arr.length;';

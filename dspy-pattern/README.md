@@ -1,7 +1,7 @@
 # DSPy Pattern
 
 ## Description
-DSPy is a framework for building modular, composable pipelines for LLMs and agentic systems. It enables the design of complex workflows by chaining together reusable modules, supporting both prompt engineering and advanced context management.
+DSPy is a framework for building modular LLM pipelines. In agent systems, it helps separate prompts, tools, and pipeline steps into reusable modules that can be tested and optimized.
 
 ## Key Concepts
 - **Modules:** Encapsulate LLM calls, tools, or logic as reusable components.
@@ -21,19 +21,19 @@ DSPy is a framework for building modular, composable pipelines for LLMs and agen
 
 This repo's DSPy example uses Mistral via raw HTTP (no vendor SDKs).
 
-1) Create and activate a virtual environment, then install deps:
+1. Create and activate a virtual environment, then install dependencies:
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r "DSPy Pattern/langgraph_python_example/requirements.txt"
+pip install -r dspy-pattern/langgraph_python_example/requirements.txt
 ```
 
-2) Export your Mistral API key and run the example:
+2. Export your Mistral API key and run the example:
 
 ```bash
 export MISTRAL_API_KEY=your_key_here
-python "DSPy Pattern/langgraph_python_example/dspy_minimal_pipeline.py"
+python dspy-pattern/langgraph_python_example/dspy_minimal_pipeline.py
 ```
 
 Notes:

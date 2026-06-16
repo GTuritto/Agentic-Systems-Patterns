@@ -1,11 +1,13 @@
 # Agentic Systems Patterns
 
-This repository provides a comprehensive collection of agentic system patterns, focusing on multi-agent and autonomous agent architectures. Each pattern includes:
+This repository is a working manuscript and example library for agentic system patterns. It focuses on autonomous agents, multi-agent systems, tool use, memory, planning, routing, and interoperability.
 
-- A detailed description and diagram in its own `README.md`
-- Executable TypeScript and/or Python code examples
-- Easy-to-run npm scripts for the TypeScript demos
-- Unified `.env` file (only `MISTRAL_API_KEY` if you want live planning; most demos have offline fallbacks)
+Each pattern lives in its own kebab-case folder and usually includes:
+
+- A short conceptual description in `README.md`
+- TypeScript and/or Python examples
+- Root-level npm scripts for runnable TypeScript demos
+- Optional `.env` support for `MISTRAL_API_KEY`; many demos have deterministic fallbacks
 
 ## Patterns Included
 
@@ -37,11 +39,10 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 
 ## Project Structure
 
-- Each pattern has its own folder:
-   - `README.md` (description, diagram)
-   - TypeScript and/or Python example code (varies by pattern)
-- Root `package.json` with scripts for runnable demos
-- `.env.example` shows `MISTRAL_API_KEY` (copy to `.env` if needed)
+- Pattern folders use kebab-case names such as `single-agent-pattern/` and `tool-using-agent-pattern/`.
+- Each pattern folder contains its own documentation and examples.
+- The root `package.json` exposes runnable TypeScript demos and tests.
+- `.env.example` documents optional environment variables.
 
 ## Getting Started
 
@@ -59,7 +60,14 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 3. **Set up environment variables (optional):**
    - Copy `.env.example` to `.env` and set `MISTRAL_API_KEY` if you want live planning. Most demos run without it.
 
-4. **Quick runnable demos (TypeScript):**
+4. **Run the test suite:**
+
+   ```sh
+   npm test
+   npm run typecheck
+   ```
+
+5. **Quick runnable demos (TypeScript):**
 
    ```sh
    # A2A protocol demo (success/refusal/error/cancel)
@@ -82,7 +90,7 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
    npm run router:run -- "I need a refund for a wrong charge on my invoice."
    ```
 
-5. **Python demos:**
+6. **Python demos:**
 
    ```sh
    # Planning (Python mirror)
@@ -95,7 +103,3 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 - MCP (Model Context Protocol)
 - A2A (Agent-to-Agent Communication)
 - [Mistral](https://mistral.ai/)
-
----
-
-**Contributions welcome!**

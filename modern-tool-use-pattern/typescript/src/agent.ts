@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Ajv from 'ajv';
+import { pathToFileURL } from 'node:url';
 
 const ajv = new Ajv({ allErrors: true, strict: true });
 
@@ -40,4 +41,6 @@ async function main() {
   console.log('Stored doc:', out);
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}
