@@ -22,7 +22,7 @@ features:
   - title: Selection Guide
     details: Source-informed guidance for choosing between chains, routing, agents, multi-agent systems, and reliability controls.
   - title: Engineering Practice
-    details: Lifecycle, toolkit, evaluation, security, sandboxing, and UX guidance for taking agents beyond demos.
+    details: Lifecycle, framework selection, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.
   - title: Publishable Reference

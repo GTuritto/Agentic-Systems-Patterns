@@ -28,6 +28,7 @@ export default defineConfig({
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
           { text: 'Prompt Chaining and Gates', link: '/pattern-selection/prompt-chaining-and-gates' },
           { text: 'Routing and Handoffs', link: '/pattern-selection/routing-and-handoffs' },
+          { text: 'Resource-Aware Agent Design', link: '/pattern-selection/resource-aware-agent-design' },
           { text: 'Circuit Breakers, Fallbacks, and Replay', link: '/pattern-selection/circuit-breakers-fallbacks-replay' },
           { text: 'Source Map', link: '/pattern-selection/source-map' }
         ]
@@ -37,6 +38,7 @@ export default defineConfig({
         items: [
           { text: 'Agent Development Lifecycle', link: '/agent-engineering-practice/agent-development-lifecycle' },
           { text: 'Agent Engineer Toolkit', link: '/agent-engineering-practice/agent-engineer-toolkit' },
+          { text: 'Framework Selection', link: '/agent-engineering-practice/framework-selection' },
           { text: 'Evaluation-Driven Agent Development', link: '/agent-engineering-practice/evaluation-driven-agent-development' },
           { text: 'Agent Security and Sandboxing', link: '/agent-engineering-practice/agent-security-and-sandboxing' },
           { text: 'Agent UX and Human Trust', link: '/agent-engineering-practice/agent-ux-and-human-trust' }
@@ -90,6 +92,8 @@ export default defineConfig({
           { text: 'Agentic RAG Systems', link: '/systems-architecture/agentic-rag-systems' },
           { text: 'Open Personal Agent Architectures', link: '/systems-architecture/open-personal-agent-architectures' },
           { text: 'Coding Agents', link: '/systems-architecture/coding-agents' },
+          { text: 'Computer-Use Agents', link: '/systems-architecture/computer-use-agents' },
+          { text: 'Domain Agent Architectures', link: '/systems-architecture/domain-agent-architectures' },
           { text: 'Architecture Decision Records', link: '/systems-architecture/architecture-decision-records' },
           { text: 'Reference Architecture', link: '/systems-architecture/reference-architecture' }
         ]
