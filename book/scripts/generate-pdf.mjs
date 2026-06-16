@@ -170,6 +170,13 @@ function htmlDocument(body) {
       text-align: center;
     }
 
+    .cover-logo {
+      height: auto;
+      margin: 0 0 28px;
+      max-width: 380px;
+      width: 58%;
+    }
+
     .cover h1 {
       font-size: 38pt;
       line-height: 1.05;
@@ -294,6 +301,7 @@ function htmlDocument(body) {
 </head>
 <body>
   <section class="cover">
+    <img class="cover-logo" src="../docs/public/brand/agent-graph-cover.svg" alt="Agentic systems graph mark">
     <h1>Agentic Systems Patterns</h1>
     <p>A practical reference for modern agent architecture: goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.</p>
     <div class="cover-meta">

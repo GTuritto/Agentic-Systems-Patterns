@@ -5,6 +5,9 @@ hero:
   name: Agentic Systems Patterns
   text: A practical reference for modern agent architecture
   tagline: Patterns and selection guides for goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.
+  image:
+    src: /brand/agent-graph-cover.svg
+    alt: Agentic systems graph mark
   actions:
     - theme: brand
       text: Start Reading
