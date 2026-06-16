@@ -101,15 +101,19 @@ function rewriteLinks(markdown) {
   });
 }
 
+function chapterId(index) {
+  return `chapter-${index + 1}`;
+}
+
 async function renderChapters() {
   const rendered = [];
-  for (const [fallbackTitle, relativePath] of chapters) {
+  for (const [index, [fallbackTitle, relativePath]] of chapters.entries()) {
     const fullPath = path.join(docsRoot, relativePath);
     const raw = await fs.readFile(fullPath, 'utf8');
     const markdown = rewriteLinks(stripFrontmatter(raw).trim());
     const title = markdown.match(/^#\s+(.+)$/m)?.[1] ?? fallbackTitle;
     rendered.push(`
-      <section class="chapter">
+      <section class="chapter" id="${chapterId(index)}">
         <div class="chapter-label">${fallbackTitle}</div>
         ${md.render(markdown || `# ${title}`)}
       </section>
@@ -125,7 +129,7 @@ function renderTableOfContents() {
   for (let offset = 0; offset < chapters.length; offset += pageSize) {
     const items = chapters
       .slice(offset, offset + pageSize)
-      .map(([title]) => `<li>${title}</li>`)
+      .map(([title], index) => `<li><a href="#${chapterId(offset + index)}">${title}</a></li>`)
       .join('\n');
     const title = offset === 0 ? 'Table of Contents' : 'Table of Contents, Continued';
     pages.push(`
