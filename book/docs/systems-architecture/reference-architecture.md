@@ -8,30 +8,7 @@ This reference architecture combines the core patterns in the book into a produc
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  UI[User Interface or API] --> Intake[Intake and Auth]
-  Event[Webhook or Schedule] --> Intake
-  Intake --> Goal[Goal and State Store]
-  Goal --> Router[Router]
-  Router --> Simple[Direct Response]
-  Router --> RAG[Agentic RAG]
-  Router --> Workflow[Durable Workflow]
-  Router --> Multi[Multi-Agent Task]
-  RAG --> Knowledge[Indexes, APIs, Memory]
-  Workflow --> Approval[Human Approval]
-  Workflow --> Tools[Tool Gateway]
-  Multi --> Tools
-  Tools --> External[External Systems]
-  Approval --> Tools
-  Goal --> Policy[Policy Engine]
-  Policy --> Tools
-  Router --> Evals[Evals and Verifiers]
-  RAG --> Evals
-  Workflow --> Evals
-  Tools --> Trace[Trace and Audit Log]
-  Evals --> Trace
-```
+![Production agentic system reference architecture](../public/diagrams/reference-architecture.svg)
 
 ## Request Flow
 

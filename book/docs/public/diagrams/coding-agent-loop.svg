@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="620" viewBox="0 0 1160 620" role="img" aria-labelledby="title desc">
+  <title id="title">Coding Agent Loop</title>
+  <desc id="desc">A coding agent reads context, plans, edits files, runs checks, diagnoses failures, reviews diffs, and commits or opens a pull request.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/></marker><style>text{font-family:Inter,Arial,sans-serif;fill:#202124}.title{font-size:30px;font-weight:700}.box-title{font-size:18px;font-weight:700}.box-sub{font-size:14px;fill:#3c4043}.edge{stroke:#5f6368;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.bad{stroke:#d93025}.good{stroke:#188038}.label{font-size:13px;font-weight:700}.box{rx:12;ry:12;stroke-width:2.4}</style></defs>
+  <rect width="1160" height="620" fill="#fff"/>
+  <text x="580" y="52" text-anchor="middle" class="title">Coding Agent Loop</text>
+  <g transform="translate(60 150)"><rect class="box" width="150" height="72" fill="#e8f0fe" stroke="#3367d6"/><text x="75" y="43" text-anchor="middle" class="box-title">Task or Issue</text></g>
+  <g transform="translate(270 150)"><rect class="box" width="210" height="72" fill="#e6f4ea" stroke="#188038"/><text x="105" y="30" text-anchor="middle" class="box-title">Read Repo Context</text><text x="105" y="55" text-anchor="middle" class="box-sub">files, tests, instructions</text></g>
+  <g transform="translate(550 150)"><rect class="box" width="140" height="72" fill="#fff4e5" stroke="#f9ab00"/><text x="70" y="43" text-anchor="middle" class="box-title">Plan</text></g>
+  <g transform="translate(760 150)"><rect class="box" width="150" height="72" fill="#f3e8fd" stroke="#9334e6"/><text x="75" y="43" text-anchor="middle" class="box-title">Edit Files</text></g>
+  <g transform="translate(760 310)"><rect class="box" width="170" height="82" fill="#eaf5ff" stroke="#007b83"/><text x="85" y="31" text-anchor="middle" class="box-title">Run Checks</text><text x="85" y="57" text-anchor="middle" class="box-sub">test, build, lint</text></g>
+  <g transform="translate(540 320)"><rect class="box" width="170" height="72" fill="#fce8e6" stroke="#d93025"/><text x="85" y="43" text-anchor="middle" class="box-title">Diagnose Failure</text></g>
+  <g transform="translate(970 310)"><rect class="box" width="150" height="72" fill="#f1f3f4" stroke="#5f6368"/><text x="75" y="43" text-anchor="middle" class="box-title">Review Diff</text></g>
+  <g transform="translate(970 450)"><rect class="box" width="150" height="82" fill="#e6f4ea" stroke="#188038"/><text x="75" y="31" text-anchor="middle" class="box-title">Commit, PR</text><text x="75" y="57" text-anchor="middle" class="box-sub">or human review</text></g>
+  <path class="edge" d="M210 186 L270 186"/><path class="edge" d="M480 186 L550 186"/><path class="edge" d="M690 186 L760 186"/><path class="edge" d="M835 222 L845 310"/><path class="edge bad" d="M760 350 L710 350"/><text x="724" y="340" class="label" fill="#d93025">fail</text><path class="edge bad" d="M625 320 C650 270 720 230 760 200"/><path class="edge good" d="M930 350 L970 350"/><text x="940" y="340" class="label" fill="#188038">pass</text><path class="edge" d="M1045 382 L1045 450"/>
+</svg>

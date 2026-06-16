@@ -17,22 +17,7 @@ This chapter is not a product ranking. It uses these projects to explain the arc
 
 ## Core Architecture
 
-```mermaid
-flowchart TD
-  Channels[Chat Apps, Voice, Web, CLI] --> Gateway[Gateway / Control Plane]
-  Gateway --> Identity[Identity and Permissions]
-  Gateway --> Agent[Personal Agent Loop]
-  Agent --> Memory[Persistent Memory]
-  Agent --> Skills[Skills and Procedures]
-  Agent --> Tools[Tools and App Connectors]
-  Tools --> Email[Email]
-  Tools --> Calendar[Calendar]
-  Tools --> Browser[Browser]
-  Tools --> Files[Files]
-  Agent --> Scheduler[Scheduler]
-  Agent --> Audit[Audit Log]
-  Identity --> Tools
-```
+![Open personal agent architecture](../public/diagrams/open-personal-agent-architecture.svg)
 
 ## What Makes Them Different
 

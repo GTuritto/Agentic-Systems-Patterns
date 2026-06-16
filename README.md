@@ -102,6 +102,9 @@ npm run book:start
 # Regenerate expanded book pages and source bundles
 npm run book:content
 
+# Validate or export draw.io diagrams
+npm run book:diagrams
+
 # Build the static site
 npm run book:build
 
@@ -114,6 +117,8 @@ Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/pu
 The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
 
 Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`. Architecture chapters under `book/docs/systems-architecture/` are hand-written because they describe cross-pattern composition rather than one source folder.
+
+Architecture diagrams are maintained as editable diagrams.net files under `book/diagrams/` and rendered as SVG assets under `book/docs/public/diagrams/`. If the `drawio` CLI is installed, `npm run book:diagrams` refreshes the SVG exports; otherwise it validates that the committed SVG exports exist for the site and PDF builds.
 
 ## Repository Map
 
@@ -138,6 +143,7 @@ Pattern chapters and source download bundles are generated from [book/scripts/pa
 - When adding book chapters, update `book/docs/.vitepress/config.ts` so the sidebar and PDF order stay aligned.
 - When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
 - When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and update `book/scripts/generate-pdf.mjs`.
+- When adding architecture diagrams, edit `book/diagrams/*.drawio`, export or commit the matching SVG under `book/docs/public/diagrams/`, and run `npm run book:diagrams`.
 - Run `npm test`, `npm run typecheck`, `npm run book:pdf`, and `npm run book:build` before publishing larger changes.
 
 ## License

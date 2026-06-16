@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="760" viewBox="0 0 1220 760" role="img" aria-labelledby="title desc">
+  <title id="title">Production Agentic System Reference Architecture</title>
+  <desc id="desc">End-to-end production architecture with intake, goal state, routing, Agentic RAG, workflows, policy, tools, evals, and trace logs.</desc>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/></marker><style>text{font-family:Inter,Arial,sans-serif;fill:#202124}.title{font-size:30px;font-weight:700}.box-title{font-size:17px;font-weight:700}.edge{stroke:#5f6368;stroke-width:2.3;fill:none;marker-end:url(#arrow)}.box{rx:12;ry:12;stroke-width:2.3}</style></defs>
+  <rect width="1220" height="760" fill="#fff"/>
+  <text x="610" y="52" text-anchor="middle" class="title">Production Agentic System Reference Architecture</text>
+  <g transform="translate(40 120)"><rect class="box" width="210" height="72" fill="#e8f0fe" stroke="#3367d6"/><text x="105" y="43" text-anchor="middle" class="box-title">UI / API / Event</text></g>
+  <g transform="translate(310 120)"><rect class="box" width="180" height="72" fill="#e6f4ea" stroke="#188038"/><text x="90" y="43" text-anchor="middle" class="box-title">Intake and Auth</text></g>
+  <g transform="translate(550 120)"><rect class="box" width="200" height="72" fill="#fff4e5" stroke="#f9ab00"/><text x="100" y="43" text-anchor="middle" class="box-title">Goal and State</text></g>
+  <g transform="translate(820 120)"><rect class="box" width="150" height="72" fill="#f3e8fd" stroke="#9334e6"/><text x="75" y="43" text-anchor="middle" class="box-title">Router</text></g>
+  <g transform="translate(190 300)"><rect class="box" width="170" height="72" fill="#eaf5ff" stroke="#007b83"/><text x="85" y="43" text-anchor="middle" class="box-title">Agentic RAG</text></g>
+  <g transform="translate(430 300)"><rect class="box" width="190" height="72" fill="#fce8e6" stroke="#d93025"/><text x="95" y="43" text-anchor="middle" class="box-title">Durable Workflow</text></g>
+  <g transform="translate(690 300)"><rect class="box" width="180" height="72" fill="#e6f4ea" stroke="#188038"/><text x="90" y="43" text-anchor="middle" class="box-title">Multi-Agent Task</text></g>
+  <g transform="translate(950 300)"><rect class="box" width="170" height="72" fill="#fff4e5" stroke="#f9ab00"/><text x="85" y="43" text-anchor="middle" class="box-title">Policy Engine</text></g>
+  <g transform="translate(190 470)"><rect class="box" width="190" height="72" fill="#eaf5ff" stroke="#007b83"/><text x="95" y="43" text-anchor="middle" class="box-title">Indexes, APIs, Memory</text></g>
+  <g transform="translate(430 470)"><rect class="box" width="190" height="72" fill="#fce8e6" stroke="#d93025"/><text x="95" y="43" text-anchor="middle" class="box-title">Human Approval</text></g>
+  <g transform="translate(690 470)"><rect class="box" width="180" height="72" fill="#f3e8fd" stroke="#9334e6"/><text x="90" y="43" text-anchor="middle" class="box-title">Tool Gateway</text></g>
+  <g transform="translate(950 470)"><rect class="box" width="180" height="72" fill="#e6f4ea" stroke="#188038"/><text x="90" y="43" text-anchor="middle" class="box-title">Evals and Verifiers</text></g>
+  <g transform="translate(550 620)"><rect class="box" width="220" height="72" fill="#f1f3f4" stroke="#5f6368"/><text x="110" y="43" text-anchor="middle" class="box-title">Trace and Audit Log</text></g>
+  <path class="edge" d="M250 156 L310 156"/><path class="edge" d="M490 156 L550 156"/><path class="edge" d="M750 156 L820 156"/><path class="edge" d="M850 192 C780 245 460 250 275 300"/><path class="edge" d="M870 192 C790 245 620 250 525 300"/><path class="edge" d="M895 192 C860 245 820 260 780 300"/><path class="edge" d="M940 192 C1020 235 1035 260 1035 300"/><path class="edge" d="M275 372 L285 470"/><path class="edge" d="M525 372 L525 470"/><path class="edge" d="M780 372 L780 470"/><path class="edge" d="M1035 372 C990 425 900 455 870 490"/><path class="edge" d="M780 542 C760 590 720 610 660 620"/><path class="edge" d="M1040 542 C930 620 820 650 770 656"/>
+</svg>

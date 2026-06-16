@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="720" viewBox="0 0 1160 720" role="img" aria-labelledby="title desc">
+  <title id="title">Agentic System Architecture</title>
+  <desc id="desc">Control, execution, knowledge, evaluation, and observability planes in a production agentic system.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth"><path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/></marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}.title{font-size:30px;font-weight:700}.box-title{font-size:18px;font-weight:700}.box-sub{font-size:14px;fill:#3c4043}.edge{stroke:#5f6368;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.box{rx:12;ry:12;stroke-width:2.4}
+    </style>
+  </defs>
+  <rect width="1160" height="720" fill="#fff"/>
+  <text x="580" y="52" text-anchor="middle" class="title">Agentic System Architecture</text>
+  <g transform="translate(60 120)"><rect class="box" width="180" height="82" fill="#e8f0fe" stroke="#3367d6"/><text x="90" y="32" text-anchor="middle" class="box-title">Experience Plane</text><text x="90" y="58" text-anchor="middle" class="box-sub">User, event, IDE, API</text></g>
+  <g transform="translate(300 120)"><rect class="box" width="220" height="82" fill="#e6f4ea" stroke="#188038"/><text x="110" y="30" text-anchor="middle" class="box-title">Control Plane</text><text x="110" y="55" text-anchor="middle" class="box-sub">Routing, goals, budgets</text><text x="110" y="73" text-anchor="middle" class="box-sub">and approvals</text></g>
+  <g transform="translate(600 120)"><rect class="box" width="220" height="82" fill="#fff4e5" stroke="#f9ab00"/><text x="110" y="30" text-anchor="middle" class="box-title">Agent Loop</text><text x="110" y="55" text-anchor="middle" class="box-sub">Observe, decide, act</text><text x="110" y="73" text-anchor="middle" class="box-sub">and evaluate</text></g>
+  <g transform="translate(600 250)"><rect class="box" width="220" height="82" fill="#fce8e6" stroke="#d93025"/><text x="110" y="30" text-anchor="middle" class="box-title">Durable Workflow</text><text x="110" y="55" text-anchor="middle" class="box-sub">Retries, checkpoints</text><text x="110" y="73" text-anchor="middle" class="box-sub">and compensation</text></g>
+  <g transform="translate(300 360)"><rect class="box" width="220" height="82" fill="#e8f0fe" stroke="#3367d6"/><text x="110" y="30" text-anchor="middle" class="box-title">Knowledge Plane</text><text x="110" y="55" text-anchor="middle" class="box-sub">Retrieval, memory</text><text x="110" y="73" text-anchor="middle" class="box-sub">and sources</text></g>
+  <g transform="translate(600 360)"><rect class="box" width="220" height="82" fill="#f3e8fd" stroke="#9334e6"/><text x="110" y="30" text-anchor="middle" class="box-title">Execution Plane</text><text x="110" y="55" text-anchor="middle" class="box-sub">Tools, APIs, code</text><text x="110" y="73" text-anchor="middle" class="box-sub">and browser</text></g>
+  <g transform="translate(870 250)"><rect class="box" width="220" height="82" fill="#e6f4ea" stroke="#188038"/><text x="110" y="30" text-anchor="middle" class="box-title">Policy and Approval</text><text x="110" y="56" text-anchor="middle" class="box-sub">Permissions before</text><text x="110" y="74" text-anchor="middle" class="box-sub">side effects</text></g>
+  <g transform="translate(300 500)"><rect class="box" width="220" height="82" fill="#eaf5ff" stroke="#007b83"/><text x="110" y="30" text-anchor="middle" class="box-title">Evaluation Plane</text><text x="110" y="55" text-anchor="middle" class="box-sub">Verifiers, evals</text><text x="110" y="73" text-anchor="middle" class="box-sub">regression data</text></g>
+  <g transform="translate(600 500)"><rect class="box" width="220" height="82" fill="#f1f3f4" stroke="#5f6368"/><text x="110" y="30" text-anchor="middle" class="box-title">Observability Plane</text><text x="110" y="55" text-anchor="middle" class="box-sub">Traces, costs</text><text x="110" y="73" text-anchor="middle" class="box-sub">tool calls, audit</text></g>
+  <g transform="translate(910 420)"><rect class="box" width="160" height="72" fill="#e6f4ea" stroke="#188038"/><text x="80" y="42" text-anchor="middle" class="box-title">Result or Action</text></g>
+  <path class="edge" d="M240 161 L300 161"/>
+  <path class="edge" d="M520 161 L600 161"/>
+  <path class="edge" d="M520 185 C560 220 565 270 600 291"/>
+  <path class="edge" d="M665 202 C610 265 505 320 420 360"/>
+  <path class="edge" d="M820 165 C860 220 860 335 820 400"/>
+  <path class="edge" d="M710 332 L710 360"/>
+  <path class="edge" d="M820 400 C855 360 855 292 870 292"/>
+  <path class="edge" d="M980 332 L990 420"/>
+  <path class="edge" d="M820 185 C900 310 890 495 820 540"/>
+  <path class="edge" d="M310 540 C230 430 230 250 310 180"/>
+</svg>

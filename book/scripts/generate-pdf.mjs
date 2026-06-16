@@ -66,6 +66,9 @@ function stripFrontmatter(markdown) {
 
 function rewriteLinks(markdown) {
   return markdown.replace(/\]\((?!https?:\/\/|mailto:|#)([^)]+)\)/g, (_match, target) => {
+    if (target.startsWith('../public/diagrams/')) {
+      return `](../docs/public/diagrams/${target.replace('../public/diagrams/', '')})`;
+    }
     const cleaned = target.replace(/\.md(#.*)?$/, '$1');
     return `](${cleaned})`;
   });
@@ -202,6 +205,13 @@ function htmlDocument(body) {
       color: #4f5b62;
       margin-left: 0;
       padding-left: 12px;
+    }
+
+    img {
+      display: block;
+      height: auto;
+      margin: 16px auto;
+      max-width: 100%;
     }
   </style>
 </head>

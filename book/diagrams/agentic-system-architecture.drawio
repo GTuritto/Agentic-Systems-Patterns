@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2026-06-16T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="agentic-system-architecture" name="Agentic System Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="720" math="0" shadow="0" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Agentic System Architecture" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1"><mxGeometry x="300" y="20" width="560" height="40" as="geometry"/></mxCell>
+        <mxCell id="entry" value="Experience Plane&lt;br&gt;User, event, IDE, API" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E8F0FE;strokeColor=#3367D6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="60" y="120" width="180" height="80" as="geometry"/></mxCell>
+        <mxCell id="control" value="Control Plane&lt;br&gt;Routing, goals, budgets, approvals" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E6F4EA;strokeColor=#188038;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="120" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="agent" value="Agent Loop&lt;br&gt;Observe, decide, act, evaluate" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FFF4E5;strokeColor=#F9AB00;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="600" y="120" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="workflow" value="Durable Workflow&lt;br&gt;Retries, checkpoints, compensation" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FCE8E6;strokeColor=#D93025;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="600" y="250" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="knowledge" value="Knowledge Plane&lt;br&gt;Retrieval, memory, sources" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E8F0FE;strokeColor=#3367D6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="360" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="tools" value="Execution Plane&lt;br&gt;Tools, APIs, code, browser" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#F3E8FD;strokeColor=#9334E6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="600" y="360" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="policy" value="Policy and Approval&lt;br&gt;Permissions before side effects" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E6F4EA;strokeColor=#188038;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="870" y="250" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="evals" value="Evaluation Plane&lt;br&gt;Verifiers, evals, regression data" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#EAF5FF;strokeColor=#007B83;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="500" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="obs" value="Observability Plane&lt;br&gt;Traces, costs, tool calls, audit" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#F1F3F4;strokeColor=#5F6368;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="600" y="500" width="220" height="80" as="geometry"/></mxCell>
+        <mxCell id="result" value="Result or Action" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontStyle=1;fontFamily=Inter;fillColor=#E6F4EA;strokeColor=#188038;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="910" y="420" width="160" height="70" as="geometry"/></mxCell>
+        <mxCell id="e1" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="entry" target="control"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="control" target="agent"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="control" target="workflow"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="agent" target="knowledge"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="agent" target="tools"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="workflow" target="tools"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="tools" target="policy"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="policy" target="result"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="agent" target="obs"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e10" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;" edge="1" parent="1" source="evals" target="control"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

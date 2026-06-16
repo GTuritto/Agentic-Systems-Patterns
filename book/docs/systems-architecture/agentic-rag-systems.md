@@ -26,25 +26,7 @@ The shift matters because many real questions are not one search. They require d
 
 ## Reference Flow
 
-```mermaid
-flowchart TD
-  Q[User Question] --> P[Query Planner]
-  P --> R[Retrieval Router]
-  R --> V[Vector Index]
-  R --> K[Keyword Search]
-  R --> API[Source APIs]
-  R --> MEM[Memory]
-  V --> E[Evidence Set]
-  K --> E
-  API --> E
-  MEM --> E
-  E --> Rank[Rank and Filter]
-  Rank --> Verify[Grounding Verifier]
-  Verify -->|enough evidence| S[Synthesizer]
-  Verify -->|weak evidence| P
-  Verify -->|unsafe or missing| Refuse[Ask, Refuse, or Escalate]
-  S --> C[Cited Answer]
-```
+![Agentic RAG system](../public/diagrams/agentic-rag-system.svg)
 
 ## System Components
 
@@ -88,22 +70,7 @@ Define these decisions explicitly:
 
 Corrective RAG adds a verifier before final synthesis. If the evidence is weak, the system changes the query or source rather than forcing an answer.
 
-```mermaid
-sequenceDiagram
-  participant User
-  participant Planner
-  participant Retriever
-  participant Verifier
-  participant Synthesizer
-  User->>Planner: Ask question
-  Planner->>Retriever: Search plan
-  Retriever-->>Verifier: Evidence
-  Verifier-->>Planner: Missing, stale, or conflicting evidence
-  Planner->>Retriever: Refined search
-  Retriever-->>Verifier: Better evidence
-  Verifier-->>Synthesizer: Supported evidence set
-  Synthesizer-->>User: Answer with citations
-```
+The diagram above shows this loop: weak evidence returns to planning, supported evidence moves to synthesis, and unsafe or missing evidence becomes a refusal, clarification, or escalation path.
 
 ## Multi-Agent RAG
 

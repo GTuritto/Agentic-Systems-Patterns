@@ -17,18 +17,7 @@ The pattern is not "AI autocomplete." It is a controlled development worker with
 
 ## Core Loop
 
-```mermaid
-flowchart TD
-  Task[Task or Issue] --> Context[Read Repo Context]
-  Context --> Plan[Plan]
-  Plan --> Edit[Edit Files]
-  Edit --> Check[Run Tests, Build, Lint]
-  Check -->|fail| Diagnose[Diagnose]
-  Diagnose --> Edit
-  Check -->|pass| Diff[Review Diff]
-  Diff --> Commit[Commit or PR]
-  Diff --> Human[Human Review]
-```
+![Coding agent loop](../public/diagrams/coding-agent-loop.svg)
 
 ## Surfaces
 

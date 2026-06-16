@@ -19,22 +19,7 @@ Separate the system into planes:
 - **Evaluation plane:** offline evals, runtime checks, verifiers, red-team tests, and regression datasets.
 - **Observability plane:** traces, costs, latency, tool calls, model inputs, decisions, and operator review.
 
-```mermaid
-flowchart TD
-  Entry[User, Event, IDE, API] --> Control[Control Plane]
-  Control --> Agent[Agent Loop]
-  Control --> Workflow[Durable Workflow]
-  Agent --> Knowledge[Knowledge Plane]
-  Agent --> Tools[Execution Plane]
-  Workflow --> Tools
-  Tools --> Policy[Policy and Approval]
-  Knowledge --> Policy
-  Policy --> Result[Result or Action]
-  Control --> Evals[Evaluation Plane]
-  Agent --> Obs[Observability Plane]
-  Tools --> Obs
-  Evals --> Control
-```
+![Agentic system architecture](../public/diagrams/agentic-system-architecture.svg)
 
 ## Architecture Questions
 
