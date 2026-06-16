@@ -1,129 +1,145 @@
 # Agentic Systems Patterns
 
-This repository is a working manuscript and example library for agentic system patterns. It focuses on autonomous agents, multi-agent systems, tool use, memory, planning, routing, and interoperability.
+A practical book and example library for designing modern agentic systems.
 
-Each pattern lives in its own kebab-case folder and usually includes:
+The project covers patterns for goals, loops, tools, skills, memory, structured output, protocols, multi-agent coordination, durable execution, observability, evals, and production runtimes. It is maintained as both a source-code reference and a publishable book.
 
-- A short conceptual description in `README.md`
-- TypeScript and/or Python examples
-- Root-level npm scripts for runnable TypeScript demos
-- Optional `.env` support for `MISTRAL_API_KEY`; many demos have deterministic fallbacks
+- Read the book: https://gturitto.github.io/Agentic-Systems-Patterns/
+- Download the PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
 
-## Patterns Included
+## What Is Here
 
-See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links to each pattern's documentation and code.
+This repository has three related parts:
 
-**Examples of patterns covered:**
+- `book/docs/`: VitePress source for the published book.
+- Pattern folders such as `agent-loop-pattern/`, `skills-pattern/`, and `modern-tool-use-pattern/`: source material and runnable examples.
+- `deprecated/`: historical patterns kept for reference, but no longer recommended as primary architecture patterns.
+- `book/docs/public/downloads/`: generated ZIP bundles for pattern source downloads during the publishing pipeline.
 
-- Single Agent
-- Agent Loop
-- Goals and State
-- Tool-Using Agent
-- Structured Output
-- Chain-of-Thought (CoT)
-- ReAct (Reason + Act)
-- Evaluator-Optimizer
-- Multi-Agent Collaboration
-- Task Delegation
-- Agent Chain / Pipeline
-- Agent Orchestration
-- Reflection and Self-Improvement
-- Memory-Augmented Agent
-- Skills
-- MCP-first Tool Use
-- A2A Agent Interoperability
-- Secure Agent Communication
-- Environment-Interactive Agent
-- Goal-Conditioned Agent
-- Hierarchical Agent
-- Planning Agent
-- Durable Workflow
-- Observability and Evals
-- Mastra Runtime
-- CrewAI Flows and Crews
+Most runnable examples are TypeScript. Some patterns also include Python mirrors.
 
-## Project Structure
+## Pattern Catalog
 
-- Pattern folders use kebab-case names such as `single-agent-pattern/` and `tool-using-agent-pattern/`.
-- Each pattern folder contains its own documentation and examples.
-- Deprecated or historical patterns are preserved under `deprecated/`.
-- The publishable book source lives under `book/docs/`.
-- The root `package.json` exposes runnable TypeScript demos and tests.
-- `.env.example` documents optional environment variables.
+The active catalog is organized around current agent engineering practice:
 
-## Getting Started
+- Foundations: single agents, loops, goals and state, tool use, structured output, and context engineering.
+- Control loops: planning, ReAct, reflection, evaluator-optimizer loops, self-improvement, and self-healing workflows.
+- Memory and knowledge: working memory, episodic memory, semantic recall, RAG, and knowledge-bound agents.
+- Tools, skills, and protocols: Skills, MCP-first tool use, A2A interoperability, secure communication, and human approval gates.
+- Multi-agent systems: delegation, supervisor-worker designs, debate and consensus, parallel agents, and CrewAI flows.
+- Production runtime: durable workflows, observability, evals, policy enforcement, event triggers, and Mastra runtime patterns.
 
-1. **Clone the repository:**
+Start with [Agentic_Patterns.md](./Agentic_Patterns.md) for the complete index.
 
-   ```sh
-   git clone <your-repo-url>
-   cd <repo-folder>
-   ```
-2. **Install dependencies:**
+## Quick Start
 
-   ```sh
-   npm install
-   ```
-3. **Set up environment variables (optional):**
-   - Copy `.env.example` to `.env` and set `MISTRAL_API_KEY` if you want live planning. Most demos run without it.
+Requirements:
 
-4. **Run the test suite:**
+- Node.js 22 for the book publishing pipeline.
+- Node.js 20 or newer for the TypeScript examples.
+- Python 3 for the Python demos.
 
-   ```sh
-   npm test
-   npm run typecheck
-   ```
+Install root dependencies:
 
-5. **Quick runnable demos (TypeScript):**
+```sh
+npm install
+```
 
-   ```sh
-   # A2A protocol demo (success/refusal/error/cancel)
-   npm run a2a:test
+Run the checks:
 
-   # Planning (Planner + Executor) with deterministic fallback
-   npm run plan:test
-   npm run plan:run -- "Compute average of [1,2,3,4]"
+```sh
+npm test
+npm run typecheck
+```
 
-   # CodeAct: provide a preplanned snippet to avoid network
-   npm run codeact:ts -- --plan-code='result = (1+2+3+4)/4'
+Optional live-provider support:
 
-   # Modern Tool Use (MCP-first): start both servers then run agent
-   npm run mcp:search &
-   npm run mcp:cloud &
-   npm run mcp:agent
+```sh
+cp .env.example .env
+```
 
-   # LLM Router Pattern (LLM classifier + embedding router + policies)
-   npm run router:test
-   npm run router:run -- "I need a refund for a wrong charge on my invoice."
-   ```
+Set `MISTRAL_API_KEY` in `.env` if you want demos that call a live model. Most examples include deterministic fallbacks and can run without a provider key.
 
-6. **Python demos:**
+## Example Commands
 
-   ```sh
-   # Planning (Python mirror)
-   npm run plan:py
-   ```
+```sh
+# A2A protocol demo
+npm run a2a:test
 
-## References
+# Planning with deterministic fallback
+npm run plan:test
+npm run plan:run -- "Compute average of [1,2,3,4]"
 
-- [Agentic_Patterns.md](./Agentic_Patterns.md): Full pattern list and links
-- MCP (Model Context Protocol)
-- A2A (Agent-to-Agent Communication)
-- [Mistral](https://mistral.ai/)
+# CodeAct with an explicit local plan
+npm run codeact:ts -- --plan-code='result = (1+2+3+4)/4'
 
-## Digital Publishing
+# Modern Tool Use with MCP servers
+npm run mcp:search &
+npm run mcp:cloud &
+npm run mcp:agent
 
-- Source manuscript: `book/docs/`
-- Static site generator: VitePress
-- Local preview: `npm run book:start`
-- Static build: `npm run book:build`
-- Generate PDF: `npm run book:pdf`
-- GitHub Pages workflow: `.github/workflows/publish-book.yml`
-- Public URL: `https://gturitto.github.io/Agentic-Systems-Patterns/`
-- Offline PDF path: `book/releases/Agentic-Systems-Patterns.pdf`
-- Deployed PDF URL: `https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf`
-- License: `CC-BY-SA-4.0`
+# LLM router
+npm run router:test
+npm run router:run -- "I need a refund for a wrong charge on my invoice."
+
+# Python planning mirror
+npm run plan:py
+```
+
+## Book Publishing
+
+The book is built with VitePress and deployed to GitHub Pages from GitHub Actions.
+
+```sh
+# Install book dependencies
+npm run book:install
+
+# Start local preview
+npm run book:start
+
+# Regenerate expanded book pages and source bundles
+npm run book:content
+
+# Build the static site
+npm run book:build
+
+# Generate the offline PDF
+npm run book:pdf
+```
+
+Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the PDF, builds the VitePress site, uploads the Pages artifact, and deploys the site.
+
+The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
+
+Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`.
+
+## Repository Map
+
+```text
+.
+├── Agentic_Patterns.md              # Full active/deprecated pattern index
+├── book/
+│   ├── docs/                        # VitePress book source
+│   ├── releases/                    # Checked-in offline PDF artifact
+│   └── scripts/                     # Book page, download, and PDF generation
+├── deprecated/                      # Archived patterns kept for history
+├── *-pattern/                       # Pattern chapters and examples
+├── package.json                     # Root demo/test scripts
+└── .github/workflows/publish-book.yml
+```
+
+## Contributing Notes
+
+- Keep active patterns in kebab-case folders.
+- Add deprecated or superseded material under `deprecated/` and mark it clearly in [Agentic_Patterns.md](./Agentic_Patterns.md).
+- Prefer deterministic example paths for tests and demos.
+- When adding book chapters, update `book/docs/.vitepress/config.ts` so the sidebar and PDF order stay aligned.
+- When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
+- Run `npm test`, `npm run typecheck`, `npm run book:pdf`, and `npm run book:build` before publishing larger changes.
 
 ## License
 
 This book/reference and its examples are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).
+
+Last reviewed: 2026-06-16.

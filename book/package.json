@@ -4,10 +4,11 @@
   "type": "module",
   "scripts": {
     "start": "vitepress dev docs",
-    "build": "vitepress build docs",
+    "content": "node scripts/generate-pattern-pages.mjs",
+    "build": "npm run content && vitepress build docs",
     "serve": "vitepress preview docs",
     "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist",
-    "pdf": "node scripts/generate-pdf.mjs"
+    "pdf": "npm run content && node scripts/generate-pdf.mjs"
   },
   "devDependencies": {
     "markdown-it": "^14.1.0",
