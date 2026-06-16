@@ -33,6 +33,16 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Agent Engineering Practice',
+        items: [
+          { text: 'Agent Development Lifecycle', link: '/agent-engineering-practice/agent-development-lifecycle' },
+          { text: 'Agent Engineer Toolkit', link: '/agent-engineering-practice/agent-engineer-toolkit' },
+          { text: 'Evaluation-Driven Agent Development', link: '/agent-engineering-practice/evaluation-driven-agent-development' },
+          { text: 'Agent Security and Sandboxing', link: '/agent-engineering-practice/agent-security-and-sandboxing' },
+          { text: 'Agent UX and Human Trust', link: '/agent-engineering-practice/agent-ux-and-human-trust' }
+        ]
+      },
+      {
         text: 'Control Loops',
         items: [
           { text: 'Planning and Execution', link: '/control-loops/planning-and-execution' },

@@ -35,6 +35,18 @@ The sources repeat several core ideas: start simple, separate workflows from age
 
 The LinkedIn checkpoint link was not useful as a public source because it requires a login challenge.
 
+## Local PDF References Reviewed
+
+The following PDFs were reviewed locally as source-of-knowledge inputs. They are not included in this repository, linked from the book, or reproduced. They informed coverage checks, chapter structure, and topic prioritization only.
+
+| Local Reference | Useful Themes | Book Mapping |
+| --- | --- | --- |
+| *30 Agents Every AI Engineer Must Build*, Imran Ahmad | Agent engineering foundations, toolkit decisions, domain agents, retrieval agents, tool orchestration, software agents, explainability, and domain-specific agents. | [Agent Engineer Toolkit](../agent-engineering-practice/agent-engineer-toolkit), [Agent Development Lifecycle](../agent-engineering-practice/agent-development-lifecycle), [Coding Agents](../systems-architecture/coding-agents), [Agentic RAG Systems](../systems-architecture/agentic-rag-systems). |
+| *Agentic Architectural Patterns for Building Multi-Agent Systems*, Ali Arsanjani, Juan Pablo Bustos, Thomas Kurian | Enterprise maturity, agent-ready model selection, RAG-to-fine-tuning spectrum, coordination patterns, compliance, robustness, human-agent interaction, production readiness. | [Choosing the Right Pattern](./choosing-the-right-pattern), [Agent Development Lifecycle](../agent-engineering-practice/agent-development-lifecycle), [Agent Security and Sandboxing](../agent-engineering-practice/agent-security-and-sandboxing), [Agentic System Architecture](../systems-architecture/agentic-system-architecture). |
+| *Agentic Design Patterns*, Antonio Gulli | Prompt chaining, routing, parallelization, reflection, tool use, planning, memory, MCP, A2A, monitoring, guardrails, CLI and coding agents. | [Prompt Chaining and Gates](./prompt-chaining-and-gates), [Routing and Handoffs](./routing-and-handoffs), [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use), [A2A Agent Interoperability](../tools-skills-protocols/a2a-agent-interoperability). |
+| *Designing Multi-Agent Systems*, Victor Dibia | Multi-agent taxonomy, UX principles, execution loops, cancellation, memory, middleware, computer-use agents, workflow graphs, observability, evaluation, distributed protocols, ethics. | [Agent UX and Human Trust](../agent-engineering-practice/agent-ux-and-human-trust), [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development), [Supervisor / Worker](../multi-agent-systems/supervisor-worker), [Secure Agent Communication](../tools-skills-protocols/secure-agent-communication). |
+| *Patterns for Building AI Agents*, Sam Bhagwat and Michelle Gienow | Agent capability design, context engineering, context compression, eval suites, production data evaluation, sandboxing, granular access control, guardrails. | [Context Engineering](../foundations/context-engineering), [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development), [Agent Security and Sandboxing](../agent-engineering-practice/agent-security-and-sandboxing), [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay). |
+
 ## Pattern Coverage Map
 
 | External Pattern Name | Current Book Chapter |
