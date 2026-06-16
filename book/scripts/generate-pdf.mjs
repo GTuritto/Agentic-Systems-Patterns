@@ -149,6 +149,18 @@ function htmlDocument(body) {
   <meta charset="utf-8">
   <title>Agentic Systems Patterns</title>
   <style>
+    :root {
+      --asp-navy: #173f4f;
+      --asp-blue: #245f73;
+      --asp-teal: #1f8a8a;
+      --asp-amber: #b7791f;
+      --asp-panel: #f7fafb;
+      --asp-panel-strong: #eef5f6;
+      --asp-border: #d9e2e6;
+      --asp-muted: #4f5b62;
+      --asp-code-bg: #f3f6f7;
+    }
+
     @page {
       size: A4;
       margin: 18mm 16mm;
@@ -178,26 +190,27 @@ function htmlDocument(body) {
     }
 
     .cover h1 {
+      color: var(--asp-navy);
       font-size: 38pt;
       line-height: 1.05;
       margin: 0 0 16px;
     }
 
     .cover p {
-      color: #4f5b62;
+      color: var(--asp-blue);
       font-size: 14pt;
       max-width: 620px;
     }
 
     .cover-meta {
-      color: #4f5b62;
+      color: var(--asp-muted);
       font-size: 10pt;
       line-height: 1.7;
       margin-top: 30px;
     }
 
     .license {
-      color: #66737a;
+      color: var(--asp-amber);
       font-size: 9pt;
       margin-top: 42px;
     }
@@ -221,12 +234,17 @@ function htmlDocument(body) {
       margin-bottom: 5px;
     }
 
+    .toc h1 {
+      border-bottom: 3px solid var(--asp-teal);
+      padding-bottom: 8px;
+    }
+
     .chapter {
       break-before: page;
     }
 
     .chapter-label {
-      color: #607d8b;
+      color: var(--asp-amber);
       font-size: 8.5pt;
       font-weight: 700;
       letter-spacing: 0.04em;
@@ -235,19 +253,20 @@ function htmlDocument(body) {
     }
 
     h1 {
-      color: #173f4f;
+      color: var(--asp-navy);
       font-size: 24pt;
       line-height: 1.15;
       margin: 0 0 18px;
     }
 
     h2 {
-      color: #245f73;
+      color: var(--asp-blue);
       font-size: 15pt;
       margin: 24px 0 8px;
     }
 
     h3 {
+      color: var(--asp-amber);
       font-size: 12.5pt;
       margin: 18px 0 6px;
     }
@@ -258,21 +277,23 @@ function htmlDocument(body) {
     }
 
     a {
-      color: #245f73;
+      color: var(--asp-teal);
       text-decoration: none;
     }
 
     code {
-      background: #f3f6f7;
+      background: var(--asp-code-bg);
+      border: 1px solid var(--asp-border);
       border-radius: 3px;
+      color: var(--asp-blue);
       font-family: "SFMono-Regular", Consolas, monospace;
       font-size: 9.5pt;
       padding: 1px 3px;
     }
 
     pre {
-      background: #f5f7f8;
-      border: 1px solid #d9e2e6;
+      background: var(--asp-code-bg);
+      border: 1px solid var(--asp-border);
       border-radius: 6px;
       overflow-wrap: anywhere;
       padding: 10px 12px;
@@ -285,10 +306,31 @@ function htmlDocument(body) {
     }
 
     blockquote {
-      border-left: 4px solid #c7d5dc;
-      color: #4f5b62;
+      background: var(--asp-panel);
+      border-left: 4px solid var(--asp-amber);
+      border-radius: 0 6px 6px 0;
+      color: var(--asp-muted);
       margin-left: 0;
-      padding-left: 12px;
+      padding: 8px 12px;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 14px 0;
+      width: 100%;
+    }
+
+    th {
+      background: var(--asp-panel-strong);
+      color: var(--asp-navy);
+      font-weight: 700;
+    }
+
+    td,
+    th {
+      border: 1px solid var(--asp-border);
+      padding: 6px 8px;
+      vertical-align: top;
     }
 
     img {

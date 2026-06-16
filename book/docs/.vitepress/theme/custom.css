@@ -1,0 +1,160 @@
+:root {
+  --asp-navy: #173f4f;
+  --asp-blue: #245f73;
+  --asp-teal: #1f8a8a;
+  --asp-amber: #b7791f;
+  --asp-panel: #f7fafb;
+  --asp-panel-strong: #eef5f6;
+  --asp-border: #d9e2e6;
+  --asp-muted: #4f5b62;
+  --asp-code-bg: #f3f6f7;
+
+  --vp-c-brand-1: var(--asp-teal);
+  --vp-c-brand-2: var(--asp-blue);
+  --vp-c-brand-3: var(--asp-navy);
+  --vp-c-brand-soft: rgba(31, 138, 138, 0.12);
+  --vp-button-brand-bg: var(--asp-teal);
+  --vp-button-brand-border: var(--asp-teal);
+  --vp-button-brand-hover-bg: var(--asp-blue);
+  --vp-button-brand-hover-border: var(--asp-blue);
+  --vp-home-hero-name-color: var(--asp-navy);
+  --vp-c-text-1: #202124;
+  --vp-c-text-2: var(--asp-muted);
+}
+
+.dark {
+  --asp-navy: #d9f7fb;
+  --asp-blue: #8bd5e1;
+  --asp-teal: #5eead4;
+  --asp-amber: #fbbf24;
+  --asp-panel: #20232c;
+  --asp-panel-strong: #29313b;
+  --asp-border: #43525e;
+  --asp-muted: #c4d2d9;
+  --asp-code-bg: #111820;
+  --vp-c-brand-1: var(--asp-teal);
+  --vp-c-brand-2: var(--asp-blue);
+  --vp-c-brand-3: var(--asp-navy);
+  --vp-c-brand-soft: rgba(94, 234, 212, 0.18);
+  --vp-c-text-1: #eff8fa;
+  --vp-c-text-2: var(--asp-muted);
+  --vp-c-text-3: #9fb0b9;
+  --vp-button-alt-bg: #303744;
+  --vp-button-alt-border: #303744;
+  --vp-button-alt-text: #eff8fa;
+  --vp-button-alt-hover-bg: #3b4553;
+  --vp-button-alt-hover-border: #5b6978;
+  --vp-button-alt-hover-text: #ffffff;
+}
+
+.VPHero .name,
+.vp-doc h1 {
+  color: var(--asp-navy);
+}
+
+.VPHero .text,
+.vp-doc h2 {
+  color: var(--asp-blue);
+}
+
+.VPHero .tagline,
+.vp-doc h3,
+.vp-doc h4 {
+  color: var(--asp-amber);
+}
+
+.VPHero .image-bg {
+  display: none;
+}
+
+.VPHero .image-src {
+  filter: drop-shadow(0 18px 28px rgba(23, 63, 79, 0.16));
+  max-height: 320px;
+}
+
+.VPButton.brand {
+  box-shadow: 0 8px 18px rgba(31, 138, 138, 0.18);
+}
+
+.VPFeature {
+  border: 1px solid var(--asp-border);
+  border-radius: 8px;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.VPFeature:hover {
+  border-color: var(--asp-teal);
+  box-shadow: 0 12px 30px rgba(23, 63, 79, 0.1);
+  transform: translateY(-2px);
+}
+
+.dark .VPFeature:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
+}
+
+.VPFeature .title {
+  color: var(--asp-navy);
+}
+
+.VPFeature .details {
+  color: var(--asp-muted);
+}
+
+.vp-doc a {
+  color: var(--asp-teal);
+  font-weight: 600;
+  text-decoration-color: rgba(31, 138, 138, 0.32);
+  text-underline-offset: 3px;
+}
+
+.vp-doc a:hover {
+  color: var(--asp-blue);
+  text-decoration-color: var(--asp-blue);
+}
+
+.vp-doc blockquote {
+  background: var(--asp-panel);
+  border-left: 4px solid var(--asp-amber);
+  border-radius: 0 8px 8px 0;
+  color: var(--asp-muted);
+  padding: 12px 16px;
+}
+
+.vp-doc :not(pre) > code {
+  background: var(--asp-code-bg);
+  border: 1px solid var(--asp-border);
+  color: var(--asp-blue);
+}
+
+.vp-doc div[class*='language-'] {
+  background: var(--asp-code-bg);
+  border: 1px solid var(--asp-border);
+  border-radius: 8px;
+}
+
+.vp-doc div[class*='language-']::before {
+  color: var(--asp-amber);
+}
+
+.vp-doc table {
+  display: table;
+  width: 100%;
+}
+
+.vp-doc th {
+  background: var(--asp-panel-strong);
+  color: var(--asp-navy);
+}
+
+.vp-doc td,
+.vp-doc th {
+  border-color: var(--asp-border);
+}
+
+.VPNavBarMenuLink.active,
+.VPSidebarItem.is-active > .item .link > .text {
+  color: var(--asp-teal);
+}
