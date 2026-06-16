@@ -10,6 +10,9 @@ hero:
       text: Start Reading
       link: /foundations/single-agent
     - theme: alt
+      text: Start Labs
+      link: /hands-on-labs/
+    - theme: alt
       text: View Source
       link: https://github.com/GTuritto/Agentic-Systems-Patterns
     - theme: alt
@@ -23,6 +26,8 @@ features:
     details: Source-informed guidance for choosing between chains, routing, agents, multi-agent systems, and reliability controls.
   - title: Engineering Practice
     details: Lifecycle, framework selection, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
+  - title: Hands-On Labs
+    details: Guided exercises for tool use, planning loops, Agentic RAG, A2A communication, multi-agent supervision, and evals.
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.
   - title: Publishable Reference

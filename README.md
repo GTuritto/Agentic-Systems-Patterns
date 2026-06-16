@@ -6,6 +6,7 @@ The project covers patterns for goals, loops, tools, skills, memory, structured 
 
 - Read the book: https://gturitto.github.io/Agentic-Systems-Patterns/
 - Download the PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/hands-on-labs/
 - Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
 
 ## What Is Here
@@ -13,6 +14,7 @@ The project covers patterns for goals, loops, tools, skills, memory, structured 
 This repository has three related parts:
 
 - `book/docs/`: VitePress source for the published book.
+- `book/docs/hands-on-labs/`: guided labs that use the runnable examples as a learning path.
 - Pattern folders such as `agent-loop-pattern/`, `skills-pattern/`, and `modern-tool-use-pattern/`: source material and runnable examples.
 - `deprecated/`: historical patterns kept for reference, but no longer recommended as primary architecture patterns.
 - `book/docs/public/downloads/`: generated ZIP bundles for pattern source downloads during the publishing pipeline.
@@ -30,6 +32,7 @@ The active catalog is organized around current agent engineering practice:
 - Multi-agent systems: delegation, supervisor-worker designs, debate and consensus, parallel agents, and CrewAI flows.
 - Systems architecture: system composition, Agentic RAG, open personal agents, coding agents, ADRs, and reference architecture.
 - Production runtime: durable workflows, observability, evals, policy enforcement, event triggers, and Mastra runtime patterns.
+- Hands-on labs: guided exercises for tool use, planning loops, Agentic RAG, A2A communication, multi-agent supervision, and evals.
 
 Start with [Agentic_Patterns.md](./Agentic_Patterns.md) for the complete index.
 
