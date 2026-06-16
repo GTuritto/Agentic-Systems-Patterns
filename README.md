@@ -103,3 +103,7 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 - MCP (Model Context Protocol)
 - A2A (Agent-to-Agent Communication)
 - [Mistral](https://mistral.ai/)
+
+## License
+
+This book/reference and its examples are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).

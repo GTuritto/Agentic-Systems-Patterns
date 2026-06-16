@@ -1,6 +1,7 @@
 {
   "name": "agentic-systems-example",
   "version": "1.0.0",
+  "license": "CC-BY-SA-4.0",
   "type": "module",
   "scripts": {
     "test": "npm run tools:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
