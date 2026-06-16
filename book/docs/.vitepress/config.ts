@@ -52,18 +52,6 @@ export default defineConfig({
         ]
       },
       {
-        text: 'Hands-On Labs',
-        items: [
-          { text: 'Lab Guide', link: '/hands-on-labs/' },
-          { text: '01 - Tool-Using Agent', link: '/hands-on-labs/lab-01-tool-using-agent' },
-          { text: '02 - Agent Loop and Planning', link: '/hands-on-labs/lab-02-agent-loop-and-planning' },
-          { text: '03 - Agentic RAG', link: '/hands-on-labs/lab-03-agentic-rag' },
-          { text: '04 - A2A Communication', link: '/hands-on-labs/lab-04-a2a-communication' },
-          { text: '05 - Multi-Agent Supervisor', link: '/hands-on-labs/lab-05-multi-agent-supervisor' },
-          { text: '06 - Observability and Evals', link: '/hands-on-labs/lab-06-observability-and-evals' }
-        ]
-      },
-      {
         text: 'Control Loops',
         items: [
           { text: 'Planning and Execution', link: '/control-loops/planning-and-execution' },
@@ -130,6 +118,18 @@ export default defineConfig({
       {
         text: 'Deprecated',
         items: [{ text: 'Historical Patterns', link: '/deprecated/historical-patterns' }]
+      },
+      {
+        text: 'Hands-On Labs',
+        items: [
+          { text: 'Lab Guide', link: '/hands-on-labs/' },
+          { text: '01 - Tool-Using Agent', link: '/hands-on-labs/lab-01-tool-using-agent' },
+          { text: '02 - Agent Loop and Planning', link: '/hands-on-labs/lab-02-agent-loop-and-planning' },
+          { text: '03 - Agentic RAG', link: '/hands-on-labs/lab-03-agentic-rag' },
+          { text: '04 - A2A Communication', link: '/hands-on-labs/lab-04-a2a-communication' },
+          { text: '05 - Multi-Agent Supervisor', link: '/hands-on-labs/lab-05-multi-agent-supervisor' },
+          { text: '06 - Observability and Evals', link: '/hands-on-labs/lab-06-observability-and-evals' }
+        ]
       }
     ],
     footer: {
