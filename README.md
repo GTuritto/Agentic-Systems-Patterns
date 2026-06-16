@@ -16,31 +16,38 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 **Examples of patterns covered:**
 
 - Single Agent
+- Agent Loop
+- Goals and State
 - Tool-Using Agent
+- Structured Output
 - Chain-of-Thought (CoT)
 - ReAct (Reason + Act)
+- Evaluator-Optimizer
 - Multi-Agent Collaboration
 - Task Delegation
-- Agent Swarm
 - Agent Chain / Pipeline
 - Agent Orchestration
-- Agent Marketplace
-- Recursive Agent
 - Reflection and Self-Improvement
 - Memory-Augmented Agent
+- Skills
+- MCP-first Tool Use
+- A2A Agent Interoperability
 - Secure Agent Communication
-- Distributed Agent
 - Environment-Interactive Agent
 - Goal-Conditioned Agent
 - Hierarchical Agent
-- Hybrid Agent
-- Meta-Cognitive Agent
 - Planning Agent
+- Durable Workflow
+- Observability and Evals
+- Mastra Runtime
+- CrewAI Flows and Crews
 
 ## Project Structure
 
 - Pattern folders use kebab-case names such as `single-agent-pattern/` and `tool-using-agent-pattern/`.
 - Each pattern folder contains its own documentation and examples.
+- Deprecated or historical patterns are preserved under `deprecated/`.
+- The publishable book source lives under `book/docs/`.
 - The root `package.json` exposes runnable TypeScript demos and tests.
 - `.env.example` documents optional environment variables.
 
@@ -103,6 +110,17 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 - MCP (Model Context Protocol)
 - A2A (Agent-to-Agent Communication)
 - [Mistral](https://mistral.ai/)
+
+## Digital Publishing
+
+- Source manuscript: `book/docs/`
+- Static site generator: VitePress
+- Local preview: `npm run book:start`
+- Static build: `npm run book:build`
+- GitHub Pages workflow: `.github/workflows/publish-book.yml`
+- Public URL: `https://gturitto.github.io/Agentic-Systems-Patterns/`
+- Offline PDF path: `book/releases/Agentic-Systems-Patterns.pdf`
+- License: `CC-BY-SA-4.0`
 
 ## License
 

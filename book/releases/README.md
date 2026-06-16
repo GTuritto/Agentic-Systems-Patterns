@@ -1,0 +1,7 @@
+# Book Releases
+
+Generated offline artifacts live here.
+
+- `Agentic-Systems-Patterns.pdf`: printable snapshot of the current book.
+
+The PDF is checked into the repository for easy offline reading. It is licensed under Creative Commons Attribution-ShareAlike 4.0 International (`CC-BY-SA-4.0`). If it grows too large, move future PDFs to GitHub Releases and keep this file as the pointer.

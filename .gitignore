@@ -2,6 +2,10 @@
 node_modules/
 dist/
 build/
+book/docs/.vitepress/cache/
+book/docs/.vitepress/dist/
+book/docs/.vitepress/.temp/
+book/.docusaurus/
 
 # Environment and config
 .env

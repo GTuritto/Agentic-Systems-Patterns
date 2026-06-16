@@ -1,0 +1,17 @@
+{
+  "name": "agentic-systems-patterns-book",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "serve": "vitepress preview docs",
+    "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "overrides": {
+    "vite": "6.4.3"
+  }
+}

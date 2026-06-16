@@ -6,13 +6,13 @@ Modernize this repository into a publishable digital book and reference site for
 
 ## Publishing Model
 
-The primary publishing target is GitHub Pages through a Docusaurus site in `book/`. Docusaurus is the best fit because the project is a reference work with code links, versioned concepts, framework notes, and a searchable sidebar. The generated site can publish to either `https://<user>.github.io/Agentic-Systems-Patterns/` or a custom domain later.
+The primary publishing target is GitHub Pages through a VitePress site in `book/`. VitePress is a good fit because the project is a Markdown-first reference work with code links, framework notes, local search, and a structured sidebar. The generated site can publish to `https://gturitto.github.io/Agentic-Systems-Patterns/` or a custom domain later.
 
-The secondary target is an offline PDF stored in the repository at `book/releases/Agentic-Systems-Patterns.pdf`. The PDF is generated from the Docusaurus build or a dedicated print route. Keeping a PDF in the repo is acceptable for this personal book/reference because it makes the current snapshot easy to open, share, and archive. If the PDF becomes large, it can later move to GitHub Releases.
+The secondary target is an offline PDF stored in the repository at `book/releases/Agentic-Systems-Patterns.pdf`. The PDF is generated from the VitePress build or a dedicated print route. Keeping a PDF in the repo is acceptable for this personal book/reference because it makes the current snapshot easy to open, share, and archive. If the PDF becomes large, it can later move to GitHub Releases.
 
 ## License
 
-The book/reference and examples use Creative Commons Attribution-ShareAlike 4.0 International (`CC-BY-SA-4.0`). The repository `LICENSE`, root README, Docusaurus footer, and generated PDF should all point to the canonical license URL: https://creativecommons.org/licenses/by-sa/4.0/
+The book/reference and examples use Creative Commons Attribution-ShareAlike 4.0 International (`CC-BY-SA-4.0`). The repository `LICENSE`, root README, VitePress footer, and generated PDF should all point to the canonical license URL: https://creativecommons.org/licenses/by-sa/4.0/
 
 ## Catalog Structure
 
@@ -116,11 +116,10 @@ The first implementation pass will keep the examples pragmatic:
 
 ## GitHub Pages Plan
 
-Create a Docusaurus app under `book/`:
+Create a VitePress app under `book/`:
 
 - `book/docs/` contains the publishable manuscript pages.
-- `book/sidebars.ts` defines the book navigation.
-- `book/docusaurus.config.ts` sets the title, repository URL, base URL, license footer, and GitHub Pages deployment settings.
+- `book/docs/.vitepress/config.ts` defines the book navigation, title, repository URL, base URL, license footer, and GitHub Pages deployment settings.
 - `.github/workflows/publish-book.yml` builds and deploys the site to GitHub Pages.
 
 The root README will link to:
@@ -135,7 +134,7 @@ The repo will include:
 
 - `book/releases/.gitkeep` initially
 - `book/releases/README.md` explaining how generated PDFs are stored
-- an npm script such as `book:pdf` once the Docusaurus print route or PDF generator is added
+- an npm script such as `book:pdf` once the VitePress print route or PDF generator is added
 
 The first refactor can add the release folder and documentation before generating the final PDF. A later pass can add Playwright, PrinceXML, Pandoc, or another PDF generator. For this repo, Playwright-based PDF generation is likely the most portable because it can print the local static site without requiring a paid formatter.
 
@@ -146,10 +145,10 @@ The refactor is complete when:
 - `npm test` passes.
 - `npm run typecheck` passes.
 - `npm audit --omit=dev` reports no vulnerabilities.
-- `npm run book:build` builds the static site.
+- `npm run book:build` builds the static site into `book/docs/.vitepress/dist`.
 - `book/docs/` has a coherent sidebar and no stale links to active folders that moved to `deprecated/`.
 - The active index lists deprecated patterns with reasons.
-- The root README, `LICENSE`, package metadata, Docusaurus footer, and PDF release notes identify `CC-BY-SA-4.0`.
+- The root README, `LICENSE`, package metadata, VitePress footer, and PDF release notes identify `CC-BY-SA-4.0`.
 
 ## References
 
@@ -157,5 +156,5 @@ The refactor is complete when:
 - CrewAI docs: https://docs.crewai.com/en/introduction
 - Google ADK A2A docs: https://google.github.io/adk-docs/a2a/
 - Anthropic Agent Skills docs: https://console.anthropic.com/docs/en/agents-and-tools/agent-skills/overview
-- Docusaurus docs: https://docusaurus.io/docs
+- VitePress docs: https://vitepress.dev
 - GitHub Pages docs: https://docs.github.com/pages
