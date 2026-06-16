@@ -117,9 +117,11 @@ See [`Agentic_Patterns.md`](./Agentic_Patterns.md) for the full list and links t
 - Static site generator: VitePress
 - Local preview: `npm run book:start`
 - Static build: `npm run book:build`
+- Generate PDF: `npm run book:pdf`
 - GitHub Pages workflow: `.github/workflows/publish-book.yml`
 - Public URL: `https://gturitto.github.io/Agentic-Systems-Patterns/`
 - Offline PDF path: `book/releases/Agentic-Systems-Patterns.pdf`
+- Deployed PDF URL: `https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf`
 - License: `CC-BY-SA-4.0`
 
 ## License

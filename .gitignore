@@ -6,6 +6,8 @@ book/docs/.vitepress/cache/
 book/docs/.vitepress/dist/
 book/docs/.vitepress/.temp/
 book/.docusaurus/
+book/docs/public/releases/*.pdf
+book/releases/*.html
 
 # Environment and config
 .env

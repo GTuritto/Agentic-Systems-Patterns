@@ -6,9 +6,12 @@
     "start": "vitepress dev docs",
     "build": "vitepress build docs",
     "serve": "vitepress preview docs",
-    "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist"
+    "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist",
+    "pdf": "node scripts/generate-pdf.mjs"
   },
   "devDependencies": {
+    "markdown-it": "^14.1.0",
+    "playwright": "^1.57.0",
     "vitepress": "^1.6.4"
   },
   "overrides": {

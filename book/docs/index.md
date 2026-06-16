@@ -12,6 +12,9 @@ hero:
     - theme: alt
       text: View Source
       link: https://github.com/GTuritto/Agentic-Systems-Patterns
+    - theme: alt
+      text: Download PDF
+      link: /releases/Agentic-Systems-Patterns.pdf
 
 features:
   - title: Pattern Catalog

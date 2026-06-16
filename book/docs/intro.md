@@ -21,6 +21,12 @@ https://gturitto.github.io/Agentic-Systems-Patterns/
 
 Offline release artifacts live in [`book/releases`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/book/releases).
 
+The generated PDF is published at:
+
+```text
+https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+```
+
 ## License
 
 This book/reference and its examples are licensed under [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).

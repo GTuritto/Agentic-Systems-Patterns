@@ -29,6 +29,8 @@ jobs:
             book/package-lock.json
       - run: npm ci
       - run: npm ci --prefix book
+      - run: npx --prefix book playwright install --with-deps chromium
+      - run: npm run book:pdf
       - run: npm run book:build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
