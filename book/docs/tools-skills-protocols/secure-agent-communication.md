@@ -27,6 +27,22 @@ Secure communication protects messages between agents with authentication, integ
 - Security checks cannot be enforced before action.
 - The protocol lacks correlation IDs and auditability.
 
+## System Shape
+
+- **Pattern boundary:** the agent discovers or selects a capability, submits a typed request, and receives a typed result across a policy boundary.
+- **State owner:** the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+- **Primary artifact:** `secure-agent-communication-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Secure communication protects messages between agents with authentication, integrity, confidentiality, and policy checks.
+- **Runnable path:** start with `npm run secure-agent` before adapting the pattern to a larger system.
+
+## Core Protocol
+
+1. Discover the capability, schema, permissions, and operating constraints.
+2. Prepare a typed request from the current goal and state.
+3. Authorize the request before invocation.
+4. Invoke the tool, skill, or remote agent and validate the result.
+5. Return structured output, refusal, progress, or error without losing correlation IDs.
+
 ## Implementation Notes
 
 - Keep the pattern boundary explicit: inputs, state, side effects, and outputs should be visible.
@@ -38,6 +54,23 @@ Secure communication protects messages between agents with authentication, integ
 - The pattern is applied where a simpler deterministic workflow would be better.
 - State, tool calls, or model decisions are not observable enough to debug.
 - The system lacks clear stop, retry, or escalation behavior.
+
+## Evaluation Strategy
+
+- Test valid calls, invalid arguments, unauthorized calls, timeouts, refusals, and malformed responses.
+- Assert that dangerous actions require approval or are blocked before execution.
+- Measure tool-selection accuracy, schema validity, authorization failures, and recovery behavior.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Use typed schemas for inputs and outputs.
+- Separate model intent from actual execution permissions.
+- Add timeouts, retries, idempotency keys, and audit records.
+- Treat refusal and cancellation as first-class outcomes.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Run the Example
 
@@ -137,3 +170,11 @@ if __name__ == '__main__':
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/secure-agent-communication-pattern)
 
 The download bundle contains the current `secure-agent-communication-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Skills](/tools-skills-protocols/skills)
+- [MCP-first Tool Use](/tools-skills-protocols/mcp-first-tool-use)
+- [A2A Agent Interoperability](/tools-skills-protocols/a2a-agent-interoperability)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

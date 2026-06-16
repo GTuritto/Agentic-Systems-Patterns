@@ -27,6 +27,22 @@ Supervisor/Worker centralizes goal ownership, task state, routing, and quality g
 - Workers can take uncontrolled side effects.
 - No one owns final acceptance.
 
+## System Shape
+
+- **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.
+- **State owner:** the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+- **Primary artifact:** `hierarchical-agent-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Supervisor/Worker centralizes goal ownership, task state, routing, and quality gates while workers perform bounded specialist work.
+- **Runnable path:** start with `npm run hierarchical-agent` before adapting the pattern to a larger system.
+
+## Core Protocol
+
+1. Define the shared goal, worker roles, expected outputs, and acceptance criteria.
+2. Split work only where independent or specialist execution adds value.
+3. Dispatch tasks with scoped context and permissions.
+4. Collect outputs, errors, refusals, and evidence from each worker.
+5. Merge results through an explicit judge, reducer, supervisor, or human review gate.
+
 ## Implementation Notes
 
 - Keep the pattern boundary explicit: inputs, state, side effects, and outputs should be visible.
@@ -38,6 +54,23 @@ Supervisor/Worker centralizes goal ownership, task state, routing, and quality g
 - The pattern is applied where a simpler deterministic workflow would be better.
 - State, tool calls, or model decisions are not observable enough to debug.
 - The system lacks clear stop, retry, or escalation behavior.
+
+## Evaluation Strategy
+
+- Compare multi-agent output against a single-agent baseline on the same tasks.
+- Test worker disagreement, worker failure, duplicated work, and bad merge decisions.
+- Measure quality lift, latency cost, token cost, merge accuracy, and accountability.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Give every worker a narrow contract and permission set.
+- Make the merge policy explicit before workers run.
+- Log per-worker inputs, outputs, and decision evidence.
+- Keep one owner for final acceptance and escalation.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Run the Example
 
@@ -197,3 +230,11 @@ if __name__ == '__main__':
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/hierarchical-agent-pattern)
 
 The download bundle contains the current `hierarchical-agent-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Task Delegation](/multi-agent-systems/task-delegation)
+- [Debate and Consensus](/multi-agent-systems/debate-and-consensus)
+- [Parallel Agents](/multi-agent-systems/parallel-agents)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

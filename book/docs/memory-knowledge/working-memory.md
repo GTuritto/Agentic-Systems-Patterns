@@ -41,6 +41,21 @@ flowchart TD
   C -->|yes| R[Result]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a retrieval or memory boundary decides what information enters context and what new information can be stored.
+- **State owner:** the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+- **Primary artifact:** `goals-and-state-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Working memory is compact, typed task state the agent can update and consult during a run.
+
+## Core Protocol
+
+1. Classify the information need: working state, episodic memory, semantic knowledge, policy, or source evidence.
+2. Retrieve only scoped, relevant, and permitted material.
+3. Inject retrieved material with source labels, freshness, and trust level.
+4. Generate or act while keeping retrieved evidence separate from instructions.
+5. Write back memory only after validation, consent, retention, and correction rules pass.
+
 ## Implementation Notes
 
 - Store goals as structured records with `id`, `description`, `success_criteria`, `constraints`, `owner`, and `status`.
@@ -54,6 +69,23 @@ flowchart TD
 - State that becomes a transcript dump instead of a compact task model.
 - Agents optimizing for local subgoals that no longer serve the parent goal.
 - Lost cancellation or approval state after retries.
+
+## Evaluation Strategy
+
+- Use questions with known source answers, stale sources, conflicting sources, and missing evidence.
+- Measure recall, precision, citation faithfulness, freshness, and refusal when evidence is absent.
+- Test deletion, correction, and privacy boundaries separately from answer quality.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Define retention, deletion, correction, and consent rules.
+- Separate instructions from retrieved facts and user memories.
+- Record source IDs and retrieval scores for audit and debugging.
+- Add guards against prompt injection from retrieved documents.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 

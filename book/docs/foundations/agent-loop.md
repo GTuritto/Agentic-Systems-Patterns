@@ -40,6 +40,21 @@ flowchart LR
   E -->|budget exceeded| F[Fail Safely]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a narrow agent function, class, or service boundary accepts input plus context and returns a typed answer, action, or decision.
+- **State owner:** the caller or a small application service owns task state until a runtime pattern is introduced.
+- **Primary artifact:** `agent-loop-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** The agent loop turns a model call into an agent: observe state, decide the next action, act, evaluate the result, and stop when the goal is complete or a limit is reached.
+
+## Core Protocol
+
+1. Accept a bounded input, goal, or task request.
+2. Assemble the minimum useful instructions, context, state, and tool descriptions.
+3. Run the model or deterministic helper behind a typed boundary.
+4. Validate the result before returning it to users, tools, or durable state.
+5. Record enough evidence to explain the output later.
+
 ## Implementation Notes
 
 - Persist the loop state: goal, messages, observations, tool calls, outputs, errors, and budget counters.
@@ -53,6 +68,23 @@ flowchart LR
 - Repeated tool calls with no new information.
 - Hidden state drift when observations are summarized too aggressively.
 - Premature success when the evaluator only checks whether an answer exists.
+
+## Evaluation Strategy
+
+- Use golden tasks that cover normal requests, ambiguous requests, missing context, and invalid input.
+- Check that outputs match the expected shape and that unsafe or unsupported requests are rejected.
+- Track accuracy, schema validity, latency, token use, and refusal quality.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Define the input, context, output, and error contract.
+- Keep prompts, schemas, and tool descriptions versioned.
+- Add deterministic tests for the smallest useful behavior.
+- Log model decisions without leaking secrets or private user data.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 

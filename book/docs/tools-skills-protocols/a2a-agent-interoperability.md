@@ -40,6 +40,22 @@ sequenceDiagram
   ClientAgent->>RemoteAgent: Optional cancellation
 ```
 
+## System Shape
+
+- **Pattern boundary:** the agent discovers or selects a capability, submits a typed request, and receives a typed result across a policy boundary.
+- **State owner:** the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+- **Primary artifact:** `agent-to-agent-communication-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** A2A makes agents discoverable and callable across process, team, runtime, and vendor boundaries.
+- **Runnable path:** start with `npm run a2a:test` before adapting the pattern to a larger system.
+
+## Core Protocol
+
+1. Discover the capability, schema, permissions, and operating constraints.
+2. Prepare a typed request from the current goal and state.
+3. Authorize the request before invocation.
+4. Invoke the tool, skill, or remote agent and validate the result.
+5. Return structured output, refusal, progress, or error without losing correlation IDs.
+
 ## Implementation Notes
 
 - Messages validated against schemas before delivery.
@@ -54,6 +70,23 @@ sequenceDiagram
 - Sending unvalidated natural language blobs instead of typed task messages.
 - Missing capability discovery, causing callers to rely on stale assumptions.
 - No correlation ID across progress, result, and error messages.
+
+## Evaluation Strategy
+
+- Test valid calls, invalid arguments, unauthorized calls, timeouts, refusals, and malformed responses.
+- Assert that dangerous actions require approval or are blocked before execution.
+- Measure tool-selection accuracy, schema validity, authorization failures, and recovery behavior.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Use typed schemas for inputs and outputs.
+- Separate model intent from actual execution permissions.
+- Add timeouts, retries, idempotency keys, and audit records.
+- Treat refusal and cancellation as first-class outcomes.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Run the Example
 
@@ -183,3 +216,11 @@ export class AgentB {
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/agent-to-agent-communication-pattern)
 
 The download bundle contains the current `agent-to-agent-communication-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Skills](/tools-skills-protocols/skills)
+- [MCP-first Tool Use](/tools-skills-protocols/mcp-first-tool-use)
+- [Secure Agent Communication](/tools-skills-protocols/secure-agent-communication)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

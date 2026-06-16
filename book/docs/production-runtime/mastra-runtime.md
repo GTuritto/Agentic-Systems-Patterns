@@ -40,6 +40,21 @@ flowchart TD
   App --> Obs[Observability]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a production service or framework hosts the agent behind durable workflow, policy, observability, and deployment boundaries.
+- **State owner:** the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
+- **Primary artifact:** `mastra-runtime-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Mastra is a TypeScript runtime pattern for applications that need agents, workflows, tools, memory, evals, and observability in one framework.
+
+## Core Protocol
+
+1. Receive a user request, event, schedule, or workflow step with an idempotency key.
+2. Load durable state, policy context, memory, and runtime configuration.
+3. Execute one bounded step through the agent, tool, or workflow engine.
+4. Checkpoint result, trace data, cost, and error state.
+5. Retry, compensate, continue, or escalate according to operational policy.
+
 ## Implementation Notes
 
 - Use agents for open-ended decisions where the next step is not known upfront.
@@ -53,6 +68,23 @@ flowchart TD
 - Putting deterministic workflow logic inside prompts.
 - Creating tools with vague descriptions and unvalidated inputs.
 - Shipping without eval datasets or trace review.
+
+## Evaluation Strategy
+
+- Replay production-like traces through regression evals before deployment.
+- Test retries, duplicate events, partial outages, policy denial, and human approval waits.
+- Measure reliability, recovery time, cost, latency, user impact, and eval regression rate.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Use durable checkpoints for long-running or externally visible work.
+- Add structured traces, metrics, cost tracking, and replay data.
+- Define deployment rollback and feature-flag strategy.
+- Document operational ownership, alerts, and escalation paths.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 

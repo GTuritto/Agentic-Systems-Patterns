@@ -26,6 +26,21 @@ Context engineering controls what the model sees: instructions, state, retrieval
 - All required information is already in a short prompt.
 - The system cannot distinguish trusted sources from noisy or stale material.
 
+## System Shape
+
+- **Pattern boundary:** a narrow agent function, class, or service boundary accepts input plus context and returns a typed answer, action, or decision.
+- **State owner:** the caller or a small application service owns task state until a runtime pattern is introduced.
+- **Primary artifact:** `context-engineering-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Context engineering controls what the model sees: instructions, state, retrieval results, tool documentation, memory, examples, and prior messages.
+
+## Core Protocol
+
+1. Accept a bounded input, goal, or task request.
+2. Assemble the minimum useful instructions, context, state, and tool descriptions.
+3. Run the model or deterministic helper behind a typed boundary.
+4. Validate the result before returning it to users, tools, or durable state.
+5. Record enough evidence to explain the output later.
+
 ## Implementation Notes
 
 - Keep the pattern boundary explicit: inputs, state, side effects, and outputs should be visible.
@@ -37,6 +52,23 @@ Context engineering controls what the model sees: instructions, state, retrieval
 - The pattern is applied where a simpler deterministic workflow would be better.
 - State, tool calls, or model decisions are not observable enough to debug.
 - The system lacks clear stop, retry, or escalation behavior.
+
+## Evaluation Strategy
+
+- Use golden tasks that cover normal requests, ambiguous requests, missing context, and invalid input.
+- Check that outputs match the expected shape and that unsafe or unsupported requests are rejected.
+- Track accuracy, schema validity, latency, token use, and refusal quality.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Define the input, context, output, and error contract.
+- Keep prompts, schemas, and tool descriptions versioned.
+- Add deterministic tests for the smallest useful behavior.
+- Log model decisions without leaking secrets or private user data.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 
@@ -145,3 +177,11 @@ if __name__ == "__main__":
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/context-engineering-pattern)
 
 The download bundle contains the current `context-engineering-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Single Agent](/foundations/single-agent)
+- [Agent Loop](/foundations/agent-loop)
+- [Goals and State](/foundations/goals-and-state)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

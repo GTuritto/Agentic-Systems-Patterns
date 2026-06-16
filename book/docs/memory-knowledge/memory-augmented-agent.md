@@ -27,6 +27,22 @@ Memory-augmented agents store and retrieve information across turns or sessions.
 - Retrieved memories cannot be distinguished from current instructions.
 - The memory store is used as an uncurated transcript dump.
 
+## System Shape
+
+- **Pattern boundary:** a retrieval or memory boundary decides what information enters context and what new information can be stored.
+- **State owner:** the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+- **Primary artifact:** `memory-augmented-agent-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Memory-augmented agents store and retrieve information across turns or sessions.
+- **Runnable path:** start with `npm run memory-augmented-agent` before adapting the pattern to a larger system.
+
+## Core Protocol
+
+1. Classify the information need: working state, episodic memory, semantic knowledge, policy, or source evidence.
+2. Retrieve only scoped, relevant, and permitted material.
+3. Inject retrieved material with source labels, freshness, and trust level.
+4. Generate or act while keeping retrieved evidence separate from instructions.
+5. Write back memory only after validation, consent, retention, and correction rules pass.
+
 ## Implementation Notes
 
 - Keep the pattern boundary explicit: inputs, state, side effects, and outputs should be visible.
@@ -38,6 +54,23 @@ Memory-augmented agents store and retrieve information across turns or sessions.
 - The pattern is applied where a simpler deterministic workflow would be better.
 - State, tool calls, or model decisions are not observable enough to debug.
 - The system lacks clear stop, retry, or escalation behavior.
+
+## Evaluation Strategy
+
+- Use questions with known source answers, stale sources, conflicting sources, and missing evidence.
+- Measure recall, precision, citation faithfulness, freshness, and refusal when evidence is absent.
+- Test deletion, correction, and privacy boundaries separately from answer quality.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Define retention, deletion, correction, and consent rules.
+- Separate instructions from retrieved facts and user memories.
+- Record source IDs and retrieval scores for audit and debugging.
+- Add guards against prompt injection from retrieved documents.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Run the Example
 
@@ -198,3 +231,11 @@ if __name__ == '__main__':
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/memory-augmented-agent-pattern)
 
 The download bundle contains the current `memory-augmented-agent-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Long-Term Episodic Memory](/memory-knowledge/long-term-episodic-memory)
+- [Semantic Recall and RAG](/memory-knowledge/semantic-recall-rag)
+- [Working Memory](/memory-knowledge/working-memory)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

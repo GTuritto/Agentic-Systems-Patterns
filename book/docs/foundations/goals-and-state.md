@@ -41,6 +41,21 @@ flowchart TD
   C -->|yes| R[Result]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a narrow agent function, class, or service boundary accepts input plus context and returns a typed answer, action, or decision.
+- **State owner:** the caller or a small application service owns task state until a runtime pattern is introduced.
+- **Primary artifact:** `goals-and-state-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Goals define success; state records progress. Together they make agent work resumable, inspectable, and easier to evaluate.
+
+## Core Protocol
+
+1. Accept a bounded input, goal, or task request.
+2. Assemble the minimum useful instructions, context, state, and tool descriptions.
+3. Run the model or deterministic helper behind a typed boundary.
+4. Validate the result before returning it to users, tools, or durable state.
+5. Record enough evidence to explain the output later.
+
 ## Implementation Notes
 
 - Store goals as structured records with `id`, `description`, `success_criteria`, `constraints`, `owner`, and `status`.
@@ -54,6 +69,23 @@ flowchart TD
 - State that becomes a transcript dump instead of a compact task model.
 - Agents optimizing for local subgoals that no longer serve the parent goal.
 - Lost cancellation or approval state after retries.
+
+## Evaluation Strategy
+
+- Use golden tasks that cover normal requests, ambiguous requests, missing context, and invalid input.
+- Check that outputs match the expected shape and that unsafe or unsupported requests are rejected.
+- Track accuracy, schema validity, latency, token use, and refusal quality.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Define the input, context, output, and error contract.
+- Keep prompts, schemas, and tool descriptions versioned.
+- Add deterministic tests for the smallest useful behavior.
+- Log model decisions without leaking secrets or private user data.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 

@@ -19,9 +19,154 @@ const sectionAliases = {
   useWhen: ['Use When'],
   avoidWhen: ['Avoid When'],
   architecture: ['Architecture', 'Core Flow', 'What A2A Adds'],
+  systemShape: ['System Shape'],
+  coreProtocol: ['Core Protocol', 'Core Loop'],
   implementationNotes: ['Implementation Notes'],
   failureModes: ['Failure Modes'],
+  evaluationStrategy: ['Evaluation Strategy', 'Evaluation'],
+  productionChecklist: ['Production Checklist', 'Production Readiness Checklist'],
   relatedPatterns: ['Related Patterns']
+};
+
+const categoryProfiles = {
+  foundations: {
+    stateOwner: 'the caller or a small application service owns task state until a runtime pattern is introduced',
+    boundary:
+      'a narrow agent function, class, or service boundary accepts input plus context and returns a typed answer, action, or decision',
+    protocol: [
+      'Accept a bounded input, goal, or task request.',
+      'Assemble the minimum useful instructions, context, state, and tool descriptions.',
+      'Run the model or deterministic helper behind a typed boundary.',
+      'Validate the result before returning it to users, tools, or durable state.',
+      'Record enough evidence to explain the output later.'
+    ],
+    evaluation: [
+      'Use golden tasks that cover normal requests, ambiguous requests, missing context, and invalid input.',
+      'Check that outputs match the expected shape and that unsafe or unsupported requests are rejected.',
+      'Track accuracy, schema validity, latency, token use, and refusal quality.'
+    ],
+    checklist: [
+      'Define the input, context, output, and error contract.',
+      'Keep prompts, schemas, and tool descriptions versioned.',
+      'Add deterministic tests for the smallest useful behavior.',
+      'Log model decisions without leaking secrets or private user data.'
+    ]
+  },
+  'control-loops': {
+    stateOwner: 'the loop controller owns progress, budgets, stop conditions, and recovery state',
+    boundary:
+      'a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue',
+    protocol: [
+      'Initialize goal state, constraints, budgets, and stop conditions.',
+      'Choose the next action from the current state instead of assuming the whole path upfront.',
+      'Execute the action through a validated tool, worker, or local function.',
+      'Observe the result and update state with evidence, errors, and remaining work.',
+      'Stop, retry, re-plan, or escalate according to explicit policy.'
+    ],
+    evaluation: [
+      'Test success cases, partial failure, repeated failure, budget exhaustion, and bad intermediate observations.',
+      'Assert that the loop stops for the right reason and does not hide failed steps.',
+      'Measure completion rate, number of iterations, recovery quality, cost, and latency.'
+    ],
+    checklist: [
+      'Set hard iteration, cost, and time limits.',
+      'Persist state after meaningful steps if the run can be interrupted.',
+      'Make retries idempotent or add compensation.',
+      'Expose trace events for each decision, action, observation, and stop reason.'
+    ]
+  },
+  'memory-knowledge': {
+    stateOwner: 'the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state',
+    boundary:
+      'a retrieval or memory boundary decides what information enters context and what new information can be stored',
+    protocol: [
+      'Classify the information need: working state, episodic memory, semantic knowledge, policy, or source evidence.',
+      'Retrieve only scoped, relevant, and permitted material.',
+      'Inject retrieved material with source labels, freshness, and trust level.',
+      'Generate or act while keeping retrieved evidence separate from instructions.',
+      'Write back memory only after validation, consent, retention, and correction rules pass.'
+    ],
+    evaluation: [
+      'Use questions with known source answers, stale sources, conflicting sources, and missing evidence.',
+      'Measure recall, precision, citation faithfulness, freshness, and refusal when evidence is absent.',
+      'Test deletion, correction, and privacy boundaries separately from answer quality.'
+    ],
+    checklist: [
+      'Define retention, deletion, correction, and consent rules.',
+      'Separate instructions from retrieved facts and user memories.',
+      'Record source IDs and retrieval scores for audit and debugging.',
+      'Add guards against prompt injection from retrieved documents.'
+    ]
+  },
+  'tools-skills-protocols': {
+    stateOwner: 'the protocol or capability boundary owns schemas, permissions, invocation records, and response validation',
+    boundary:
+      'the agent discovers or selects a capability, submits a typed request, and receives a typed result across a policy boundary',
+    protocol: [
+      'Discover the capability, schema, permissions, and operating constraints.',
+      'Prepare a typed request from the current goal and state.',
+      'Authorize the request before invocation.',
+      'Invoke the tool, skill, or remote agent and validate the result.',
+      'Return structured output, refusal, progress, or error without losing correlation IDs.'
+    ],
+    evaluation: [
+      'Test valid calls, invalid arguments, unauthorized calls, timeouts, refusals, and malformed responses.',
+      'Assert that dangerous actions require approval or are blocked before execution.',
+      'Measure tool-selection accuracy, schema validity, authorization failures, and recovery behavior.'
+    ],
+    checklist: [
+      'Use typed schemas for inputs and outputs.',
+      'Separate model intent from actual execution permissions.',
+      'Add timeouts, retries, idempotency keys, and audit records.',
+      'Treat refusal and cancellation as first-class outcomes.'
+    ]
+  },
+  'multi-agent-systems': {
+    stateOwner: 'the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance',
+    boundary:
+      'a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs',
+    protocol: [
+      'Define the shared goal, worker roles, expected outputs, and acceptance criteria.',
+      'Split work only where independent or specialist execution adds value.',
+      'Dispatch tasks with scoped context and permissions.',
+      'Collect outputs, errors, refusals, and evidence from each worker.',
+      'Merge results through an explicit judge, reducer, supervisor, or human review gate.'
+    ],
+    evaluation: [
+      'Compare multi-agent output against a single-agent baseline on the same tasks.',
+      'Test worker disagreement, worker failure, duplicated work, and bad merge decisions.',
+      'Measure quality lift, latency cost, token cost, merge accuracy, and accountability.'
+    ],
+    checklist: [
+      'Give every worker a narrow contract and permission set.',
+      'Make the merge policy explicit before workers run.',
+      'Log per-worker inputs, outputs, and decision evidence.',
+      'Keep one owner for final acceptance and escalation.'
+    ]
+  },
+  'production-runtime': {
+    stateOwner: 'the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls',
+    boundary:
+      'a production service or framework hosts the agent behind durable workflow, policy, observability, and deployment boundaries',
+    protocol: [
+      'Receive a user request, event, schedule, or workflow step with an idempotency key.',
+      'Load durable state, policy context, memory, and runtime configuration.',
+      'Execute one bounded step through the agent, tool, or workflow engine.',
+      'Checkpoint result, trace data, cost, and error state.',
+      'Retry, compensate, continue, or escalate according to operational policy.'
+    ],
+    evaluation: [
+      'Replay production-like traces through regression evals before deployment.',
+      'Test retries, duplicate events, partial outages, policy denial, and human approval waits.',
+      'Measure reliability, recovery time, cost, latency, user impact, and eval regression rate.'
+    ],
+    checklist: [
+      'Use durable checkpoints for long-running or externally visible work.',
+      'Add structured traces, metrics, cost tracking, and replay data.',
+      'Define deployment rollback and feature-flag strategy.',
+      'Document operational ownership, alerts, and escalation paths.'
+    ]
+  }
 };
 
 function normalizeHeading(value) {
@@ -97,9 +242,84 @@ function listMarkdown(items) {
   return items.map(item => `- ${item}`).join('\n');
 }
 
+function orderedListMarkdown(items) {
+  return items.map((item, index) => `${index + 1}. ${item}`).join('\n');
+}
+
 function sectionBlock(title, content) {
   if (!content) return '';
   return `## ${title}\n\n${content.trim()}\n`;
+}
+
+function categoryFor(pattern) {
+  return pattern.chapterPath.split('/')[0];
+}
+
+function profileFor(pattern) {
+  return categoryProfiles[categoryFor(pattern)] ?? categoryProfiles.foundations;
+}
+
+function pageLink(pattern) {
+  return `/${pattern.chapterPath.replace(/\.md$/, '')}`;
+}
+
+function generatedSystemShape(pattern) {
+  const profile = profileFor(pattern);
+  const lines = [
+    `**Pattern boundary:** ${profile.boundary}.`,
+    `**State owner:** ${profile.stateOwner}.`,
+    `**Primary artifact:** \`${pattern.sourceFolder}/\` contains the runnable reference implementation and examples.`,
+    `**Operational promise:** ${pattern.summary}`
+  ];
+
+  if (pattern.commands?.length) {
+    lines.push(`**Runnable path:** start with \`${pattern.commands[0]}\` before adapting the pattern to a larger system.`);
+  }
+
+  return listMarkdown(lines);
+}
+
+function generatedCoreProtocol(pattern) {
+  return orderedListMarkdown(profileFor(pattern).protocol);
+}
+
+function generatedEvaluationStrategy(pattern) {
+  const profile = profileFor(pattern);
+  const items = [
+    ...profile.evaluation,
+    `Include cases that prove each "Use When" condition is true for this pattern.`,
+    `Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.`
+  ];
+
+  return listMarkdown(items);
+}
+
+function generatedProductionChecklist(pattern) {
+  const profile = profileFor(pattern);
+  const items = [
+    ...profile.checklist,
+    'Define human escalation for ambiguous, high-risk, or policy-blocked work.',
+    'Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.'
+  ];
+
+  return listMarkdown(items);
+}
+
+function generatedRelatedPatterns(pattern) {
+  const category = categoryFor(pattern);
+  const sameCategory = patterns
+    .filter(candidate => candidate !== pattern && categoryFor(candidate) === category)
+    .slice(0, 3)
+    .map(candidate => `[${candidate.title}](${pageLink(candidate)})`);
+
+  const crossCuts = [
+    '[Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)',
+    '[Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)',
+    '[Observability and Evals](/production-runtime/observability-and-evals)'
+  ];
+
+  const links = [...sameCategory, ...crossCuts].slice(0, 5);
+  return listMarkdown(links);
 }
 
 function languageFor(filePath) {
@@ -260,6 +480,8 @@ async function renderPattern(pattern) {
   const useWhen = fromReadme(sectionAliases.useWhen) || listMarkdown(pattern.useWhen ?? []);
   const avoidWhen = fromReadme(sectionAliases.avoidWhen) || listMarkdown(pattern.avoidWhen ?? []);
   const architecture = fromReadme(sectionAliases.architecture);
+  const systemShape = fromReadme(sectionAliases.systemShape) || generatedSystemShape(pattern);
+  const coreProtocol = fromReadme(sectionAliases.coreProtocol) || generatedCoreProtocol(pattern);
   const implementationNotes =
     fromReadme(sectionAliases.implementationNotes) ||
     listMarkdown([
@@ -274,7 +496,11 @@ async function renderPattern(pattern) {
       'State, tool calls, or model decisions are not observable enough to debug.',
       'The system lacks clear stop, retry, or escalation behavior.'
     ]);
-  const related = fromReadme(sectionAliases.relatedPatterns);
+  const evaluationStrategy =
+    fromReadme(sectionAliases.evaluationStrategy) || generatedEvaluationStrategy(pattern);
+  const productionChecklist =
+    fromReadme(sectionAliases.productionChecklist) || generatedProductionChecklist(pattern);
+  const related = fromReadme(sectionAliases.relatedPatterns) || generatedRelatedPatterns(pattern);
 
   const blocks = [
     `# ${pattern.title}`,
@@ -287,8 +513,12 @@ async function renderPattern(pattern) {
     sectionBlock('Use When', useWhen),
     sectionBlock('Avoid When', avoidWhen),
     sectionBlock('Architecture', architecture),
+    sectionBlock('System Shape', systemShape),
+    sectionBlock('Core Protocol', coreProtocol),
     sectionBlock('Implementation Notes', implementationNotes),
     sectionBlock('Failure Modes', failureModes),
+    sectionBlock('Evaluation Strategy', evaluationStrategy),
+    sectionBlock('Production Checklist', productionChecklist),
     commandBlock(pattern.commands),
     '## Code Walkthrough',
     '',

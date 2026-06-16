@@ -42,6 +42,21 @@ flowchart TD
   State --> Output[Final Output]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.
+- **State owner:** the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+- **Primary artifact:** `crewai-flows-and-crews-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** CrewAI Flows own state and execution order. Crews group specialized agents that collaborate on delegated work inside the flow.
+
+## Core Protocol
+
+1. Define the shared goal, worker roles, expected outputs, and acceptance criteria.
+2. Split work only where independent or specialist execution adds value.
+3. Dispatch tasks with scoped context and permissions.
+4. Collect outputs, errors, refusals, and evidence from each worker.
+5. Merge results through an explicit judge, reducer, supervisor, or human review gate.
+
 ## Implementation Notes
 
 - Let flows manage state, branching, persistence, and execution order.
@@ -55,6 +70,23 @@ flowchart TD
 - Too many agents with vague roles.
 - Flow state mutated implicitly through chat history.
 - No evaluator for whether the crew result satisfies the flow step.
+
+## Evaluation Strategy
+
+- Compare multi-agent output against a single-agent baseline on the same tasks.
+- Test worker disagreement, worker failure, duplicated work, and bad merge decisions.
+- Measure quality lift, latency cost, token cost, merge accuracy, and accountability.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Give every worker a narrow contract and permission set.
+- Make the merge policy explicit before workers run.
+- Log per-worker inputs, outputs, and decision evidence.
+- Keep one owner for final acceptance and escalation.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 

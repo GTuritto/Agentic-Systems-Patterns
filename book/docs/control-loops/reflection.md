@@ -27,6 +27,22 @@ Reflection asks an agent or evaluator to inspect prior output and identify concr
 - There is no acceptance criterion for the revised result.
 - The model is asked to approve its own unsafe actions.
 
+## System Shape
+
+- **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.
+- **State owner:** the loop controller owns progress, budgets, stop conditions, and recovery state.
+- **Primary artifact:** `reflection-and-self-improvement-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Reflection asks an agent or evaluator to inspect prior output and identify concrete improvements.
+- **Runnable path:** start with `npm run reflection-self-improvement-agent` before adapting the pattern to a larger system.
+
+## Core Protocol
+
+1. Initialize goal state, constraints, budgets, and stop conditions.
+2. Choose the next action from the current state instead of assuming the whole path upfront.
+3. Execute the action through a validated tool, worker, or local function.
+4. Observe the result and update state with evidence, errors, and remaining work.
+5. Stop, retry, re-plan, or escalate according to explicit policy.
+
 ## Implementation Notes
 
 - Keep the pattern boundary explicit: inputs, state, side effects, and outputs should be visible.
@@ -38,6 +54,23 @@ Reflection asks an agent or evaluator to inspect prior output and identify concr
 - The pattern is applied where a simpler deterministic workflow would be better.
 - State, tool calls, or model decisions are not observable enough to debug.
 - The system lacks clear stop, retry, or escalation behavior.
+
+## Evaluation Strategy
+
+- Test success cases, partial failure, repeated failure, budget exhaustion, and bad intermediate observations.
+- Assert that the loop stops for the right reason and does not hide failed steps.
+- Measure completion rate, number of iterations, recovery quality, cost, and latency.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Set hard iteration, cost, and time limits.
+- Persist state after meaningful steps if the run can be interrupted.
+- Make retries idempotent or add compensation.
+- Expose trace events for each decision, action, observation, and stop reason.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Run the Example
 
@@ -167,3 +200,11 @@ if __name__ == '__main__':
 - [Open source folder](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/reflection-and-self-improvement-pattern)
 
 The download bundle contains the current `reflection-and-self-improvement-pattern/` folder from this repository.
+
+## Related Patterns
+
+- [Planning and Execution](/control-loops/planning-and-execution)
+- [ReAct](/control-loops/react)
+- [Evaluator-Optimizer](/control-loops/evaluator-optimizer)
+- [Choosing the Right Pattern](/pattern-selection/choosing-the-right-pattern)
+- [Resource-Aware Agent Design](/pattern-selection/resource-aware-agent-design)

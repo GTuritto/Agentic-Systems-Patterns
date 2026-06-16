@@ -39,6 +39,21 @@ flowchart LR
   E -->|budget exhausted| F[Return Best or Fail]
 ```
 
+## System Shape
+
+- **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.
+- **State owner:** the loop controller owns progress, budgets, stop conditions, and recovery state.
+- **Primary artifact:** `evaluator-optimizer-pattern/` contains the runnable reference implementation and examples.
+- **Operational promise:** Evaluator-Optimizer pairs a generator with an evaluator. The generator proposes; the evaluator scores; the optimizer revises or stops.
+
+## Core Protocol
+
+1. Initialize goal state, constraints, budgets, and stop conditions.
+2. Choose the next action from the current state instead of assuming the whole path upfront.
+3. Execute the action through a validated tool, worker, or local function.
+4. Observe the result and update state with evidence, errors, and remaining work.
+5. Stop, retry, re-plan, or escalate according to explicit policy.
+
 ## Implementation Notes
 
 - Separate generation prompts from evaluation prompts.
@@ -52,6 +67,23 @@ flowchart LR
 - Generator overfits to the evaluator and hides flaws.
 - Revision loops that make output longer but not better.
 - No retained evidence for why a candidate passed.
+
+## Evaluation Strategy
+
+- Test success cases, partial failure, repeated failure, budget exhaustion, and bad intermediate observations.
+- Assert that the loop stops for the right reason and does not hide failed steps.
+- Measure completion rate, number of iterations, recovery quality, cost, and latency.
+- Include cases that prove each "Use When" condition is true for this pattern.
+- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+
+## Production Checklist
+
+- Set hard iteration, cost, and time limits.
+- Persist state after meaningful steps if the run can be interrupted.
+- Make retries idempotent or add compensation.
+- Expose trace events for each decision, action, observation, and stop reason.
+- Define human escalation for ambiguous, high-risk, or policy-blocked work.
+- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
 ## Code Walkthrough
 
