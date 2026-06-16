@@ -29,16 +29,7 @@ The Agent Loop Pattern defines the runtime cycle that turns a model call into an
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  G[Goal] --> O[Observe State]
-  O --> D[Decide Next Action]
-  D --> A[Act]
-  A --> E[Evaluate Result]
-  E -->|continue| O
-  E -->|done| R[Return Result]
-  E -->|budget exceeded| F[Fail Safely]
-```
+![Agent loop architecture](../public/diagrams/agent-loop.svg)
 
 ## System Shape
 

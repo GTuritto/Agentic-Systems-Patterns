@@ -29,15 +29,7 @@ Use this pattern when the set of tools may evolve independently from the agent. 
 
 ## Architecture
 
-```mermaid
-sequenceDiagram
-  participant Agent
-  participant MCPServer
-  Agent->>MCPServer: Read manifest
-  Agent->>Agent: Validate selected tool input
-  Agent->>MCPServer: Invoke tool
-  MCPServer-->>Agent: Return structured result
-```
+![MCP-first tool use architecture](../public/diagrams/mcp-first-tool-use.svg)
 
 ## System Shape
 

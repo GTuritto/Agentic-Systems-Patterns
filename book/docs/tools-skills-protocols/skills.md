@@ -29,15 +29,7 @@ The Skills Pattern packages procedural knowledge as discoverable folders: concis
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  T[Task] --> D[Skill Discovery]
-  D --> S[SKILL.md]
-  S --> R[References and Assets]
-  S --> C[Scripts or Templates]
-  R --> A[Agent Action]
-  C --> A
-```
+![Skills packaging architecture](../public/diagrams/skills-packaging.svg)
 
 ## System Shape
 

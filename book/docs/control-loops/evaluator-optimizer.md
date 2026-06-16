@@ -29,15 +29,7 @@ The Evaluator-Optimizer Pattern pairs a generator with an evaluator. The generat
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  I[Input] --> G[Generator]
-  G --> O[Candidate Output]
-  O --> E[Evaluator]
-  E -->|pass| R[Return]
-  E -->|revise with feedback| G
-  E -->|budget exhausted| F[Return Best or Fail]
-```
+![Evaluator-optimizer loop architecture](../public/diagrams/evaluator-optimizer-loop.svg)
 
 ## System Shape
 

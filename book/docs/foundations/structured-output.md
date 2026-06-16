@@ -29,14 +29,7 @@ The Structured Output Pattern constrains model responses to typed data that soft
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  P[Prompt] --> M[Model]
-  M --> J[JSON or Typed Output]
-  J --> V[Schema Validation]
-  V -->|valid| D[Deterministic Code]
-  V -->|invalid| R[Repair or Refuse]
-```
+![Structured output validation architecture](../public/diagrams/structured-output-validation.svg)
 
 ## System Shape
 

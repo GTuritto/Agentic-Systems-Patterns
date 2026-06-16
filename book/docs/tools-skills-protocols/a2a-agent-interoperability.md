@@ -29,16 +29,7 @@ Use this pattern when one agent needs to call another agent as a remote collabor
 
 ## Architecture
 
-```mermaid
-sequenceDiagram
-  participant ClientAgent
-  participant AgentCard
-  participant RemoteAgent
-  ClientAgent->>AgentCard: Fetch capabilities
-  ClientAgent->>RemoteAgent: Send task request
-  RemoteAgent-->>ClientAgent: Progress, result, refusal, or error
-  ClientAgent->>RemoteAgent: Optional cancellation
-```
+![A2A agent interoperability architecture](../public/diagrams/a2a-agent-interoperability.svg)
 
 ## System Shape
 

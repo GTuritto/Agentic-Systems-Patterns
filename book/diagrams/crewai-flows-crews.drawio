@@ -1,0 +1,25 @@
+<mxfile host="app.diagrams.net" modified="2026-06-16T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="crewai-flows-crews" name="CrewAI Flows and Crews">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" page="1" pageWidth="1120" pageHeight="520" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="CrewAI Flows and Crews" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1"><mxGeometry x="320" y="20" width="520" height="40" as="geometry"/></mxCell>
+        <mxCell id="arrow0" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="185" as="sourcePoint"/><mxPoint x="300" y="165" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow1" value="updates" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="400" y="210" as="sourcePoint"/><mxPoint x="400" y="290" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow2" value="delegates" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="165" as="sourcePoint"/><mxPoint x="580" y="165" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow3" value="tasks" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="780" y="165" as="sourcePoint"/><mxPoint x="840" y="135" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow4" value="work" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="945" y="180" as="sourcePoint"/><mxPoint x="945" y="250" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow5" value="record" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="840" y="290" as="sourcePoint"/><mxPoint x="500" y="330" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow6" value="complete" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="500" y="330" as="sourcePoint"/><mxPoint x="580" y="355" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="event" value="Event / Request" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E8F0FE;strokeColor=#3367D6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="60" y="150" width="170" height="70" as="geometry"/></mxCell>
+        <mxCell id="flow" value="Flow&lt;br&gt;state and order" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E6F4EA;strokeColor=#188038;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="120" width="200" height="90" as="geometry"/></mxCell>
+        <mxCell id="state" value="Flow State" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FFF4E5;strokeColor=#F9AB00;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="300" y="290" width="200" height="80" as="geometry"/></mxCell>
+        <mxCell id="crew" value="Crew&lt;br&gt;bounded work" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#F3E8FD;strokeColor=#9334E6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="580" y="120" width="200" height="90" as="geometry"/></mxCell>
+        <mxCell id="agents" value="Specialist Agents" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#EAF5FF;strokeColor=#007B83;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="840" y="90" width="210" height="90" as="geometry"/></mxCell>
+        <mxCell id="result" value="Crew Result" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FCE8E6;strokeColor=#D93025;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="840" y="250" width="210" height="80" as="geometry"/></mxCell>
+        <mxCell id="output" value="Final Output" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#F1F3F4;strokeColor=#5F6368;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="580" y="320" width="200" height="70" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

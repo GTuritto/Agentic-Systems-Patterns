@@ -29,18 +29,7 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  Event[Event or User Request] --> Flow[CrewAI Flow]
-  Flow --> State[Flow State]
-  Flow --> Crew[Crew]
-  Crew --> A1[Researcher Agent]
-  Crew --> A2[Writer Agent]
-  Crew --> A3[Reviewer Agent]
-  Crew --> Result[Crew Result]
-  Result --> State
-  State --> Output[Final Output]
-```
+![CrewAI flows and crews architecture](../public/diagrams/crewai-flows-crews.svg)
 
 ## System Shape
 

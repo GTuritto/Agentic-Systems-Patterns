@@ -27,6 +27,10 @@ Supervisor/Worker centralizes goal ownership, task state, routing, and quality g
 - Workers can take uncontrolled side effects.
 - No one owns final acceptance.
 
+## Architecture
+
+![Supervisor worker architecture](../public/diagrams/supervisor-worker.svg)
+
 ## System Shape
 
 - **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.

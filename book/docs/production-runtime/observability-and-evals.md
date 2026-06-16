@@ -29,15 +29,7 @@ The Observability and Evals Pattern makes agent behavior inspectable and testabl
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  R[Run] --> T[Trace]
-  R --> M[Metrics]
-  R --> E[Eval Dataset]
-  T --> D[Debugging]
-  M --> O[Operations]
-  E --> Q[Quality Gates]
-```
+![Observability and evals architecture](../public/diagrams/observability-evals.svg)
 
 ## System Shape
 

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="520" viewBox="0 0 1120 520" role="img" aria-labelledby="title desc">
+<title id="title">Goals, State, and Working Memory</title><desc id="desc">Architecture diagram for Goals, State, and Working Memory.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/></marker></defs>
+<rect width="1120" height="520" fill="none"/>
+<text x="560" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#173F4F">Goals, State, and Working Memory</text>
+<line x1="220" y1="165" x2="290" y2="145" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="480" y1="145" x2="560" y2="145" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="190" x2="675" y2="280" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="560" y1="320" x2="500" y2="325" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="530" y="314.5" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">updates</text>
+<line x1="500" y1="325" x2="560" y2="145" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="790" y1="320" x2="850" y2="320" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="820" y="312" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">complete / blocked</text>
+<rect x="60" y="130" width="160" height="70" rx="10" ry="10" fill="#E8F0FE" stroke="#3367D6" stroke-width="2"/>
+<text x="140" y="165" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">User Request</text>
+<rect x="290" y="100" width="190" height="90" rx="10" ry="10" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="385" y="135" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">Goal Record</text>
+<text x="385" y="157" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">success criteria</text>
+<rect x="560" y="100" width="230" height="90" rx="10" ry="10" fill="#FFF4E5" stroke="#F9AB00" stroke-width="2"/>
+<text x="675" y="135" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">Typed Task State</text>
+<text x="675" y="157" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">plan, evidence, blockers</text>
+<rect x="560" y="280" width="230" height="80" rx="10" ry="10" fill="#F3E8FD" stroke="#9334E6" stroke-width="2"/>
+<text x="675" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">Planner / Agent Loop</text>
+<rect x="290" y="280" width="210" height="90" rx="10" ry="10" fill="#EAF5FF" stroke="#007B83" stroke-width="2"/>
+<text x="395" y="315" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">State Events</text>
+<text x="395" y="337" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">tool_result, approved, blocked</text>
+<rect x="850" y="280" width="200" height="80" rx="10" ry="10" fill="#FCE8E6" stroke="#D93025" stroke-width="2"/>
+<text x="950" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#202124">Result or Escalation</text>
+</svg>

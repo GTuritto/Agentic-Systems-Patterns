@@ -1,0 +1,23 @@
+<mxfile host="app.diagrams.net" modified="2026-06-16T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="skills-packaging" name="Skills Packaging">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" page="1" pageWidth="1120" pageHeight="520" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Skills Packaging" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1"><mxGeometry x="320" y="20" width="520" height="40" as="geometry"/></mxCell>
+        <mxCell id="arrow0" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="220" y="195" as="sourcePoint"/><mxPoint x="280" y="185" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow1" value="load" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="480" y="185" as="sourcePoint"/><mxPoint x="560" y="175" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow2" value="uses" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="790" y="175" as="sourcePoint"/><mxPoint x="840" y="130" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow3" value="runs" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="790" y="175" as="sourcePoint"/><mxPoint x="840" y="290" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow4" value="guides" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="675" y="230" as="sourcePoint"/><mxPoint x="675" y="310" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="arrow5" value="result" style="endArrow=block;html=1;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="560" y="350" as="sourcePoint"/><mxPoint x="220" y="195" as="targetPoint"/></mxGeometry></mxCell>
+        <mxCell id="task" value="Task Request" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E8F0FE;strokeColor=#3367D6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="60" y="160" width="160" height="70" as="geometry"/></mxCell>
+        <mxCell id="select" value="Skill Selection&lt;br&gt;activation rules" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#E6F4EA;strokeColor=#188038;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="280" y="140" width="200" height="90" as="geometry"/></mxCell>
+        <mxCell id="skill" value="Skill Folder&lt;br&gt;instructions, refs, scripts" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FFF4E5;strokeColor=#F9AB00;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="560" y="120" width="230" height="110" as="geometry"/></mxCell>
+        <mxCell id="assets" value="Templates / Assets" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#F3E8FD;strokeColor=#9334E6;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="840" y="90" width="190" height="80" as="geometry"/></mxCell>
+        <mxCell id="scripts" value="Scripts / Tools" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#EAF5FF;strokeColor=#007B83;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="840" y="250" width="190" height="80" as="geometry"/></mxCell>
+        <mxCell id="agent" value="Agent Executes&lt;br&gt;procedure" style="rounded=1;whiteSpace=wrap;html=1;fontSize=16;fontFamily=Inter;fillColor=#FCE8E6;strokeColor=#D93025;strokeWidth=2;" vertex="1" parent="1"><mxGeometry x="560" y="310" width="230" height="80" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

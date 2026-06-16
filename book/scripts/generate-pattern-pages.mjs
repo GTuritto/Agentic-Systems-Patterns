@@ -169,6 +169,61 @@ const categoryProfiles = {
   }
 };
 
+const architectureDiagrams = {
+  'agent-loop': {
+    alt: 'Agent loop architecture',
+    file: 'agent-loop.svg'
+  },
+  'goals-and-state': {
+    alt: 'Goals, state, and working memory architecture',
+    file: 'goals-state-working-memory.svg'
+  },
+  'working-memory': {
+    alt: 'Goals, state, and working memory architecture',
+    file: 'goals-state-working-memory.svg'
+  },
+  'structured-output': {
+    alt: 'Structured output validation architecture',
+    file: 'structured-output-validation.svg'
+  },
+  'evaluator-optimizer': {
+    alt: 'Evaluator-optimizer loop architecture',
+    file: 'evaluator-optimizer-loop.svg'
+  },
+  'a2a-agent-interoperability': {
+    alt: 'A2A agent interoperability architecture',
+    file: 'a2a-agent-interoperability.svg'
+  },
+  'mcp-first-tool-use': {
+    alt: 'MCP-first tool use architecture',
+    file: 'mcp-first-tool-use.svg'
+  },
+  skills: {
+    alt: 'Skills packaging architecture',
+    file: 'skills-packaging.svg'
+  },
+  'supervisor-worker': {
+    alt: 'Supervisor worker architecture',
+    file: 'supervisor-worker.svg'
+  },
+  'crewai-flows-and-crews': {
+    alt: 'CrewAI flows and crews architecture',
+    file: 'crewai-flows-crews.svg'
+  },
+  'durable-workflows': {
+    alt: 'Durable workflow architecture',
+    file: 'durable-workflow.svg'
+  },
+  'observability-and-evals': {
+    alt: 'Observability and evals architecture',
+    file: 'observability-evals.svg'
+  },
+  'mastra-runtime': {
+    alt: 'Mastra runtime architecture',
+    file: 'mastra-runtime.svg'
+  }
+};
+
 function normalizeHeading(value) {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
@@ -277,6 +332,12 @@ function generatedSystemShape(pattern) {
   }
 
   return listMarkdown(lines);
+}
+
+function diagramArchitecture(pattern) {
+  const diagram = architectureDiagrams[pattern.bundleName];
+  if (!diagram) return '';
+  return `![${diagram.alt}](../public/diagrams/${diagram.file})`;
 }
 
 function generatedCoreProtocol(pattern) {
@@ -479,7 +540,7 @@ async function renderPattern(pattern) {
   const intent = fromReadme(sectionAliases.intent) || pattern.summary;
   const useWhen = fromReadme(sectionAliases.useWhen) || listMarkdown(pattern.useWhen ?? []);
   const avoidWhen = fromReadme(sectionAliases.avoidWhen) || listMarkdown(pattern.avoidWhen ?? []);
-  const architecture = fromReadme(sectionAliases.architecture);
+  const architecture = diagramArchitecture(pattern) || fromReadme(sectionAliases.architecture);
   const systemShape = fromReadme(sectionAliases.systemShape) || generatedSystemShape(pattern);
   const coreProtocol = fromReadme(sectionAliases.coreProtocol) || generatedCoreProtocol(pattern);
   const implementationNotes =

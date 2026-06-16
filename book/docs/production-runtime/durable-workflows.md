@@ -29,17 +29,7 @@ The Durable Workflow Pattern wraps agent steps in a resumable execution model. T
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  E[Event] --> W[Workflow State]
-  W --> S1[Step: Agent or Tool]
-  S1 --> C{Checkpoint}
-  C --> S2[Next Step]
-  S2 --> H{Approval Needed?}
-  H -->|yes| A[Human Approval]
-  H -->|no| D[Done]
-  A --> S2
-```
+![Durable workflow architecture](../public/diagrams/durable-workflow.svg)
 
 ## System Shape
 

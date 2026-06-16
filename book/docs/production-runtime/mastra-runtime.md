@@ -29,16 +29,7 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  App[Application] --> Agent[Mastra Agent]
-  App --> Workflow[Mastra Workflow]
-  Agent --> Tools[Tools]
-  Agent --> Memory[Memory]
-  Workflow --> Agent
-  Workflow --> Evals[Evals]
-  App --> Obs[Observability]
-```
+![Mastra runtime architecture](../public/diagrams/mastra-runtime.svg)
 
 ## System Shape
 

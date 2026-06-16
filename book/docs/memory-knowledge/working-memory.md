@@ -29,17 +29,7 @@ The Goals and State Pattern separates what the agent is trying to achieve from t
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  U[User Request] --> G[Goal]
-  G --> S[Task State]
-  S --> P[Planner or Agent Loop]
-  P --> W[Work Items]
-  W --> S
-  S --> C{Goal Complete?}
-  C -->|no| P
-  C -->|yes| R[Result]
-```
+![Goals, state, and working memory architecture](../public/diagrams/goals-state-working-memory.svg)
 
 ## System Shape
 
