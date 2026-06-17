@@ -285,5 +285,6 @@ Test breakers and fallbacks directly. Do not wait for production incidents to pr
 - [Goals and State](../foundations/goals-and-state)
 - [Self-Healing Workflows](../control-loops/self-healing-workflows)
 - [Durable Workflows](../production-runtime/durable-workflows)
+- [Cost Controls and Runtime Budgets](../production-runtime/cost-controls-runtime-budgets)
 - [Observability and Evals](../production-runtime/observability-and-evals)
 - [Policy Enforcement](../production-runtime/policy-enforcement)

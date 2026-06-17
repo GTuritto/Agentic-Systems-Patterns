@@ -68,6 +68,8 @@ const chapters = [
   ['Systems Architecture / Reference Architecture', 'systems-architecture/reference-architecture.md'],
   ['Production Runtime / Durable Workflows', 'production-runtime/durable-workflows.md'],
   ['Production Runtime / Observability and Evals', 'production-runtime/observability-and-evals.md'],
+  ['Production Runtime / Production Evaluation Feedback Loops', 'production-runtime/production-evaluation-feedback-loops.md'],
+  ['Production Runtime / Cost Controls and Runtime Budgets', 'production-runtime/cost-controls-runtime-budgets.md'],
   ['Production Runtime / Policy Enforcement', 'production-runtime/policy-enforcement.md'],
   ['Production Runtime / Event-Triggered Agents', 'production-runtime/event-triggered-agents.md'],
   ['Production Runtime / Mastra Runtime', 'production-runtime/mastra-runtime.md'],

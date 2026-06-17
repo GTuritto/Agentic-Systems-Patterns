@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+<title id="title">Cost Controls and Runtime Budgets</title>
+<desc id="desc">Runtime budget guard flow for agentic systems, showing budget checks before model calls, tool calls, fallbacks, approval, stop, and trace records.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
+  </marker>
+</defs>
+<rect width="1120" height="560" fill="none"/>
+<text x="560" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#173F4F">Cost Controls and Runtime Budgets</text>
+
+<line x1="205" y1="165" x2="285" y2="165" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="485" y1="165" x2="575" y2="165" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="775" y1="165" x2="875" y2="165" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="215" x2="675" y2="295" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="575" y1="335" x2="485" y2="335" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="775" y1="335" x2="875" y2="335" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="385" y1="375" x2="385" y2="455" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="965" y1="375" x2="965" y2="455" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="215" x2="675" y2="470" stroke="#5F6368" stroke-width="2.4" stroke-dasharray="6 6" marker-end="url(#arrow)"/>
+
+<rect x="55" y="125" width="150" height="80" rx="8" ry="8" fill="#E8F0FE" stroke="#3367D6" stroke-width="2"/>
+<text x="130" y="157" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Request</text>
+<text x="130" y="179" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">or workflow step</text>
+
+<rect x="285" y="120" width="200" height="90" rx="8" ry="8" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="385" y="153" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Load task class</text>
+<text x="385" y="175" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">risk and budget</text>
+
+<rect x="575" y="120" width="200" height="90" rx="8" ry="8" fill="#FFF4E5" stroke="#F9AB00" stroke-width="2"/>
+<text x="675" y="153" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Budget guard</text>
+<text x="675" y="175" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">before each action</text>
+
+<rect x="875" y="125" width="180" height="80" rx="8" ry="8" fill="#EAF5FF" stroke="#007B83" stroke-width="2"/>
+<text x="965" y="157" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Primary path</text>
+<text x="965" y="179" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">model or tool</text>
+
+<rect x="575" y="295" width="200" height="80" rx="8" ry="8" fill="#FCE8E6" stroke="#D93025" stroke-width="2"/>
+<text x="675" y="327" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Budget exhausted</text>
+<text x="675" y="349" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">or nearly exhausted</text>
+
+<rect x="285" y="295" width="200" height="80" rx="8" ry="8" fill="#F3E8FD" stroke="#9334E6" stroke-width="2"/>
+<text x="385" y="327" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Degrade path</text>
+<text x="385" y="349" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">summarize or queue</text>
+
+<rect x="875" y="295" width="180" height="80" rx="8" ry="8" fill="#F1F3F4" stroke="#5F6368" stroke-width="2"/>
+<text x="965" y="327" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Approval path</text>
+<text x="965" y="349" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">human or policy</text>
+
+<rect x="285" y="455" width="200" height="70" rx="8" ry="8" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="385" y="490" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Trace budget event</text>
+
+<rect x="875" y="455" width="180" height="70" rx="8" ry="8" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="965" y="490" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Stop reason</text>
+
+<text x="530" y="155" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">classify</text>
+<text x="830" y="155" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">allowed</text>
+<text x="700" y="260" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">limit</text>
+<text x="530" y="325" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">degrade</text>
+<text x="830" y="325" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">approve</text>
+<text x="697" y="420" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">record</text>
+</svg>

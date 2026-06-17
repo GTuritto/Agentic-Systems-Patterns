@@ -128,6 +128,7 @@ Use this map when you know the design problem but not the chapter name.
         <li><a href="../production-runtime/durable-workflows">Durable Workflows</a></li>
         <li><a href="../production-runtime/observability-and-evals">Observability and Evals</a></li>
         <li><a href="../production-runtime/production-evaluation-feedback-loops">Production Evaluation Feedback Loops</a></li>
+        <li><a href="../production-runtime/cost-controls-runtime-budgets">Cost Controls and Runtime Budgets</a></li>
         <li><a href="../production-runtime/policy-enforcement">Policy Enforcement</a></li>
         <li><a href="../production-runtime/event-triggered-agents">Event-Triggered Agents</a></li>
         <li><a href="../production-runtime/mastra-runtime">Mastra Runtime</a></li>
@@ -221,7 +222,7 @@ An agentic system is usually a composition of several pattern families working t
 | Tools and protocols | What can the agent do? | tool use, MCP, skills, A2A, human approval, secure communication. | Tools become broad, unsafe, untyped, or impossible to audit. |
 | Multi-agent systems | When should work be split? | delegation, supervisor-worker, parallel agents, debate, crews. | Coordination cost grows faster than task quality. |
 | System architecture | How does this become a product? | agentic RAG, coding agents, computer-use agents, domain agents, reference architecture. | The pattern works in isolation but not inside a real application. |
-| Production runtime | How does it run safely over time? | durable workflows, observability, evals, policy, events, runtime orchestration. | Failures cannot be replayed, explained, rolled back, or improved. |
+| Production runtime | How does it run safely over time? | durable workflows, observability, evals, runtime budgets, policy, events, runtime orchestration. | Failures cannot be replayed, explained, budgeted, rolled back, or improved. |
 | Security and governance | What must the model never be allowed to decide alone? | sandboxing, policy gates, scoped tools, audit trails, egress control. | Prompt instructions become the only control plane. |
 | Human collaboration | Where do humans stay in the loop? | approval gates, UX, trust, escalation, handoff protocols. | Users cannot predict, correct, or trust the system. |
 

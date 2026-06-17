@@ -119,5 +119,6 @@ For long-running tasks, optimize for resumability before raw speed.
 - [Routing and Handoffs](./routing-and-handoffs)
 - [Context Engineering](../foundations/context-engineering)
 - [Working Memory](../memory-knowledge/working-memory)
+- [Cost Controls and Runtime Budgets](../production-runtime/cost-controls-runtime-budgets)
 - [Observability and Evals](../production-runtime/observability-and-evals)
 - [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay)

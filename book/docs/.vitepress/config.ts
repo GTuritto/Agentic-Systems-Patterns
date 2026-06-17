@@ -130,6 +130,7 @@ export default defineConfig({
           { text: 'Durable Workflows', link: '/production-runtime/durable-workflows' },
           { text: 'Observability and Evals', link: '/production-runtime/observability-and-evals' },
           { text: 'Production Evaluation Feedback Loops', link: '/production-runtime/production-evaluation-feedback-loops' },
+          { text: 'Cost Controls and Runtime Budgets', link: '/production-runtime/cost-controls-runtime-budgets' },
           { text: 'Policy Enforcement', link: '/production-runtime/policy-enforcement' },
           { text: 'Event-Triggered Agents', link: '/production-runtime/event-triggered-agents' },
           { text: 'Mastra Runtime', link: '/production-runtime/mastra-runtime' }
