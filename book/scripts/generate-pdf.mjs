@@ -66,6 +66,7 @@ const chapters = [
   ['Systems Architecture / Domain Agent Architectures', 'systems-architecture/domain-agent-architectures.md'],
   ['Systems Architecture / Architecture Decision Records', 'systems-architecture/architecture-decision-records.md'],
   ['Systems Architecture / Reference Architecture', 'systems-architecture/reference-architecture.md'],
+  ['Production Runtime / Overview', 'production-runtime/overview.md'],
   ['Production Runtime / Durable Workflows', 'production-runtime/durable-workflows.md'],
   ['Production Runtime / Observability and Evals', 'production-runtime/observability-and-evals.md'],
   ['Production Runtime / Production Evaluation Feedback Loops', 'production-runtime/production-evaluation-feedback-loops.md'],

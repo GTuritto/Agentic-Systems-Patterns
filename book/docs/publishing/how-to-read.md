@@ -29,9 +29,10 @@ Start here if you want the book to read like a book, not a catalog:
 13. [Agents As Services](/systems-architecture/agents-as-services)
 14. [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology)
 15. [Coding Agents](/systems-architecture/coding-agents)
-16. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
-17. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
-18. [Reference Architecture](/systems-architecture/reference-architecture)
+16. [Production Runtime Overview](/production-runtime/overview)
+17. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+18. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
+19. [Reference Architecture](/systems-architecture/reference-architecture)
 
 This path gives you the thesis before the catalog details.
 
@@ -70,9 +71,10 @@ Use this path when you are designing or reviewing a system:
 10. [Agents As Services](/systems-architecture/agents-as-services)
 11. [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology)
 12. [Reference Architecture](/systems-architecture/reference-architecture)
-13. [Observability and Evals](/production-runtime/observability-and-evals)
-14. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
-15. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
+13. [Production Runtime Overview](/production-runtime/overview)
+14. [Observability and Evals](/production-runtime/observability-and-evals)
+15. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+16. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
 
 This path is best for architecture work, design reviews, and production readiness checks.
 

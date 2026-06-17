@@ -50,6 +50,7 @@ Common production systems combine several chapters from this book:
 - **Goals and State** for resumability and auditability.
 - **MCP-first Tool Use** for discoverable tools.
 - **Agentic RAG Systems** for evidence-grounded answers.
+- **Production Runtime Overview** for the control plane around state, policy, budgets, traces, evals, and stop decisions.
 - **Durable Workflows** for long-running state, retries, and approvals.
 - **Observability and Evals** for quality gates and regression control.
 - **Policy Enforcement** for permission and compliance checks.
@@ -70,5 +71,6 @@ Architecture should make failure visible. If a run fails, an operator should be 
 - [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use)
 - [Agents As Services](./agents-as-services)
 - [Agentic RAG Systems](./agentic-rag-systems)
+- [Production Runtime Overview](../production-runtime/overview)
 - [Durable Workflows](../production-runtime/durable-workflows)
 - [Observability and Evals](../production-runtime/observability-and-evals)
