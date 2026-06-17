@@ -18,6 +18,23 @@ In production there is a fifth concern: how the request crosses trust boundaries
 
 The model can propose work. It should not mint credentials, choose its own scopes, decide that TLS is optional, approve its own network egress, or hide security events from traces.
 
+## Threats To Design For
+
+Agent security is easier to reason about when the threat is concrete. Start with these cases before adding more exotic ones.
+
+| Threat | How it shows up | Control that should catch it |
+| --- | --- | --- |
+| Prompt injection | A document, email, page, or tool result tells the agent to ignore policy or leak data. | Source isolation, instruction hierarchy, retrieval guardrails, output checks. |
+| Tool abuse | The model selects a legitimate tool for an unsafe purpose. | Tool policy, scopes, approvals, side-effect classification. |
+| Secret leakage | A token, key, customer record, or internal note enters the prompt, memory, logs, or final answer. | Secret handles, redaction, data minimization, trace classification. |
+| Data exfiltration | Private data leaves through browser, API, email, file write, or cross-agent message. | Egress policy, destination classification, approval gates, audit records. |
+| Confused deputy | The agent uses a user's authority or a service token in a context where it should not. | Delegated scopes, audience checks, tenant checks, route-level permissions. |
+| Unsafe delegation | One agent hands work to another agent with broader tools, unclear ownership, or weak identity. | A2A authorization, scoped task envelopes, trace-linked handoffs. |
+| Replay or duplicate action | A message, tool call, or workflow step runs twice. | Idempotency keys, nonces, expiry, durable side-effect records. |
+| Sandbox escape | Code, browser automation, or file handling reaches outside the intended workspace. | Filesystem isolation, network blocks, process limits, no ambient credentials. |
+
+Do not treat these as abstract risks. Turn them into tests, traces, and operational runbooks.
+
 ## The High-Risk Combination
 
 The most dangerous agent shape combines access to private or trusted data, exposure to untrusted content, and the ability to perform external actions. When those three meet, a malicious document, web page, email, or tool result can try to steer the agent into leaking data or taking an unsafe action.
@@ -60,6 +77,20 @@ Sandbox controls:
 
 Coding and computer-use agents need stronger sandboxes than read-only research agents.
 
+### Sandbox Tiers
+
+Not every agent needs the same sandbox. Match containment to the work.
+
+| Tier | Use for | Minimum controls |
+| --- | --- | --- |
+| Read-only | Search, summarization, classification, retrieval over approved data. | No write tools, no secrets in context, traceable retrieval, output redaction. |
+| Tool-limited | Business workflows with typed tools and bounded side effects. | Per-tool scopes, policy checks, idempotency keys, approvals for writes. |
+| Workspace | Coding, document generation, data transformation, local file edits. | Scoped workspace, read-only source mounts where possible, diff review, cleanup. |
+| Browser | Web navigation, form filling, UI automation. | Separate browser profile, blocked private networks, download controls, credential isolation. |
+| Code execution | Shell, notebooks, package install, generated code, tests. | Container or VM boundary, CPU and time limits, network policy, no ambient secrets. |
+
+The tier is a product decision. A support draft agent should not silently become a browser automation agent because a tool was convenient.
+
 ## Identity And Credentials
 
 Agents should not run with ambient platform credentials. Every credential should be attached to a route, task, tool, user, tenant, and policy decision.
@@ -99,6 +130,82 @@ Egress is where data leaks become real. Treat it as part of the policy boundary.
 Grant access by role, task, and route. A support-answer agent can read public docs but cannot issue refunds. A billing workflow can read invoice state but needs approval to apply credit. A coding agent can edit files in a branch but cannot deploy to production. A research agent can browse the web but cannot touch customer data. Avoid global tool lists. Each route or agent should receive only the tools needed for the task.
 
 Access control should check both the user and the agent route. A user may have permission to do something manually, but that does not mean every agent acting for that user should inherit the full permission set. Delegation should be narrower than the user's authority.
+
+### Authorization Code Example
+
+Keep authorization outside the prompt. The model can request a tool call, but the runtime decides whether that call can execute.
+
+```ts
+type ToolRequest = {
+  actorId: string;
+  tenantId: string;
+  route: string;
+  tool: string;
+  sideEffect: "read" | "draft" | "write" | "external_send";
+  destination?: string;
+  idempotencyKey?: string;
+};
+
+type RuntimeClaims = {
+  subject: string;
+  tenantId: string;
+  audience: string;
+  scopes: string[];
+  expiresAt: number;
+};
+
+type ToolPolicy = {
+  requiredAudience: string;
+  allowedTenants: string[];
+  toolScopes: Record<string, string>;
+  approvalRequiredFor: string[];
+  allowedDestinations: string[];
+};
+
+type AuthorizationDecision =
+  | { allowed: true; reason: "allowed" }
+  | { allowed: false; reason: string };
+
+function authorizeToolRequest(
+  request: ToolRequest,
+  claims: RuntimeClaims,
+  policy: ToolPolicy,
+  now = Date.now()
+): AuthorizationDecision {
+  if (claims.expiresAt <= now) {
+    return { allowed: false, reason: "expired_token" };
+  }
+
+  if (claims.audience !== policy.requiredAudience) {
+    return { allowed: false, reason: "wrong_audience" };
+  }
+
+  if (claims.tenantId !== request.tenantId || !policy.allowedTenants.includes(request.tenantId)) {
+    return { allowed: false, reason: "tenant_boundary" };
+  }
+
+  const requiredScope = policy.toolScopes[request.tool];
+  if (!requiredScope || !claims.scopes.includes(requiredScope)) {
+    return { allowed: false, reason: "missing_scope" };
+  }
+
+  if (request.sideEffect !== "read" && !request.idempotencyKey) {
+    return { allowed: false, reason: "missing_idempotency_key" };
+  }
+
+  if (request.destination && !policy.allowedDestinations.includes(request.destination)) {
+    return { allowed: false, reason: "egress_denied" };
+  }
+
+  if (policy.approvalRequiredFor.includes(request.tool)) {
+    return { allowed: false, reason: "approval_required" };
+  }
+
+  return { allowed: true, reason: "allowed" };
+}
+```
+
+The real implementation should validate signed tokens and certificates with platform libraries. The architectural point is simpler: authorization happens before execution, from trusted runtime claims, not from model text.
 
 ## Guardrails
 
@@ -205,6 +312,10 @@ Test security controls before launch and after meaningful changes.
 | Tool requests broad credential | Runtime injects only scoped credential or denies the call. |
 | Approval-required side effect | Workflow pauses before execution and records approval context. |
 | Replay of old message | Idempotency or nonce check blocks duplicate action. |
+| Browser tries private network | Request is denied before navigation or upload. |
+| Code tries to read outside workspace | Filesystem access is denied and traced. |
+| Subagent asks for broader tools | Delegation is refused or routed for approval. |
+| Trace contains raw token | Redaction test fails and blocks release. |
 
 Measure false allows, blocked unsafe tool calls, redaction failures, missing trace fields, unauthorized egress attempts, approval-routing accuracy, sandbox escape attempts, and time to investigate a security incident.
 
