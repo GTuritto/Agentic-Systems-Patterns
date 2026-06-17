@@ -210,9 +210,17 @@ const architectureDiagrams = {
     alt: 'Human approval gate',
     file: 'human-approval-gate.svg'
   },
+  'knowledge-bound-agents': {
+    alt: 'Policy enforcement boundary',
+    file: 'policy-enforcement-boundary.svg'
+  },
   'mcp-first-tool-use': {
     alt: 'MCP-first tool use architecture',
     file: 'mcp-first-tool-use.svg'
+  },
+  'policy-enforcement': {
+    alt: 'Policy enforcement boundary',
+    file: 'policy-enforcement-boundary.svg'
   },
   skills: {
     alt: 'Skills packaging architecture',

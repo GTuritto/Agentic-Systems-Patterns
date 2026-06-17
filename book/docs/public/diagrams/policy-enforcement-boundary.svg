@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="300" viewBox="0 0 940 300" role="img" aria-labelledby="title desc">
+  <title id="title">Policy enforcement boundary</title>
+  <desc id="desc">A model proposed action flows through policy context and decision before allow, deny, approval, escalation, and audit.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="940" height="300" fill="#f8fafc"/>
+  <text x="40" y="42" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">The model proposes. Policy decides before execution.</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="40" y="94" width="130" height="72" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="105" y="123" font-size="14" font-weight="700" text-anchor="middle" fill="#075985">Proposal</text>
+    <text x="105" y="145" font-size="12" text-anchor="middle" fill="#0f172a">action or answer</text>
+
+    <line x1="178" y1="130" x2="218" y2="130" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="230" y="94" width="150" height="72" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+    <text x="305" y="123" font-size="14" font-weight="700" text-anchor="middle" fill="#92400e">Context</text>
+    <text x="305" y="145" font-size="12" text-anchor="middle" fill="#0f172a">actor, resource, risk</text>
+
+    <line x1="388" y1="130" x2="428" y2="130" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="440" y="82" width="150" height="96" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="515" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#5b21b6">Policy Decision</text>
+    <text x="515" y="139" font-size="12" text-anchor="middle" fill="#0f172a">allow, deny,</text>
+    <text x="515" y="156" font-size="12" text-anchor="middle" fill="#0f172a">approval, escalate</text>
+
+    <line x1="598" y1="130" x2="638" y2="130" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="650" y="94" width="120" height="72" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="710" y="123" font-size="14" font-weight="700" text-anchor="middle" fill="#166534">Execute</text>
+    <text x="710" y="145" font-size="12" text-anchor="middle" fill="#0f172a">only if allowed</text>
+
+    <line x1="778" y1="130" x2="818" y2="130" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="830" y="94" width="70" height="72" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="865" y="123" font-size="14" font-weight="700" text-anchor="middle" fill="#991b1b">Audit</text>
+    <text x="865" y="145" font-size="12" text-anchor="middle" fill="#0f172a">trace</text>
+
+    <path d="M515 186 L515 224" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="420" y="232" width="190" height="42" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="515" y="258" font-size="12" font-weight="700" text-anchor="middle" fill="#991b1b">Deny, require approval, or escalate</text>
+  </g>
+</svg>
