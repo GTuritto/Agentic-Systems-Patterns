@@ -12,6 +12,8 @@ Multi-agent design is not about making the system look more intelligent. It is a
 
 ![Multi-agent topology selection](../public/diagrams/multi-agent-topology-selection.svg)
 
+The default should still be conservative. Multi-agent design is a coordination tradeoff, not an intelligence upgrade. Every extra agent adds protocol surface, context selection, tool permissions, traces, latency, cost, failure modes, and ownership questions. Add an agent only when the boundary it creates is worth that cost.
+
 ## First Rule
 
 Use the smallest topology that gives you the boundary you need.
@@ -28,6 +30,31 @@ Many systems do not need multiple agents. They need:
 
 Multiple agents are justified when one agent would have to carry too much context, too much authority, too many tools, or too many conflicting responsibilities.
 
+## When To Split Agents
+
+Split agents for engineering reasons, not because the problem sounds complex.
+
+Good reasons to split:
+
+- **Ownership:** different teams own different capabilities, policies, releases, or incidents.
+- **Context:** each part needs a different working set and should not see everything.
+- **Authority:** one part can read data, another can draft actions, and another can approve side effects.
+- **Tools:** tool sets are different enough that sharing them would increase risk.
+- **Timing:** some work is interactive, some is asynchronous, and some waits for approval.
+- **Scaling:** one capability needs different deployment, latency, cost, or model routing.
+- **Evaluation:** each capability can be tested with its own fixtures and acceptance criteria.
+
+Bad reasons to split:
+
+- the single-agent prompt is messy;
+- the team hopes more agents will compensate for unclear goals;
+- every agent will receive the same context and tools;
+- no one can define the handoff contract;
+- the merge policy is "the model will figure it out";
+- there is no trace across handoffs.
+
+If the split does not create a clearer boundary, it is probably hiding weak architecture.
+
 ## Topology Decision Matrix
 
 | Situation | Prefer | Avoid |
@@ -42,6 +69,16 @@ Multiple agents are justified when one agent would have to carry too much contex
 | Agents need asynchronous coordination over time | Board, queue, durable workflow, or task ledger | Shared context windows and manual copy-paste. |
 
 The right topology is usually boring. That is a feature.
+
+| Topology | Best For | Main Cost | Required Control |
+| --- | --- | --- | --- |
+| Single agent | One bounded task with one tool/policy surface. | Limited specialization. | Strong loop state, budget, and tool policy. |
+| Workflow with agent steps | Known process with uncertain substeps. | Workflow design effort. | Durable state and explicit transitions. |
+| Supervisor-worker | Specialist work with one final owner. | Coordination and merge complexity. | Typed assignments and merge gate. |
+| Parallel agents | Independent work that benefits from concurrency. | Higher spend and trace volume. | Fan-in reducer and per-worker evidence. |
+| Debate or consensus | Ambiguous judgment that benefits from critique. | Latency and false confidence. | Evidence-backed judge and accountable owner. |
+| Agents as services | Team, runtime, security, or deployment boundaries. | Service contracts and versioning. | API/A2A/MCP contract, auth, ownership, evals. |
+| A2A interoperability | Remote agent collaboration across boundaries. | Protocol and lifecycle complexity. | Message envelope, scopes, idempotency, traces. |
 
 A topology selector should encode the same bias:
 
@@ -81,6 +118,48 @@ function chooseTopology(workload: WorkloadShape) {
 ```
 
 The point is not to automate architecture. The point is to make the selection criteria visible enough to argue with.
+
+## Topology Contract
+
+Before implementation, write down the topology contract. It can be lightweight, but it should be explicit:
+
+```ts
+type TopologyContract = {
+  topology:
+    | 'single_agent'
+    | 'workflow_with_agent_steps'
+    | 'supervisor_worker'
+    | 'parallel_agents'
+    | 'debate_consensus'
+    | 'agents_as_services'
+    | 'a2a_interoperability';
+  owner: string;
+  reasonForSplit: string;
+  agents: Array<{
+    name: string;
+    capability: string;
+    ownsState: string[];
+    allowedTools: string[];
+    forbiddenTools: string[];
+    contextRefs: string[];
+    requiredScopes: string[];
+  }>;
+  handoffContract: {
+    protocol: 'internal_call' | 'REST' | 'gRPC' | 'MCP' | 'A2A' | 'queue' | 'workflow';
+    inputSchema: string;
+    outputSchema: string;
+    timeoutMs: number;
+    idempotencyRequired: boolean;
+  };
+  evaluation: {
+    baseline: 'single_agent' | 'deterministic_workflow';
+    successMetrics: string[];
+    coordinationMetrics: string[];
+  };
+};
+```
+
+The contract forces the key question: what does the topology buy that a simpler design does not?
 
 ## Deterministic Workflow First
 
@@ -202,6 +281,10 @@ That means:
 
 The protocol may be A2A, MCP, REST, gRPC, event streams, or a durable workflow engine. The important thing is not the protocol brand. The important thing is that the boundary is explicit and testable.
 
+This is where the microservices analogy is useful. Splitting agents is reasonable when it creates clearer ownership, contracts, deployment, security, scaling, and observability. It is not reasonable when it only turns one vague agent into several vague agents.
+
+Use A2A or service-style communication when the remote agent has its own lifecycle: capability discovery, authorization, progress, refusal, cancellation, versioning, and trace ownership. Use MCP when the boundary is primarily a tool or capability. Use workflows when state and approvals matter more than direct agent-to-agent messaging.
+
 ## Board, Queue, Or Ledger Coordination
 
 Some multi-agent work should not be coordinated through direct chat.
@@ -241,6 +324,16 @@ Prefer:
 
 If shared state is unclear, the topology is not ready.
 
+## Handoffs And Ownership
+
+Every handoff should answer three questions:
+
+1. Who owns the task now?
+2. What exactly was handed off?
+3. What condition returns ownership, escalates, or stops the run?
+
+Without ownership, multi-agent systems become distributed ambiguity. A worker can be useful only if the caller knows what the worker accepted, refused, completed, or could not decide. That means handoffs need schemas, status values, stop reasons, and traces.
+
 ## Evaluation Guidance
 
 A multi-agent system should beat a simpler baseline.
@@ -259,7 +352,33 @@ Evaluate:
 - context isolation;
 - final accountability.
 
+Measure coordination as a first-class cost:
+
+| Metric | Why It Matters |
+| --- | --- |
+| Handoff correctness | Proves work is routed to the right agent with the right contract. |
+| Coordination overhead | Shows whether extra agents spend more effort than they save. |
+| Merge quality | Proves the final answer preserves evidence and disagreement. |
+| Ownership clarity | Shows whether failures have an accountable component. |
+| Trace completeness | Makes distributed failures debuggable. |
+| Tool isolation | Proves agents cannot use tools outside their role. |
+| Context isolation | Proves agents do not receive irrelevant or unsafe context. |
+| Cost and latency by topology | Shows whether the topology is operationally worth it. |
+
 Include negative evals where the system should choose a simpler topology. A good topology selector should know when not to use multiple agents.
+
+## Failure Modes
+
+- Multi-agent design is used to hide unclear goals or weak state.
+- Every agent gets the same context, tools, memory, and permissions.
+- Workers can create side effects without supervisor, policy, or approval checks.
+- Handoffs are natural-language blobs with no schema or owner.
+- Agents delegate tasks back and forth with no delegation budget.
+- Debate produces agreement but no evidence.
+- Parallel agents duplicate work because boundaries are unclear.
+- Agents as services have no versioned contract, auth, or idempotency rule.
+- The final answer hides worker failure, disagreement, or missing evidence.
+- There is no trace that connects assignments, handoffs, worker outputs, merge decisions, and stop reason.
 
 ## Design Checklist
 
@@ -275,6 +394,9 @@ Before adding another agent, answer:
 - What happens if this agent fails, refuses, or times out?
 - What state does it own?
 - What context must it never see?
+- What protocol or contract governs the handoff?
+- What prevents delegation loops?
+- What is the simpler baseline?
 - How do traces connect across agents?
 - What eval proves this topology is better than the simpler baseline?
 
@@ -292,3 +414,5 @@ If the only reason for another agent is "it feels more agentic," do not add it.
 - [A2A Agent Interoperability](../tools-skills-protocols/a2a-agent-interoperability)
 - [Context Budgets and Working Sets](../foundations/context-budgets-and-working-sets)
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
+- [Production Runtime Overview](../production-runtime/overview)
+- [Observability and Evals](../production-runtime/observability-and-evals)
