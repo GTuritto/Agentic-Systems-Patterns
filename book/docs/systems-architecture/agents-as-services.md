@@ -77,6 +77,138 @@ Some agent calls are request-response; others are jobs. Use a synchronous call w
 
 Microservices fail when state ownership is unclear, and agents fail the same way. For each agent, define what state it owns, what it can read, what it can write, what belongs to the caller, what belongs to a workflow engine, what is only temporary context, and what is durable memory. Do not let every agent write to shared memory by default. That is the agent version of a shared database with no ownership model, and it rots just as fast.
 
+## Vertical Slice: Refund Investigation Agent
+
+A useful agent service example is not a chatbot. It is a bounded capability with a contract, a loop, tool limits, evals, and telemetry.
+
+Imagine a `refund_investigation` agent used by a support platform. Its job is to gather evidence and recommend a decision. It cannot issue money, change an order, or email the customer. Those are separate services with stronger authorization and approval rules.
+
+The service boundary could look like this:
+
+```ts
+type RefundInvestigationRequest = {
+  taskId: string;
+  caller: 'support_case_service';
+  customerId: string;
+  orderId: string;
+  caseId: string;
+  reason: 'missing_item' | 'damaged_item' | 'late_delivery' | 'duplicate_charge';
+  requestedAmountCents: number;
+  contextRefs: string[];
+  budget: {
+    maxSteps: number;
+    maxToolCalls: number;
+    timeoutMs: number;
+  };
+};
+
+type RefundInvestigationResult = {
+  taskId: string;
+  status: 'succeeded' | 'needs_human' | 'refused' | 'failed';
+  recommendation?: 'approve' | 'deny' | 'partial_refund' | 'needs_human';
+  recommendedAmountCents?: number;
+  rationale: string;
+  evidenceRefs: string[];
+  policyRefs: string[];
+  traceId: string;
+  stopReason: 'completed' | 'budget_exhausted' | 'missing_evidence' | 'policy_boundary';
+};
+```
+
+The tool boundary is deliberately narrower than the business process:
+
+```ts
+const refundInvestigationTools = {
+  allowed: [
+    'orders.read_order',
+    'payments.read_charge',
+    'shipping.read_delivery_status',
+    'support.read_case_notes',
+    'policy.search_refund_policy',
+    'refunds.draft_refund_request'
+  ],
+  forbidden: [
+    'refunds.issue_refund',
+    'support.send_customer_email',
+    'orders.cancel_order',
+    'payments.modify_charge'
+  ]
+};
+```
+
+That tool list is the architecture. It says what the agent is allowed to know and what it is allowed to cause. The agent may draft a refund request, but a human or policy-backed workflow must approve the actual side effect.
+
+A minimal loop can stay simple:
+
+```ts
+async function runRefundInvestigation(req: RefundInvestigationRequest) {
+  const run = startTrace(req.taskId, 'refund_investigation');
+  const state = {
+    evidence: [],
+    policyRefs: [],
+    stepsRemaining: req.budget.maxSteps,
+    toolCallsRemaining: req.budget.maxToolCalls
+  };
+
+  while (state.stepsRemaining > 0 && state.toolCallsRemaining > 0) {
+    const next = await decideNextStep(req, state);
+
+    if (next.type === 'final') {
+      return validateResult(next.result);
+    }
+
+    if (!isAllowedTool(next.toolName, refundInvestigationTools.allowed)) {
+      recordPolicyDenial(run.traceId, next.toolName);
+      return needsHuman(req.taskId, run.traceId, 'policy_boundary');
+    }
+
+    const observation = await callTool(next.toolName, next.args, {
+      traceId: run.traceId,
+      idempotencyKey: `${req.taskId}:${next.toolName}:${state.stepsRemaining}`
+    });
+
+    state.evidence.push(observation);
+    state.stepsRemaining -= 1;
+    state.toolCallsRemaining -= 1;
+  }
+
+  return needsHuman(req.taskId, run.traceId, 'budget_exhausted');
+}
+```
+
+The point is not this exact implementation. The point is the shape: bounded loop, typed inputs, typed outputs, explicit tool policy, idempotency, trace correlation, and a safe stop when the agent cannot finish.
+
+The evals should prove the service boundary, not only the final wording:
+
+| Eval Case | What It Tests |
+| --- | --- |
+| Damaged item with matching policy and delivery evidence. | The agent recommends a valid refund amount with cited evidence. |
+| Duplicate charge where payment data is missing. | The agent returns `needs_human` instead of guessing. |
+| Customer asks the agent to issue the refund directly. | The agent does not call `refunds.issue_refund`. |
+| Policy search returns irrelevant policy text. | The agent refuses or asks for human review instead of citing weak evidence. |
+| Tool timeout during shipping lookup. | The agent stops within budget and reports the missing evidence. |
+
+Telemetry should make each run debuggable:
+
+```json
+{
+  "trace_id": "tr_7429",
+  "task_id": "refund_case_1882",
+  "agent": "refund_investigation",
+  "contract_version": "refund-investigation.v1",
+  "model": "review-route-a",
+  "status": "needs_human",
+  "stop_reason": "missing_evidence",
+  "tool_calls": 4,
+  "policy_denials": 0,
+  "latency_ms": 12840,
+  "cost_cents": 6,
+  "eval_tags": ["refunds", "missing_evidence", "tool_using_agent"]
+}
+```
+
+This is the practical value of treating agents as services. The agent is not just "an LLM with tools." It is a service with a constrained authority surface, an observable runtime, and tests that protect the boundary.
+
 ## Contracts And Evals
 
 Agent contracts need tests, at several levels: schema validation for inputs and outputs, mocked-tool tests for safe trajectory behavior, refusal tests for unsupported tasks, authorization tests for forbidden calls, regression evals for known failure modes, replay tests from production traces, and contract tests between the caller and a remote agent. For an agent service, evals play the role that contract tests plus behavioral tests play for a microservice. They prove not only that the endpoint responds, but that the agent stays inside its boundary.
