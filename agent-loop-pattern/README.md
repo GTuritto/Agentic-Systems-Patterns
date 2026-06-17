@@ -6,6 +6,8 @@ The agent loop is the smallest runtime structure that makes a model act like an 
 
 The loop is powerful because the next step can depend on what just happened. It is dangerous for the same reason. Without explicit state, budgets, validation, and stop reasons, the loop becomes a place where cost, latency, unsafe tool use, and hidden failures accumulate.
 
+This pattern owns iteration: proposal, validation, action, observation, budget, and stop reason. It does not own the business goal, tool implementation, durable workflow, or production control plane. Those responsibilities belong to the caller, tool layer, workflow engine, and runtime.
+
 ## Use When
 
 - The task cannot be solved by a fixed sequence known ahead of time.
@@ -194,6 +196,8 @@ Measure completion rate, correct stop reason, invalid-action rate, repeated-acti
 - Add circuit breakers for repeated failures or unsafe action proposals.
 - Keep loop prompts, tool manifests, policies, and model routes versioned.
 - Replay production failures into regression evals.
+
+The architectural rule is simple: the model may choose the next proposal, but software owns whether the loop continues. Continue with [Goals and State](/foundations/goals-and-state) to define what the loop carries, then [Tool Use](/foundations/tool-use) to define how it acts.
 
 ## Related Patterns
 

@@ -10,6 +10,8 @@ The core rule is the same throughout this book: the model proposes, the runtime 
 
 This is where many agent projects fail. They treat the model call as the system, then add logging, retries, approvals, evals, and rollback after the first incident. A production runtime inverts that order. It gives the agent a controlled place to operate.
 
+This chapter owns execution control across runs: admission, state, policy, budgets, tool execution, recovery, rollout, and operator visibility. It does not own product UX, domain policy content, model training, or the internal implementation of tools and services.
+
 Read this after [Agent Harnesses](../agent-engineering-practice/agent-harnesses). The harness explains the working environment around one agent; this chapter explains what has to be true when that work runs as a production system with queues, budgets, retries, state, rollout, rollback, and operators.
 
 ![Production runtime control plane](../public/diagrams/production-runtime-overview.svg)
@@ -209,6 +211,8 @@ If those answers are vague, the system is still a prototype, even if it is alrea
 ## Design Rule
 
 Production runtime is where agentic architecture becomes honest. If the runtime cannot explain, bound, replay, and stop the agent, the model is not the only risk. The architecture is.
+
+Continue with [Durable Workflows](./durable-workflows) for resumable execution, [Observability and Evals](./observability-and-evals) for operational evidence, and [Policy Enforcement](./policy-enforcement) for authority decisions.
 
 ## Related Chapters
 

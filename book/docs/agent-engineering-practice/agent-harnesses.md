@@ -10,6 +10,8 @@ This is the part many people mistake for the agent itself. It is not the agent. 
 
 The framework may provide a harness. The runtime may host a harness. But the responsibility does not disappear: something has to decide what the agent can see, what it can do, what state survives, what needs approval, what is traced, and how the run recovers.
 
+This chapter owns the agent's working environment. It does not own the model provider, business workflow, tool implementation, or fleet-wide production operations. The framework, application services, and production runtime own those concerns.
+
 This chapter comes after the loop because the loop alone is too small for real work. Use it as the bridge from "what is the agent doing?" to "what environment keeps that work bounded?" The next production chapters take the same control ideas into runtime, observability, and security.
 
 ## Why Harnesses Exist
@@ -285,6 +287,8 @@ If the harness cannot answer these, it is not ready to hold a serious agent.
 ## Design Rule
 
 The model supplies judgment. The harness supplies control.
+
+Once the harness contract is explicit, continue with [Production Runtime Overview](../production-runtime/overview). That chapter moves from one agent's working environment to queues, rollouts, budgets, recovery, and operators.
 
 ## Related Chapters
 

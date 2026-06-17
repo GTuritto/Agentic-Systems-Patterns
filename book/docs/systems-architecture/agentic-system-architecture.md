@@ -8,6 +8,8 @@ An agentic system is more than a model call wrapped in a loop. It is a set of co
 
 Use this chapter when a single pattern is not enough and you need to combine agents, tools, memory, policies, workflows, evals, and observability into one coherent system.
 
+This chapter owns composition and responsibility boundaries. It does not prescribe one framework or reimplement every plane. The specialized chapters own loop control, tools, memory, workflows, security, evaluation, and runtime operation.
+
 When agents cross process, team, runtime, or ownership boundaries, treat them like services with explicit contracts. See [Agents As Services](./agents-as-services) for that architecture.
 
 ## Core Idea
@@ -64,6 +66,8 @@ The recurring failures are easy to name. The model becomes the control plane, an
 
 Architecture should make failure visible. If a run fails, an operator should be able to answer: what goal was active, what evidence was used, what tool calls ran, what policy checks passed, what changed, and why the system stopped.
 
+Use [Reference Architecture](./reference-architecture) to turn these planes into a concrete deployment shape. Then use [Production Runtime Overview](../production-runtime/overview) to define the controls that execute and operate each run.
+
 ## Related Chapters
 
 - [Agent Loop](../foundations/agent-loop)
@@ -71,6 +75,7 @@ Architecture should make failure visible. If a run fails, an operator should be 
 - [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use)
 - [Agents As Services](./agents-as-services)
 - [Agentic RAG Systems](./agentic-rag-systems)
+- [Reference Architecture](./reference-architecture)
 - [Production Runtime Overview](../production-runtime/overview)
 - [Durable Workflows](../production-runtime/durable-workflows)
 - [Observability and Evals](../production-runtime/observability-and-evals)

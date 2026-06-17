@@ -280,6 +280,8 @@ Measure retrieval recall, retrieval precision, source freshness, packet complete
 - Version chunking, embedding model, retrieval filters, rerankers, prompts, and citation rules.
 - Add regression evals for context poisoning, stale context, omitted policy, and token pressure.
 
+The architectural rule is simple: every item in context needs a reason, a source, a trust level, and a budget. Continue with [Context Budgets and Working Sets](/foundations/context-budgets-and-working-sets) for packet limits and [Agentic RAG Systems](/systems-architecture/agentic-rag-systems) for system-level composition.
+
 ## Code Walkthrough
 
 Read the excerpt as the smallest executable expression of the pattern. The surrounding chapter explains the design constraints; the code shows where those constraints become concrete interfaces, state, validation, or control flow.

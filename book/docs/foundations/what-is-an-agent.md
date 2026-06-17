@@ -8,7 +8,9 @@ An agent is not magic. It is a loop with access to a model, some state, a few de
 
 A framework may call it a graph, a crew, a swarm, a harness, an assistant, or a runtime. Strip away the names and you usually find the same shape underneath: observe, decide, act, observe again, and eventually stop.
 
-This chapter is the foundation for the rest of the book. Read it before the pattern catalog if you want the plain mechanical model first: an agent is a controlled loop, not a personality, a chat window, or a product category. After this, [Architecture Before Autonomy](../pattern-selection/architecture-before-autonomy) explains when that loop is worth using.
+This chapter owns the mechanical definition of an agent. It does not define a framework, product interface, memory system, or production runtime. Those layers surround the loop, but they do not replace it.
+
+Read this before the pattern catalog if you want the plain model first: an agent is a controlled loop, not a personality, a chat window, or a product category. After this, [Architecture Before Autonomy](../pattern-selection/architecture-before-autonomy) explains when that loop is worth using.
 
 ![Agent loop architecture](../public/diagrams/agent-loop.svg)
 
@@ -134,6 +136,8 @@ But the framework does not change the question you have to answer: what does the
 A good agent is not the one with the most autonomy. It is the one whose autonomy is useful and bounded. In practice that means clear goals, narrow tools, explicit state, typed outputs, visible decisions, bounded loops, evals that actually catch regressions, safe failure modes, and human escalation for the risky cases. Bad agents hide all of this inside a prompt and hope the model behaves.
 
 The design rule follows from everything above: if you cannot draw the loop, the tools, the state, and the stop condition, you do not understand the agent yet, and you are not ready to give it autonomy.
+
+The next question is not how to add more autonomy. It is whether the task needs a loop at all. Continue with [Architecture Before Autonomy](../pattern-selection/architecture-before-autonomy), then return to [Agent Loop](./agent-loop) when runtime decisions are justified.
 
 ## Related Chapters
 

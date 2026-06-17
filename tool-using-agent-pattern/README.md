@@ -6,6 +6,8 @@ Tool use lets an agent cross the boundary between language and action. The model
 
 The important idea is simple: the model does not "use the tool" directly. The model proposes a tool call. The runtime validates the call, checks policy, executes the tool, records the result, and decides whether the observation can influence the next step.
 
+This pattern owns the proposal-to-execution boundary. It does not own business authorization, human approval policy, durable orchestration, or the internal implementation of each capability. Keep those responsibilities in policy, approval, workflow, and service layers.
+
 ## Use When
 
 - The task needs facts, computation, retrieval, or system access outside the model context.
@@ -152,6 +154,8 @@ The eval is not only checking the final answer. It is checking the path.
 - Log proposed tool call, policy decision, execution result, latency, cost, and stop reason.
 - Mock tools in evals before connecting to production systems.
 - Keep a circuit breaker for risky tools, model routes, or agent capabilities.
+
+The architectural rule is simple: expose the smallest capability that completes the task, then validate every proposed use before execution. Continue with [Tool Capability Design](/tools-skills-protocols/tool-capability-design) for interface design and [Human Approval Gates](/tools-skills-protocols/human-approval-gates) for high-risk actions.
 
 ## Related Patterns
 
