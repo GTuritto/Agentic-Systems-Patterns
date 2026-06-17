@@ -33,6 +33,7 @@ flowchart LR
 - Validate every model response before use, even when the provider offers structured output support.
 - Prefer enums for routing decisions and discriminated unions for multi-action outputs.
 - Log validation failures and repair attempts as first-class evaluation data.
+- Keep the validated output close to the next runtime action. A valid object should still pass policy, approval, and state checks before it triggers side effects.
 
 ## Failure Modes
 

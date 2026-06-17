@@ -59,31 +59,53 @@ interface ContextItem {
   id: string;
   kind: 'state' | 'evidence' | 'tool_result' | 'memory' | 'instruction';
   trust: 'system' | 'internal' | 'user' | 'untrusted';
+  sourceId?: string;
+  relevance: number;
+  freshness: 'current' | 'stale' | 'unknown';
   tokens: number;
   text: string;
 }
 
-function buildWorkingSet(items: ContextItem[], maxTokens: number): ContextItem[] {
+type ContextSelection = {
+  included: ContextItem[];
+  omitted: { id: string; reason: string }[];
+};
+
+function buildWorkingSet(items: ContextItem[], maxTokens: number): ContextSelection {
   const required = items.filter(item => item.kind === 'state' || item.kind === 'instruction');
   const optional = items
     .filter(item => item.kind !== 'state' && item.kind !== 'instruction')
     .filter(item => item.trust !== 'untrusted' || item.kind === 'evidence')
-    .sort((a, b) => scoreContext(b) - scoreContext(a));
+    .filter(item => item.freshness !== 'stale')
+    .sort((a, b) => b.relevance - a.relevance);
 
   const selected: ContextItem[] = [];
+  const omitted: ContextSelection['omitted'] = [];
   let used = 0;
 
   for (const item of [...required, ...optional]) {
-    if (used + item.tokens > maxTokens) continue;
+    if (used + item.tokens > maxTokens) {
+      omitted.push({ id: item.id, reason: 'token_budget' });
+      continue;
+    }
+
     selected.push(item);
     used += item.tokens;
   }
 
-  return selected;
+  for (const item of items) {
+    if (selected.includes(item) || omitted.some(omittedItem => omittedItem.id === item.id)) continue;
+    if (item.freshness === 'stale') omitted.push({ id: item.id, reason: 'stale' });
+    else if (item.trust === 'untrusted' && item.kind !== 'evidence') {
+      omitted.push({ id: item.id, reason: 'untrusted_non_evidence' });
+    }
+  }
+
+  return { included: selected, omitted };
 }
 ```
 
-The point is not this exact scoring function. The point is that context selection becomes inspectable behavior, not hidden prompt assembly.
+The point is not this exact scoring function. The point is that context selection becomes inspectable behavior, not hidden prompt assembly. The omitted list matters as much as the included list, because it tells operators whether the model missed evidence, excluded stale memory, or ran out of budget.
 
 ## Sources Of Context
 

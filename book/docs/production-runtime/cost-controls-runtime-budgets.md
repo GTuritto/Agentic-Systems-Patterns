@@ -96,6 +96,15 @@ type RuntimeUsage = {
   retries: number;
   startedAtMs: number;
 };
+
+type PlannedActionCost = {
+  estimatedCostCents: number;
+  modelCalls: number;
+  toolCalls: number;
+  writeToolCalls: number;
+  retrievalQueries: number;
+  delegations: number;
+};
 ```
 
 The budget object should be versioned. A production incident caused by a budget change should be replayable against the old and new budget policy.
@@ -108,29 +117,39 @@ Check budgets before every expensive or risky action, not after the run is alrea
 function checkBudget(
   budget: RuntimeBudget,
   usage: RuntimeUsage,
+  next: PlannedActionCost,
   nowMs: number
 ): { decision: BudgetDecision; reason: string } {
   if (nowMs - usage.startedAtMs >= budget.maxWallClockMs) {
     return { decision: 'stop', reason: 'wall_clock_budget_exhausted' };
   }
 
-  if (usage.costCents >= budget.maxCostCents) {
+  const projectedCost = usage.costCents + next.estimatedCostCents;
+  if (projectedCost > budget.maxCostCents) {
     return { decision: 'stop', reason: 'cost_budget_exhausted' };
   }
 
-  if (usage.costCents >= budget.approvalRequiredAboveCents) {
+  if (projectedCost > budget.approvalRequiredAboveCents) {
     return { decision: 'approval_required', reason: 'cost_approval_required' };
   }
 
-  if (usage.writeToolCalls >= budget.maxWriteToolCalls) {
+  if (usage.writeToolCalls + next.writeToolCalls > budget.maxWriteToolCalls) {
     return { decision: 'degrade', reason: 'write_tool_budget_exhausted' };
   }
 
-  if (usage.modelCalls >= budget.maxModelCalls) {
+  if (usage.modelCalls + next.modelCalls > budget.maxModelCalls) {
     return { decision: 'degrade', reason: 'model_call_budget_exhausted' };
   }
 
-  if (usage.delegations >= budget.maxDelegations) {
+  if (usage.retrievalQueries + next.retrievalQueries > budget.maxRetrievalQueries) {
+    return { decision: 'degrade', reason: 'retrieval_budget_exhausted' };
+  }
+
+  if (usage.toolCalls + next.toolCalls > budget.maxToolCalls) {
+    return { decision: 'degrade', reason: 'tool_call_budget_exhausted' };
+  }
+
+  if (usage.delegations + next.delegations > budget.maxDelegations) {
     return { decision: 'stop', reason: 'delegation_budget_exhausted' };
   }
 
@@ -142,7 +161,7 @@ function checkBudget(
 }
 ```
 
-The decision should become part of the trace. Budget exhaustion is not a generic failure. It is a specific stop condition that tells operators whether to retry, approve more spend, route to a simpler path, or change the architecture.
+The decision should become part of the trace. Notice that the check uses projected cost, not only current usage. A budget gate that runs after the model call or tool call has already spent the money is only accounting. A budget gate that runs before the next action is control.
 
 ## Degraded Modes
 

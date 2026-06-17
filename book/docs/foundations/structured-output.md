@@ -52,6 +52,7 @@ The Structured Output Pattern constrains model responses to typed data that soft
 - Validate every model response before use, even when the provider offers structured output support.
 - Prefer enums for routing decisions and discriminated unions for multi-action outputs.
 - Log validation failures and repair attempts as first-class evaluation data.
+- Keep the validated output close to the next runtime action. A valid object should still pass policy, approval, and state checks before it triggers side effects.
 
 ## Failure Modes
 
@@ -83,7 +84,94 @@ Read the excerpt as the smallest executable expression of the pattern. The surro
 
 ## Source Code
 
-This pattern currently has no dedicated code excerpt. Use the source and download links below for the full pattern folder.
+These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
+
+### `structured-output-pattern/structured_decision.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/structured-output-pattern/structured_decision.ts)
+
+```ts
+export type RefundDecision =
+  | {
+      kind: "draft_refund";
+      orderId: string;
+      amountCents: number;
+      policyVersion: string;
+      evidenceRefs: string[];
+    }
+  | {
+      kind: "deny_refund";
+      orderId: string;
+      reason: string;
+      policyVersion: string;
+      evidenceRefs: string[];
+    }
+  | {
+      kind: "needs_human_review";
+      orderId: string;
+      reason: string;
+      missingEvidence: string[];
+    };
+
+export type ValidationResult =
+  | { ok: true; decision: RefundDecision }
+  | { ok: false; reason: string };
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every(item => typeof item === "string");
+}
+
+export function validateRefundDecision(value: unknown): ValidationResult {
+  if (!value || typeof value !== "object") {
+    return { ok: false, reason: "decision_not_object" };
+  }
+
+  const record = value as Record<string, unknown>;
+  if (typeof record.orderId !== "string") {
+    return { ok: false, reason: "missing_order_id" };
+  }
+
+  if (record.kind === "draft_refund") {
+    if (typeof record.amountCents !== "number" || record.amountCents <= 0) {
+      return { ok: false, reason: "invalid_refund_amount" };
+    }
+
+    if (typeof record.policyVersion !== "string" || !isStringArray(record.evidenceRefs)) {
+      return { ok: false, reason: "missing_policy_evidence" };
+    }
+
+    return { ok: true, decision: record as RefundDecision };
+  }
+
+  if (record.kind === "deny_refund") {
+    if (
+      typeof record.reason !== "string" ||
+      typeof record.policyVersion !== "string" ||
+      !isStringArray(record.evidenceRefs)
+    ) {
+      return { ok: false, reason: "invalid_denial_evidence" };
+    }
+
+    return { ok: true, decision: record as RefundDecision };
+  }
+
+  if (record.kind === "needs_human_review") {
+    if (typeof record.reason !== "string" || !isStringArray(record.missingEvidence)) {
+      return { ok: false, reason: "invalid_review_request" };
+    }
+
+    return { ok: true, decision: record as RefundDecision };
+  }
+
+  return { ok: false, reason: "unknown_decision_kind" };
+}
+
+export function nextRuntimeAction(decision: RefundDecision): "draft" | "block" | "approval" {
+  if (decision.kind === "draft_refund") return "approval";
+  if (decision.kind === "deny_refund") return "block";
+  return "draft";
+}
+```
 
 ## Download
 
