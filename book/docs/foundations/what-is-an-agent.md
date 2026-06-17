@@ -37,29 +37,40 @@ The smallest useful loop can be sketched like this:
 ```ts
 type Decision =
   | { kind: 'answer'; text: string }
-  | { kind: 'tool'; name: string; input: unknown }
+  | { kind: 'tool'; name: 'lookup_order'; input: { orderId: string } }
   | { kind: 'ask_human'; question: string }
   | { kind: 'stop'; reason: string };
 
 interface AgentState {
   goal: string;
   steps: number;
-  observations: string[];
+  observations: unknown[];
   maxSteps: number;
+}
+
+function validateDecision(decision: Decision): Decision {
+  if (decision.kind !== 'tool') return decision;
+  if (!decision.input.orderId.trim()) {
+    return { kind: 'stop', reason: 'invalid_tool_input' };
+  }
+  return decision;
 }
 
 async function runAgent(state: AgentState): Promise<Decision> {
   while (state.steps < state.maxSteps) {
     const context = buildWorkingSet(state);
-    const decision = await callModelForDecision(context);
+    const proposal = await callModelForDecision(context);
+    const decision = validateDecision(proposal);
 
     if (decision.kind === 'answer' || decision.kind === 'ask_human') {
       return decision;
     }
 
     if (decision.kind === 'tool') {
-      const result = await callApprovedTool(decision.name, decision.input);
-      state.observations.push(JSON.stringify(result));
+      const result = await callApprovedTool(decision.name, decision.input, {
+        idempotencyKey: `step:${state.steps}`,
+      });
+      state.observations.push(result);
       state.steps += 1;
       continue;
     }
@@ -71,7 +82,7 @@ async function runAgent(state: AgentState): Promise<Decision> {
 }
 ```
 
-The important part is not the syntax. The model proposes a decision, software validates what can happen next, state is updated, and the loop stops for an explicit reason.
+The important part is not the syntax. The model proposes a decision, software validates it before execution, state records the observation, and the loop stops for an explicit reason. The full runnable version appears in [Agent Loop](./agent-loop).
 
 ## A Model Call Is Not Yet An Agent
 

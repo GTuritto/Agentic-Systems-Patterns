@@ -4,7 +4,7 @@
   "license": "CC-BY-SA-4.0",
   "type": "module",
   "scripts": {
-    "test": "npm run tools:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
+    "test": "npm run tools:test && npm run agent-loop:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
     "typecheck": "tsc --noEmit",
     "book:install": "npm install --prefix book",
     "book:diagrams": "npm run diagrams --prefix book",
@@ -15,6 +15,8 @@
     "book:pdf": "npm run pdf --prefix book",
     "tools:test": "ts-node --esm ./tools/rename_patterns.spec.ts",
     "single-agent": "ts-node --esm ./single-agent-pattern/autogen_typescript_example/single_agent.ts",
+    "agent-loop": "ts-node --esm ./agent-loop-pattern/typescript/src/run_demo.ts",
+    "agent-loop:test": "ts-node --esm ./agent-loop-pattern/typescript/test/agent_loop.spec.ts",
     "tool-using-agent": "ts-node --esm ./tool-using-agent-pattern/autogen_typescript_example/tool_using_agent.ts",
     "cot-agent": "ts-node --esm ./chain-of-thought-cot-pattern/autogen_typescript_example/cot_agent.ts",
     "react-agent": "ts-node --esm ./react-pattern-reason-act/autogen_typescript_example/react_agent.ts",

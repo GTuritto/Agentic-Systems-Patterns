@@ -37,6 +37,11 @@ export const patterns = [
       'The task is a fixed workflow with known deterministic steps.',
       'A single prompt or deterministic function is sufficient.',
       'You cannot safely bound tool use, cost, or runtime.'
+    ],
+    commands: ['npm run agent-loop', 'npm run agent-loop:test'],
+    codeFiles: [
+      'agent-loop-pattern/typescript/src/agent_loop.ts',
+      'agent-loop-pattern/typescript/test/agent_loop.spec.ts'
     ]
   },
   {

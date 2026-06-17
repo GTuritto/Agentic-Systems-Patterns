@@ -198,13 +198,197 @@ Measure completion rate, correct stop reason, invalid-action rate, repeated-acti
 
 The architectural rule is simple: the model may choose the next proposal, but software owns whether the loop continues. Continue with [Goals and State](/foundations/goals-and-state) to define what the loop carries, then [Tool Use](/foundations/tool-use) to define how it acts.
 
+## Run the Example
+
+```sh
+npm run agent-loop
+npm run agent-loop:test
+```
+
 ## Code Walkthrough
 
 Read the excerpt as the smallest executable expression of the pattern. The surrounding chapter explains the design constraints; the code shows where those constraints become concrete interfaces, state, validation, or control flow.
 
 ## Source Code
 
-This pattern currently has no dedicated code excerpt. Use the source and download links below for the full pattern folder.
+These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
+
+### `agent-loop-pattern/typescript/src/agent_loop.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/agent-loop-pattern/typescript/src/agent_loop.ts)
+
+```ts
+export type StopReason =
+  | "completed"
+  | "refused"
+  | "needs_human"
+  | "max_steps"
+  | "tool_failure";
+
+export type ToolProposal = {
+  kind: "tool";
+  name: "lookup_order";
+  input: { orderId: string };
+};
+
+export type Proposal =
+  | { kind: "answer"; text: string }
+  | ToolProposal
+  | { kind: "tool"; name: string; input: unknown }
+  | { kind: "escalate"; reason: string };
+
+export type Observation = {
+  tool: string;
+  status: "ok" | "error";
+  output: unknown;
+};
+
+export type LoopState = {
+  goal: string;
+  step: number;
+  observations: Observation[];
+};
+
+export type LoopResult = {
+  stopReason: StopReason;
+  answer?: string;
+  state: LoopState;
+  trace: string[];
+};
+
+export type LoopDependencies = {
+  propose(state: LoopState): Promise<Proposal>;
+  execute(
+    proposal: ToolProposal,
+    idempotencyKey: string,
+  ): Promise<Observation>;
+};
+
+type ValidatedDecision =
+  | { status: "final"; answer: string }
+  | { status: "execute"; proposal: ToolProposal }
+  | { status: "escalate"; reason: string }
+  | { status: "deny"; reason: string };
+
+export function validateProposal(proposal: Proposal): ValidatedDecision {
+  if (proposal.kind === "answer") {
+    return proposal.text.trim()
+      ? { status: "final", answer: proposal.text }
+      : { status: "deny", reason: "empty_answer" };
+  }
+
+  if (proposal.kind === "escalate") {
+    return { status: "escalate", reason: proposal.reason };
+  }
+
+  if (proposal.name !== "lookup_order") {
+    return { status: "deny", reason: "tool_not_allowed" };
+  }
+
+  const input = proposal.input as { orderId?: unknown };
+  if (typeof input.orderId !== "string" || !input.orderId.trim()) {
+    return { status: "deny", reason: "invalid_tool_input" };
+  }
+
+  return {
+    status: "execute",
+    proposal: {
+      kind: "tool",
+      name: "lookup_order",
+      input: { orderId: input.orderId },
+    },
+  };
+}
+
+export async function runAgentLoop(
+  goal: string,
+  maxSteps: number,
+  dependencies: LoopDependencies,
+): Promise<LoopResult> {
+  const state: LoopState = { goal, step: 0, observations: [] };
+  const trace: string[] = [];
+```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
+
+### `agent-loop-pattern/typescript/test/agent_loop.spec.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/agent-loop-pattern/typescript/test/agent_loop.spec.ts)
+
+```ts
+import {
+  runAgentLoop,
+  type LoopDependencies,
+  type LoopState,
+  type Proposal,
+} from "../src/agent_loop.ts";
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
+
+function scriptedDependencies(
+  proposals: Proposal[],
+  toolStatus: "ok" | "error" = "ok",
+): LoopDependencies {
+  return {
+    propose: async (_state: LoopState) =>
+      proposals.shift() ?? { kind: "escalate", reason: "script_exhausted" },
+    execute: async (proposal, idempotencyKey) => ({
+      tool: proposal.name,
+      status: toolStatus,
+      output: { idempotencyKey },
+    }),
+  };
+}
+
+const completed = await runAgentLoop(
+  "Read an order",
+  3,
+  scriptedDependencies([
+    { kind: "tool", name: "lookup_order", input: { orderId: "A-104" } },
+    { kind: "answer", text: "The order shipped." },
+  ]),
+);
+assert(completed.stopReason === "completed", "Expected completed run");
+assert(completed.state.observations.length === 1, "Expected one observation");
+assert(
+  completed.trace.includes("step:0:validation:execute"),
+  "Expected validation trace",
+);
+
+const denied = await runAgentLoop(
+  "Delete an order",
+  3,
+  scriptedDependencies([
+    { kind: "tool", name: "delete_order", input: { orderId: "A-104" } },
+  ]),
+);
+assert(denied.stopReason === "refused", "Expected forbidden tool refusal");
+assert(denied.state.observations.length === 0, "Denied tool must not execute");
+
+const failed = await runAgentLoop(
+  "Read an order",
+  3,
+  scriptedDependencies(
+    [{ kind: "tool", name: "lookup_order", input: { orderId: "A-104" } }],
+    "error",
+  ),
+);
+assert(failed.stopReason === "tool_failure", "Expected tool failure stop");
+
+const exhausted = await runAgentLoop(
+  "Keep checking",
+  1,
+  scriptedDependencies([
+    { kind: "tool", name: "lookup_order", input: { orderId: "A-104" } },
+    { kind: "answer", text: "This proposal must not run." },
+  ]),
+);
+assert(exhausted.stopReason === "max_steps", "Expected max_steps stop");
+
+console.log("Agent loop tests OK");
+```
 
 ## Download
 
