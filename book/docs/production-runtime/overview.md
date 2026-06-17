@@ -29,6 +29,22 @@ The production runtime is the control plane around model judgment.
 
 The runtime does not remove autonomy. It makes autonomy bounded enough to trust.
 
+## Runtime Responsibility Matrix
+
+The runtime should make ownership explicit. If nobody owns one of these rows, the model will eventually own it by accident.
+
+| Responsibility | Runtime decision | Failure when missing |
+| --- | --- | --- |
+| Run admission | Should this request start, wait, refuse, or route elsewhere? | Unsafe or unsupported work enters the loop. |
+| State ownership | Which state is durable, temporary, visible, or deleted? | Lost progress, hidden memory, non-replayable failures. |
+| Execution mode | Should the task run synchronously, asynchronously, or as a durable workflow? | Timeouts, zombie runs, blocked users, partial side effects. |
+| Proposal validation | Is the model proposal valid for schema, policy, budget, and state? | Tool calls execute because the model sounded confident. |
+| Tool execution | Which credentials, timeout, idempotency key, and side-effect record apply? | Duplicate writes, leaked credentials, unclear ownership. |
+| Approval state | What waits for human review, who approved it, and what exact action was approved? | Approval becomes broad permission instead of a bounded gate. |
+| Cancellation | What stops immediately, what drains, and what must be compensated? | Cancelled runs keep spending or continue side effects. |
+| Rollout | Which model, prompt, policy, tool schema, retriever, or harness version is active? | Regressions ship globally with no quick rollback. |
+| Operations | Who is paged, what is disabled, and what evidence is preserved? | Incidents turn into manual archaeology. |
+
 ## The Runtime Loop
 
 A production runtime loop is not just observe, decide, act. It is closer to:
@@ -59,6 +75,42 @@ A good runtime creates explicit boundaries:
 
 When these boundaries are missing, the model becomes the control plane by accident.
 
+## Execution Modes
+
+Do not run every agent the same way. Match the runtime mode to the work.
+
+| Mode | Use when | Runtime requirements |
+| --- | --- | --- |
+| Synchronous request | The task is short, read-heavy, and safe to fail fast. | Tight timeout, small budget, no irreversible side effects, complete trace. |
+| Async job | The task may take seconds or minutes but does not need complex compensation. | Queue, status record, cancellation, retries, idempotency, progress events. |
+| Durable workflow | The task spans approvals, external systems, retries, or long-running state. | Checkpoints, resumability, compensation, replay, versioned workflow state. |
+| Event-triggered run | The task starts from webhook, schedule, stream, or system event. | Deduplication, event identity, ordering policy, backpressure, audit trail. |
+| Human-gated run | The task can prepare work but needs approval before execution. | Approval record, exact-action binding, pause and resume semantics. |
+
+The wrong mode creates production bugs. A refund workflow should not depend on one HTTP request staying alive. A short classifier should not pay the complexity cost of a durable workflow engine.
+
+## Queues, Backpressure, And Concurrency
+
+Agents consume scarce resources: model quota, tool capacity, human approval time, database connections, browser workers, and money. The runtime should control admission and concurrency before the loop starts spending.
+
+Useful controls include per-tenant queues, route-level concurrency limits, model-provider rate limits, tool-specific bulkheads, retry budgets, dead-letter queues, and priority classes. Backpressure is not just an infrastructure concern. It is how the system refuses low-value work before it damages high-value work.
+
+Concurrency also affects correctness. Two runs should not issue the same refund, update the same ticket, rewrite the same memory, or deploy the same service without coordination. Use locks, version checks, idempotency keys, or workflow state transitions where duplicate work would be harmful.
+
+## Rollout And Rollback
+
+Production agents change in more ways than normal services. A release may change model, prompt, tool schema, retriever, memory policy, approval rule, sandbox profile, evaluator, or workflow code. The runtime should version those pieces and record the active version set on every run.
+
+Rollout should be gradual for high-risk agents:
+
+- start with offline evals;
+- run shadow or replay tests where possible;
+- enable a small tenant, route, or percentage;
+- compare traces, costs, stop reasons, policy denials, and user-visible outcomes;
+- keep a rollback path for each changed component.
+
+Rollback must be operational, not theoretical. Operators should be able to disable a tool, pin a model, revert a prompt, tighten a policy, stop a route, drain a queue, or force human approval without redeploying the whole product.
+
 ## How The Production Runtime Chapters Compose
 
 Read the production runtime section as one operating model:
@@ -81,19 +133,37 @@ Every production run should be able to produce a contract like this:
 type RuntimeRun = {
   runId: string;
   traceId: string;
-  caller: string;
+  requestId: string;
+  actorId: string;
+  tenantId: string;
+  route: string;
   goal: string;
-  riskClass: 'low' | 'medium' | 'high';
-  status: 'running' | 'waiting' | 'succeeded' | 'failed' | 'refused';
+  autonomyLevel: "advisory" | "drafts_for_review" | "executes_after_approval" | "bounded_autonomous";
+  riskClass: "low" | "medium" | "high";
+  executionMode: "sync" | "async_job" | "durable_workflow" | "event_triggered";
+  status: "queued" | "running" | "waiting" | "succeeded" | "failed" | "refused" | "cancelled";
+  versionSet: {
+    model: string;
+    prompt: string;
+    policy: string;
+    toolSchema: string;
+    retriever?: string;
+    harness: string;
+  };
   budgetPolicyVersion: string;
   policyVersion: string;
   workflowStep?: string;
   allowedTools: string[];
+  idempotencyKey?: string;
+  approvalId?: string;
+  checkpointRef?: string;
   stopReason?: string;
 };
 ```
 
-This is not enough to implement a full platform, but it is enough to make the hidden parts visible. If a run does not have a trace ID, risk class, budget policy, policy version, allowed tools, status, and stop reason, it will be hard to operate.
+This is not enough to implement a full platform, but it is enough to make the hidden parts visible. If a run does not have actor, tenant, route, trace ID, risk class, autonomy level, execution mode, version set, budget policy, policy version, allowed tools, status, and stop reason, it will be hard to operate.
+
+For high-risk work, this contract should be stored before the first model call. The run may change state, but the runtime should never be guessing who started it, what authority it has, what version is active, or why it stopped.
 
 ## Runtime Checklist
 
@@ -102,6 +172,7 @@ Before a production agent handles real work, answer:
 - What owns the active goal?
 - Where is durable run state stored?
 - Which component validates model proposals?
+- Which execution mode fits this task?
 - Which tools are allowed for this task class?
 - Which actions require approval?
 - What budget applies to the run?
@@ -110,6 +181,8 @@ Before a production agent handles real work, answer:
 - What side effects need idempotency or compensation?
 - What breaker, fallback, or escalation path exists?
 - What evals block release?
+- What queue, concurrency limit, or backpressure policy applies?
+- What component versions are recorded for every run?
 - What can be rolled back without redeploying the whole system?
 
 If those answers are vague, the system is still a prototype, even if it is already serving users.
@@ -124,6 +197,12 @@ If those answers are vague, the system is still a prototype, even if it is alrea
 - Evals test final prose while the runtime path remains untested.
 - Operators cannot disable a risky tool, prompt version, model route, or workflow step quickly.
 - The system can continue spending tokens, tool calls, and human attention after the task is no longer worth it.
+- A synchronous request hides a long-running workflow until the first timeout or duplicate retry.
+- Queues grow without backpressure, priority, cancellation, or dead-letter handling.
+- Cancelled runs stop the UI but not the queued tool call or external workflow.
+- A model or prompt change ships without versioned traces, targeted evals, or a rollback plan.
+- Partial failure looks like success because the runtime records the final answer but not the failed side effect.
+- Durable state exists, but the model context and workflow state disagree about what step is active.
 
 ## Design Rule
 
