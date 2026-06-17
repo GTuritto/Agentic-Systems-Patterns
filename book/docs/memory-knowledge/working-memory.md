@@ -17,6 +17,8 @@ The Goals and State Pattern separates what the agent is trying to achieve from t
 
 This is the practical core of working memory. Working memory is not long-term memory. It is run-scoped operational state. It should be compact, typed, inspectable, and disposable unless another policy explicitly promotes part of it into durable memory.
 
+Use this pattern for task-local state. Durable memory is handled by [Memory-Augmented Agent](/memory-knowledge/memory-augmented-agent). Context assembly is handled by [Context Engineering](/foundations/context-engineering).
+
 The model can propose a next step, a state update, or a stop reason. The runtime owns the state transition. That boundary keeps the agent from silently rewriting what has happened, what remains, or why it is allowed to continue.
 
 ## Use When

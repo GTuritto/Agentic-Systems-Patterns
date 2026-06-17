@@ -17,6 +17,8 @@ Memory-augmented agents store and retrieve information across turns, sessions, t
 
 The useful way to think about memory is simple: memory is not truth. It is a record with a source, scope, timestamp, confidence, privacy class, retention rule, and correction path. The model can propose a memory write. The runtime decides whether that write is allowed, how it is stored, how long it lives, and when it can be recalled.
 
+Use this pattern for durable memory policy. For the state of a single run, use [Working Memory](/memory-knowledge/working-memory). For deciding whether a memory enters the prompt, use [Context Engineering](/foundations/context-engineering) and [Context Budgets and Working Sets](/foundations/context-budgets-and-working-sets).
+
 ## Use When
 
 - The agent needs continuity beyond one interaction.

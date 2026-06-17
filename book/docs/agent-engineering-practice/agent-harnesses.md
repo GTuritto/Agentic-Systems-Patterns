@@ -167,11 +167,9 @@ The same pattern should apply to memory writes, file writes, shell commands, bro
 
 ## Memory In A Harness
 
-Harness memory is not one store. It is a set of controlled reads and writes spanning working memory for the current task, episodic memory for past events, semantic memory for facts and documents, procedural memory for skills and playbooks, and user memory for durable preferences.
+Harness memory is orchestration, not a new memory taxonomy. The harness decides when to read or write task-local state, durable memory, retrieved evidence, or procedural skills, but the policies live in the canonical layers: [Working Memory](../memory-knowledge/working-memory), [Memory-Augmented Agent](../memory-knowledge/memory-augmented-agent), [Semantic Recall And RAG](../memory-knowledge/semantic-recall-rag), and [Context Engineering](../foundations/context-engineering).
 
-For each, the harness decides what can be written, who can inspect it, how long it lasts, and when it should be deleted. Memory writes should be explicit events. If the agent can silently rewrite what it will believe tomorrow, the harness is weak.
-
-Memory in the harness should be opt-in by task. Do not load global user memory, project memory, and episodic memory just because they exist. Load memory because it is relevant, allowed, fresh enough, and correctable.
+The practical rule is simple: memory access is opt-in per task. Do not load global user memory, project memory, episodic memory, or retrieved documents just because they exist. Load them because they are relevant, allowed, fresh enough, and correctable. Write memory only through explicit events with source, scope, retention, and deletion rules.
 
 ## Sandboxes
 

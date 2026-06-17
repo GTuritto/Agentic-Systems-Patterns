@@ -8,6 +8,8 @@ RAG is not "put search results in the prompt." It is an evidence pipeline. Conte
 
 The rule is simple: context is assembled, not dumped. The model should see a deliberate packet, not a pile of chat history, retrieved text, tool output, and memory fragments.
 
+This pattern owns the assembly boundary, not every source system inside it. Working memory owns run state. Durable memory owns what survives across runs. Retrieval owns evidence discovery. Context engineering decides which of those records enters the next model call.
+
 ## Use When
 
 - The answer depends on a large, changing, or private knowledge base.
