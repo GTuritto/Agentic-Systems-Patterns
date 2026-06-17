@@ -21,7 +21,8 @@ export default defineConfig({
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
           { text: 'Pattern Evaluation Checklist', link: '/pattern-selection/pattern-evaluation-checklist' },
           { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
-          { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' }
+          { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' },
+          { text: 'Pattern Composition Playbook', link: '/pattern-selection/pattern-composition-playbook' }
         ]
       },
       {
@@ -32,6 +33,7 @@ export default defineConfig({
           { text: 'Pattern Evaluation Checklist', link: '/pattern-selection/pattern-evaluation-checklist' },
           { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
           { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' },
+          { text: 'Pattern Composition Playbook', link: '/pattern-selection/pattern-composition-playbook' },
           { text: 'Prompt Chaining and Gates', link: '/pattern-selection/prompt-chaining-and-gates' },
           { text: 'Routing and Handoffs', link: '/pattern-selection/routing-and-handoffs' },
           { text: 'Resource-Aware Agent Design', link: '/pattern-selection/resource-aware-agent-design' },

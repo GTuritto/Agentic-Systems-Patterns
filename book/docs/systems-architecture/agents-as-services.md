@@ -246,6 +246,7 @@ If these answers are missing, you do not have an agent service. You have an agen
 
 - [Agentic System Architecture](./agentic-system-architecture)
 - [Pattern Evaluation Checklist](../pattern-selection/pattern-evaluation-checklist)
+- [Pattern Composition Playbook](../pattern-selection/pattern-composition-playbook)
 - [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology)
 - [A2A Agent Interoperability](../tools-skills-protocols/a2a-agent-interoperability)
 - [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use)

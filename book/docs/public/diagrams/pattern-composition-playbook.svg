@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="320" viewBox="0 0 980 320" role="img" aria-labelledby="title desc">
+  <title id="title">Pattern composition playbook</title>
+  <desc id="desc">A composed agentic system flow from request routing through context, bounded loop, tools, policy, approval, evaluation, observability, and result.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="980" height="320" fill="#f8fafc"/>
+  <text x="40" y="42" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Compose patterns around ownership, not around novelty</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="36" y="88" width="110" height="66" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="91" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#075985">Request</text>
+    <text x="91" y="137" font-size="12" text-anchor="middle" fill="#0f172a">goal and actor</text>
+    <line x1="154" y1="121" x2="194" y2="121" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="206" y="88" width="112" height="66" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+    <text x="262" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#92400e">Route</text>
+    <text x="262" y="137" font-size="12" text-anchor="middle" fill="#0f172a">risk and capability</text>
+    <line x1="326" y1="121" x2="366" y2="121" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="378" y="88" width="116" height="66" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="436" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#166534">Context</text>
+    <text x="436" y="137" font-size="12" text-anchor="middle" fill="#0f172a">evidence set</text>
+    <line x1="502" y1="121" x2="542" y2="121" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="554" y="88" width="114" height="66" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="611" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#5b21b6">Loop</text>
+    <text x="611" y="137" font-size="12" text-anchor="middle" fill="#0f172a">bounded steps</text>
+    <line x1="676" y1="121" x2="716" y2="121" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="728" y="88" width="104" height="66" rx="10" fill="#fae8ff" stroke="#c026d3" stroke-width="1.5"/>
+    <text x="780" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#86198f">Tools</text>
+    <text x="780" y="137" font-size="12" text-anchor="middle" fill="#0f172a">typed calls</text>
+    <line x1="840" y1="121" x2="880" y2="121" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <rect x="892" y="88" width="52" height="66" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="918" y="116" font-size="13" font-weight="700" text-anchor="middle" fill="#991b1b">Result</text>
+    <text x="918" y="136" font-size="10" text-anchor="middle" fill="#0f172a">typed</text>
+    <rect x="338" y="208" width="128" height="58" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+    <text x="402" y="232" font-size="13" font-weight="700" text-anchor="middle" fill="#92400e">Policy</text>
+    <text x="402" y="251" font-size="11" text-anchor="middle" fill="#0f172a">allow, deny, approve</text>
+    <rect x="504" y="208" width="128" height="58" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="568" y="232" font-size="13" font-weight="700" text-anchor="middle" fill="#991b1b">Approval</text>
+    <text x="568" y="251" font-size="11" text-anchor="middle" fill="#0f172a">pause high risk</text>
+    <rect x="670" y="208" width="128" height="58" rx="10" fill="#e0e7ff" stroke="#4f46e5" stroke-width="1.5"/>
+    <text x="734" y="232" font-size="13" font-weight="700" text-anchor="middle" fill="#3730a3">Evals</text>
+    <text x="734" y="251" font-size="11" text-anchor="middle" fill="#0f172a">trajectory checks</text>
+    <rect x="836" y="208" width="108" height="58" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="890" y="232" font-size="13" font-weight="700" text-anchor="middle" fill="#166534">Trace</text>
+    <text x="890" y="251" font-size="11" text-anchor="middle" fill="#0f172a">learn from runs</text>
+    <path d="M780 164 C780 188 402 188 402 204" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="466" y1="237" x2="496" y2="237" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="632" y1="237" x2="662" y2="237" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="798" y1="237" x2="828" y2="237" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  </g>
+</svg>

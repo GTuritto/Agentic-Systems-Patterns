@@ -120,6 +120,7 @@ Choose the simplest pattern whose risks you can bound and whose behavior you can
 - [Architecture Before Autonomy](./architecture-before-autonomy)
 - [Choosing the Right Pattern](./choosing-the-right-pattern)
 - [From Patterns To Systems](./from-patterns-to-systems)
+- [Pattern Composition Playbook](./pattern-composition-playbook)
 - [Agent Threat Model](../agent-engineering-practice/agent-threat-model)
 - [Agents As Services](../systems-architecture/agents-as-services)
 - [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology)

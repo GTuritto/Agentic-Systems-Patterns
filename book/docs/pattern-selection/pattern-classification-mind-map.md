@@ -25,6 +25,7 @@ Use this map when you know the design problem but not the chapter name.
         <li><a href="./architecture-before-autonomy">Architecture Before Autonomy</a></li>
         <li><a href="./choosing-the-right-pattern">Choosing the Right Pattern</a></li>
         <li><a href="./from-patterns-to-systems">From Patterns To Systems</a></li>
+        <li><a href="./pattern-composition-playbook">Pattern Composition Playbook</a></li>
       </ul>
     </section>
     <section>
@@ -42,6 +43,8 @@ Use this map when you know the design problem but not the chapter name.
     <section>
       <h3>Pattern Selection</h3>
       <ul>
+        <li><a href="./pattern-evaluation-checklist">Pattern Evaluation Checklist</a></li>
+        <li><a href="./pattern-composition-playbook">Pattern Composition Playbook</a></li>
         <li><a href="./prompt-chaining-and-gates">Prompt Chaining and Gates</a></li>
         <li><a href="./routing-and-handoffs">Routing and Handoffs</a></li>
         <li><a href="./resource-aware-agent-design">Resource-Aware Agent Design</a></li>
@@ -247,6 +250,7 @@ The book already has a sidebar taxonomy. This map adds an architectural one. The
 - [Architecture Before Autonomy](./architecture-before-autonomy)
 - [Choosing the Right Pattern](./choosing-the-right-pattern)
 - [From Patterns To Systems](./from-patterns-to-systems)
+- [Pattern Composition Playbook](./pattern-composition-playbook)
 - [Context Budgets and Working Sets](../foundations/context-budgets-and-working-sets)
 - [Context Engineering](../foundations/context-engineering)
 - [Tool Capability Design](../tools-skills-protocols/tool-capability-design)
