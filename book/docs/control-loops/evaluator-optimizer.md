@@ -13,19 +13,27 @@ Evaluator-Optimizer pairs a generator with an evaluator. The generator proposes;
 
 ## Intent
 
-The Evaluator-Optimizer Pattern pairs a generator with an evaluator. The generator proposes work; the evaluator scores it against explicit criteria; the optimizer revises until the output passes or the budget ends.
+Evaluator-Optimizer pairs a generator with an evaluator and a bounded revision loop. The generator proposes an output. The evaluator checks it against explicit criteria. The optimizer either accepts it, asks for a targeted revision, escalates, or stops when the budget is exhausted.
+
+The pattern is useful when quality can be judged more reliably than it can be produced in one pass. It is dangerous when the evaluator is vague, impressed by fluent prose, or allowed to approve work without checking evidence.
+
+Reflection and Evaluator-Optimizer are related, but not identical. Reflection critiques and improves an output. Evaluator-Optimizer adds a decision boundary: pass, revise, refuse, escalate, or stop.
 
 ## Use When
 
-- Quality can be judged more reliably than it can be produced in one pass.
-- You have explicit rubrics, tests, policies, or examples.
-- Iterative improvement is worth the extra cost and latency.
+- The task has explicit criteria, tests, policies, examples, or evidence requirements.
+- A second pass can catch failures the generator often misses.
+- Iteration is worth the extra latency, cost, and complexity.
+- The evaluator can produce structured feedback, not just prose critique.
+- The controller can enforce max revisions, stop reasons, and escalation rules.
 
 ## Avoid When
 
-- The evaluator is just another vague opinion prompt.
-- The task must respond with very low latency.
-- You cannot define pass/fail or ranking criteria.
+- The evaluator is only another vague opinion prompt.
+- The evaluator cannot inspect the evidence needed to judge correctness.
+- The task needs low latency and one pass is good enough.
+- The revision loop can change facts, citations, policy decisions, or tool results without validation.
+- The team cannot define what a false approval would look like.
 
 ## Architecture
 
@@ -33,49 +41,130 @@ The Evaluator-Optimizer Pattern pairs a generator with an evaluator. The generat
 
 ## System Shape
 
-- **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.
-- **State owner:** the loop controller owns progress, budgets, stop conditions, and recovery state.
-- **Primary artifact:** `evaluator-optimizer-pattern/` contains the runnable reference implementation and examples.
-- **Operational promise:** Evaluator-Optimizer pairs a generator with an evaluator. The generator proposes; the evaluator scores; the optimizer revises or stops.
+- **Pattern boundary:** the controller owns criteria, revision budget, evaluator selection, stop decisions, and escalation.
+- **Generator role:** propose a candidate output or plan.
+- **Evaluator role:** check the candidate against criteria, evidence, policy, and expected structure.
+- **Optimizer role:** turn evaluator findings into targeted revision instructions.
+- **Operational promise:** improve quality without letting a weak evaluator rubber-stamp unsafe or unsupported work.
 
 ## Core Protocol
 
-1. Initialize goal state, constraints, budgets, and stop conditions.
-2. Choose the next action from the current state instead of assuming the whole path upfront.
-3. Execute the action through a validated tool, worker, or local function.
-4. Observe the result and update state with evidence, errors, and remaining work.
-5. Stop, retry, re-plan, or escalate according to explicit policy.
+1. Receive the task, criteria, evidence requirements, and revision budget.
+2. Generate the first candidate.
+3. Evaluate the candidate with a rubric, tests, policy checks, and evidence checks.
+4. If the candidate passes, return it with the evaluator decision.
+5. If the candidate has fixable failures, produce targeted revision instructions.
+6. Regenerate or patch the candidate.
+7. Repeat until pass, refusal, escalation, timeout, or max revisions.
+8. Record every candidate, evaluator decision, revision instruction, and stop reason.
 
 ## Implementation Notes
 
-- Separate generation prompts from evaluation prompts.
-- Use deterministic tests when possible, then model-based critique for subjective gaps.
-- Persist evaluator feedback so regressions can be analyzed.
-- Define max revision count and a fallback behavior before running the loop.
+Make the evaluator contract explicit.
+
+```ts
+type EvaluationDecision = {
+  status: 'pass' | 'revise' | 'block' | 'escalate';
+  score: number;
+  criteria: Array<{
+    name: string;
+    passed: boolean;
+    evidenceRefs: string[];
+    reason: string;
+  }>;
+  blockingFailures: string[];
+  revisionInstructions: string[];
+  stopReason?: 'passed' | 'max_revisions' | 'policy_block' | 'missing_evidence';
+};
+```
+
+The controller should enforce the loop, not the evaluator prompt:
+
+```ts
+async function runEvaluatorOptimizer(task: Task, budget = { maxRevisions: 2 }) {
+  let candidate = await generateCandidate(task);
+
+  for (let revision = 0; revision <= budget.maxRevisions; revision += 1) {
+    const decision = await evaluateCandidate(task, candidate);
+
+    if (decision.status === 'pass') {
+      return { status: 'succeeded', candidate, decision };
+    }
+
+    if (decision.status === 'block' || decision.status === 'escalate') {
+      return { status: decision.status, candidate, decision };
+    }
+
+    if (revision === budget.maxRevisions) {
+      return {
+        status: 'failed',
+        candidate,
+        decision: { ...decision, stopReason: 'max_revisions' }
+      };
+    }
+
+    candidate = await reviseCandidate(candidate, decision.revisionInstructions);
+  }
+}
+```
+
+The evaluator should not reward nicer prose if the candidate still lacks evidence. It should name the failing criterion and the evidence needed to pass.
 
 ## Failure Modes
 
-- Evaluator drift: the evaluator rewards style over correctness.
-- Generator overfits to the evaluator and hides flaws.
-- Revision loops that make output longer but not better.
-- No retained evidence for why a candidate passed.
+- Rubber-stamp evaluator: approves fluent but wrong output.
+- Vague rubric: evaluator cannot distinguish a real failure from a style preference.
+- Self-approval: the same model prompt generates and approves the answer without independent checks.
+- Tone optimization: revisions make the answer smoother but not more correct.
+- Missing evidence check: evaluator scores confidence without verifying citations or tool results.
+- Reward hacking: generator learns phrases that satisfy the evaluator without satisfying the task.
+- Endless revision loop: each pass creates new issues because stop conditions are weak.
+- Hidden disagreement: evaluator concerns are not surfaced to the caller or trace.
+- Evaluation drift: a prompt, model, or rubric change silently alters pass/fail behavior.
 
 ## Evaluation Strategy
 
-- Test success cases, partial failure, repeated failure, budget exhaustion, and bad intermediate observations.
-- Assert that the loop stops for the right reason and does not hide failed steps.
-- Measure completion rate, number of iterations, recovery quality, cost, and latency.
-- Include cases that prove each "Use When" condition is true for this pattern.
-- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+Evaluate the evaluator itself.
+
+- Test false approvals: polished but wrong answers should fail.
+- Test false rejections: correct but awkward answers should pass or receive minor revision.
+- Test missing evidence: unsupported claims should block or escalate.
+- Test policy failures: unsafe content should not be revised into acceptable wording.
+- Test max-revision behavior: the loop must stop cleanly.
+- Test adversarial candidates that flatter the evaluator or imitate rubric language.
+- Test disagreement between deterministic checks and model-based evaluator judgment.
+- Test regression cases from production failures.
+
+A compact evaluator eval can look like this:
+
+```json
+{
+  "case_id": "polished_unsupported_refund_answer",
+  "candidate": "Yes, the customer is clearly eligible for a full refund.",
+  "available_evidence": ["order_status: delivered", "policy: refund requires damage evidence"],
+  "expected_decision": {
+    "status": "block",
+    "blocking_failures": ["missing_damage_evidence"],
+    "must_not_pass": true,
+    "required_revision_instruction": "ask for or retrieve damage evidence"
+  }
+}
+```
+
+Measure false approval rate, false rejection rate, revision success rate, max-revision rate, evaluator consistency, cost, latency, and recurrence of known failures.
 
 ## Production Checklist
 
-- Set hard iteration, cost, and time limits.
-- Persist state after meaningful steps if the run can be interrupted.
-- Make retries idempotent or add compensation.
-- Expose trace events for each decision, action, observation, and stop reason.
-- Define human escalation for ambiguous, high-risk, or policy-blocked work.
-- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
+- Define criteria before generation starts.
+- Separate generator and evaluator prompts.
+- Use deterministic checks where possible before model judgment.
+- Require evidence references for factual, policy, or tool-dependent claims.
+- Set max revisions, timeout, and escalation rules.
+- Record candidates, scores, criteria results, blocking failures, and revision instructions.
+- Version evaluator prompts, rubrics, tests, and model routes.
+- Track false approvals and false rejections in production review.
+- Do not let evaluator approval bypass tool policy, approval gates, or security controls.
+- Convert serious evaluator misses into regression evals.
 
 ## Code Walkthrough
 
@@ -94,6 +183,9 @@ The download bundle contains the current `evaluator-optimizer-pattern/` folder f
 
 ## Related Patterns
 
-- [Reflection and Self-Improvement](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/reflection-and-self-improvement-pattern/README.md)
-- [Observability and Evals](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/observability-and-evals-pattern/README.md)
-- [Agent Loop](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/agent-loop-pattern/README.md)
+- [Reflection](/control-loops/reflection)
+- [Agent Loop](/foundations/agent-loop)
+- [Structured Output](/foundations/structured-output)
+- [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+- [Observability and Evals](/production-runtime/observability-and-evals)
+- [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
