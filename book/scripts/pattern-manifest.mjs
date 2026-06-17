@@ -574,7 +574,7 @@ export const patterns = [
     sourceFolder: 'observability-and-evals-pattern',
     bundleName: 'observability-and-evals',
     summary:
-      'Observability records what happened. Evals decide whether behavior is good enough.',
+      'Observability records what happened. Evals decide whether behavior is good enough. Release gates decide whether a change is allowed to ship.',
     useWhen: [
       'You need traces, inputs, tool calls, costs, latency, evaluator scores, and regression datasets.',
       'Agent changes must be compared against known tasks.',
