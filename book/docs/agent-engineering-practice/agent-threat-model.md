@@ -8,6 +8,8 @@ Agent security starts with a simple question: what can the model cause the syste
 
 So do not start the threat model with "the model might hallucinate." Start it with authority, data, tools, and communication.
 
+![Agent threat model risk path](../public/diagrams/agent-threat-model-risk-path.svg)
+
 ## The Dangerous Combination
 
 The most dangerous agent shape combines three capabilities:

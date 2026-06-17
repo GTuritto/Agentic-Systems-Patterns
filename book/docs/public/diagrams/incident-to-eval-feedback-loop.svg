@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+<title id="title">Incident To Eval Feedback Loop</title><desc id="desc">Diagram showing production traces becoming incidents, eval fixtures, release gates, canaries, and improved production behavior.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/></marker></defs>
+<rect width="1120" height="560" fill="none"/>
+<text x="560" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#173F4F">Incident To Eval Feedback Loop</text>
+<g font-family="Inter, Arial, sans-serif">
+<rect x="70" y="170" width="170" height="85" rx="12" fill="#E8F0FE" stroke="#3367D6" stroke-width="2"/><text x="155" y="205" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Production Run</text><text x="155" y="230" text-anchor="middle" font-size="13" fill="#3C4043">trace, tools, output</text>
+<rect x="310" y="170" width="170" height="85" rx="12" fill="#FCE8E6" stroke="#D93025" stroke-width="2"/><text x="395" y="205" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Incident</text><text x="395" y="230" text-anchor="middle" font-size="13" fill="#3C4043">failure or near miss</text>
+<rect x="550" y="170" width="170" height="85" rx="12" fill="#FFF4E5" stroke="#F9AB00" stroke-width="2"/><text x="635" y="205" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Eval Fixture</text><text x="635" y="230" text-anchor="middle" font-size="13" fill="#3C4043">minimal replay case</text>
+<rect x="790" y="170" width="170" height="85" rx="12" fill="#E6F4EA" stroke="#188038" stroke-width="2"/><text x="875" y="205" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Release Gate</text><text x="875" y="230" text-anchor="middle" font-size="13" fill="#3C4043">block or warn</text>
+<rect x="665" y="355" width="170" height="85" rx="12" fill="#F3E8FD" stroke="#9334E6" stroke-width="2"/><text x="750" y="390" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Canary</text><text x="750" y="415" text-anchor="middle" font-size="13" fill="#3C4043">monitor and rollback</text>
+<rect x="425" y="355" width="170" height="85" rx="12" fill="#EAF5FF" stroke="#007B83" stroke-width="2"/><text x="510" y="390" text-anchor="middle" font-size="16" font-weight="700" fill="#202124">Improved System</text><text x="510" y="415" text-anchor="middle" font-size="13" fill="#3C4043">new trace data</text>
+</g>
+<line x1="240" y1="212" x2="310" y2="212" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="480" y1="212" x2="550" y2="212" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="720" y1="212" x2="790" y2="212" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="875" y1="255" x2="785" y2="355" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="665" y1="397" x2="595" y2="397" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M 425 397 C 220 405, 165 330, 155 255" fill="none" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+</svg>

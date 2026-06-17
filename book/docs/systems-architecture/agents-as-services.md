@@ -8,6 +8,8 @@ One practical way to reason about agents is to treat each agent like a service. 
 
 The framing is useful because it moves agent design away from "one big assistant" and toward a system of small, callable capabilities.
 
+![Agents as services call flow](../public/diagrams/agents-as-services-call-flow.svg)
+
 An agent service contract should look more like an API than a chat transcript:
 
 ```ts

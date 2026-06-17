@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+<title id="title">Agent Threat Model Risk Path</title><desc id="desc">Diagram showing the dangerous path where private data, untrusted content, and external communication meet, with policy and approval controls breaking the path.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/></marker></defs>
+<rect width="1120" height="560" fill="none"/>
+<text x="560" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#173F4F">Agent Threat Model Risk Path</text>
+<rect x="70" y="125" width="210" height="95" rx="12" fill="#E8F0FE" stroke="#3367D6" stroke-width="2"/>
+<text x="175" y="160" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#202124">Private Data</text>
+<text x="175" y="188" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Customer records</text>
+<text x="175" y="210" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Internal state</text>
+<rect x="70" y="340" width="210" height="95" rx="12" fill="#FFF4E5" stroke="#F9AB00" stroke-width="2"/>
+<text x="175" y="375" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#202124">Untrusted Content</text>
+<text x="175" y="403" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Email, web, docs</text>
+<text x="175" y="425" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Prompt injection</text>
+<rect x="430" y="225" width="250" height="120" rx="14" fill="#FCE8E6" stroke="#D93025" stroke-width="2.4"/>
+<text x="555" y="265" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#202124">Agent Context</text>
+<text x="555" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Model sees data and text</text>
+<text x="555" y="318" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">as one working set</text>
+<rect x="835" y="225" width="220" height="120" rx="14" fill="#F3E8FD" stroke="#9334E6" stroke-width="2"/>
+<text x="945" y="265" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#202124">External Channel</text>
+<text x="945" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Email, webhook</text>
+<text x="945" y="318" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">browser, API</text>
+<line x1="280" y1="172" x2="430" y2="255" stroke="#5F6368" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="280" y1="388" x2="430" y2="315" stroke="#5F6368" stroke-width="2.5" marker-end="url(#arrow)"/>
+<line x1="680" y1="285" x2="835" y2="285" stroke="#D93025" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="760" y="270" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#D93025">exfiltration path</text>
+<rect x="415" y="430" width="285" height="70" rx="12" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="557" y="458" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#202124">Break The Path</text>
+<text x="557" y="482" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#3C4043">Policy, approval, egress, minimization</text>
+<line x1="555" y1="430" x2="555" y2="345" stroke="#188038" stroke-width="2.5" marker-end="url(#arrow)"/>
+</svg>

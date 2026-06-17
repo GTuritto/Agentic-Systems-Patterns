@@ -10,6 +10,8 @@ Start by asking where the work needs separate context, separate tools, separate 
 
 Multi-agent design is not about making the system look more intelligent. It is about creating useful boundaries.
 
+![Multi-agent topology selection](../public/diagrams/multi-agent-topology-selection.svg)
+
 ## First Rule
 
 Use the smallest topology that gives you the boundary you need.

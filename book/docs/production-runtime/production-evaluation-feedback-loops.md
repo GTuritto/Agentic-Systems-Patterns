@@ -8,6 +8,8 @@ Agent evaluation should not stop at launch. Pre-production evals tell you whethe
 
 The core rule is simple: production failures should become future tests. If an incident only creates a ticket, the system learns nothing. If the same incident becomes a replayable eval, the system gets harder to break the same way again.
 
+![Incident to eval feedback loop](../public/diagrams/incident-to-eval-feedback-loop.svg)
+
 ## The Feedback Loop
 
 A production evaluation loop connects five activities:
@@ -19,8 +21,6 @@ A production evaluation loop connects five activities:
 5. release changes gradually with monitoring and rollback.
 
 The loop applies to prompts, tools, routes, models, policies, memory rules, retrieval indexes, and agent topology. Any change that can alter behavior should pass through it.
-
-![Observability and evals architecture](../public/diagrams/observability-evals.svg)
 
 ## What Production Teaches
 

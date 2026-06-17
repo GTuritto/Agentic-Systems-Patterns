@@ -6,6 +6,8 @@ title: Context Budgets And Working Sets
 
 Context is not a storage system. It is the model's working set for the next decision, and that distinction is where a lot of agents quietly go wrong. Treat context like a box where anything potentially useful might as well be dropped in, and you get long prompts, duplicated state, stale memory, irrelevant tool output, hidden contradictions, and then missing evidence at the exact moment the model needs it. Context engineering is the discipline of deciding what the model should see right now, and nothing more.
 
+![Context assembly pipeline](../public/diagrams/context-assembly-pipeline.svg)
+
 ## The Working Set
 
 Borrow the idea from operating systems: the working set is the small set of information needed for the current step. For an agent, that usually means the active goal, the current step, the relevant constraints, compact state, the selected evidence, the tools available for this step, recent observations, any unresolved questions, and the budget and stop rules.
