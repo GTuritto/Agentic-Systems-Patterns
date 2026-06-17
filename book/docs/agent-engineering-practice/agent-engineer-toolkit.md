@@ -142,17 +142,7 @@ Use multiple models when it reduces cost or improves quality. A small model may 
 
 Tools need engineering discipline.
 
-Good tools have:
-
-- narrow names;
-- explicit descriptions;
-- typed inputs;
-- typed outputs;
-- permission scopes;
-- timeouts;
-- idempotency where possible;
-- clear side-effect labels;
-- test fixtures.
+At toolkit-selection time, look for the minimum surfaces that make tools governable: names, descriptions, typed inputs and outputs, permission scopes, timeouts, idempotency, side-effect labels, and test fixtures. The full design checklist lives in [Tool Capability Design](../tools-skills-protocols/tool-capability-design); this chapter only asks whether your toolkit can support it.
 
 Poor tools expose broad surfaces such as unrestricted shell, generic browser control, or "database query" without policy checks. Broad tools can be useful for trusted coding agents, but they need sandboxing and audit.
 

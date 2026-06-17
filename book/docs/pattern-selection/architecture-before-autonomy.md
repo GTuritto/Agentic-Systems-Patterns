@@ -29,6 +29,8 @@ Use this division of responsibility as your default:
 
 This does not make the system less agentic. It makes the autonomy legible, which is what lets you operate it.
 
+This chapter names the boundary. [Tool Capability Design](../tools-skills-protocols/tool-capability-design) and [Human Approval Gates](../tools-skills-protocols/human-approval-gates) define the concrete tool and approval contracts behind it.
+
 In code, the boundary can be small and explicit:
 
 ```ts
@@ -90,6 +92,8 @@ Autonomy is a budget. Spend it only where it buys a better outcome than determin
 - [Agent Loop](../foundations/agent-loop)
 - [Goals and State](../foundations/goals-and-state)
 - [Tool Use](../foundations/tool-use)
+- [Tool Capability Design](../tools-skills-protocols/tool-capability-design)
+- [Human Approval Gates](../tools-skills-protocols/human-approval-gates)
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
 - [Agentic System Architecture](../systems-architecture/agentic-system-architecture)
 - [Production Runtime Overview](../production-runtime/overview)

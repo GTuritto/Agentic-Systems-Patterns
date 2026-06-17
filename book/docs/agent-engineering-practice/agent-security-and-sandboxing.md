@@ -271,6 +271,8 @@ This profile is deliberately boring. That is the point. A boring profile can be 
 
 ## Approval Gates
 
+For detailed approval design, use [Human Approval Gates](../tools-skills-protocols/human-approval-gates). In this chapter, approval is treated as a security control for high-risk authority.
+
 Require approval for:
 
 - money movement;

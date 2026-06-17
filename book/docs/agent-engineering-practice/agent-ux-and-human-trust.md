@@ -213,6 +213,8 @@ Never ask for broad approval such as "continue with all actions" when the agent 
 
 Approvals should be attached to exact actions. If the proposed recipient, amount, file, command, permission, memory, or payload changes, the approval should no longer apply.
 
+For the underlying approval contract, see [Human Approval Gates](../tools-skills-protocols/human-approval-gates). This chapter focuses on what the user must be able to see and decide.
+
 ## Failure UX
 
 A failed run should be useful.
