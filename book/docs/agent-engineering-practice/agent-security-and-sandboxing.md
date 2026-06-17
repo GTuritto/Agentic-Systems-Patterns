@@ -14,11 +14,32 @@ Start with the [Agent Threat Model](./agent-threat-model) if you need to classif
 
 Secure agents by separating four concerns: what the user asks for, what the model proposes, what policy allows, and what the tool actually executes. The model should not be the policy engine. It can classify intent or explain a decision, but deterministic software should enforce permissions.
 
+In production there is a fifth concern: how the request crosses trust boundaries. If an agent calls another agent, a tool gateway, an MCP server, a browser worker, a workflow engine, or a data service, the system needs secure transport, caller identity, scoped authorization, and trace correlation. TLS, mTLS, OAuth or OIDC, policy enforcement, and observability are part of the same boundary.
+
+The model can propose work. It should not mint credentials, choose its own scopes, decide that TLS is optional, approve its own network egress, or hide security events from traces.
+
 ## The High-Risk Combination
 
 The most dangerous agent shape combines access to private or trusted data, exposure to untrusted content, and the ability to perform external actions. When those three meet, a malicious document, web page, email, or tool result can try to steer the agent into leaking data or taking an unsafe action.
 
 Mitigate this with least privilege, content isolation, approval gates, egress controls, and explicit policy checks.
+
+## Security Control Matrix
+
+Use security controls by boundary, not as one generic "guardrail" layer.
+
+| Boundary | Required Controls |
+| --- | --- |
+| Data access | Tenant checks, source eligibility, row or document permissions, data minimization, redaction. |
+| Tool execution | Typed schemas, policy gate, scoped credentials, idempotency key, timeout, audit record. |
+| Network egress | Allowlisted domains, blocked private networks, destination classification, TLS verification. |
+| Cross-agent messages | TLS or mTLS, OAuth or OIDC claims, audience checks, scopes, replay protection, trace ID. |
+| Browser or code execution | Container or VM isolation, restricted filesystem, no ambient credentials, CPU and wall-clock limits. |
+| Memory writes | Source, privacy class, expiry, confidence, correction path, policy decision. |
+| Human approval | Proposed action, evidence, policy result, approver identity, timestamp, final tool call. |
+| Observability | Redacted traces, policy decisions, identity claims, tool calls, egress attempts, stop reasons. |
+
+The matrix makes one thing visible: sandboxing is necessary, but it is not enough. A sandbox limits the blast radius of execution. It does not replace identity, authorization, policy, approval, egress control, or observability.
 
 ## Sandboxing
 
@@ -39,9 +60,45 @@ Sandbox controls:
 
 Coding and computer-use agents need stronger sandboxes than read-only research agents.
 
+## Identity And Credentials
+
+Agents should not run with ambient platform credentials. Every credential should be attached to a route, task, tool, user, tenant, and policy decision.
+
+Use:
+
+- short-lived tokens instead of long-lived secrets;
+- OAuth or OIDC claims for user and service identity;
+- audience checks so a token for one service cannot call another;
+- scopes that match the delegated capability;
+- mTLS for service-to-service identity where the platform supports it;
+- per-tool credential injection after policy approval;
+- credential revocation as part of incident response;
+- redaction so credentials never enter prompts, memory, eval fixtures, or traces.
+
+The runtime should be able to answer which identity called which tool with which scopes and which policy version allowed it. If it cannot, the credential model is not ready for production agents.
+
+## Network And Egress
+
+Network access is a tool, not a default right. A research agent that can browse the public web should not automatically be able to call internal APIs, metadata services, private networks, customer webhooks, or arbitrary domains.
+
+Useful egress controls:
+
+- allowlist domains by route and tool;
+- block private IP ranges and cloud metadata endpoints;
+- require TLS certificate validation for remote calls;
+- separate browsing from authenticated business APIs;
+- classify destinations as internal, partner, customer, public, or unknown;
+- log denied egress attempts with trace IDs;
+- require approval for new destinations or high-risk data export;
+- fail closed when destination classification is missing.
+
+Egress is where data leaks become real. Treat it as part of the policy boundary.
+
 ## Access Control
 
 Grant access by role, task, and route. A support-answer agent can read public docs but cannot issue refunds. A billing workflow can read invoice state but needs approval to apply credit. A coding agent can edit files in a branch but cannot deploy to production. A research agent can browse the web but cannot touch customer data. Avoid global tool lists. Each route or agent should receive only the tools needed for the task.
+
+Access control should check both the user and the agent route. A user may have permission to do something manually, but that does not mean every agent acting for that user should inherit the full permission set. Delegation should be narrower than the user's authority.
 
 ## Guardrails
 
@@ -62,6 +119,47 @@ No single guardrail is enough. Use layers.
 
 Agents should not see raw secrets unless the tool contract requires them. Prefer server-side tool execution, scoped tokens, and short-lived credentials, with secret access granted per tool, no secrets in prompts or memory, and redacted traces. If a model can read a secret, assume it can accidentally expose it.
 
+Do not pass secrets through natural-language context. Give the model a capability handle, not the secret itself. The tool gateway can resolve that handle after policy passes.
+
+## Security Profile Example
+
+A production agent should have an explicit security profile. The exact format can vary, but the runtime needs these decisions somewhere outside the prompt:
+
+```json
+{
+  "route": "support_refund_assistant",
+  "risk_class": "medium",
+  "identity": {
+    "allowed_issuers": ["https://identity.example.com"],
+    "required_audience": "support-agent-runtime",
+    "required_scopes": ["orders:read", "refunds:draft"]
+  },
+  "sandbox": {
+    "filesystem": "read_only",
+    "workspace": "/runs/${run_id}",
+    "network": {
+      "allowed_domains": ["api.example.com", "docs.example.com"],
+      "block_private_networks": true,
+      "require_tls": true
+    },
+    "limits": {
+      "max_runtime_ms": 60000,
+      "max_output_bytes": 200000
+    }
+  },
+  "tools": {
+    "allowed": ["orders.lookup", "refunds.draft_refund", "policies.current_refund_policy"],
+    "approval_required": ["refunds.issue_refund", "email.send_customer"]
+  },
+  "observability": {
+    "required_trace_fields": ["trace_id", "actor", "tool", "policy_decision", "stop_reason"],
+    "redact": ["access_token", "refresh_token", "customer_email", "payment_token"]
+  }
+}
+```
+
+This profile is deliberately boring. That is the point. A boring profile can be reviewed, tested, diffed, rolled back, and attached to an incident.
+
 ## Approval Gates
 
 Require approval for:
@@ -77,14 +175,51 @@ Require approval for:
 
 Approval records should include the proposed action, evidence, policy result, approver, timestamp, and final tool call.
 
+## Security Observability
+
+Security controls only help operators if they are visible. Record security events as first-class trace events:
+
+- identity verification result;
+- token issuer, audience, subject, tenant, and scopes after redaction;
+- TLS or mTLS service identity for cross-service calls;
+- policy decision, reason, and policy version;
+- sandbox start, limits, denied filesystem access, and denied network egress;
+- credential injection and credential refusal;
+- approval request, approval decision, and approver identity;
+- tool invocation, side-effect identifier, idempotency key, and stop reason;
+- redaction action and trace retention class.
+
+Do not turn observability into a data leak. Raw tokens, private keys, secrets, full customer records, and unnecessary payloads should not appear in traces. The goal is to explain authority and behavior, not to duplicate sensitive data.
+
+## Security Evals
+
+Test security controls before launch and after meaningful changes.
+
+| Eval Case | Expected Behavior |
+| --- | --- |
+| Missing OAuth scope | Tool call is denied before execution and denial is traced. |
+| Wrong token audience | Cross-agent request is rejected before payload processing. |
+| Prompt injection in retrieved document | Agent treats content as data and does not change policy or destination. |
+| Unapproved egress destination | Network call is blocked and recorded with trace ID. |
+| Memory write contains private data | Write is denied, redacted, or routed for approval. |
+| Tool requests broad credential | Runtime injects only scoped credential or denies the call. |
+| Approval-required side effect | Workflow pauses before execution and records approval context. |
+| Replay of old message | Idempotency or nonce check blocks duplicate action. |
+
+Measure false allows, blocked unsafe tool calls, redaction failures, missing trace fields, unauthorized egress attempts, approval-routing accuracy, sandbox escape attempts, and time to investigate a security incident.
+
 ## Incident Response
 
 Plan for agent incidents before launch. The team should already know how to disable a tool or a route, roll back a prompt or policy, revoke credentials, quarantine memory, inspect traces, notify affected users, and turn the incident into evals. If the response requires code archaeology in the middle of an incident, the system is not operationally ready.
 
+Security incident response should include identity and credential actions: revoke tokens, rotate secrets, disable service accounts, invalidate message nonces, quarantine affected traces, and preserve enough audit evidence to explain the run.
+
 ## Related Chapters
 
 - [Agent Threat Model](./agent-threat-model)
+- [Production Runtime Overview](../production-runtime/overview)
 - [Policy Enforcement](../production-runtime/policy-enforcement)
+- [Observability and Evals](../production-runtime/observability-and-evals)
 - [Human Approval Gates](../tools-skills-protocols/human-approval-gates)
 - [Secure Agent Communication](../tools-skills-protocols/secure-agent-communication)
 - [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use)
