@@ -206,6 +206,10 @@ const architectureDiagrams = {
     alt: 'A2A agent interoperability architecture',
     file: 'a2a-agent-interoperability.svg'
   },
+  'human-approval-gates': {
+    alt: 'Human approval gate',
+    file: 'human-approval-gate.svg'
+  },
   'mcp-first-tool-use': {
     alt: 'MCP-first tool use architecture',
     file: 'mcp-first-tool-use.svg'
