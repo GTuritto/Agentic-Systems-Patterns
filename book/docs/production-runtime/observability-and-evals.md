@@ -17,6 +17,8 @@ The Observability and Evals Pattern makes agent behavior inspectable, replayable
 
 This pattern matters because agent failures rarely live only in the final answer. They live in the trajectory: a missing retrieval, an unsafe tool call, an ignored policy denial, a loop that never converged, a human approval that was skipped, or a model upgrade that changed the plan. Logging final answers is not observability, and checking final answers is not enough evaluation.
 
+Read this after the runtime and security chapters if you are designing for production. The runtime gives the agent a controlled place to run; security defines what must be blocked or approved; observability and evals prove whether those controls worked.
+
 ## Use When
 
 - Agent decisions affect users, money, data, or external systems.

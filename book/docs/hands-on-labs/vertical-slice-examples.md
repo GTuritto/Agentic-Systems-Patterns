@@ -8,6 +8,8 @@ Patterns become useful when they are composed into a working system. A vertical 
 
 The examples in this chapter are not full products. They are slices. Each one should be small enough to review in one sitting and concrete enough to expose architecture decisions.
 
+Read this after [Pattern Composition Playbook](../pattern-selection/pattern-composition-playbook), [Production Runtime Overview](../production-runtime/overview), and [Observability and Evals](../production-runtime/observability-and-evals). Those chapters explain the boundaries; this chapter shows what those boundaries look like when several patterns work together for one task.
+
 ## How To Read A Slice
 
 Use the same checklist for every example:

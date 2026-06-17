@@ -10,6 +10,8 @@ Use this chapter when an agent has tools, memory, external data, or side effects
 
 Start with the [Agent Threat Model](./agent-threat-model) if you need to classify the system's risk. Use this chapter when you are ready to design the containment controls.
 
+This chapter belongs after harnesses and production runtime because security is not a prompt feature. The same boundaries that make an agent operable also make it securable: identity, authorization, sandboxing, egress, approvals, traceability, and incident response.
+
 ## Security Model
 
 Secure agents by separating four concerns: what the user asks for, what the model proposes, what policy allows, and what the tool actually executes. The model should not be the policy engine. It can classify intent or explain a decision, but deterministic software should enforce permissions.

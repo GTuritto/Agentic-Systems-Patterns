@@ -10,6 +10,8 @@ The core rule is the same throughout this book: the model proposes, the runtime 
 
 This is where many agent projects fail. They treat the model call as the system, then add logging, retries, approvals, evals, and rollback after the first incident. A production runtime inverts that order. It gives the agent a controlled place to operate.
 
+Read this after [Agent Harnesses](../agent-engineering-practice/agent-harnesses). The harness explains the working environment around one agent; this chapter explains what has to be true when that work runs as a production system with queues, budgets, retries, state, rollout, rollback, and operators.
+
 ![Production runtime control plane](../public/diagrams/production-runtime-overview.svg)
 
 ## What The Runtime Owns
