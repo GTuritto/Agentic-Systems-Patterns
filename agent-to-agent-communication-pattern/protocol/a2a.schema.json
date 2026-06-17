@@ -20,7 +20,44 @@
         "id": { "type": "string" },
         "task_type": { "type": "string" },
         "input": { "type": "object" },
-        "meta": { "type": "object" }
+        "meta": {
+          "type": "object",
+          "required": [
+            "trace_id",
+            "message_id",
+            "idempotency_key",
+            "from_agent",
+            "to_agent",
+            "tenant_id",
+            "auth",
+            "timeout_ms",
+            "ts"
+          ],
+          "properties": {
+            "trace_id": { "type": "string", "minLength": 1 },
+            "message_id": { "type": "string", "minLength": 1 },
+            "idempotency_key": { "type": "string", "minLength": 1 },
+            "from_agent": { "type": "string", "minLength": 1 },
+            "to_agent": { "type": "string", "minLength": 1 },
+            "tenant_id": { "type": "string", "minLength": 1 },
+            "auth": {
+              "type": "object",
+              "required": ["audience", "scopes"],
+              "properties": {
+                "audience": { "type": "string", "minLength": 1 },
+                "scopes": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            "timeout_ms": { "type": "number", "minimum": 1 },
+            "ts": { "type": "number" }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },

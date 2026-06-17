@@ -7,6 +7,7 @@ const validateReq = ajv.compile((A2A_SCHEMA as any).properties.TaskRequest);
 export class AgentB {
   private bus: BusMemory;
   private handshakeAckSent = false;
+  private seenIdempotencyKeys = new Set<string>();
   constructor(bus: BusMemory) { this.bus = bus; }
   start() {
     this.bus.subscribe('Handshake', () => {
@@ -18,6 +19,15 @@ export class AgentB {
       if (!validateReq(m.payload)) return;
       const payload = m.payload as any;
       const { id, task_type, input } = payload;
+      const authorization = this.authorize(payload);
+      if (!authorization.allowed) {
+        this.bus.publish({
+          type: 'TaskResponse',
+          payload: { id, status: 'refused', error: authorization.reason }
+        });
+        return;
+      }
+      this.seenIdempotencyKeys.add(payload.meta.idempotency_key);
       if (task_type !== 'sum') {
         this.bus.publish({ type: 'TaskResponse', payload: { id, status: 'refused', error: 'unsupported_task' } });
         return;
@@ -38,5 +48,22 @@ export class AgentB {
     this.bus.subscribe('Cancel', (m: Msg) => {
       console.log('AgentB cancel received:', m.payload);
     });
+  }
+
+  private authorize(payload: any) {
+    const meta = payload.meta;
+    if (meta.to_agent !== 'agent-b' || meta.auth.audience !== 'agent-b') {
+      return { allowed: false, reason: 'wrong_audience' };
+    }
+    if (!meta.auth.scopes.includes('task:sum')) {
+      return { allowed: false, reason: 'missing_scope' };
+    }
+    if (meta.tenant_id !== 'tenant_a') {
+      return { allowed: false, reason: 'tenant_boundary' };
+    }
+    if (this.seenIdempotencyKeys.has(meta.idempotency_key)) {
+      return { allowed: false, reason: 'duplicate_message' };
+    }
+    return { allowed: true, reason: 'authorized' };
   }
 }
