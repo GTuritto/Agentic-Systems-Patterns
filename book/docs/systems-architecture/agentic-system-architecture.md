@@ -8,6 +8,8 @@ An agentic system is more than a model call wrapped in a loop. It is a set of co
 
 Use this chapter when a single pattern is not enough and you need to combine agents, tools, memory, policies, workflows, evals, and observability into one coherent system.
 
+When agents cross process, team, runtime, or ownership boundaries, treat them like services with explicit contracts. See [Agents As Services](./agents-as-services) for that architecture.
+
 ## Core Idea
 
 Separate the system into planes:
@@ -38,24 +40,7 @@ The system should have direct answers to those questions before it handles priva
 
 The most important architectural choice is the boundary between model judgment and deterministic software. Keep model outputs as proposals until software validates them.
 
-Good boundaries include:
-
-- Typed tool schemas
-- Policy checks before side effects
-- Explicit state transitions
-- Human approval for high-risk operations
-- Retrieval filters and citations
-- Budget and timeout limits
-- Audit logs that connect prompt, decision, tool input, and result
-
-Weak boundaries include:
-
-- Broad shell or browser access without approval
-- Prompt-only policy enforcement
-- Unstructured memory writes
-- Hidden retries
-- Tool results that cannot be traced
-- Agents that can rewrite their own operating rules without review
+Strong boundaries look like typed tool schemas, policy checks before side effects, explicit state transitions, human approval for high-risk operations, retrieval filters and citations, budget and timeout limits, and audit logs that connect the prompt, the decision, the tool input, and the result. Weak boundaries look like broad shell or browser access without approval, prompt-only policy enforcement, unstructured memory writes, hidden retries, tool results that cannot be traced, and agents that can rewrite their own operating rules without review.
 
 ## Composition Patterns
 
@@ -68,14 +53,11 @@ Common production systems combine several chapters from this book:
 - **Durable Workflows** for long-running state, retries, and approvals.
 - **Observability and Evals** for quality gates and regression control.
 - **Policy Enforcement** for permission and compliance checks.
+- **Agents As Services** for service boundaries, contracts, protocols, retries, and trace correlation between agents.
 
 ## Failure Modes
 
-- The model becomes the control plane and no deterministic component owns state or permissions.
-- Every pattern is added at once, producing a system that is powerful but impossible to debug.
-- Retrieval, memory, and tool output are mixed into one untrusted context blob.
-- The system has no replay path after a bad action.
-- Evals are added after production failures instead of before launch.
+The recurring failures are easy to name. The model becomes the control plane, and no deterministic component owns state or permissions. Every pattern gets added at once, producing a system that is powerful but impossible to debug. Retrieval, memory, and tool output are mixed into one untrusted context blob. The system has no replay path after a bad action. Evals show up only after the first production failure, instead of before launch.
 
 ## Design Rule
 
@@ -86,6 +68,7 @@ Architecture should make failure visible. If a run fails, an operator should be 
 - [Agent Loop](../foundations/agent-loop)
 - [Goals and State](../foundations/goals-and-state)
 - [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use)
+- [Agents As Services](./agents-as-services)
 - [Agentic RAG Systems](./agentic-rag-systems)
 - [Durable Workflows](../production-runtime/durable-workflows)
 - [Observability and Evals](../production-runtime/observability-and-evals)

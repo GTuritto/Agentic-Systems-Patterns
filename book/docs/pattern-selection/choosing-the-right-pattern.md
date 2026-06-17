@@ -65,35 +65,11 @@ A workflow uses code to control the path. A model may classify, extract, summari
 
 An agent uses the model to decide parts of the path. It observes state, decides the next action, calls tools, reads results, and continues until a goal is complete or a limit is reached.
 
-Prefer workflows when:
-
-- the process is stable;
-- correctness depends on deterministic rules;
-- latency or cost must stay low;
-- the system must be easy to audit;
-- operators need predictable failure modes.
-
-Prefer agents when:
-
-- the process is open-ended;
-- the system must discover missing information;
-- tool choice depends on intermediate observations;
-- the number of steps is unknown;
-- a fixed workflow would branch into an unmaintainable tree.
+Prefer a workflow when the process is stable, when correctness depends on deterministic rules, when latency or cost must stay low, when the system has to be easy to audit, and when operators need predictable failure modes. Prefer an agent when the process is open-ended, when the system has to discover missing information, when tool choice depends on intermediate observations, when the number of steps is unknown, or when a fixed workflow would branch into a tree nobody can maintain.
 
 ## Complexity Budget
 
-Every additional agent, model call, tool, memory store, and evaluator spends part of the system's complexity budget. Spend it deliberately.
-
-Add complexity when it buys one of these outcomes:
-
-- higher task completion rate;
-- lower human effort;
-- better evidence grounding;
-- safer side effects;
-- lower cost through routing or smaller models;
-- better debuggability;
-- clearer ownership boundaries.
+Every additional agent, model call, tool, memory store, and evaluator spends part of the system's complexity budget, so spend it deliberately. Complexity is worth adding when it buys a concrete outcome: a higher task completion rate, lower human effort, better evidence grounding, safer side effects, lower cost through routing or smaller models, better debuggability, or clearer ownership boundaries.
 
 Do not add complexity only because a pattern is popular. A multi-agent system that replaces a reliable four-step workflow usually makes the product slower, harder to test, and harder to explain.
 
@@ -132,6 +108,7 @@ This minimum bar applies to simple systems too. Small systems fail faster becaus
 
 - [Prompt Chaining and Gates](./prompt-chaining-and-gates)
 - [Routing and Handoffs](./routing-and-handoffs)
+- [Pattern Classification Mind Map](./pattern-classification-mind-map)
 - [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay)
 - [Agent Loop](../foundations/agent-loop)
 - [Goals and State](../foundations/goals-and-state)

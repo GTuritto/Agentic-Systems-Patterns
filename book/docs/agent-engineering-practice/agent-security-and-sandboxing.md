@@ -8,26 +8,15 @@ Agent security is different from chatbot safety because agents can act. They can
 
 Use this chapter when an agent has tools, memory, external data, or side effects.
 
+Start with the [Agent Threat Model](./agent-threat-model) if you need to classify the system's risk. Use this chapter when you are ready to design the containment controls.
+
 ## Security Model
 
-Secure agents by separating four concerns:
-
-- what the user asks for;
-- what the model proposes;
-- what policy allows;
-- what the tool actually executes.
-
-The model should not be the policy engine. It can classify intent or explain a decision, but deterministic software should enforce permissions.
+Secure agents by separating four concerns: what the user asks for, what the model proposes, what policy allows, and what the tool actually executes. The model should not be the policy engine. It can classify intent or explain a decision, but deterministic software should enforce permissions.
 
 ## The High-Risk Combination
 
-The most dangerous agent shape combines:
-
-- access to private or trusted data;
-- exposure to untrusted content;
-- ability to perform external actions.
-
-When these three meet, a malicious document, webpage, email, or tool result can try to steer the agent into leaking data or taking an unsafe action.
+The most dangerous agent shape combines access to private or trusted data, exposure to untrusted content, and the ability to perform external actions. When those three meet, a malicious document, web page, email, or tool result can try to steer the agent into leaking data or taking an unsafe action.
 
 Mitigate this with least privilege, content isolation, approval gates, egress controls, and explicit policy checks.
 
@@ -52,16 +41,7 @@ Coding and computer-use agents need stronger sandboxes than read-only research a
 
 ## Access Control
 
-Grant access by role, task, and route.
-
-Examples:
-
-- a support answer agent can read public docs but cannot issue refunds;
-- a billing workflow can read invoice state but needs approval to apply credit;
-- a coding agent can edit files in a branch but cannot deploy production;
-- a research agent can browse the web but cannot access customer data.
-
-Avoid global tool lists. Each route or agent should receive only the tools needed for the task.
+Grant access by role, task, and route. A support-answer agent can read public docs but cannot issue refunds. A billing workflow can read invoice state but needs approval to apply credit. A coding agent can edit files in a branch but cannot deploy to production. A research agent can browse the web but cannot touch customer data. Avoid global tool lists. Each route or agent should receive only the tools needed for the task.
 
 ## Guardrails
 
@@ -80,19 +60,7 @@ No single guardrail is enough. Use layers.
 
 ## Secrets
 
-Agents should not see raw secrets unless the tool contract requires them.
-
-Prefer:
-
-- server-side tool execution;
-- scoped tokens;
-- short-lived credentials;
-- per-tool secret access;
-- no secrets in prompts;
-- no secrets in memory;
-- redacted traces.
-
-If a model can read a secret, assume it can accidentally expose it.
+Agents should not see raw secrets unless the tool contract requires them. Prefer server-side tool execution, scoped tokens, and short-lived credentials, with secret access granted per tool, no secrets in prompts or memory, and redacted traces. If a model can read a secret, assume it can accidentally expose it.
 
 ## Approval Gates
 
@@ -111,23 +79,11 @@ Approval records should include the proposed action, evidence, policy result, ap
 
 ## Incident Response
 
-Plan for agent incidents before launch.
-
-The team should know how to:
-
-- disable a tool;
-- disable a route;
-- roll back a prompt or policy;
-- revoke credentials;
-- quarantine memory;
-- inspect traces;
-- notify affected users;
-- create evals from the incident.
-
-If the response requires code archaeology during an incident, the system is not operationally ready.
+Plan for agent incidents before launch. The team should already know how to disable a tool or a route, roll back a prompt or policy, revoke credentials, quarantine memory, inspect traces, notify affected users, and turn the incident into evals. If the response requires code archaeology in the middle of an incident, the system is not operationally ready.
 
 ## Related Chapters
 
+- [Agent Threat Model](./agent-threat-model)
 - [Policy Enforcement](../production-runtime/policy-enforcement)
 - [Human Approval Gates](../tools-skills-protocols/human-approval-gates)
 - [Secure Agent Communication](../tools-skills-protocols/secure-agent-communication)

@@ -12,27 +12,24 @@ export default defineConfig({
     ],
     sidebar: [
       {
-        text: 'Foundations',
+        text: 'Start Here',
         items: [
-          { text: 'Single Agent', link: '/foundations/single-agent' },
-          { text: 'Agent Loop', link: '/foundations/agent-loop' },
-          { text: 'Goals and State', link: '/foundations/goals-and-state' },
-          { text: 'Tool Use', link: '/foundations/tool-use' },
-          { text: 'Structured Output', link: '/foundations/structured-output' },
-          { text: 'Context Engineering', link: '/foundations/context-engineering' }
-        ]
-      },
-      {
-        text: 'Publishing',
-        items: [
+          { text: 'Introduction', link: '/intro' },
           { text: 'How To Read This Book', link: '/publishing/how-to-read' },
-          { text: 'Publishing and Releases', link: '/publishing/publishing-and-releases' }
+          { text: 'What Is An Agent?', link: '/foundations/what-is-an-agent' },
+          { text: 'Architecture Before Autonomy', link: '/pattern-selection/architecture-before-autonomy' },
+          { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
+          { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
+          { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' }
         ]
       },
       {
         text: 'Pattern Selection',
         items: [
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
+          { text: 'Architecture Before Autonomy', link: '/pattern-selection/architecture-before-autonomy' },
+          { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
+          { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' },
           { text: 'Prompt Chaining and Gates', link: '/pattern-selection/prompt-chaining-and-gates' },
           { text: 'Routing and Handoffs', link: '/pattern-selection/routing-and-handoffs' },
           { text: 'Resource-Aware Agent Design', link: '/pattern-selection/resource-aware-agent-design' },
@@ -41,12 +38,27 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Foundations',
+        items: [
+          { text: 'What Is An Agent?', link: '/foundations/what-is-an-agent' },
+          { text: 'Single Agent', link: '/foundations/single-agent' },
+          { text: 'Agent Loop', link: '/foundations/agent-loop' },
+          { text: 'Goals and State', link: '/foundations/goals-and-state' },
+          { text: 'Tool Use', link: '/foundations/tool-use' },
+          { text: 'Structured Output', link: '/foundations/structured-output' },
+          { text: 'Context Budgets and Working Sets', link: '/foundations/context-budgets-and-working-sets' },
+          { text: 'Context Engineering', link: '/foundations/context-engineering' }
+        ]
+      },
+      {
         text: 'Agent Engineering Practice',
         items: [
           { text: 'Agent Development Lifecycle', link: '/agent-engineering-practice/agent-development-lifecycle' },
+          { text: 'Agent Harnesses', link: '/agent-engineering-practice/agent-harnesses' },
           { text: 'Agent Engineer Toolkit', link: '/agent-engineering-practice/agent-engineer-toolkit' },
           { text: 'Framework Selection', link: '/agent-engineering-practice/framework-selection' },
           { text: 'Evaluation-Driven Agent Development', link: '/agent-engineering-practice/evaluation-driven-agent-development' },
+          { text: 'Agent Threat Model', link: '/agent-engineering-practice/agent-threat-model' },
           { text: 'Agent Security and Sandboxing', link: '/agent-engineering-practice/agent-security-and-sandboxing' },
           { text: 'Agent UX and Human Trust', link: '/agent-engineering-practice/agent-ux-and-human-trust' }
         ]
@@ -76,6 +88,7 @@ export default defineConfig({
         text: 'Tools, Skills, and Protocols',
         items: [
           { text: 'Skills', link: '/tools-skills-protocols/skills' },
+          { text: 'Tool Capability Design', link: '/tools-skills-protocols/tool-capability-design' },
           { text: 'MCP-first Tool Use', link: '/tools-skills-protocols/mcp-first-tool-use' },
           { text: 'A2A Agent Interoperability', link: '/tools-skills-protocols/a2a-agent-interoperability' },
           { text: 'Secure Agent Communication', link: '/tools-skills-protocols/secure-agent-communication' },
@@ -85,6 +98,7 @@ export default defineConfig({
       {
         text: 'Multi-Agent Systems',
         items: [
+          { text: 'Choosing Multi-Agent Topology', link: '/multi-agent-systems/choosing-multi-agent-topology' },
           { text: 'Task Delegation', link: '/multi-agent-systems/task-delegation' },
           { text: 'Supervisor / Worker', link: '/multi-agent-systems/supervisor-worker' },
           { text: 'Debate and Consensus', link: '/multi-agent-systems/debate-and-consensus' },
@@ -96,6 +110,7 @@ export default defineConfig({
         text: 'Systems Architecture',
         items: [
           { text: 'Agentic System Architecture', link: '/systems-architecture/agentic-system-architecture' },
+          { text: 'Agents As Services', link: '/systems-architecture/agents-as-services' },
           { text: 'Agentic RAG Systems', link: '/systems-architecture/agentic-rag-systems' },
           { text: 'Open Personal Agent Architectures', link: '/systems-architecture/open-personal-agent-architectures' },
           { text: 'Coding Agents', link: '/systems-architecture/coding-agents' },
@@ -110,6 +125,7 @@ export default defineConfig({
         items: [
           { text: 'Durable Workflows', link: '/production-runtime/durable-workflows' },
           { text: 'Observability and Evals', link: '/production-runtime/observability-and-evals' },
+          { text: 'Production Evaluation Feedback Loops', link: '/production-runtime/production-evaluation-feedback-loops' },
           { text: 'Policy Enforcement', link: '/production-runtime/policy-enforcement' },
           { text: 'Event-Triggered Agents', link: '/production-runtime/event-triggered-agents' },
           { text: 'Mastra Runtime', link: '/production-runtime/mastra-runtime' }
@@ -118,6 +134,12 @@ export default defineConfig({
       {
         text: 'Deprecated',
         items: [{ text: 'Historical Patterns', link: '/deprecated/historical-patterns' }]
+      },
+      {
+        text: 'Publishing',
+        items: [
+          { text: 'Publishing and Releases', link: '/publishing/publishing-and-releases' }
+        ]
       },
       {
         text: 'Hands-On Labs',
