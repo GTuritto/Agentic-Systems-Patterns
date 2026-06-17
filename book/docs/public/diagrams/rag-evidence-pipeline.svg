@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="300" viewBox="0 0 940 300" role="img" aria-labelledby="title desc">
+  <title id="title">RAG evidence pipeline</title>
+  <desc id="desc">A retrieval augmented generation flow from question classification through source filters, retrieval, evidence selection, answer, and trace.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="940" height="300" fill="#f8fafc"/>
+  <text x="40" y="42" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" fill="#0f172a">RAG is an evidence pipeline, not a prompt stuffing trick</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="40" y="88" width="120" height="72" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+    <text x="100" y="118" font-size="14" font-weight="700" text-anchor="middle" fill="#075985">Question</text>
+    <text x="100" y="140" font-size="12" text-anchor="middle" fill="#0f172a">task and caller</text>
+
+    <line x1="168" y1="124" x2="208" y2="124" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="220" y="88" width="132" height="72" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+    <text x="286" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#92400e">Filters</text>
+    <text x="286" y="138" font-size="12" text-anchor="middle" fill="#0f172a">source, role, tenant</text>
+
+    <line x1="360" y1="124" x2="400" y2="124" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="412" y="88" width="132" height="72" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="478" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#166534">Retrieve</text>
+    <text x="478" y="138" font-size="12" text-anchor="middle" fill="#0f172a">candidates and scores</text>
+
+    <line x1="552" y1="124" x2="592" y2="124" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="604" y="88" width="132" height="72" rx="10" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <text x="670" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#5b21b6">Evidence</text>
+    <text x="670" y="138" font-size="12" text-anchor="middle" fill="#0f172a">fresh, cited, allowed</text>
+
+    <line x1="744" y1="124" x2="784" y2="124" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <rect x="796" y="88" width="104" height="72" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="848" y="116" font-size="14" font-weight="700" text-anchor="middle" fill="#991b1b">Answer</text>
+    <text x="848" y="138" font-size="12" text-anchor="middle" fill="#0f172a">or refuse</text>
+
+    <path d="M848 168 C848 226 102 226 102 168" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="470" y="244" font-size="12" font-weight="700" text-anchor="middle" fill="#334155">Trace query, filters, source IDs, citations, and stop reason</text>
+  </g>
+</svg>

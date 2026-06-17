@@ -190,6 +190,14 @@ const architectureDiagrams = {
     alt: 'Structured output validation architecture',
     file: 'structured-output-validation.svg'
   },
+  'context-engineering': {
+    alt: 'Context assembly pipeline',
+    file: 'context-assembly-pipeline.svg'
+  },
+  'semantic-recall-rag': {
+    alt: 'RAG evidence pipeline',
+    file: 'rag-evidence-pipeline.svg'
+  },
   'evaluator-optimizer': {
     alt: 'Evaluator-optimizer loop architecture',
     file: 'evaluator-optimizer-loop.svg'
