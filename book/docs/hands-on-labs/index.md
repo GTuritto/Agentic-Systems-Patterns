@@ -6,6 +6,8 @@ title: Hands-On Labs
 
 The labs turn the reference chapters into a build path. Each lab uses code that already lives in this repository, so you can read the pattern, run the example, change one thing, and connect the result back to production design.
 
+Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task.
+
 Run these commands from the repository root before starting:
 
 ```sh
@@ -24,6 +26,7 @@ Some examples can run with deterministic fallbacks. Examples that call live mode
 4. [Build A2A Agent Communication](./lab-04-a2a-communication.md)
 5. [Build a Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md)
 6. [Add Observability and Evals](./lab-06-observability-and-evals.md)
+7. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
 ## How To Use These Labs
 
@@ -36,3 +39,5 @@ Each lab ends with a production extension. Treat that section as the bridge betw
 Do the labs in order if you are new to agent systems. The sequence starts with one agent and one tool, then adds planning, retrieval, remote agent communication, multi-agent coordination, and production-quality evaluation.
 
 If you already know the basics, start with the lab closest to your current system and use the related chapters as reference material.
+
+After the labs, read the vertical slices to see how the same patterns compose into support, coding, and research workflows.

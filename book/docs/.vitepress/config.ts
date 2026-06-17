@@ -156,7 +156,8 @@ export default defineConfig({
           { text: '03 - Agentic RAG', link: '/hands-on-labs/lab-03-agentic-rag' },
           { text: '04 - A2A Communication', link: '/hands-on-labs/lab-04-a2a-communication' },
           { text: '05 - Multi-Agent Supervisor', link: '/hands-on-labs/lab-05-multi-agent-supervisor' },
-          { text: '06 - Observability and Evals', link: '/hands-on-labs/lab-06-observability-and-evals' }
+          { text: '06 - Observability and Evals', link: '/hands-on-labs/lab-06-observability-and-evals' },
+          { text: 'Vertical Slice Examples', link: '/hands-on-labs/vertical-slice-examples' }
         ]
       }
     ],

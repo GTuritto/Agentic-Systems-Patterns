@@ -81,7 +81,8 @@ const chapters = [
   ['Hands-On Labs / Lab 03 - Agentic RAG', 'hands-on-labs/lab-03-agentic-rag.md'],
   ['Hands-On Labs / Lab 04 - A2A Communication', 'hands-on-labs/lab-04-a2a-communication.md'],
   ['Hands-On Labs / Lab 05 - Multi-Agent Supervisor', 'hands-on-labs/lab-05-multi-agent-supervisor.md'],
-  ['Hands-On Labs / Lab 06 - Observability and Evals', 'hands-on-labs/lab-06-observability-and-evals.md']
+  ['Hands-On Labs / Lab 06 - Observability and Evals', 'hands-on-labs/lab-06-observability-and-evals.md'],
+  ['Hands-On Labs / Vertical Slice Examples', 'hands-on-labs/vertical-slice-examples.md']
 ];
 
 const md = new MarkdownIt({
