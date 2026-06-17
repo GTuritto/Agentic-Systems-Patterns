@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+<title id="title">Circuit Breakers, Fallbacks, and Replay</title>
+<desc id="desc">Agent runtime reliability flow from request, through breaker checks, to primary execution, fallback, replay, or escalation.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#5F6368"/>
+  </marker>
+</defs>
+<rect width="1120" height="560" fill="none"/>
+<text x="560" y="45" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700" fill="#173F4F">Circuit Breakers, Fallbacks, and Replay</text>
+
+<line x1="205" y1="170" x2="285" y2="170" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="485" y1="170" x2="575" y2="170" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="775" y1="170" x2="875" y2="170" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="220" x2="675" y2="295" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="375" x2="675" y2="455" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="485" y1="355" x2="575" y2="335" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="775" y1="335" x2="875" y2="355" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="130" x2="675" y2="90" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<line x1="675" y1="90" x2="375" y2="90" stroke="#5F6368" stroke-width="2.4" marker-end="url(#arrow)"/>
+<text x="530" y="82" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">trace event</text>
+
+<rect x="55" y="130" width="150" height="80" rx="8" ry="8" fill="#E8F0FE" stroke="#3367D6" stroke-width="2"/>
+<text x="130" y="162" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Request</text>
+<text x="130" y="184" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">or event</text>
+
+<rect x="285" y="125" width="200" height="90" rx="8" ry="8" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="385" y="158" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Load run state</text>
+<text x="385" y="180" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">budgets and policy</text>
+
+<rect x="575" y="125" width="200" height="90" rx="8" ry="8" fill="#FFF4E5" stroke="#F9AB00" stroke-width="2"/>
+<text x="675" y="158" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Breaker checks</text>
+<text x="675" y="180" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">loop tool route cost</text>
+
+<rect x="875" y="130" width="180" height="80" rx="8" ry="8" fill="#EAF5FF" stroke="#007B83" stroke-width="2"/>
+<text x="965" y="162" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Primary path</text>
+<text x="965" y="184" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">agent or tool</text>
+
+<rect x="575" y="295" width="200" height="80" rx="8" ry="8" fill="#FCE8E6" stroke="#D93025" stroke-width="2"/>
+<text x="675" y="327" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Fallback decision</text>
+<text x="675" y="349" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">degrade or stop</text>
+
+<rect x="285" y="320" width="200" height="80" rx="8" ry="8" fill="#F3E8FD" stroke="#9334E6" stroke-width="2"/>
+<text x="385" y="352" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Replay record</text>
+<text x="385" y="374" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">trace and state</text>
+
+<rect x="875" y="320" width="180" height="80" rx="8" ry="8" fill="#F1F3F4" stroke="#5F6368" stroke-width="2"/>
+<text x="965" y="352" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Human or queue</text>
+<text x="965" y="374" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">escalation</text>
+
+<rect x="575" y="455" width="200" height="70" rx="8" ry="8" fill="#E6F4EA" stroke="#188038" stroke-width="2"/>
+<text x="675" y="490" text-anchor="middle" dominant-baseline="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#202124">Eval fixture</text>
+
+<text x="530" y="160" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">check</text>
+<text x="830" y="160" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">closed</text>
+<text x="695" y="260" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">open</text>
+<text x="530" y="330" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">record</text>
+<text x="830" y="330" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">escalate</text>
+<text x="695" y="420" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#3C4043">incident</text>
+</svg>
