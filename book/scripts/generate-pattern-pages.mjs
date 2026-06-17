@@ -178,6 +178,10 @@ const architectureDiagrams = {
     alt: 'Goals, state, and working memory architecture',
     file: 'goals-state-working-memory.svg'
   },
+  'tool-use': {
+    alt: 'Tool use policy boundary',
+    file: 'tool-use-policy-boundary.svg'
+  },
   'working-memory': {
     alt: 'Goals, state, and working memory architecture',
     file: 'goals-state-working-memory.svg'

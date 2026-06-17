@@ -1,44 +1,164 @@
 # Tool-Using Agent Pattern
 
-## Description
+## Intent
 
-The Tool-Using Agent Pattern extends the Single Agent Pattern by enabling the agent to interact with external tools, APIs, or services to enhance its capabilities. Instead of relying solely on its own reasoning, the agent can delegate specific tasks (such as calculations, web searches, or data retrieval) to specialized tools. This pattern is foundational for building more capable and practical agentic systems.
+Tool use lets an agent cross the boundary between language and action. The model can propose a calculation, lookup, retrieval, file operation, API call, workflow step, or business action, but software still owns the real execution boundary.
 
-### Key Characteristics
+The important idea is simple: the model does not "use the tool" directly. The model proposes a tool call. The runtime validates the call, checks policy, executes the tool, records the result, and decides whether the observation can influence the next step.
 
-- **Tool Integration:** The agent can call external tools or APIs as part of its reasoning process.
-- **Decision Making:** The agent decides when and how to use tools based on the task or user input.
-- **Enhanced Capabilities:** The agent can solve a broader range of problems by leveraging external resources.
+## Use When
 
-### Use Cases
+- The task needs facts, computation, retrieval, or system access outside the model context.
+- The tool can be expressed as a narrow capability with typed inputs and structured outputs.
+- Software can validate arguments before execution.
+- Permissions and policy checks can sit between model intent and tool execution.
+- The result can be traced, replayed, mocked, or audited.
 
-- Agents that use calculators, search engines, or databases
-- Virtual assistants that book appointments or fetch weather data
-- Data analysis bots that use external libraries or APIs
+## Avoid When
 
-### Advantages
+- A deterministic function or workflow can do the job without model selection.
+- The proposed tool is a broad primitive such as `run_sql`, `send_http_request`, or `execute_shell`.
+- The tool can create high-risk side effects without approval.
+- Tool results contain untrusted content but the system cannot separate data from instructions.
+- The team cannot explain which tool calls are allowed, forbidden, retried, or escalated.
 
-- Greatly expands the agent's abilities
-- Enables real-world applications (e.g., automation, information retrieval)
-- Modular and extensible: new tools can be added as needed
-
-### Limitations
-
-- Increased complexity in agent design
-- Requires robust error handling for tool failures
-- Security and privacy considerations when using external services
-
----
-
-## Mermaid Diagram
+## Architecture
 
 ```mermaid
 flowchart TD
-    E[Environment] -- Perceive --> A[Tool-Using Agent]
-    A -- Action --> E
-    A -- Tool Call --> T[External Tool/API]
-    T -- Result --> A
-    subgraph Agent
-        A
-    end
+    U[User or workflow request] --> A[Agent runtime]
+    A --> M[Model proposes tool call]
+    M --> V[Validate schema and policy]
+    V -->|allowed| T[Execute narrow tool]
+    V -->|denied| H[Refuse or escalate]
+    T --> O[Observation as data]
+    O --> A
+    A --> R[Typed result with trace]
 ```
+
+## System Shape
+
+- **Pattern boundary:** an agent runtime receives a task, exposes only the tools needed for that task, validates model-proposed calls, and returns a typed result.
+- **State owner:** the caller, workflow engine, or agent runtime owns task state. The model should not be the durable state store.
+- **Tool owner:** each tool has an owning service or team responsible for schema, permissions, side effects, errors, and trace fields.
+- **Policy boundary:** tool execution happens only after schema validation, authorization, budget checks, and approval rules.
+- **Operational promise:** tool use expands agent capability without handing the model unrestricted authority.
+
+## Core Protocol
+
+1. Receive a bounded task with caller identity, goal, state reference, and budget.
+2. Select the smallest useful tool set for the current task or phase.
+3. Ask the model for the next action or final answer.
+4. Validate any proposed tool call against schema, permissions, budget, and policy.
+5. Execute the tool with timeout, idempotency key, and trace correlation.
+6. Return the tool result as observation data, not as new instructions.
+7. Stop, retry, escalate, or continue according to explicit runtime rules.
+
+## Implementation Notes
+
+Treat the tool registry as an authority surface. A small registry is better than a large list of vague capabilities.
+
+```ts
+type ToolName = 'read_order' | 'search_refund_policy' | 'draft_refund_request';
+
+type ToolRequest = {
+  runId: string;
+  callerId: string;
+  tool: ToolName;
+  args: Record<string, unknown>;
+  idempotencyKey: string;
+};
+
+const allowedToolsByRoute: Record<string, ToolName[]> = {
+  refund_investigation: ['read_order', 'search_refund_policy', 'draft_refund_request']
+};
+
+function authorizeToolCall(route: string, request: ToolRequest) {
+  const allowed = allowedToolsByRoute[route] ?? [];
+
+  if (!allowed.includes(request.tool)) {
+    return { status: 'denied', reason: 'tool_not_allowed' };
+  }
+
+  if (!request.idempotencyKey) {
+    return { status: 'denied', reason: 'missing_idempotency_key' };
+  }
+
+  return { status: 'allowed' };
+}
+```
+
+The model can choose among `read_order`, `search_refund_policy`, and `draft_refund_request`, but it cannot invent `issue_refund` unless the runtime exposes that tool and policy allows it.
+
+Use structured tool results:
+
+```ts
+type ToolResult =
+  | { status: 'ok'; data: unknown; evidenceRef: string }
+  | { status: 'refused'; reason: string }
+  | { status: 'retryable_error'; reason: string; retryAfterMs?: number }
+  | { status: 'fatal_error'; reason: string };
+```
+
+Do not return plain strings for important tools. Plain strings force the model to infer whether the call succeeded, whether retry is safe, and whether the content is trusted.
+
+## Failure Modes
+
+- The model is allowed to call a broad tool that can perform many hidden actions.
+- Tool descriptions become the only permission boundary.
+- Tool arguments are not validated before execution.
+- A retry duplicates a side effect because there is no idempotency key.
+- Tool results containing emails, web pages, tickets, or documents are treated as instructions.
+- The final answer looks correct, but the tool trajectory used a forbidden or unsafe path.
+- Tool errors are vague, so the agent retries blindly or invents missing evidence.
+- Traces record the final response but not the proposed call, policy decision, tool result, and stop reason.
+
+## Evaluation Strategy
+
+Tool-use evals should test both capability and restraint.
+
+- Use positive cases where the agent must choose the right tool with valid arguments.
+- Use negative cases where the correct behavior is to call no tool, ask for missing input, refuse, or escalate.
+- Include forbidden-tool cases such as direct refund issuance, external messaging, shell execution, or private-data export.
+- Mock tools so evals can inspect the trajectory without touching real systems.
+- Test malformed tool results, timeouts, retryable errors, fatal errors, and untrusted instructions inside tool output.
+- Measure tool-selection accuracy, invalid-argument rate, unauthorized-call rate, approval-routing accuracy, unsafe-chain prevention, cost, latency, and stop reason quality.
+
+A minimal mocked-tool eval can look like this:
+
+```json
+{
+  "case_id": "refund_missing_policy",
+  "input": "Customer asks for a refund, but no refund policy is available.",
+  "expected": {
+    "tools_called": ["read_order", "search_refund_policy"],
+    "tools_not_called": ["draft_refund_request", "issue_refund"],
+    "final_status": "needs_human"
+  }
+}
+```
+
+The eval is not only checking the final answer. It is checking the path.
+
+## Production Checklist
+
+- Keep every tool narrow and named by business capability.
+- Use typed input and output schemas.
+- Declare capability class, side effects, permissions, approval rules, and trace fields.
+- Validate arguments before execution.
+- Enforce permissions outside the prompt.
+- Add timeouts, retry limits, idempotency keys, and cancellation behavior.
+- Treat untrusted tool output as data, not instructions.
+- Log proposed tool call, policy decision, execution result, latency, cost, and stop reason.
+- Mock tools in evals before connecting to production systems.
+- Keep a circuit breaker for risky tools, model routes, or agent capabilities.
+
+## Related Patterns
+
+- [Single Agent](/foundations/single-agent)
+- [Agent Loop](/foundations/agent-loop)
+- [Structured Output](/foundations/structured-output)
+- [MCP-first Tool Use](/tools-skills-protocols/mcp-first-tool-use)
+- [Tool Capability Design](/tools-skills-protocols/tool-capability-design)
+- [Human Approval Gates](/tools-skills-protocols/human-approval-gates)
+- [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
