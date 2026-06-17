@@ -217,3 +217,4 @@ The download bundle contains the current `agent-loop-pattern/` folder from this 
 - [Evaluator-Optimizer](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/evaluator-optimizer-pattern/README.md)
 - [Durable Workflows](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/durable-workflow-pattern/README.md)
 - [Pattern Evaluation Checklist](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/book/docs/pattern-selection/pattern-evaluation-checklist.md)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

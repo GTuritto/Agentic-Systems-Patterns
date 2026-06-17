@@ -178,3 +178,4 @@ Measure quality lift over baseline, latency cost, token cost, worker failure han
 - [Agent Loop](/foundations/agent-loop)
 - [Tool Use](/foundations/tool-use)
 - [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

@@ -8,6 +8,8 @@ A pattern is not ready because it sounds right. It is ready when the team can ex
 
 This checklist is the shared review lens for the book. Use it before choosing a pattern, before composing several patterns, and before promoting an agentic workflow into production.
 
+For the engineering loop behind this checklist, see [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development). Use the checklist to review a pattern. Use the development chapter to turn the review into datasets, fixtures, release gates, and production feedback.
+
 ![Pattern evaluation flow](../public/diagrams/pattern-evaluation-flow.svg)
 
 ## The Short Version
@@ -121,6 +123,7 @@ Choose the simplest pattern whose risks you can bound and whose behavior you can
 - [Choosing the Right Pattern](./choosing-the-right-pattern)
 - [From Patterns To Systems](./from-patterns-to-systems)
 - [Pattern Composition Playbook](./pattern-composition-playbook)
+- [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
 - [Agent Threat Model](../agent-engineering-practice/agent-threat-model)
 - [Agents As Services](../systems-architecture/agents-as-services)
 - [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology)

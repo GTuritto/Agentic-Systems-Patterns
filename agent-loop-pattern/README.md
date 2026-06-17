@@ -203,3 +203,4 @@ Measure completion rate, correct stop reason, invalid-action rate, repeated-acti
 - [Evaluator-Optimizer](../evaluator-optimizer-pattern/README.md)
 - [Durable Workflows](../durable-workflow-pattern/README.md)
 - [Pattern Evaluation Checklist](../book/docs/pattern-selection/pattern-evaluation-checklist.md)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

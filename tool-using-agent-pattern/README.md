@@ -162,3 +162,4 @@ The eval is not only checking the final answer. It is checking the path.
 - [Tool Capability Design](/tools-skills-protocols/tool-capability-design)
 - [Human Approval Gates](/tools-skills-protocols/human-approval-gates)
 - [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

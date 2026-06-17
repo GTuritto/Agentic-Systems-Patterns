@@ -214,3 +214,5 @@ Measure write precision, write recall, unsafe-write rate, stale-recall rate, cor
 - [Context Engineering](../context-engineering-pattern/README.md)
 - [Policy Enforcement](../compliance-policy-enforcer-agent/README.md)
 - [Human Approval Gates](../human-in-the-loop-approval-agent/README.md)
+- [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

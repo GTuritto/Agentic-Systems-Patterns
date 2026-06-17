@@ -44,6 +44,47 @@ Evaluate the full trajectory, not only the final answer.
 
 If only the final response is evaluated, the team will miss the failure that caused it. The answer may look right even though the agent used stale evidence, skipped approval, retried a tool six times, or wrote bad memory for the next run.
 
+## Evaluation Lenses By Responsibility
+
+Different patterns need different evidence. Do not use one generic "answer quality" score for every agentic system.
+
+| Pattern Responsibility | Primary Question | Minimum Proof |
+| --- | --- | --- |
+| Loop control | Did the run stop for the right reason? | Step budget, tool budget, timeout, retry, and stop-reason cases. |
+| Context assembly | Did the model see the right evidence and exclusions? | Context packet assertions for included sources, omitted sources, freshness, and budget. |
+| Tool use | Did the system use the minimum safe authority? | Mocked tools, forbidden-tool cases, schema checks, approval checks, and error paths. |
+| Memory | Did the system remember only what policy allows? | Allowed write, denied write, correction, deletion, stale recall, and tenant isolation cases. |
+| Retrieval | Did the system find and cite the right evidence? | Relevance, coverage, citation, missing-evidence, and conflicting-source cases. |
+| Multi-agent coordination | Did delegation improve the result without hiding accountability? | Single-agent baseline, worker failure, disagreement, merge, and final owner cases. |
+| Human approval | Did the right action pause with enough information? | Approval-required, approval-denied, timeout, resume, and audit-record cases. |
+| Runtime operation | Can the team explain and recover from failure? | Trace completeness, replay, rollback, breaker, incident fixture, and release-gate cases. |
+
+This table is a design tool. If the selected pattern introduces a risk, the eval must target that risk directly.
+
+## Minimal Eval Case Contract
+
+An eval case should be small enough to review and specific enough to fail for the right reason.
+
+```ts
+type AgentEvalCase = {
+  caseId: string;
+  goal: string;
+  input: string;
+  mockedTools?: Record<string, unknown[]>;
+  expected: {
+    finalStatus?: "succeeded" | "needs_human" | "refused" | "failed";
+    stopReason?: string;
+    toolsCalled?: string[];
+    toolsNotCalled?: string[];
+    requiredTraceEvents?: string[];
+    requiredCitations?: string[];
+    memoryWrites?: "none" | "allowed" | "denied" | "review_required";
+  };
+};
+```
+
+The schema is intentionally plain. It lets the team test final output, trajectory, policy, memory, and observability without turning the eval suite into another agent project.
+
 ## Failure Mode Inventory
 
 Start each agent project with a failure mode inventory. This is the most useful early artifact because it turns fear into testable cases.

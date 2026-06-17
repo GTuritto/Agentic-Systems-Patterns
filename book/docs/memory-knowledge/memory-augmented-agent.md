@@ -385,3 +385,5 @@ The download bundle contains the current `memory-augmented-agent-pattern/` folde
 - [Context Engineering](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/context-engineering-pattern/README.md)
 - [Policy Enforcement](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/compliance-policy-enforcer-agent/README.md)
 - [Human Approval Gates](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/human-in-the-loop-approval-agent/README.md)
+- [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

@@ -335,3 +335,4 @@ The download bundle contains the current `hierarchical-agent-pattern/` folder fr
 - [Agent Loop](/foundations/agent-loop)
 - [Tool Use](/foundations/tool-use)
 - [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)
