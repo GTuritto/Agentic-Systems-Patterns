@@ -29,6 +29,8 @@ Before adding a pattern, ask what problem it owns.
 
 If no pattern owns a concrete problem, do not add it.
 
+For concrete end-to-end examples, read [Vertical Slice Examples](../hands-on-labs/vertical-slice-examples) after this chapter. The slices show the same composition rule applied to support, coding, and research workflows.
+
 ## A Default Composition
 
 For many production systems, the default composition is:
@@ -199,3 +201,4 @@ Compose patterns only when each added pattern has a job, a boundary, an owner, a
 - [Policy Enforcement](../production-runtime/policy-enforcement)
 - [Human Approval Gates](../tools-skills-protocols/human-approval-gates)
 - [Production Evaluation Feedback Loops](../production-runtime/production-evaluation-feedback-loops)
+- [Vertical Slice Examples](../hands-on-labs/vertical-slice-examples)

@@ -12,13 +12,13 @@ This page is also an alternative table of contents. The sidebar shows where chap
 
 ## Linked Alternative TOC
 
-Use this map when you know the design problem but not the chapter name.
+Use this map when you know the design problem but not the chapter name. The order is intentional: start with the loop, add control, add context and memory, expose tools safely, compose agents only when needed, then operate, secure, evaluate, and apply the system.
 
 <div class="linked-mind-map" role="navigation" aria-label="Linked mind map table of contents">
   <div class="mind-root"><a href="../intro">Agentic Systems Patterns</a></div>
   <div class="mind-grid">
     <section>
-      <h3>Start Here</h3>
+      <h3>0. Start With The Thesis</h3>
       <ul>
         <li><a href="../publishing/how-to-read">How To Read This Book</a></li>
         <li><a href="../foundations/what-is-an-agent">What Is An Agent?</a></li>
@@ -29,7 +29,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Foundations</h3>
+      <h3>1. Start With The Loop</h3>
       <ul>
         <li><a href="../foundations/single-agent">Single Agent</a></li>
         <li><a href="../foundations/agent-loop">Agent Loop</a></li>
@@ -41,7 +41,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Pattern Selection</h3>
+      <h3>2. Add Control</h3>
       <ul>
         <li><a href="./pattern-evaluation-checklist">Pattern Evaluation Checklist</a></li>
         <li><a href="./pattern-composition-playbook">Pattern Composition Playbook</a></li>
@@ -53,7 +53,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Agent Engineering</h3>
+      <h3>3. Engineer The Agent</h3>
       <ul>
         <li><a href="../agent-engineering-practice/agent-development-lifecycle">Agent Development Lifecycle</a></li>
         <li><a href="../agent-engineering-practice/agent-harnesses">Agent Harnesses</a></li>
@@ -66,7 +66,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Control Loops</h3>
+      <h3>4. Choose The Control Loop</h3>
       <ul>
         <li><a href="../control-loops/planning-and-execution">Planning and Execution</a></li>
         <li><a href="../control-loops/react">ReAct</a></li>
@@ -77,7 +77,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Memory And Knowledge</h3>
+      <h3>5. Add Context And Memory</h3>
       <ul>
         <li><a href="../memory-knowledge/memory-augmented-agent">Memory-Augmented Agent</a></li>
         <li><a href="../memory-knowledge/long-term-episodic-memory">Long-Term Episodic Memory</a></li>
@@ -87,7 +87,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Tools And Protocols</h3>
+      <h3>6. Add Tools And Protocols</h3>
       <ul>
         <li><a href="../tools-skills-protocols/skills">Skills</a></li>
         <li><a href="../tools-skills-protocols/tool-capability-design">Tool Capability Design</a></li>
@@ -98,7 +98,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Multi-Agent Systems</h3>
+      <h3>7. Compose Multiple Agents</h3>
       <ul>
         <li><a href="../multi-agent-systems/choosing-multi-agent-topology">Choosing Multi-Agent Topology</a></li>
         <li><a href="../multi-agent-systems/task-delegation">Task Delegation</a></li>
@@ -109,7 +109,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>System Architecture</h3>
+      <h3>8. Turn Patterns Into Systems</h3>
       <ul>
         <li><a href="../systems-architecture/agentic-system-architecture">Agentic System Architecture</a></li>
         <li><a href="../systems-architecture/agents-as-services">Agents As Services</a></li>
@@ -123,7 +123,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Production Runtime</h3>
+      <h3>9. Operate In Production</h3>
       <ul>
         <li><a href="../production-runtime/overview">Production Runtime Overview</a></li>
         <li><a href="../production-runtime/durable-workflows">Durable Workflows</a></li>
@@ -136,7 +136,7 @@ Use this map when you know the design problem but not the chapter name.
       </ul>
     </section>
     <section>
-      <h3>Labs And Reference</h3>
+      <h3>10. Apply The Patterns</h3>
       <ul>
         <li><a href="../hands-on-labs/">Hands-On Labs</a></li>
         <li><a href="../hands-on-labs/lab-01-tool-using-agent">Lab 01 - Tool-Using Agent</a></li>
@@ -145,6 +145,7 @@ Use this map when you know the design problem but not the chapter name.
         <li><a href="../hands-on-labs/lab-04-a2a-communication">Lab 04 - A2A Communication</a></li>
         <li><a href="../hands-on-labs/lab-05-multi-agent-supervisor">Lab 05 - Multi-Agent Supervisor</a></li>
         <li><a href="../hands-on-labs/lab-06-observability-and-evals">Lab 06 - Observability and Evals</a></li>
+        <li><a href="../hands-on-labs/vertical-slice-examples">Vertical Slice Examples</a></li>
         <li><a href="../deprecated/historical-patterns">Historical Patterns</a></li>
         <li><a href="../publishing/publishing-and-releases">Publishing and Releases</a></li>
       </ul>
@@ -226,6 +227,7 @@ An agentic system is usually a composition of several pattern families working t
 | Production runtime | How does it run safely over time? | durable workflows, observability, evals, runtime budgets, policy, events, runtime orchestration. | Failures cannot be replayed, explained, budgeted, rolled back, or improved. |
 | Security and governance | What must the model never be allowed to decide alone? | sandboxing, policy gates, scoped tools, audit trails, egress control. | Prompt instructions become the only control plane. |
 | Human collaboration | Where do humans stay in the loop? | approval gates, UX, trust, escalation, handoff protocols. | Users cannot predict, correct, or trust the system. |
+| Vertical slices | How do the patterns compose for one real task? | support refund assistant, safe coding agent, research to brief agent. | The book stays abstract and engineers cannot see the runtime shape. |
 
 ## Practical Classification Rule
 
@@ -240,12 +242,23 @@ Classify every pattern by the boundary it creates.
 | Quality boundary | What blocks a bad answer or action? | Evaluation, gates, replay. |
 | Coordination boundary | Who owns each part of the task? | Multi-agent systems. |
 | Operational boundary | What happens when the run fails? | Production runtime. |
+| Application boundary | How does this design work end to end? | Vertical slice examples. |
 
 This keeps the taxonomy practical. A pattern is not important because it has a name. It is important because it gives the system a boundary that can be tested.
 
 ## What This Map Adds To The Book
 
 The book already has a sidebar taxonomy. This map adds an architectural one. The sidebar answers where a chapter lives; the mind map answers which problem you are trying to solve. Use both. The sidebar helps you navigate the book, and the map helps you reason about the system you are designing.
+
+For an applied reading path, use this sequence:
+
+1. [What Is An Agent?](../foundations/what-is-an-agent)
+2. [Architecture Before Autonomy](./architecture-before-autonomy)
+3. [Agent Harnesses](../agent-engineering-practice/agent-harnesses)
+4. [Production Runtime Overview](../production-runtime/overview)
+5. [Agent Security and Sandboxing](../agent-engineering-practice/agent-security-and-sandboxing)
+6. [Observability and Evals](../production-runtime/observability-and-evals)
+7. [Vertical Slice Examples](../hands-on-labs/vertical-slice-examples)
 
 ## Related Chapters
 
@@ -262,3 +275,4 @@ The book already has a sidebar taxonomy. This map adds an architectural one. The
 - [Agents As Services](../systems-architecture/agents-as-services)
 - [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology)
 - [Production Evaluation Feedback Loops](../production-runtime/production-evaluation-feedback-loops)
+- [Vertical Slice Examples](../hands-on-labs/vertical-slice-examples)
