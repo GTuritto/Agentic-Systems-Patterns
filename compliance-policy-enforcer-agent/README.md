@@ -8,6 +8,8 @@ Policy should not live only in prompt text. Prompts can explain policy to the mo
 
 Knowledge-bound agents use the same idea for answers: the model should answer only from approved sources, cite the evidence, and refuse or escalate when the required source is missing, stale, forbidden, or conflicting.
 
+The practical rule is: policy runs before authority. Before retrieval, before memory writes, before tool execution, before external communication, and before final answers in regulated or evidence-bound domains, the runtime should know whether the action is allowed.
+
 ## Use When
 
 - Actions must be checked before execution.
@@ -15,6 +17,8 @@ Knowledge-bound agents use the same idea for answers: the model should answer on
 - The system needs approved sources, citations, or compliance constraints.
 - Policy decisions must be auditable and replayable.
 - The runtime can identify actor, resource, action, capability, risk, and context.
+- Tool calls, memory writes, retrieval, final answers, or workflow transitions require different rules by task class.
+- A human approval path exists for actions that are valid but too risky to execute autonomously.
 
 ## Avoid When
 
@@ -23,6 +27,7 @@ Knowledge-bound agents use the same idea for answers: the model should answer on
 - Policy checks happen after irreversible actions.
 - Exceptions are silent, unreviewed, or missing from traces.
 - Approved knowledge sources cannot be identified, updated, or cited.
+- The runtime cannot stop, pause, or change execution after a policy decision.
 
 ## Architecture
 
@@ -46,6 +51,7 @@ flowchart LR
 - **State owner:** the runtime owns policy context, decision records, policy version, trace ID, and enforcement outcome.
 - **Model role:** the model proposes an action or answer and may explain risk, but it does not grant itself permission.
 - **Knowledge boundary:** approved sources, freshness, citations, and refusal rules define what the agent may claim.
+- **Budget boundary:** policy can require approval, downgrade capability, or stop when a run has exceeded the spend or autonomy allowed for its risk class.
 - **Operational promise:** policy decisions happen before execution and are visible after the run.
 
 ## Core Protocol
@@ -64,6 +70,8 @@ flowchart LR
 A policy decision should be a typed runtime object.
 
 ```ts
+type PolicyOutcome = 'allow' | 'deny' | 'require_approval' | 'escalate' | 'audit';
+
 type PolicyDecision = {
   actionId: string;
   actor: {
@@ -78,7 +86,7 @@ type PolicyDecision = {
   };
   capability: 'read' | 'write' | 'send' | 'refund' | 'remember' | 'answer';
   riskLevel: 'low' | 'medium' | 'high' | 'critical';
-  decision: 'allow' | 'deny' | 'require_approval' | 'escalate' | 'audit';
+  decision: PolicyOutcome;
   reason: string;
   requiredApproval?: {
     approverRole: string;
@@ -89,18 +97,39 @@ type PolicyDecision = {
 };
 ```
 
-The enforcement function should run before the tool call or side effect:
+The policy context should come from trusted runtime state, not only from model text:
 
 ```ts
-function enforcePolicy(input: {
+type PolicyContext = {
+  actionId: string;
+  traceId: string;
   actorRole: string;
   actorTenant?: string;
   resourceTenant?: string;
   capability: PolicyDecision['capability'];
   riskLevel: PolicyDecision['riskLevel'];
-}): Pick<PolicyDecision, 'decision' | 'reason'> {
+  toolName?: string;
+  evidenceStatus?: 'present' | 'missing' | 'stale' | 'forbidden';
+  budgetState: 'within_budget' | 'approval_threshold' | 'exhausted';
+  hasHumanApproval: boolean;
+  policyVersion: string;
+};
+```
+
+The enforcement function should run before retrieval, memory write, tool call, side effect, or final answer:
+
+```ts
+function enforcePolicy(input: PolicyContext): Pick<PolicyDecision, 'decision' | 'reason'> {
   if (input.actorTenant && input.resourceTenant && input.actorTenant !== input.resourceTenant) {
     return { decision: 'deny', reason: 'tenant_boundary' };
+  }
+
+  if (input.budgetState === 'exhausted') {
+    return { decision: 'escalate', reason: 'budget_exhausted' };
+  }
+
+  if (input.budgetState === 'approval_threshold' && !input.hasHumanApproval) {
+    return { decision: 'require_approval', reason: 'budget_approval_required' };
   }
 
   if (input.capability === 'refund' && input.riskLevel === 'high') {
@@ -109,6 +138,14 @@ function enforcePolicy(input: {
 
   if (input.capability === 'send' && input.actorRole !== 'support_agent') {
     return { decision: 'deny', reason: 'role_not_allowed' };
+  }
+
+  if (input.capability === 'answer' && input.evidenceStatus !== 'present') {
+    return { decision: 'escalate', reason: 'required_evidence_not_available' };
+  }
+
+  if (input.capability === 'remember' && input.riskLevel !== 'low') {
+    return { decision: 'require_approval', reason: 'memory_write_requires_review' };
   }
 
   return { decision: 'allow', reason: 'policy_passed' };
@@ -129,6 +166,19 @@ type SourcePolicy = {
 
 The model can explain why an action looks safe. The runtime still makes the decision.
 
+### Where Policy Runs
+
+| Boundary | Policy Question |
+| --- | --- |
+| Retrieval | Is this actor allowed to read these sources for this task? |
+| Tool call | Is this tool allowed for the actor, tenant, resource, risk, and budget? |
+| Memory write | Is this memory safe, scoped, useful, and allowed to persist? |
+| Human approval | Is this action allowed only after review, and who can approve it? |
+| Final answer | Is the answer supported by approved evidence and safe to return? |
+| Workflow transition | Is the next step valid after the current state and policy decision? |
+
+Treat each policy decision as a runtime event. It should have a trace ID, policy version, input summary, decision, reason, and execution effect.
+
 ## Failure Modes
 
 - Policy exists only in the system prompt.
@@ -140,6 +190,9 @@ The model can explain why an action looks safe. The runtime still makes the deci
 - Approval-required actions are treated as allowed.
 - Knowledge answers cite unapproved, stale, or inaccessible sources.
 - Exceptions become permanent undocumented policy holes.
+- Policy checks ignore budget state, so an agent can keep spending after approval should be required.
+- Memory writes bypass policy because they are treated as harmless context management.
+- Final answers bypass policy even when the domain requires approved evidence.
 
 ## Evaluation Strategy
 
@@ -153,6 +206,9 @@ Policy evals should test allowed, denied, approval-required, and escalation path
 - Test missing actor, resource, or tenant context.
 - Test policy version changes and audit completeness.
 - Test production incidents as replayable policy fixtures.
+- Test budget-threshold cases that require approval before more work.
+- Test memory-write denials, approvals, and tenant scoping.
+- Test final-answer refusal or escalation when required evidence is missing.
 
 A compact policy eval can look like this:
 
@@ -163,7 +219,9 @@ A compact policy eval can look like this:
     "actor_tenant": "tenant_a",
     "resource_tenant": "tenant_b",
     "capability": "read",
-    "resource_type": "customer_record"
+    "resource_type": "customer_record",
+    "budget_state": "within_budget",
+    "evidence_status": "present"
   },
   "expected": {
     "decision": "deny",
@@ -176,6 +234,8 @@ A compact policy eval can look like this:
 
 Measure policy decision accuracy, false allow rate, false denial rate, approval-routing accuracy, tenant-boundary violations, stale-policy use, denial logging completeness, and recurrence of known policy failures.
 
+For production systems, false allow is usually the most dangerous metric. A false denial may frustrate a user. A false allow may leak data, move money, send the wrong message, or create an incident.
+
 ## Production Checklist
 
 - Enforce policy before execution, answer return, memory write, or external communication.
@@ -185,6 +245,8 @@ Measure policy decision accuracy, false allow rate, false denial rate, approval-
 - Apply policy on retries and resumed workflows.
 - Keep policy versions, tool manifests, source rules, and approval rules versioned.
 - Treat missing policy context as deny or escalate.
+- Apply policy to memory writes and final answers, not only tools.
+- Connect policy decisions to runtime budget state.
 - Add dashboards for denials, approvals, overrides, and false allows.
 - Convert policy misses into regression evals.
 - Review exceptions and expire them intentionally.
@@ -195,5 +257,7 @@ Measure policy decision accuracy, false allow rate, false denial rate, approval-
 - [Tool Capability Design](/tools-skills-protocols/tool-capability-design)
 - [Agent Threat Model](/agent-engineering-practice/agent-threat-model)
 - [Semantic Recall and RAG](/memory-knowledge/semantic-recall-rag)
+- [Production Runtime Overview](/production-runtime/overview)
+- [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
 - [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
 - [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
