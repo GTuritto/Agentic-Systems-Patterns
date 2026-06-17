@@ -169,6 +169,7 @@ If production failures do not feed evals, observability is passive. It tells you
 ## Related Chapters
 
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
+- [Pattern Evaluation Checklist](../pattern-selection/pattern-evaluation-checklist)
 - [Observability and Evals](./observability-and-evals)
 - [Circuit Breakers, Fallbacks, and Replay](../pattern-selection/circuit-breakers-fallbacks-replay)
 - [Tool Capability Design](../tools-skills-protocols/tool-capability-design)

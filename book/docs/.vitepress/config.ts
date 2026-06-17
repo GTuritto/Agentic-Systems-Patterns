@@ -19,6 +19,7 @@ export default defineConfig({
           { text: 'What Is An Agent?', link: '/foundations/what-is-an-agent' },
           { text: 'Architecture Before Autonomy', link: '/pattern-selection/architecture-before-autonomy' },
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
+          { text: 'Pattern Evaluation Checklist', link: '/pattern-selection/pattern-evaluation-checklist' },
           { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
           { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' }
         ]
@@ -28,6 +29,7 @@ export default defineConfig({
         items: [
           { text: 'Choosing the Right Pattern', link: '/pattern-selection/choosing-the-right-pattern' },
           { text: 'Architecture Before Autonomy', link: '/pattern-selection/architecture-before-autonomy' },
+          { text: 'Pattern Evaluation Checklist', link: '/pattern-selection/pattern-evaluation-checklist' },
           { text: 'Linked Pattern Mind Map', link: '/pattern-selection/pattern-classification-mind-map' },
           { text: 'From Patterns To Systems', link: '/pattern-selection/from-patterns-to-systems' },
           { text: 'Prompt Chaining and Gates', link: '/pattern-selection/prompt-chaining-and-gates' },

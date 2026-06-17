@@ -288,6 +288,7 @@ If the only reason for another agent is "it feels more agentic," do not add it.
 - [Debate and Consensus](./debate-and-consensus)
 - [CrewAI Flows and Crews](./crewai-flows-and-crews)
 - [Agents As Services](../systems-architecture/agents-as-services)
+- [Pattern Evaluation Checklist](../pattern-selection/pattern-evaluation-checklist)
 - [A2A Agent Interoperability](../tools-skills-protocols/a2a-agent-interoperability)
 - [Context Budgets and Working Sets](../foundations/context-budgets-and-working-sets)
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)

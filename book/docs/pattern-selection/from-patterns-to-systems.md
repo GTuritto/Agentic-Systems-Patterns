@@ -118,6 +118,7 @@ Compose patterns only when each one has a job, an owner, and a failure mode you 
 
 - [Architecture Before Autonomy](./architecture-before-autonomy)
 - [Choosing the Right Pattern](./choosing-the-right-pattern)
+- [Pattern Evaluation Checklist](./pattern-evaluation-checklist)
 - [Agent Development Lifecycle](../agent-engineering-practice/agent-development-lifecycle)
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
 - [Agentic System Architecture](../systems-architecture/agentic-system-architecture)

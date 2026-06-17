@@ -85,6 +85,7 @@ Autonomy is a budget. Spend it only where it buys a better outcome than determin
 ## Related Chapters
 
 - [Choosing the Right Pattern](./choosing-the-right-pattern)
+- [Pattern Evaluation Checklist](./pattern-evaluation-checklist)
 - [Agent Loop](../foundations/agent-loop)
 - [Goals and State](../foundations/goals-and-state)
 - [Tool Use](../foundations/tool-use)
