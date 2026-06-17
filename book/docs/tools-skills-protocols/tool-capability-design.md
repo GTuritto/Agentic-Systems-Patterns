@@ -53,6 +53,23 @@ Classify every tool by capability.
 
 This classification belongs in the tool manifest or registry, not only in prose.
 
+## Tool Risk Matrix
+
+Capability classes are useful, but production systems also need an operational risk view. A tool may look harmless in isolation and become dangerous when combined with private data, untrusted content, external communication, or durable memory.
+
+| Tool Type | Primary Risk | Required Control |
+| --- | --- | --- |
+| Read public data | stale, low-quality, or hostile content. | source metadata, freshness signal, and untrusted-content handling. |
+| Read private data | privacy leak or tenant boundary failure. | scoped authorization, audit log, and output redaction. |
+| Read untrusted content | prompt injection. | content isolation, instruction stripping, and policy checks before action. |
+| Write business state | corrupted records or unintended workflow progress. | strict schema, idempotency key, policy decision, and trace. |
+| External communication | data exfiltration or unwanted message delivery. | approval gate, recipient validation, and message audit. |
+| Browser or code execution | arbitrary side effects and hidden network access. | sandbox, egress policy, timeout, and filesystem/network limits. |
+| Memory write | durable poisoning or privacy retention failure. | memory policy, source attribution, retention class, and deletion path. |
+| Credential use | confused deputy or privilege escalation. | short-lived credentials, scope binding, audience checks, and secret redaction. |
+
+The point is not to make every tool heavy. The point is to make the runtime know which tools are heavy. A public documentation search tool and a payment tool should not live behind the same policy, trace, retry, and approval rules.
+
 ## Tool Manifest
 
 A useful tool manifest is more than a name and a description.
@@ -123,6 +140,70 @@ trace:
 
 The tool name says what the tool does and what it does not do. A separate tool should submit the refund after approval.
 
+For strongly typed systems, the same contract can be represented as code and registered with the tool runtime:
+
+```ts
+type CapabilityClass =
+  | "read_public"
+  | "read_private"
+  | "read_untrusted"
+  | "write_side_effect"
+  | "external_communication"
+  | "browser_or_code"
+  | "memory_write"
+  | "credential_use";
+
+type ToolCapabilityManifest = {
+  name: string;
+  owner: string;
+  version: string;
+  description: string;
+  inputSchemaRef: string;
+  outputSchemaRef: string;
+  risk: "low" | "medium" | "high" | "critical";
+  capabilityClasses: CapabilityClass[];
+  requiredScopes: string[];
+  sideEffects: "none" | "draft" | "external_write" | "money_movement" | "message_send";
+  idempotencyRequired: boolean;
+  approvalRequired: boolean;
+  timeoutMs: number;
+  egress: {
+    allowedDomains: string[];
+    allowPrivateNetwork: boolean;
+  };
+  observability: {
+    requiredTraceFields: string[];
+    redactFields: string[];
+  };
+};
+
+const refundDraftTool: ToolCapabilityManifest = {
+  name: "draft_refund_request",
+  owner: "support-platform",
+  version: "2026-06-17",
+  description: "Creates a refund draft for human approval. It does not issue money.",
+  inputSchemaRef: "schemas/refund-draft-input.json",
+  outputSchemaRef: "schemas/refund-draft-output.json",
+  risk: "high",
+  capabilityClasses: ["read_private", "write_side_effect"],
+  requiredScopes: ["orders:read", "refunds:draft"],
+  sideEffects: "draft",
+  idempotencyRequired: true,
+  approvalRequired: false,
+  timeoutMs: 5000,
+  egress: {
+    allowedDomains: [],
+    allowPrivateNetwork: false,
+  },
+  observability: {
+    requiredTraceFields: ["run_id", "actor_id", "order_id", "policy_version"],
+    redactFields: ["customer_email", "payment_token"],
+  },
+};
+```
+
+This looks bureaucratic only until the first incident. After that, it becomes the map of what the agent was allowed to do, which policy version was active, which data crossed the boundary, and which team owns the fix.
+
 ## Agent-Friendly Interfaces
 
 A tool designed for humans is not always a tool designed for agents. Agent-friendly tools have explicit schemas, short and specific descriptions, stable names, examples of valid and invalid calls, clear errors, structured outputs, bounded result sizes, correlation IDs, and machine-readable status values, with no hidden global state and no surprise side effects.
@@ -134,6 +215,41 @@ Error messages carry more weight than people expect. A vague `failed` makes the 
 Tool results should not become new instructions. A search result, web page, email, ticket, document, or log line may contain malicious or irrelevant text. The model can inspect it as evidence, but the runtime must not let it override system goals, tool permissions, approval rules, or memory policy.
 
 Good tool results keep their pieces separate: trusted metadata, the untrusted content itself, the source, timestamp, confidence, permissions, and redaction status. That separation makes context construction safer and evaluation easier.
+
+## Credentials And Egress Boundaries
+
+An agent should not hold broad credentials. The runtime should exchange the agent's identity, task, tenant, and approved capability for a narrow credential at the moment of tool invocation. That credential should have a short lifetime, a scoped audience, and only the permissions needed for the specific call.
+
+The same idea applies to network egress. A tool that reads an internal order service should not also be able to send arbitrary HTTP requests to the internet. A browser tool should not reach private networks unless the run explicitly needs that access. A code execution tool should not inherit the developer machine's environment by default.
+
+At minimum, high-risk tools need:
+
+- scoped OAuth or OIDC claims checked by the tool server;
+- TLS for service-to-service transport;
+- per-tool egress allowlists;
+- no ambient secrets in prompts, logs, or tool results;
+- tenant and actor binding on every request;
+- redaction before traces, eval fixtures, and memory writes;
+- revocation and kill-switch support.
+
+This is where tool design connects to service architecture. The model selects an action. The runtime authorizes the action. The tool performs the action. Those responsibilities should not collapse into one prompt.
+
+## Observability Requirements
+
+Tool calls need traces that explain both what happened and why the runtime allowed it to happen. A useful tool trace includes the run ID, agent ID, actor or service principal, tool name and version, input shape, redacted input summary, policy decision, approval ID when present, idempotency key, timeout, retry count, result status, error class, latency, token context reference, and redaction status.
+
+Do not log raw sensitive payloads just because debugging is easier that way. The production trace should be good enough to reconstruct the decision path without turning observability into a second data leak.
+
+For incident review, the trace should answer:
+
+- Which tool was called?
+- Which capability classes were active?
+- Which policy allowed or blocked the call?
+- Was untrusted content in context before the call?
+- Was private data returned?
+- Did private data leave through an external channel?
+- Was approval required, and was it attached to the exact action?
+- Was the call replayed, retried, or deduplicated?
 
 ## Progressive Tool Disclosure
 
@@ -159,6 +275,24 @@ Tool evals should test both selection and restraint. Build cases where the corre
 
 Then measure tool-selection accuracy, invalid-argument rate, unauthorized-call rate, approval-routing accuracy, unsafe-chain prevention, tool-result grounding, latency and cost per tool path, and recovery from tool errors. A final answer can look correct while the tool trajectory was unsafe, so evaluate the trajectory.
 
+Good tool evals are vertical slices. Do not only test `call_tool(input)`. Test the full path from user request to context construction, tool disclosure, policy decision, tool invocation, result handling, memory behavior, final answer, trace, and replay. That is where the real bugs hide.
+
+Useful eval scenarios include:
+
+- a normal successful path;
+- missing required input;
+- malformed but recoverable input;
+- untrusted content that tries to override instructions;
+- private data followed by an external communication request;
+- duplicate submit or retry after timeout;
+- approval required but missing;
+- stale tool result;
+- tool returns partial data;
+- tool is disabled by policy;
+- memory write requested from untrusted evidence.
+
+The evaluation target is not just whether the final answer reads well. It is whether the system used the minimum necessary authority, respected policy, preserved evidence, avoided unsafe chains, and left a useful audit trail.
+
 ## Design Checklist
 
 Before exposing a tool to an agent, check:
@@ -168,11 +302,18 @@ Before exposing a tool to an agent, check:
 - Is the output structured?
 - Are side effects explicit?
 - Is the capability class declared?
+- Is the risk class declared?
 - Are permissions enforced outside the prompt?
+- Are credentials short lived and scoped?
+- Is egress restricted to what the tool needs?
 - Does the tool support idempotency where needed?
+- Are retries safe and bounded?
+- Are approvals bound to the exact action?
 - Are errors actionable?
 - Are traces complete and redacted?
+- Are private data and untrusted content marked separately?
 - Can the tool be mocked in evals?
+- Can the tool be replayed without repeating unsafe side effects?
 - Can the tool be disabled quickly?
 - Does the tool return untrusted content as data, not instructions?
 
@@ -186,5 +327,8 @@ The test is simple: if the model calls this tool incorrectly, can the architectu
 - [Human Approval Gates](./human-approval-gates)
 - [Agent Threat Model](../agent-engineering-practice/agent-threat-model)
 - [Agent Security and Sandboxing](../agent-engineering-practice/agent-security-and-sandboxing)
+- [Secure Agent Communication](./secure-agent-communication)
 - [Policy Enforcement](../production-runtime/policy-enforcement)
+- [Observability and Evals](../production-runtime/observability-and-evals)
+- [Production Runtime Overview](../production-runtime/overview)
 - [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)
