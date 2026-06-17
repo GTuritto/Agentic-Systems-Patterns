@@ -41,9 +41,43 @@ flowchart LR
 - Silent coercion of missing or invalid fields.
 - Prompt-only formatting rules with no validator.
 - Overly strict schemas that cause brittle failures on harmless variation.
+- A valid object carries unsupported values that violate domain or policy rules.
+- Repair loops hide repeated model failures and increase cost without a stop condition.
+
+## Evaluation Strategy
+
+Evaluate syntax, semantics, and downstream safety separately. Schema validity proves that the output can be parsed. It does not prove that the values are correct or safe to execute.
+
+- Test missing required fields, extra fields, invalid enums, wrong types, and malformed nested objects.
+- Test values that pass schema validation but violate domain constraints, such as a refund above the order total.
+- Test unsupported evidence references and contradictory fields.
+- Test one repair attempt, repeated repair failure, and the final refusal or escalation path.
+- Test schema-version changes against stored fixtures and downstream consumers.
+- Assert that invalid output never reaches tools, policy decisions, or durable state.
+
+Use deterministic validators for structure and domain invariants. Use human or model review only for fields that require judgment.
+
+```ts
+type StructuredOutputEvalCase = {
+  caseId: string;
+  modelOutput: unknown;
+  expected: {
+    schemaValid: boolean;
+    domainValid: boolean;
+    actionAllowed: boolean;
+    repairAttempts: number;
+    finalStatus: "accepted" | "repaired" | "refused" | "needs_human";
+  };
+};
+```
+
+Measure first-pass schema validity, domain-validity rate, repair success rate, repair attempts per accepted output, unsafe acceptance rate, false rejection rate, and schema-version compatibility.
+
+For the shared eval case contract and release-gate method, see [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development).
 
 ## Related Patterns
 
 - [Modern Tool Use](../modern-tool-use-pattern/README.md)
 - [LLM Router](../llm-router-pattern/README.md)
 - [Compliance/Policy Enforcer](../compliance-policy-enforcer-agent/README.md)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)

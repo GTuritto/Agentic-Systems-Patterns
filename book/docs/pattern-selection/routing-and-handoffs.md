@@ -135,6 +135,38 @@ Production systems usually combine them. For example, code may enforce tenant an
 - Multi-agent handoffs create loops with no owner.
 - Cost routing sends hard tasks to weak models and hides quality loss.
 
+## Evaluation Strategy
+
+Evaluate the route decision and the handoff contract separately. A correct route with missing authority, evidence, or budget is still a failed handoff.
+
+- Build a labeled route set with clear, ambiguous, out-of-domain, adversarial, and high-risk requests.
+- Test every route label plus the `clarify`, `reject`, and safe fallback paths.
+- Test requests that contain language associated with one route but require another route by policy or tenant.
+- Assert that each handoff includes its required state and excludes unrelated context and excess authority.
+- Test downstream failure, rerouting, and loop prevention.
+- Compare model routing with a deterministic or single-path baseline before adding more routes.
+
+A compact fixture should make the route and handoff expectations visible:
+
+```ts
+type RoutingEvalCase = {
+  caseId: string;
+  input: string;
+  expected: {
+    route: Route;
+    allowedAlternatives?: Route[];
+    maxAuthority: "read" | "draft" | "write_after_approval";
+    requiredHandoffFields: string[];
+    forbiddenHandoffFields: string[];
+    maxHandoffs: number;
+  };
+};
+```
+
+Measure route accuracy by class, unsafe misroute rate, clarification precision, fallback rate, handoff contract validity, authority expansion, loop rate, downstream completion rate, latency, and cost. Report a confusion matrix instead of relying only on overall accuracy. A router that performs well on common support requests can still fail every fraud or security case.
+
+For the shared eval case contract and release-gate method, see [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development).
+
 ## Production Checklist
 
 - Are route labels mutually understandable and stable?
@@ -153,3 +185,4 @@ Production systems usually combine them. For example, code may enforce tenant an
 - [Supervisor / Worker](../multi-agent-systems/supervisor-worker)
 - [Policy Enforcement](../production-runtime/policy-enforcement)
 - [Context Engineering](../foundations/context-engineering)
+- [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development)

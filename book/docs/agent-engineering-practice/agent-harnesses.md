@@ -195,7 +195,7 @@ A replay mode should be able to run with mocked tools, frozen context packets, a
 
 ## Harness Evaluation
 
-Evaluate the harness directly.
+Evaluate the harness directly. Freeze or mock the model response where possible so the test isolates harness behavior instead of model quality.
 
 - Test context selection and exclusion.
 - Test tool disclosure by route and role.
@@ -210,6 +210,35 @@ Evaluate the harness directly.
 - Test replay without side effects.
 
 Harness evals are different from answer evals. They ask whether the operating shell kept control when the model proposed something risky, incomplete, expensive, or wrong.
+
+A harness fixture should describe the proposed trajectory and the controls that must hold:
+
+```ts
+type HarnessEvalCase = {
+  caseId: string;
+  proposedActions: Array<{
+    tool: string;
+    mode: "read" | "write";
+    target: string;
+  }>;
+  expected: {
+    disclosedTools: string[];
+    deniedTools: string[];
+    approvalRequiredFor: string[];
+    maxIterations: number;
+    maxCostCents: number;
+    stopReason: HarnessStopReason;
+    requiredTraceEvents: string[];
+    repeatedSideEffects: 0;
+  };
+};
+```
+
+Keep a small set of blocking harness cases: forbidden tool disclosure, permission bypass, approval bypass, cross-tenant context, budget overrun, cancellation followed by a side effect, duplicate execution after retry, and replay that reaches a live write tool.
+
+Measure tool-disclosure precision, permission-denial correctness, approval-bypass rate, budget-enforcement rate, cancellation latency, duplicate side effects, context-policy violations, trace completeness, replay isolation, and recovery success. Segment results by tool profile, autonomy level, and harness version.
+
+For the shared eval case contract and release-gate method, see [Evaluation-Driven Agent Development](./evaluation-driven-agent-development).
 
 ## Harness Failure Modes
 
@@ -269,5 +298,6 @@ The model supplies judgment. The harness supplies control.
 - [Working Memory](../memory-knowledge/working-memory)
 - [Human Approval Gates](../tools-skills-protocols/human-approval-gates)
 - [Observability and Evals](../production-runtime/observability-and-evals)
+- [Evaluation-Driven Agent Development](./evaluation-driven-agent-development)
 - [Agent Security and Sandboxing](./agent-security-and-sandboxing)
 - [Coding Agents](../systems-architecture/coding-agents)

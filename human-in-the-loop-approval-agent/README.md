@@ -251,6 +251,10 @@ A compact eval fixture can make the approval boundary explicit:
 
 Measure approval routing accuracy, unnecessary approval rate, denied-action execution rate, stale-approval reuse, approval latency, audit completeness, rubber-stamp rate, and human override rate.
 
+Treat denied-action execution and stale-approval reuse as blocking failures, not average-quality metrics. Segment approval latency and override rate by risk class, action type, policy version, and approver role so a healthy low-risk flow does not hide a weak high-risk control.
+
+For the shared eval case contract and release-gate method, see [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development).
+
 ## Production Checklist
 
 - Define which actions require approval by policy, not prompt wording.
@@ -278,4 +282,5 @@ Measure approval routing accuracy, unnecessary approval rate, denied-action exec
 - [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
 - [Agent Threat Model](/agent-engineering-practice/agent-threat-model)
 - [Agent UX and Human Trust](/agent-engineering-practice/agent-ux-and-human-trust)
+- [Evaluation-Driven Agent Development](/agent-engineering-practice/evaluation-driven-agent-development)
 - [Pattern Evaluation Checklist](/pattern-selection/pattern-evaluation-checklist)
