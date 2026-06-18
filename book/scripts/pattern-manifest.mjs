@@ -448,6 +448,12 @@ export const patterns = [
       'Every step requires approval and the agent adds no value.',
       'Approval records cannot capture who approved what and why.',
       'The workflow cannot safely resume after waiting.'
+    ],
+    commands: ['npm run approval-gate', 'npm run approval-gate:test'],
+    codeFiles: [
+      'human-in-the-loop-approval-agent/typescript/src/approval_gate.ts',
+      'human-in-the-loop-approval-agent/typescript/src/approval_contract.ts',
+      'human-in-the-loop-approval-agent/typescript/test/approval_gate.spec.ts'
     ]
   },
   {

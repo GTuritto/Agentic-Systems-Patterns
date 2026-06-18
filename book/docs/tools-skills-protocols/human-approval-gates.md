@@ -271,13 +271,300 @@ For the shared eval case contract and release-gate method, see [Evaluation-Drive
 - Keep approval policies, request schemas, and decision records versioned.
 - Convert serious approval misses into regression evals.
 
+## Run the Example
+
+```sh
+npm run approval-gate
+npm run approval-gate:test
+```
+
 ## Code Walkthrough
 
 Read the excerpt as the smallest executable expression of the pattern. The surrounding chapter explains the design constraints; the code shows where those constraints become concrete interfaces, state, validation, or control flow.
 
 ## Source Code
 
-This pattern currently has no dedicated code excerpt. Use the source and download links below for the full pattern folder.
+These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
+
+### `human-in-the-loop-approval-agent/typescript/src/approval_gate.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/human-in-the-loop-approval-agent/typescript/src/approval_gate.ts)
+
+```ts
+import {
+  actionId,
+  stableHash,
+  type ApprovalDecision,
+  type ApprovalRequest,
+  type ApprovalResult,
+  type ProposedAction,
+} from "./approval_contract.ts";
+
+export * from "./approval_contract.ts";
+
+export class ApprovalGate {
+  private readonly consumedKeys = new Set<string>();
+
+  async resume(
+    request: ApprovalRequest,
+    decision: ApprovalDecision,
+    action: ProposedAction,
+    now: Date,
+    execute: (action: ProposedAction) => Promise<void>,
+  ): Promise<ApprovalResult> {
+    const audit = [
+      `approval:${request.approvalId}:decision:${decision.decision}`,
+    ];
+
+    if (decision.decision !== "approved") {
+      return { status: "rejected", reason: "not_approved", audit };
+    }
+
+    if (
+      decision.approvalId !== request.approvalId ||
+      decision.traceId !== request.traceId ||
+      decision.decidedByRole !== request.approverRole
+    ) {
+      return { status: "rejected", reason: "approval_mismatch", audit };
+    }
+
+    const currentActionId = actionId(action, request.policyVersion);
+    const currentArgsHash = stableHash(action.args);
+    if (
+      currentActionId !== request.actionId ||
+      currentActionId !== decision.approvedActionId ||
+      currentArgsHash !== request.argsHash ||
+      currentArgsHash !== decision.approvedArgsHash
+    ) {
+      return { status: "rejected", reason: "action_changed", audit };
+    }
+
+    if (decision.policyVersion !== request.policyVersion) {
+      return { status: "rejected", reason: "policy_changed", audit };
+    }
+
+    if (now.getTime() >= new Date(request.expiresAt).getTime()) {
+      return { status: "rejected", reason: "approval_expired", audit };
+    }
+
+    if (this.consumedKeys.has(action.idempotencyKey)) {
+      return {
+        status: "rejected",
+        reason: "idempotency_key_consumed",
+        audit,
+      };
+    }
+
+    this.consumedKeys.add(action.idempotencyKey);
+    try {
+      await execute(action);
+    } catch (error) {
+      this.consumedKeys.delete(action.idempotencyKey);
+      throw error;
+    }
+    audit.push(`approval:${request.approvalId}:executed:${request.actionId}`);
+    return { status: "executed", audit };
+  }
+}
+```
+
+### `human-in-the-loop-approval-agent/typescript/src/approval_contract.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/human-in-the-loop-approval-agent/typescript/src/approval_contract.ts)
+
+```ts
+import { createHash } from "node:crypto";
+
+export type ProposedAction = {
+  tool: "refunds.issue_refund";
+  toolVersion: string;
+  args: {
+    orderId: string;
+    amountCents: number;
+  };
+  tenantId: string;
+  actorId: string;
+  resourceIds: string[];
+  idempotencyKey: string;
+};
+
+export type ApprovalRequest = {
+  approvalId: string;
+  actionId: string;
+  traceId: string;
+  proposedAction: ProposedAction;
+  argsHash: string;
+  evidenceRefs: string[];
+  policyVersion: string;
+  approverRole: "finance_approver";
+  expiresAt: string;
+};
+
+export type ApprovalDecision = {
+  approvalId: string;
+  decision: "approved" | "denied";
+  decidedBy: string;
+  decidedByRole: "finance_approver";
+  decidedAt: string;
+  reason: string;
+  approvedActionId?: string;
+  approvedArgsHash?: string;
+  policyVersion: string;
+  traceId: string;
+};
+
+export type ApprovalResult =
+  | { status: "executed"; audit: string[] }
+  | {
+      status: "rejected";
+      reason:
+        | "not_approved"
+        | "approval_mismatch"
+        | "action_changed"
+        | "policy_changed"
+        | "approval_expired"
+        | "idempotency_key_consumed";
+      audit: string[];
+    };
+
+function canonicalJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(canonicalJson).join(",")}]`;
+  }
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([key, item]) => `${JSON.stringify(key)}:${canonicalJson(item)}`);
+    return `{${entries.join(",")}}`;
+  }
+  return JSON.stringify(value);
+}
+
+export function stableHash(value: unknown): string {
+  return createHash("sha256").update(canonicalJson(value)).digest("hex");
+}
+
+export function actionId(
+  action: ProposedAction,
+  policyVersion: string,
+): string {
+  return stableHash({ ...action, policyVersion });
+}
+
+export function createApprovalRequest(input: {
+  approvalId: string;
+  traceId: string;
+  action: ProposedAction;
+  evidenceRefs: string[];
+  policyVersion: string;
+  expiresAt: string;
+}): ApprovalRequest {
+  return {
+    approvalId: input.approvalId,
+    actionId: actionId(input.action, input.policyVersion),
+    traceId: input.traceId,
+```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
+
+### `human-in-the-loop-approval-agent/typescript/test/approval_gate.spec.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/human-in-the-loop-approval-agent/typescript/test/approval_gate.spec.ts)
+
+```ts
+import {
+  actionId,
+  ApprovalGate,
+  createApprovalRequest,
+  stableHash,
+  type ApprovalDecision,
+  type ProposedAction,
+} from "../src/approval_gate.ts";
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
+
+const action: ProposedAction = {
+  tool: "refunds.issue_refund",
+  toolVersion: "2026-06-18",
+  args: { orderId: "ORD-104", amountCents: 12500 },
+  tenantId: "tenant-a",
+  actorId: "support-agent",
+  resourceIds: ["ORD-104"],
+  idempotencyKey: "refund:ORD-104:12500",
+};
+
+const request = createApprovalRequest({
+  approvalId: "APR-104",
+  traceId: "trace-104",
+  action,
+  evidenceRefs: ["order:ORD-104", "policy:refunds-2026"],
+  policyVersion: "refund-policy-v3",
+  expiresAt: "2026-06-18T12:30:00.000Z",
+});
+
+function decision(
+  value: "approved" | "denied" = "approved",
+): ApprovalDecision {
+  return {
+    approvalId: request.approvalId,
+    decision: value,
+    decidedBy: "finance-user-7",
+    decidedByRole: "finance_approver",
+    decidedAt: "2026-06-18T12:05:00.000Z",
+    reason: value === "approved" ? "Evidence supports refund." : "Insufficient evidence.",
+    approvedActionId:
+      value === "approved"
+        ? actionId(action, request.policyVersion)
+        : undefined,
+    approvedArgsHash:
+      value === "approved" ? stableHash(action.args) : undefined,
+    policyVersion: request.policyVersion,
+    traceId: request.traceId,
+  };
+}
+
+async function attempt(
+  gate: ApprovalGate,
+  approval: ApprovalDecision,
+  proposedAction: ProposedAction,
+  now = new Date("2026-06-18T12:10:00.000Z"),
+) {
+  let executions = 0;
+  const result = await gate.resume(
+    request,
+    approval,
+    proposedAction,
+    now,
+    async () => {
+      executions += 1;
+    },
+  );
+  return { result, executions };
+}
+
+const approved = await attempt(new ApprovalGate(), decision(), action);
+assert(approved.result.status === "executed", "Approved action must execute");
+assert(approved.executions === 1, "Approved action must execute once");
+
+const denied = await attempt(new ApprovalGate(), decision("denied"), action);
+assert(denied.result.status === "rejected", "Denied action must be rejected");
+assert(denied.executions === 0, "Denied action must not execute");
+
+const expired = await attempt(
+  new ApprovalGate(),
+  decision(),
+  action,
+  new Date("2026-06-18T12:30:00.000Z"),
+);
+assert(
+  expired.result.status === "rejected" &&
+    expired.result.reason === "approval_expired",
+  "Expired approval must be rejected",
+```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
 
 ## Download
 
