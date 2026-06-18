@@ -4,7 +4,7 @@
   "license": "CC-BY-SA-4.0",
   "type": "module",
   "scripts": {
-    "test": "npm run tools:test && npm run agent-loop:test && npm run approval-gate:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
+    "test": "npm run tools:test && npm run agent-loop:test && npm run approval-gate:test && npm run tool-runtime:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
     "typecheck": "tsc --noEmit",
     "book:install": "npm install --prefix book",
     "book:diagrams": "npm run diagrams --prefix book",
@@ -19,7 +19,8 @@
     "agent-loop:test": "ts-node --esm ./agent-loop-pattern/typescript/test/agent_loop.spec.ts",
     "approval-gate": "ts-node --esm ./human-in-the-loop-approval-agent/typescript/src/run_demo.ts",
     "approval-gate:test": "ts-node --esm ./human-in-the-loop-approval-agent/typescript/test/approval_gate.spec.ts",
-    "tool-using-agent": "ts-node --esm ./tool-using-agent-pattern/autogen_typescript_example/tool_using_agent.ts",
+    "tool-using-agent": "ts-node --esm ./tool-using-agent-pattern/typescript/src/run_demo.ts",
+    "tool-runtime:test": "ts-node --esm ./tool-using-agent-pattern/typescript/test/tool_runtime.spec.ts",
     "cot-agent": "ts-node --esm ./chain-of-thought-cot-pattern/autogen_typescript_example/cot_agent.ts",
     "react-agent": "ts-node --esm ./react-pattern-reason-act/autogen_typescript_example/react_agent.ts",
     "multi-agent-collab": "ts-node --esm ./multi-agent-collaboration-pattern/autogen_typescript_example/multi_agent_collab.ts",

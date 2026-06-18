@@ -162,6 +162,7 @@ The architectural rule is simple: expose the smallest capability that completes 
 
 ```sh
 npm run tool-using-agent
+npm run tool-runtime:test
 ```
 
 ## Code Walkthrough
@@ -172,166 +173,203 @@ Read the excerpt as the smallest executable expression of the pattern. The surro
 
 These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
 
-### `tool-using-agent-pattern/autogen_typescript_example/tool_using_agent.ts`
+### `tool-using-agent-pattern/typescript/src/tool_runtime.ts`
 
-[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/tool-using-agent-pattern/autogen_typescript_example/tool_using_agent.ts)
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/tool-using-agent-pattern/typescript/src/tool_runtime.ts)
 
 ```ts
-// Tool-Using Agent Pattern - Autogen TypeScript Example
-// To run: npm install && npm run tool-using-agent
+export type Route = "refund_investigation" | "order_status";
+export type ToolName =
+  | "read_order"
+  | "search_refund_policy"
+  | "draft_refund_request";
 
-import axios from 'axios';
-import * as readline from 'readline';
-import { evaluate } from 'mathjs';
-import * as dotenv from 'dotenv';
-dotenv.config();
+export type ToolProposal = {
+  name: string;
+  args: unknown;
+  idempotencyKey: string;
+};
 
-const MISTRAL_API_URL = 'https://api.mistral.ai/v1/chat/completions';
-const MISTRAL_API_KEY = process.env.MISTRAL_API_KEY;
-
-function calculatorTool(input: string): string {
-  try {
-    const val = evaluate(input);
-    return val.toString();
-  } catch (e) {
-    return `Error: ${e}`;
-  }
-}
-
-async function toolUsingAgent(userInput: string): Promise<string> {
-  if (userInput.toLowerCase().startsWith('calculate ')) {
-    const expr = userInput.substring('calculate '.length);
-    return calculatorTool(expr);
-  } else {
-    const response = await axios.post(
-      MISTRAL_API_URL,
-      {
-        model: 'mistral-tiny',
-        messages: [{ role: 'user', content: userInput }],
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${MISTRAL_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    return response.data.choices[0].message.content;
-  }
-}
-
-async function main() {
-  const idx = process.argv.indexOf('--input');
-  const cliInput = idx !== -1 ? process.argv[idx + 1] : undefined;
-  const nonInteractive = cliInput || process.env.NON_INTERACTIVE_INPUT;
-  if (nonInteractive) {
-    try {
-      const agentResponse = await toolUsingAgent(String(nonInteractive));
-      console.log('Agent:', agentResponse);
-    } catch (err) {
-      console.error('Error:', err);
-      process.exitCode = 1;
+export type ToolObservation =
+  | {
+      status: "ok";
+      tool: ToolName;
+      data: unknown;
+      trust: "trusted_system" | "untrusted_content";
+      evidenceRef: string;
     }
-    return;
-  }
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-  rl.question('User: ', async (userInput: string) => {
-    try {
-      const agentResponse = await toolUsingAgent(userInput);
-      console.log('Agent:', agentResponse);
-    } catch (err) {
-      console.error('Error:', err);
+  | {
+      status: "refused" | "retryable_error" | "fatal_error";
+      tool?: string;
+      reason: string;
+    };
+
+export type ToolContext = {
+  route: Route;
+  actorId: string;
+  approvedActionIds: string[];
+  timeoutMs: number;
+  maxAttempts: number;
+};
+
+type ValidatedCall =
+  | {
+      name: "read_order";
+      args: { orderId: string };
+      idempotencyKey: string;
     }
-    rl.close();
-  });
+  | {
+      name: "search_refund_policy";
+      args: { query: string };
+      idempotencyKey: string;
+    }
+  | {
+      name: "draft_refund_request";
+      args: { orderId: string; amountCents: number; approvalId: string };
+      idempotencyKey: string;
+    };
+
+export type ToolHandlers = {
+  readOrder(args: { orderId: string }): Promise<unknown>;
+  searchRefundPolicy(args: { query: string }): Promise<unknown>;
+  draftRefundRequest(args: {
+    orderId: string;
+    amountCents: number;
+    approvalId: string;
+  }): Promise<unknown>;
+};
+
+const toolsByRoute: Record<Route, ToolName[]> = {
+  refund_investigation: [
+    "read_order",
+    "search_refund_policy",
+    "draft_refund_request",
+  ],
+  order_status: ["read_order"],
+};
+
+export function disclosedTools(route: Route): ToolName[] {
+  return [...toolsByRoute[route]];
 }
 
-main();
+function objectArgs(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === "object"
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+function validateProposal(
+  proposal: ToolProposal,
+  context: ToolContext,
+): ValidatedCall | ToolObservation {
+  if (!toolsByRoute[context.route].includes(proposal.name as ToolName)) {
+    return {
+      status: "refused",
+      tool: proposal.name,
+      reason: "tool_not_disclosed_for_route",
+    };
 ```
 
-### `tool-using-agent-pattern/langgraph_python_example/tool_using_agent.py`
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
 
-[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/tool-using-agent-pattern/langgraph_python_example/tool_using_agent.py)
+### `tool-using-agent-pattern/typescript/test/tool_runtime.spec.ts`
 
-```py
-# Tool-Using Agent Pattern - LangGraph Python Example
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/tool-using-agent-pattern/typescript/test/tool_runtime.spec.ts)
 
-This example demonstrates the Tool-Using Agent Pattern using LangGraph and Python. The agent receives a user message, determines if a tool (calculator) is needed, calls the tool if required, and returns a response. The LLM is Mistral.
+```ts
+import {
+  disclosedTools,
+  ToolRuntime,
+  type ToolContext,
+  type ToolHandlers,
+} from "../src/tool_runtime.ts";
 
-## Requirements
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
 
-- Python 3.8+
-- `langgraph` library
-- `python-dotenv` (for .env support)
-- Mistral LLM API access
+const baseContext: ToolContext = {
+  route: "refund_investigation",
+  actorId: "support-agent",
+  approvedActionIds: [],
+  timeoutMs: 20,
+  maxAttempts: 2,
+};
 
-## Install dependencies
+function handlers(overrides: Partial<ToolHandlers> = {}): ToolHandlers {
+  return {
+    readOrder: async ({ orderId }) => ({ orderId, status: "delivered" }),
+    searchRefundPolicy: async ({ query }) => ({ text: query }),
+    draftRefundRequest: async args => args,
+    ...overrides,
+  };
+}
 
-``​`bash
-pip install langgraph python-dotenv requests
-``​`
+assert(
+  disclosedTools("order_status").join(",") === "read_order",
+  "Route must disclose only required tools",
+);
 
-## Example Code
+const runtime = new ToolRuntime(handlers());
+const valid = await runtime.execute(
+  {
+    name: "read_order",
+    args: { orderId: "ORD-104" },
+    idempotencyKey: "read:104",
+  },
+  baseContext,
+);
+assert(valid.status === "ok", "Valid read must execute");
 
-``​`python
-import os
-from langgraph import Agent, Environment, LLM, Tool
-from dotenv import load_dotenv
+const forbidden = await runtime.execute(
+  {
+    name: "issue_refund",
+    args: { orderId: "ORD-104" },
+    idempotencyKey: "refund:104",
+  },
+  baseContext,
+);
+assert(
+  forbidden.status === "refused" &&
+    forbidden.reason === "tool_not_disclosed_for_route",
+  "Undisclosed tool must be refused",
+);
 
-load_dotenv()
+const invalid = await runtime.execute(
+  {
+    name: "read_order",
+    args: { orderId: 104 },
+    idempotencyKey: "read:invalid",
+  },
+  baseContext,
+);
+assert(
+  invalid.status === "refused" && invalid.reason === "invalid_arguments",
+  "Invalid arguments must be refused",
+);
 
-MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
-MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions"
+const missingApproval = await runtime.execute(
+  {
+    name: "draft_refund_request",
+    args: {
+      orderId: "ORD-104",
+      amountCents: 12500,
+      approvalId: "APR-104",
+    },
+    idempotencyKey: "draft:104",
+  },
+  baseContext,
+);
+assert(
+  missingApproval.status === "refused" &&
+    missingApproval.reason === "approval_required",
+  "Write-like tool must require approval",
+);
 
-import sympy as _sp
-
-def safe_calc(expr: str) -> str:
-    try:
-        return str(_sp.sympify(expr, evaluate=True))
-    except Exception as e:
-        return f"Error: {e}"
-
-class CalculatorTool(Tool):
-    def call(self, input_str):
-        return safe_calc(input_str)
-
-class SimpleEnvironment(Environment):
-    def get_observation(self):
-        return input("User: ")
-    def send_action(self, action):
-        print(f"Agent: {action}")
-
-class ToolUsingAgent(Agent):
-    def __init__(self, llm, tools):
-        self.llm = llm
-        self.tools = {tool.name: tool for tool in tools}
-    def act(self, observation):
-        if observation.lower().startswith("calculate "):
-            expr = observation[len("calculate "):]
-            return self.tools["calculator"].call(expr)
-        else:
-            return self.llm.complete(observation)
-
-llm = LLM(
-    provider="mistral",
-    api_key=MISTRAL_API_KEY,
-    api_url=MISTRAL_API_URL,
-)
-
-calc_tool = CalculatorTool(name="calculator")
-env = SimpleEnvironment()
-agent = ToolUsingAgent(llm, [calc_tool])
-
-observation = env.get_observation()
-action = agent.act(observation)
-env.send_action(action)
-``​`
-
----
-
-- Type `calculate 2+2` to see the agent use the calculator tool.
-- Replace credentials as needed.
+let draftedRefunds = 0;
 ```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
 
 ## Download
 

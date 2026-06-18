@@ -78,10 +78,10 @@ export const patterns = [
       'The tool has broad destructive permissions and no approval boundary.',
       'Tool results cannot be verified or traced.'
     ],
-    commands: ['npm run tool-using-agent'],
+    commands: ['npm run tool-using-agent', 'npm run tool-runtime:test'],
     codeFiles: [
-      'tool-using-agent-pattern/autogen_typescript_example/tool_using_agent.ts',
-      'tool-using-agent-pattern/langgraph_python_example/tool_using_agent.py'
+      'tool-using-agent-pattern/typescript/src/tool_runtime.ts',
+      'tool-using-agent-pattern/typescript/test/tool_runtime.spec.ts'
     ]
   },
   {
