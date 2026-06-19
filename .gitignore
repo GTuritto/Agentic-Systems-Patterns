@@ -1,5 +1,6 @@
 # Node modules and build artifacts
 node_modules/
+.worktrees/
 dist/
 build/
 book/docs/.vitepress/cache/
