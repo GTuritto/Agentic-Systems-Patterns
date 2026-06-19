@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "vitepress dev docs",
+    "manifest:test": "node scripts/book-manifest.spec.mjs",
     "diagrams": "node scripts/generate-diagrams.mjs",
     "content": "node scripts/generate-pattern-pages.mjs",
     "build": "npm run diagrams && npm run content && vitepress build docs",
