@@ -1,13 +1,23 @@
 <div class="search" role="search">
   <label for="search-input">Search book</label>
-  <input id="search-input" type="search" placeholder="Search chapters..." />
-  <div id="search-results"></div>
+  <input
+    id="search-input"
+    type="search"
+    placeholder="Search chapters..."
+    autocomplete="off"
+    aria-controls="search-results"
+    aria-expanded="false"
+  />
+  <div id="search-status" aria-live="polite"></div>
+  <div id="search-results" role="listbox" aria-label="Search results"></div>
 </div>
 
 <script>
   const input = document.querySelector<HTMLInputElement>('#search-input');
   const results = document.querySelector<HTMLDivElement>('#search-results');
+  const status = document.querySelector<HTMLDivElement>('#search-status');
   const pagefindPath = '/Agentic-Systems-Patterns/pagefind/pagefind.js';
+  let activeIndex = -1;
 
   async function loadPagefind() {
     const pagefind = await import(/* @vite-ignore */ pagefindPath);
@@ -16,20 +26,117 @@
   }
 
   let pagefindPromise: ReturnType<typeof loadPagefind> | undefined;
+  let searchRun = 0;
+
+  function setStatus(message: string) {
+    if (status) status.textContent = message;
+  }
+
+  function clearResults() {
+    activeIndex = -1;
+    if (results) results.innerHTML = '';
+    input?.setAttribute('aria-expanded', 'false');
+    setStatus('');
+  }
+
+  function resultLinks() {
+    return Array.from(results?.querySelectorAll<HTMLAnchorElement>('.search-result') ?? []);
+  }
+
+  function setActiveResult(index: number) {
+    const links = resultLinks();
+    if (links.length === 0) return;
+    activeIndex = (index + links.length) % links.length;
+    links.forEach((link, linkIndex) => {
+      link.classList.toggle('is-active', linkIndex === activeIndex);
+      link.setAttribute('aria-selected', linkIndex === activeIndex ? 'true' : 'false');
+    });
+    links[activeIndex].focus();
+  }
+
+  function escapeHtml(value: string) {
+    return value
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;');
+  }
+
+  function normalizeUrl(url: string) {
+    if (url.startsWith('/Agentic-Systems-Patterns/')) return url;
+    if (url.startsWith('/')) return `/Agentic-Systems-Patterns${url}`;
+    return `/Agentic-Systems-Patterns/${url}`;
+  }
 
   input?.addEventListener('input', async () => {
     const q = input.value.trim();
     if (!results) return;
     if (!q) {
-      results.innerHTML = '';
+      clearResults();
       return;
     }
 
-    pagefindPromise ??= loadPagefind();
-    const pagefind = await pagefindPromise;
-    const search = await pagefind.search(q);
-    const items = await Promise.all(search.results.slice(0, 5).map(result => result.data()));
-    results.innerHTML = items.map(item => `<a href="${item.url}">${item.meta.title}</a>`).join('');
+    const run = ++searchRun;
+    input.setAttribute('aria-expanded', 'true');
+    results.innerHTML = '<div class="search-message">Searching...</div>';
+    setStatus('Searching...');
+
+    try {
+      pagefindPromise ??= loadPagefind();
+      const pagefind = await pagefindPromise;
+      const search = await pagefind.search(q);
+      if (run !== searchRun) return;
+
+      if (search.results.length === 0) {
+        results.innerHTML = '<div class="search-message">No matches. Try a broader term.</div>';
+        setStatus('No search results found.');
+        return;
+      }
+
+      const items = await Promise.all(search.results.slice(0, 6).map(result => result.data()));
+      if (run !== searchRun) return;
+
+      results.innerHTML = items.map((item, index) => {
+        const title = escapeHtml(item.meta?.title ?? 'Untitled chapter');
+        const excerpt = item.excerpt ? escapeHtml(item.excerpt.replace(/<[^>]+>/g, '')) : 'Open this chapter from the search results.';
+        return `
+          <a class="search-result" href="${normalizeUrl(item.url)}" role="option" aria-selected="false" tabindex="${index === 0 ? '0' : '-1'}">
+            <span class="search-result-title">${title}</span>
+            <span class="search-result-excerpt">${excerpt}</span>
+          </a>
+        `;
+      }).join('');
+      setStatus(`${items.length} search results shown.`);
+    } catch {
+      results.innerHTML = '<div class="search-message">Search failed. Rebuild the site and try again.</div>';
+      setStatus('Search failed.');
+    }
+  });
+
+  input?.addEventListener('keydown', event => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setActiveResult(0);
+    }
+    if (event.key === 'Escape') {
+      clearResults();
+      input.value = '';
+    }
+  });
+
+  results?.addEventListener('keydown', event => {
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      setActiveResult(activeIndex + 1);
+    }
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      setActiveResult(activeIndex - 1);
+    }
+    if (event.key === 'Escape') {
+      clearResults();
+      input?.focus();
+    }
   });
 </script>
 
@@ -64,17 +171,54 @@
 
   #search-results {
     display: grid;
-    gap: 6px;
+    gap: 7px;
     font-family: var(--font-ui);
     font-size: 0.84rem;
     margin-top: 12px;
   }
 
-  #search-results :global(a) {
+  #search-status {
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 0.74rem;
+    margin-top: 8px;
+    min-height: 1em;
+  }
+
+  #search-results :global(.search-result) {
     background: var(--sidebar-hover);
+    border: 1px solid transparent;
     border-radius: 8px;
     color: var(--nav);
-    padding: 8px 9px;
+    display: grid;
+    gap: 4px;
+    padding: 9px 10px;
     text-decoration: none;
+  }
+
+  #search-results :global(.search-result:hover),
+  #search-results :global(.search-result.is-active),
+  #search-results :global(.search-result:focus-visible) {
+    background: #fffaf0;
+    border-color: var(--accent);
+  }
+
+  #search-results :global(.search-result-title) {
+    font-weight: 850;
+    line-height: 1.25;
+  }
+
+  #search-results :global(.search-result-excerpt) {
+    color: var(--muted);
+    font-size: 0.76rem;
+    line-height: 1.35;
+  }
+
+  #search-results :global(.search-message) {
+    background: rgb(255 250 240 / 0.68);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    padding: 10px;
   }
 </style>
