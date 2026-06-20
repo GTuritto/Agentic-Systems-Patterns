@@ -210,6 +210,19 @@ A tool designed for humans is not always a tool designed for agents. Agent-frien
 
 Error messages carry more weight than people expect. A vague `failed` makes the model guess. A useful error says what failed, whether retry is safe, and which field needs correction, which is the difference between a clean recovery and a confused retry loop.
 
+## Agent-First Tool Interface Checklist
+
+Design every tool call so the agent can decide, execute, and recover without guessing:
+
+- name the capability, not the implementation detail;
+- declare required inputs, optional inputs, limits, and side effects;
+- return machine-readable status, result data, and recoverable error codes;
+- log the request id, actor, policy decision, and affected resource;
+- provide dry-run or preview mode for destructive operations;
+- document fallback behavior when the tool is denied, unavailable, or rate-limited.
+
+The interface should make the safe path the shortest path.
+
 ## Tool Results Are Data
 
 Tool results should not become new instructions. A search result, web page, email, ticket, document, or log line may contain malicious or irrelevant text. The model can inspect it as evidence, but the runtime must not let it override system goals, tool permissions, approval rules, or memory policy.

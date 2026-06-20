@@ -53,6 +53,18 @@ The Skills Pattern packages procedural knowledge as discoverable folders: concis
 - Treat skills as supply-chain inputs: review, version, test, and restrict execution.
 - Include examples of successful and unsuccessful use.
 
+### CLI-First Skills
+
+A useful skill should be callable by both a human and an agent. A command-line interface is often the simplest shared contract:
+
+- one command per capability;
+- predictable subcommands such as `list`, `get`, `create`, and `run`;
+- structured output for agents and readable output for humans;
+- non-interactive defaults with explicit `--yes` or `--force` flags;
+- credentials from environment or platform stores, not prompts hidden inside the command.
+
+This keeps the skill testable outside the agent loop. If a human cannot run the skill directly and inspect the output, the agent will be harder to debug when the skill fails.
+
 ## Failure Modes
 
 - Skill descriptions that are too broad, causing irrelevant activation.
