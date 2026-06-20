@@ -3,8 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build && pagefind --site dist",
+    "sync:public": "node scripts/sync-public-assets.mjs",
+    "dev": "npm run sync:public && ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "npm run sync:public && ASTRO_TELEMETRY_DISABLED=1 astro build && pagefind --site dist",
+    "parity": "node scripts/parity-check.mjs && node scripts/check-dist-links.mjs",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
   },
   "dependencies": {
