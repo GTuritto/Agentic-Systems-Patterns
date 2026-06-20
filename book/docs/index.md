@@ -42,6 +42,9 @@ features:
   - title: Hands-On Labs
     details: Framework-agnostic Python and TypeScript exercises with production readiness gates for LangGraph, AutoGen, Mastra, CrewAI, and custom runtimes.
     link: /hands-on-labs/
+  - title: Capstone Projects
+    details: Product-shaped examples that combine patterns into support, research, and multi-agent delivery systems with ADRs, traces, evals, runbooks, and rollback plans.
+    link: /capstone-projects/
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.
     link: /hands-on-labs/

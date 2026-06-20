@@ -6,6 +6,8 @@ title: Deployment Walkthrough
 
 This walkthrough turns a lab-derived agent into a production candidate. It is framework-agnostic: the same gates apply whether the implementation uses direct TypeScript, Python, LangGraph, AutoGen, Mastra, CrewAI, or a custom mini-runtime.
 
+For complete examples, use the [Capstone Projects](../capstone-projects/) after this chapter.
+
 The goal is not to deploy faster. The goal is to deploy with enough control that the team can inspect, stop, replay, and improve the system after real users arrive.
 
 ## Scope

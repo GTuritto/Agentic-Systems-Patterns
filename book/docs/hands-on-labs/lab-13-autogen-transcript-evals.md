@@ -109,6 +109,32 @@ Before using a real AutoGen implementation in production, add:
 - per-agent role contracts and permission boundaries;
 - migration notes if adopting Microsoft Agent Framework for new projects.
 
+## Native Framework Extension
+
+After the deterministic lab passes, port one vertical slice into a real AutoGen AgentChat team. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance.
+
+Native porting steps:
+
+1. define AssistantAgent roles that match the deterministic manager, researcher, and reviewer contracts;
+2. define team termination rules and max-turn budgets;
+3. persist structured message events outside the raw chat transcript;
+4. wrap tools so permissions and side effects are enforced outside model text;
+5. redact transcript content before storage;
+6. replay transcripts through evals that check role order, tool calls, final owner, and stop reason;
+7. document rollback for disabling multi-agent delegation.
+
+Transcript evals should check more than final text:
+
+| Check | Failure It Catches |
+| --- | --- |
+| required roles present | fake specialization or skipped review |
+| turn order valid | final answer before evidence or review |
+| stop reason explicit | endless or ambiguous team behavior |
+| tool calls permissioned | worker uses a tool outside its role |
+| final owner present | no accountable acceptance boundary |
+
+Completion standard: the native project proves the same transcript guarantees as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow).
+
 ## Cross-Framework Mapping
 
 - In LangGraph, the same collaboration can be represented as graph nodes or subgraphs with explicit state.
@@ -122,3 +148,4 @@ Before using a real AutoGen implementation in production, add:
 - [Task Delegation](/multi-agent-systems/task-delegation)
 - [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology)
 - [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+- [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)

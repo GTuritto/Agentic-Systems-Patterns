@@ -8,6 +8,8 @@ These templates turn the book's guidance into reviewable engineering artifacts. 
 
 Copy only the sections that matter. A short, complete decision record beats a long template with empty answers.
 
+For filled examples, compare these templates with the [Capstone Projects](../capstone-projects/).
+
 ## Framework Selection ADR
 
 Use this ADR when adopting LangGraph, AutoGen, Mastra, CrewAI, a mini-runtime, or another framework.

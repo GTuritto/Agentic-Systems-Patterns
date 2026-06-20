@@ -89,6 +89,33 @@ Before a real CrewAI implementation ships, add:
 - trace records per agent, task, crew, and flow step;
 - evaluator cases for disagreement, missing evidence, duplicate work, and bad synthesis.
 
+## Native Framework Extension
+
+After the deterministic lab passes, port one vertical slice into a real CrewAI Flow and Crew. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance.
+
+Native porting steps:
+
+1. scaffold a CrewAI project with a Flow;
+2. define Flow state for request, role outputs, acceptance, stop reason, and trace ID;
+3. create researcher, writer, and reviewer agents only if each role has a distinct contract;
+4. define task inputs and expected output shapes;
+5. validate crew output before mutating Flow state;
+6. add evals for missing evidence, bad synthesis, role disagreement, and rejected output;
+7. document rollback for disabling the Crew route while keeping the deterministic Flow path.
+
+The Flow remains the accountable owner:
+
+| Boundary | Owner |
+| --- | --- |
+| state | Flow |
+| task assignment | Flow |
+| role behavior | Crew agents |
+| output validation | Flow |
+| final acceptance | Flow |
+| rollback | runtime or deployment platform |
+
+Completion standard: the native project proves the same role and acceptance behavior as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow).
+
 ## Cross-Framework Mapping
 
 - In LangGraph, the flow can be a graph while each role maps to a node or subgraph.
@@ -102,3 +129,4 @@ Before a real CrewAI implementation ships, add:
 - [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology)
 - [Task Delegation](/multi-agent-systems/task-delegation)
 - [Observability and Evals](/production-runtime/observability-and-evals)
+- [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)

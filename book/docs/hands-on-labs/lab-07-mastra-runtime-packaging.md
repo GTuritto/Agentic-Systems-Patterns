@@ -86,6 +86,32 @@ Before a real Mastra implementation ships, add:
 - trace export to the observability backend;
 - approval gates for write tools and external communication.
 
+## Native Framework Extension
+
+After the deterministic lab passes, port one vertical slice into a real Mastra project. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for current setup commands.
+
+Native porting steps:
+
+1. scaffold a Mastra project;
+2. create one agent for the refund draft decision;
+3. create typed tools for policy lookup and draft creation;
+4. create a workflow that calls policy lookup before draft creation;
+5. add an eval that fails if a send or refund-issue tool is called;
+6. export a trace with workflow, agent, tool, policy, and eval events;
+7. document rollback for disabling the draft tool.
+
+Keep these assets outside framework-only code:
+
+| Asset | Why |
+| --- | --- |
+| tool manifest | product authority should be reviewable without reading framework internals |
+| policy rules | policy must run before tool execution |
+| eval fixtures | release gates should survive framework changes |
+| trace schema | operations need stable fields across runtimes |
+| ADR | the framework choice needs a recorded owner and rollback path |
+
+Completion standard: the native project proves the same behavior as this lab and links to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent).
+
 ## Cross-Framework Mapping
 
 - In LangGraph, this becomes graph state, nodes, tools, checkpoints, and evals around graph runs.
@@ -99,3 +125,4 @@ Before a real Mastra implementation ships, add:
 - [Framework Selection](/agent-engineering-practice/framework-selection)
 - [Building a Minimal Agent Runtime](/agent-engineering-practice/building-a-minimal-agent-runtime)
 - [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+- [Support Refund Agent Capstone](/capstone-projects/support-refund-agent)

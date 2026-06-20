@@ -35,9 +35,13 @@ Start here if you want the book to read like a book, not a catalog:
 19. [Coding Agents](/systems-architecture/coding-agents)
 20. [Production Runtime Overview](/production-runtime/overview)
 21. [Deployment Walkthrough](/production-runtime/deployment-walkthrough)
-22. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
-23. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
-24. [Reference Architecture](/systems-architecture/reference-architecture)
+22. [Capstone Projects](/capstone-projects/)
+23. [Support Refund Agent Capstone](/capstone-projects/support-refund-agent)
+24. [Research RAG Agent Capstone](/capstone-projects/research-rag-agent)
+25. [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)
+26. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+27. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
+28. [Reference Architecture](/systems-architecture/reference-architecture)
 
 This path gives you the thesis before the catalog details.
 
@@ -82,9 +86,13 @@ Use this path when you are designing or reviewing a system:
 16. [Reference Architecture](/systems-architecture/reference-architecture)
 17. [Production Runtime Overview](/production-runtime/overview)
 18. [Deployment Walkthrough](/production-runtime/deployment-walkthrough)
-19. [Observability and Evals](/production-runtime/observability-and-evals)
-20. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
-21. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
+19. [Capstone Projects](/capstone-projects/)
+20. [Support Refund Agent Capstone](/capstone-projects/support-refund-agent)
+21. [Research RAG Agent Capstone](/capstone-projects/research-rag-agent)
+22. [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)
+23. [Observability and Evals](/production-runtime/observability-and-evals)
+24. [Production Evaluation Feedback Loops](/production-runtime/production-evaluation-feedback-loops)
+25. [Cost Controls and Runtime Budgets](/production-runtime/cost-controls-runtime-budgets)
 
 This path is best for architecture work, design reviews, and production readiness checks.
 
@@ -110,8 +118,25 @@ Use this path when you want to run code:
 16. [Lab 11 - Context, Memory, Trace, and Evals](/hands-on-labs/lab-11-context-memory-trace-evals)
 17. [Lab 12 - LangGraph State Graph](/hands-on-labs/lab-12-langgraph-state-graph)
 18. [Lab 13 - AutoGen Transcript Evals](/hands-on-labs/lab-13-autogen-transcript-evals)
+19. [Capstone Projects](/capstone-projects/)
+20. [Support Refund Agent Capstone](/capstone-projects/support-refund-agent)
+21. [Research RAG Agent Capstone](/capstone-projects/research-rag-agent)
+22. [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)
 
 Each lab links back to the pattern chapters and downloadable source bundles. The labs intentionally move between Python, TypeScript, framework-neutral code, LangChain/LangGraph-style retrieval, LangGraph-style state graphs, AutoGen-style supervision and transcript evals, Mastra-style runtime packaging, CrewAI-style flow orchestration, protocol-first A2A code, and test-based evals so you can see the architecture beneath the API.
+
+## Capstone Path
+
+Use this path when you want complete product-shaped examples:
+
+1. [Capstone Projects](/capstone-projects/)
+2. [Support Refund Agent Capstone](/capstone-projects/support-refund-agent)
+3. [Research RAG Agent Capstone](/capstone-projects/research-rag-agent)
+4. [Multi-Agent Delivery Workflow Capstone](/capstone-projects/multi-agent-delivery-workflow)
+5. [Deployment Walkthrough](/production-runtime/deployment-walkthrough)
+6. [Templates and Worksheets](/agent-engineering-practice/templates-and-worksheets)
+
+This path is best after the labs. It shows how patterns, frameworks, evals, traces, ADRs, and runbooks fit together.
 
 ## Reference Path
 

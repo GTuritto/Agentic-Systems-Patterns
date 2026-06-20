@@ -17,6 +17,7 @@ export const bookSections = deepFreeze([
   { id: 'systems-architecture', title: 'Systems Architecture' },
   { id: 'production-runtime', title: 'Production Runtime' },
   { id: 'hands-on-labs', title: 'Hands-On Labs' },
+  { id: 'capstone-projects', title: 'Capstone Projects' },
   { id: 'deprecated', title: 'Historical Patterns' },
   { id: 'publishing', title: 'Publishing Appendix' }
 ]);
@@ -135,6 +136,11 @@ export const bookChapters = deepFreeze([
   chapter('lab-12-langgraph-state-graph', '12 - LangGraph State Graph', 'hands-on-labs/lab-12-langgraph-state-graph.md', 'hands-on-labs'),
   chapter('lab-13-autogen-transcript-evals', '13 - AutoGen Transcript Evals', 'hands-on-labs/lab-13-autogen-transcript-evals.md', 'hands-on-labs'),
   chapter('vertical-slice-examples', 'Vertical Slice Examples', 'hands-on-labs/vertical-slice-examples.md', 'hands-on-labs'),
+
+  chapter('capstone-projects', 'Capstone Projects', 'capstone-projects/index.md', 'capstone-projects'),
+  chapter('support-refund-agent-capstone', 'Support Refund Agent', 'capstone-projects/support-refund-agent.md', 'capstone-projects'),
+  chapter('research-rag-agent-capstone', 'Research RAG Agent', 'capstone-projects/research-rag-agent.md', 'capstone-projects'),
+  chapter('multi-agent-delivery-workflow-capstone', 'Multi-Agent Delivery Workflow', 'capstone-projects/multi-agent-delivery-workflow.md', 'capstone-projects'),
 
   chapter('historical-patterns', 'Historical Patterns', 'deprecated/historical-patterns.md', 'deprecated'),
   chapter('publishing-and-releases', 'Publishing and Releases', 'publishing/publishing-and-releases.md', 'publishing')
