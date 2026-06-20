@@ -32,6 +32,8 @@ A team wants an agentic workflow that turns a product request into a reviewed de
 
 ## Architecture
 
+![Multi-agent delivery workflow capstone architecture](../public/diagrams/capstone-multi-agent-delivery-workflow.svg)
+
 ```mermaid
 flowchart LR
   Request["Delivery request"] --> Flow["Workflow owner"]
@@ -45,6 +47,27 @@ flowchart LR
   Eval --> Final["Accepted delivery package"]
   Flow --> Trace["Trace and transcript store"]
 ```
+
+## Runnable Assets
+
+Run the deterministic capstone implementation:
+
+```sh
+npm run capstones:demo
+npm run capstones:test
+```
+
+Inspect:
+
+- `capstone-projects-runtime/typescript/src/capstones.ts`
+- `capstone-projects-runtime/typescript/test/capstones.spec.ts`
+
+Downloadable evidence:
+
+- [Sample trace JSON](/capstone-assets/traces/multi-agent-delivery-workflow.trace.json)
+- [Sample eval report](/capstone-assets/eval-reports/multi-agent-delivery-workflow-eval-report.txt)
+- [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
+- [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
 
 ## Role Contracts
 

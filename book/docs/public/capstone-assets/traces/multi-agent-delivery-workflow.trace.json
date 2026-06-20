@@ -1,0 +1,18 @@
+{
+  "trace_id": "tr_delivery_331",
+  "workflow_state": "accepted",
+  "messages": [
+    { "turn": 1, "from": "workflow", "to": "planner", "type": "assignment" },
+    { "turn": 2, "from": "planner", "to": "workflow", "type": "plan" },
+    { "turn": 3, "from": "workflow", "to": "risk_reviewer", "type": "review_request" },
+    { "turn": 4, "from": "risk_reviewer", "to": "workflow", "type": "risk_review" },
+    { "turn": 5, "from": "workflow", "to": "test_planner", "type": "test_request" },
+    { "turn": 6, "from": "test_planner", "to": "workflow", "type": "test_plan" },
+    { "turn": 7, "from": "workflow", "to": "team", "type": "accepted_package" }
+  ],
+  "evals": [
+    { "case_id": "required_roles_present", "status": "pass" },
+    { "case_id": "risk_review_before_acceptance", "status": "pass" },
+    { "case_id": "test_plan_before_acceptance", "status": "pass" }
+  ]
+}

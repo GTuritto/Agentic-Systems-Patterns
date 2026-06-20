@@ -1,0 +1,50 @@
+# ADR-000: Choose Framework for Agent Workflow
+
+## Status
+
+Proposed | Accepted | Superseded
+
+## Context
+
+Describe the workflow, users, authority level, state needs, tool risks, eval needs, and deployment constraints.
+
+## Decision
+
+We will use [framework] for [scope].
+
+The framework owns:
+
+- state/control flow:
+- tools:
+- memory:
+- evals:
+- observability:
+
+The application owns:
+
+- product policy:
+- source access:
+- approval:
+- rollback:
+
+## Alternatives
+
+| Option | Fit | Rejected Because |
+| --- | --- | --- |
+| Direct code / mini-runtime | | |
+| LangGraph | | |
+| AutoGen | | |
+| Mastra | | |
+| CrewAI | | |
+
+## Release Evidence
+
+- local run:
+- tests:
+- eval gate:
+- trace:
+- rollback:
+
+## Review Trigger
+
+Review after framework upgrade, new side-effect tool, new memory type, model change, or production incident.

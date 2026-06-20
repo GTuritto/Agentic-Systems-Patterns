@@ -32,6 +32,8 @@ Product, support, and engineering teams often need answers from internal documen
 
 ## Architecture
 
+![Research RAG agent capstone architecture](../public/diagrams/capstone-research-rag-agent.svg)
+
 ```mermaid
 flowchart LR
   Question["User question"] --> Policy["Access and task policy"]
@@ -44,6 +46,27 @@ flowchart LR
   Packet --> Trace["Trace"]
   Eval --> Trace
 ```
+
+## Runnable Assets
+
+Run the deterministic capstone implementation:
+
+```sh
+npm run capstones:demo
+npm run capstones:test
+```
+
+Inspect:
+
+- `capstone-projects-runtime/typescript/src/capstones.ts`
+- `capstone-projects-runtime/typescript/test/capstones.spec.ts`
+
+Downloadable evidence:
+
+- [Sample trace JSON](/capstone-assets/traces/research-rag-agent.trace.json)
+- [Sample eval report](/capstone-assets/eval-reports/research-rag-agent-eval-report.txt)
+- [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
+- [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
 
 ## Context Packet
 

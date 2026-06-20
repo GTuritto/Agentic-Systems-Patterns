@@ -1,0 +1,15 @@
+# Multi-Agent Delivery Workflow Eval Report
+
+release: multi-agent-delivery-workflow@1.0.0
+
+| Case | Result |
+| --- | --- |
+| planner_present | pass |
+| risk_review_present | pass |
+| test_plan_present | pass |
+| turns_sequential | pass |
+| final_owner_accepts_last | pass |
+
+Blocking failures: 0
+
+Release decision: pass

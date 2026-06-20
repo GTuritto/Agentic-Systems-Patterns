@@ -10,6 +10,11 @@ Copy only the sections that matter. A short, complete decision record beats a lo
 
 For filled examples, compare these templates with the [Capstone Projects](../capstone-projects/).
 
+Downloadable versions:
+
+- [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
+- [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
+
 ## Framework Selection ADR
 
 Use this ADR when adopting LangGraph, AutoGen, Mastra, CrewAI, a mini-runtime, or another framework.

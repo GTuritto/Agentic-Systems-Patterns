@@ -33,6 +33,8 @@ Support teams often need to gather order details, read policy, draft a response,
 
 ## Architecture
 
+![Support refund agent capstone architecture](../public/diagrams/capstone-support-refund-agent.svg)
+
 ```mermaid
 flowchart LR
   Ticket["Support ticket"] --> Runtime["Agent runtime"]
@@ -47,6 +49,27 @@ flowchart LR
   Draft --> Trace["Trace and eval record"]
   Approval --> Trace
 ```
+
+## Runnable Assets
+
+Run the deterministic capstone implementation:
+
+```sh
+npm run capstones:demo
+npm run capstones:test
+```
+
+Inspect:
+
+- `capstone-projects-runtime/typescript/src/capstones.ts`
+- `capstone-projects-runtime/typescript/test/capstones.spec.ts`
+
+Downloadable evidence:
+
+- [Sample trace JSON](/capstone-assets/traces/support-refund-agent.trace.json)
+- [Sample eval report](/capstone-assets/eval-reports/support-refund-agent-eval-report.txt)
+- [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
+- [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
 
 ## State Model
 

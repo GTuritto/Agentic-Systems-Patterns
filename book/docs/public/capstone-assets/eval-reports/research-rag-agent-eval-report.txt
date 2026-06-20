@@ -1,0 +1,14 @@
+# Research RAG Agent Eval Report
+
+release: research-rag-agent@1.0.0
+
+| Case | Result |
+| --- | --- |
+| current_source_used | pass |
+| stale_source_rejected | pass |
+| forbidden_source_omitted | pass |
+| citation_faithfulness | pass |
+
+Blocking failures: 0
+
+Release decision: pass

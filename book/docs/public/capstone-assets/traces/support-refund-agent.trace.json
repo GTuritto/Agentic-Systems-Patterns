@@ -1,0 +1,13 @@
+{
+  "trace_id": "tr_refund_1042",
+  "release": "support-refund-agent@1.0.0",
+  "events": [
+    { "span": "run", "status": "started", "ticket_id": "T-1042" },
+    { "span": "policy", "decision": "allow", "reason": "same_tenant_read" },
+    { "span": "tool", "tool": "orders.lookup_order", "status": "succeeded" },
+    { "span": "tool", "tool": "refund_policy.retrieve", "status": "succeeded", "policy_version": "refund-v4" },
+    { "span": "model", "prompt": "refund-draft-v2", "status": "succeeded" },
+    { "span": "policy", "decision": "deny", "reason": "agent_cannot_issue_refund" },
+    { "span": "eval", "case_id": "support_refund_release_gate", "status": "pass" }
+  ]
+}

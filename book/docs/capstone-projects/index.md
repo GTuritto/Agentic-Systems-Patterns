@@ -16,6 +16,20 @@ Use these chapters after the labs. The labs isolate one pattern at a time. The c
 | [Research RAG Agent](./research-rag-agent) | Answer from approved sources with citations and memory rules. | Context engineering, semantic recall, knowledge-bound agents, memory, evals. | LangGraph graph, direct Python/TypeScript, Mastra runtime. |
 | [Multi-Agent Delivery Workflow](./multi-agent-delivery-workflow) | Coordinate specialist agents while preserving one accountable owner. | Supervisor/worker, CrewAI flows, AutoGen transcripts, durable workflows. | CrewAI, AutoGen, LangGraph, Mastra. |
 
+## Run The Capstones
+
+The capstones include deterministic TypeScript assets so readers can inspect state, traces, evals, and rollback behavior without model provider keys.
+
+```sh
+npm run capstones:demo
+npm run capstones:test
+```
+
+Source:
+
+- `capstone-projects-runtime/typescript/src/capstones.ts`
+- `capstone-projects-runtime/typescript/test/capstones.spec.ts`
+
 ## What Each Capstone Proves
 
 Each capstone includes:

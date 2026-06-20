@@ -1,0 +1,28 @@
+# Production Readiness Worksheet
+
+service:
+owner:
+framework:
+release:
+
+| Gate | Evidence |
+| --- | --- |
+| State owner | |
+| Tool manifest | |
+| Policy enforcement point | |
+| Approval boundary | |
+| Memory rules | |
+| Trace schema | |
+| Eval suite | |
+| CI gate | |
+| Rollback path | |
+| Kill switch | |
+| Incident process | |
+
+Readiness:
+
+```text
+green:
+yellow:
+red:
+```

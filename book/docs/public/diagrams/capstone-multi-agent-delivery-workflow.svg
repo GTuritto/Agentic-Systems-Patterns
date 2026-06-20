@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="420" viewBox="0 0 1080 420" role="img" aria-labelledby="title desc">
+  <title id="title">Multi-agent delivery workflow capstone architecture</title>
+  <desc id="desc">Workflow owner assigns planner, risk reviewer, and test planner, then merges outputs, runs transcript evals, and accepts the final package.</desc>
+  <rect width="1080" height="420" fill="#f8fafc"/>
+  <style>
+    .owner{fill:#dbeafe;stroke:#1d4ed8;stroke-width:2;rx:8}
+    .agent{fill:#ffffff;stroke:#1f2937;stroke-width:2;rx:8}
+    .eval{fill:#dcfce7;stroke:#166534;stroke-width:2;rx:8}
+    .text{font:600 18px Arial, sans-serif;fill:#111827}
+    .small{font:14px Arial, sans-serif;fill:#374151}
+    .line{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#334155"/></marker></defs>
+  <rect class="agent" x="40" y="170" width="130" height="70"/><text class="text" x="72" y="200">Delivery</text><text class="small" x="73" y="222">request</text>
+  <rect class="owner" x="230" y="170" width="150" height="70"/><text class="text" x="268" y="200">Workflow</text><text class="small" x="284" y="222">owner</text>
+  <rect class="agent" x="455" y="55" width="140" height="70"/><text class="text" x="492" y="85">Planner</text><text class="small" x="490" y="107">plan</text>
+  <rect class="agent" x="455" y="175" width="140" height="70"/><text class="text" x="480" y="205">Risk</text><text class="small" x="478" y="227">reviewer</text>
+  <rect class="agent" x="455" y="295" width="140" height="70"/><text class="text" x="486" y="325">Test</text><text class="small" x="478" y="347">planner</text>
+  <rect class="owner" x="670" y="170" width="140" height="70"/><text class="text" x="708" y="200">Merge</text><text class="small" x="696" y="222">acceptance</text>
+  <rect class="eval" x="880" y="170" width="150" height="70"/><text class="text" x="914" y="200">Transcript</text><text class="small" x="924" y="222">eval gate</text>
+  <path class="line" d="M170 205 H230"/>
+  <path class="line" d="M380 205 C415 205 415 90 455 90"/>
+  <path class="line" d="M380 205 H455"/>
+  <path class="line" d="M380 205 C415 205 415 330 455 330"/>
+  <path class="line" d="M595 90 C640 90 640 205 670 205"/>
+  <path class="line" d="M595 210 H670"/>
+  <path class="line" d="M595 330 C640 330 640 205 670 205"/>
+  <path class="line" d="M810 205 H880"/>
+</svg>

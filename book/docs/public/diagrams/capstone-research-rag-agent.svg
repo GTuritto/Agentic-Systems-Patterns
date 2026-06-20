@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="420" viewBox="0 0 1080 420" role="img" aria-labelledby="title desc">
+  <title id="title">Research RAG agent capstone architecture</title>
+  <desc id="desc">Question passes access policy, retrieval, source filtering, context packet assembly, answer synthesis, grounding eval, and trace storage.</desc>
+  <rect width="1080" height="420" fill="#f8fafc"/>
+  <style>
+    .box{fill:#ffffff;stroke:#1f2937;stroke-width:2;rx:8}
+    .gate{fill:#fef3c7;stroke:#92400e;stroke-width:2;rx:8}
+    .packet{fill:#ede9fe;stroke:#5b21b6;stroke-width:2;rx:8}
+    .trace{fill:#e0f2fe;stroke:#075985;stroke-width:2;rx:8}
+    .text{font:600 18px Arial, sans-serif;fill:#111827}
+    .small{font:14px Arial, sans-serif;fill:#374151}
+    .line{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#334155"/></marker></defs>
+  <rect class="box" x="35" y="160" width="130" height="70"/><text class="text" x="68" y="190">User</text><text class="small" x="62" y="212">question</text>
+  <rect class="gate" x="210" y="160" width="140" height="70"/><text class="text" x="246" y="190">Access</text><text class="small" x="258" y="212">policy</text>
+  <rect class="box" x="395" y="80" width="150" height="70"/><text class="text" x="426" y="110">Retriever</text><text class="small" x="423" y="132">top-k sources</text>
+  <rect class="gate" x="395" y="250" width="150" height="70"/><text class="text" x="424" y="280">Source</text><text class="small" x="418" y="302">filtering</text>
+  <rect class="packet" x="590" y="160" width="150" height="70"/><text class="text" x="622" y="190">Context</text><text class="small" x="626" y="212">packet</text>
+  <rect class="box" x="785" y="160" width="130" height="70"/><text class="text" x="816" y="190">Answer</text><text class="small" x="812" y="212">with cites</text>
+  <rect class="trace" x="950" y="160" width="100" height="70"/><text class="text" x="972" y="190">Eval</text><text class="small" x="970" y="212">trace</text>
+  <path class="line" d="M165 195 H210"/>
+  <path class="line" d="M350 195 C375 195 375 115 395 115"/>
+  <path class="line" d="M470 150 V250"/>
+  <path class="line" d="M545 285 C575 285 575 195 590 195"/>
+  <path class="line" d="M740 195 H785"/>
+  <path class="line" d="M915 195 H950"/>
+</svg>

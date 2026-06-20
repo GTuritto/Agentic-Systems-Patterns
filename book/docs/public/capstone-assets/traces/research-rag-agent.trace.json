@@ -1,0 +1,12 @@
+{
+  "trace_id": "tr_research_2077",
+  "question": "Can the support refund agent issue money?",
+  "events": [
+    { "span": "policy", "decision": "allow", "scope": "support_docs" },
+    { "span": "retrieval", "query": "support refund agent issue money", "top_k": 5 },
+    { "span": "source_filter", "allowed": 1, "stale": 1, "forbidden": 1 },
+    { "span": "context_packet", "evidence_refs": ["refund-policy-v4"] },
+    { "span": "model", "prompt": "research-answer-v1", "status": "succeeded" },
+    { "span": "eval", "case_id": "research_rag_release_gate", "status": "pass" }
+  ]
+}
