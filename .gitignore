@@ -31,8 +31,13 @@ yarn-error.log*
 
 # History and backup
 .history/
+.specstory/
+.claude/
 *.bak
 *.swp
+
+# Local research/source PDFs kept outside the repository
+/*.pdf
 
 # Python cache and virtualenv
 __pycache__/
