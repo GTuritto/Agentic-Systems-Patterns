@@ -1,6 +1,23 @@
 // @ts-expect-error The shared book manifest is authored as ESM JavaScript.
 import { bookChapters, bookSections, sidebarGroups } from '../../../book/scripts/book-manifest.mjs';
 
+type BookChapter = {
+  id: string;
+  title: string;
+  path: string;
+  sectionId: string;
+};
+
+type SidebarItem = {
+  text: string;
+  path: string;
+};
+
+type SidebarGroup = {
+  text: string;
+  items: SidebarItem[];
+};
+
 export type SiteChapter = {
   id: string;
   title: string;
@@ -45,9 +62,12 @@ function chapterSlug(chapterPath: string) {
   return chapterPath.replace(/\.md$/, '').replace(/\/index$/, '');
 }
 
+const typedBookChapters = bookChapters as BookChapter[];
+const typedSidebarGroups = sidebarGroups as SidebarGroup[];
+
 export const siteSections = bookSections;
 
-export const siteChapters: SiteChapter[] = bookChapters.map(chapter => ({
+export const siteChapters: SiteChapter[] = typedBookChapters.map((chapter: BookChapter) => ({
   id: chapter.id,
   title: chapter.title,
   path: chapter.path,
@@ -55,9 +75,9 @@ export const siteChapters: SiteChapter[] = bookChapters.map(chapter => ({
   slug: chapterSlug(chapter.path)
 }));
 
-export const siteSidebarGroups = sidebarGroups.map(group => ({
+export const siteSidebarGroups = typedSidebarGroups.map((group: SidebarGroup) => ({
   ...group,
-  items: group.items.map(item => ({
+  items: group.items.map((item: SidebarItem) => ({
     ...item,
     href: `${siteBase}/book/${chapterSlug(item.path)}/`
   }))
