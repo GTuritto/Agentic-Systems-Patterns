@@ -7,10 +7,10 @@
     "manifest:test": "node scripts/book-manifest.spec.mjs",
     "diagrams": "node scripts/generate-diagrams.mjs",
     "content": "node scripts/generate-pattern-pages.mjs",
-    "build": "npm run diagrams && npm run content && vitepress build docs",
+    "build": "npm run manifest:test && npm run diagrams && npm run content && vitepress build docs",
     "serve": "vitepress preview docs",
     "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist",
-    "pdf": "npm run diagrams && npm run content && node scripts/generate-pdf.mjs"
+    "pdf": "npm run manifest:test && npm run diagrams && npm run content && node scripts/generate-pdf.mjs"
   },
   "devDependencies": {
     "markdown-it": "^14.1.0",
