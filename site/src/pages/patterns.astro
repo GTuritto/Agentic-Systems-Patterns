@@ -1,0 +1,70 @@
+---
+import BookLayout from '../layouts/BookLayout.astro';
+import { siteBase, siteChapters, siteSections } from '../lib/book-manifest';
+
+const excludedSections = new Set(['publishing']);
+const sectionTitle = new Map(siteSections.map(section => [section.id, section.title]));
+const catalogChapters = siteChapters.filter(chapter => !excludedSections.has(chapter.sectionId));
+const filterSections = siteSections.filter(section =>
+  catalogChapters.some(chapter => chapter.sectionId === section.id)
+);
+
+const sectionDescriptions = new Map([
+  ['front-matter', 'Orientation, selection criteria, and pattern composition.'],
+  ['foundations', 'Core agent primitives: loops, tools, state, context, and outputs.'],
+  ['agent-engineering-practice', 'Engineering workflow, evaluation, security, UX, and operating discipline.'],
+  ['control-loops', 'Planning, reflection, evaluator-optimizer, and self-healing control patterns.'],
+  ['memory-knowledge', 'Working memory, long-term memory, RAG, and knowledge-bound behavior.'],
+  ['tools-skills-protocols', 'Tool contracts, skills, MCP, A2A, approval gates, and secure communication.'],
+  ['multi-agent-systems', 'Topology choices, delegation, supervisors, parallelism, and consensus.'],
+  ['systems-architecture', 'Reference architectures for agentic services, RAG, coding, personal agents, and domains.'],
+  ['production-runtime', 'Runtime controls, observability, policy, budgets, durable workflows, and events.'],
+  ['hands-on-labs', 'Practical implementation paths and vertical slices.'],
+  ['deprecated', 'Historical patterns retained for context.']
+]);
+---
+
+<BookLayout title="Pattern Catalog | Agentic Systems Patterns">
+  <section class="catalog-hero">
+    <p class="eyebrow">Pattern catalog</p>
+    <h1>Find the right agentic pattern</h1>
+    <p class="lede">Browse the book as a structured catalog. Filter by engineering concern, then jump directly into the chapter that explains the pattern and its implementation tradeoffs.</p>
+  </section>
+
+  <section class="catalog-filters" aria-label="Pattern filters">
+    <button class="filter-chip is-active" type="button" data-filter="all">All</button>
+    {filterSections.map(section => (
+      <button class="filter-chip" type="button" data-filter={section.id}>{section.title}</button>
+    ))}
+  </section>
+
+  <section class="catalog-grid" aria-label="Pattern cards">
+    {catalogChapters.map((chapter, index) => (
+      <article class="pattern-card" data-section={chapter.sectionId}>
+        <div class="pattern-card__meta">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <span>{sectionTitle.get(chapter.sectionId)}</span>
+        </div>
+        <h2>{chapter.title}</h2>
+        <p>{sectionDescriptions.get(chapter.sectionId)}</p>
+        <a href={`${siteBase}/book/${chapter.slug}/`}>Read chapter</a>
+      </article>
+    ))}
+  </section>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-chip'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.pattern-card'));
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter ?? 'all';
+        buttons.forEach(item => item.classList.toggle('is-active', item === button));
+        cards.forEach(card => {
+          const visible = filter === 'all' || card.dataset.section === filter;
+          card.hidden = !visible;
+        });
+      });
+    });
+  </script>
+</BookLayout>

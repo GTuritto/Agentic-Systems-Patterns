@@ -11,6 +11,9 @@ const { currentSlug } = Astro.props;
     <span>Agentic Systems Patterns</span>
   </a>
   <SearchBox />
+  <div class="utility-links" aria-label="Book shortcuts">
+    <a href={`${siteBase}/patterns/`}>Pattern catalog</a>
+  </div>
   <nav class="book-nav">
     {siteSidebarGroups.map(group => (
       <section class="nav-group">
@@ -58,6 +61,26 @@ const { currentSlug } = Astro.props;
 
   .book-nav {
     padding-bottom: 40px;
+  }
+
+  .utility-links {
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    gap: 6px;
+    margin: 16px 0 6px;
+    padding-bottom: 16px;
+  }
+
+  .utility-links a {
+    background: var(--nav);
+    border-radius: 999px;
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    font-weight: 820;
+    padding: 9px 12px;
+    text-align: center;
+    text-decoration: none;
   }
 
   .nav-group h2 {
