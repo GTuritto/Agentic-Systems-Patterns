@@ -1,3 +1,13 @@
+---
+import { sectionDescriptions, siteBase, siteChapters } from '../lib/book-manifest.ts';
+
+const fallbackSearchItems = siteChapters.map(chapter => ({
+  title: chapter.title,
+  url: `${siteBase}/book/${chapter.slug}/`,
+  excerpt: sectionDescriptions.get(chapter.sectionId) ?? 'Open this chapter from the search results.'
+}));
+---
+
 <div class="search" role="search">
   <label for="search-input">Search book</label>
   <input
@@ -11,6 +21,8 @@
   <div id="search-status" aria-live="polite"></div>
   <div id="search-results" role="listbox" aria-label="Search results"></div>
 </div>
+
+<script id="search-fallback-data" type="application/json" set:html={JSON.stringify(fallbackSearchItems)}></script>
 
 <script>
   const input = document.querySelector<HTMLInputElement>('#search-input');
@@ -68,6 +80,30 @@
     return `/Agentic-Systems-Patterns/${url}`;
   }
 
+  function fallbackSearch(q: string) {
+    const data = document.querySelector<HTMLScriptElement>('#search-fallback-data');
+    const items = data?.textContent ? JSON.parse(data.textContent) : [];
+    const normalizedQuery = q.toLowerCase();
+    return items
+      .filter((item: { title: string; excerpt: string }) => {
+        return `${item.title} ${item.excerpt}`.toLowerCase().includes(normalizedQuery);
+      })
+      .slice(0, 6);
+  }
+
+  function renderItems(items: Array<{ title: string; excerpt?: string; url: string }>) {
+    results!.innerHTML = items.map((item, index) => {
+      const title = escapeHtml(item.title ?? 'Untitled chapter');
+      const excerpt = item.excerpt ? escapeHtml(item.excerpt.replace(/<[^>]+>/g, '')) : 'Open this chapter from the search results.';
+      return `
+        <a class="search-result" href="${normalizeUrl(item.url)}" role="option" aria-selected="false" tabindex="${index === 0 ? '0' : '-1'}">
+          <span class="search-result-title">${title}</span>
+          <span class="search-result-excerpt">${excerpt}</span>
+        </a>
+      `;
+    }).join('');
+  }
+
   input?.addEventListener('input', async () => {
     const q = input.value.trim();
     if (!results) return;
@@ -96,20 +132,22 @@
       const items = await Promise.all(search.results.slice(0, 6).map(result => result.data()));
       if (run !== searchRun) return;
 
-      results.innerHTML = items.map((item, index) => {
-        const title = escapeHtml(item.meta?.title ?? 'Untitled chapter');
-        const excerpt = item.excerpt ? escapeHtml(item.excerpt.replace(/<[^>]+>/g, '')) : 'Open this chapter from the search results.';
-        return `
-          <a class="search-result" href="${normalizeUrl(item.url)}" role="option" aria-selected="false" tabindex="${index === 0 ? '0' : '-1'}">
-            <span class="search-result-title">${title}</span>
-            <span class="search-result-excerpt">${excerpt}</span>
-          </a>
-        `;
-      }).join('');
+      renderItems(items.map(item => ({
+        title: item.meta?.title ?? 'Untitled chapter',
+        excerpt: item.excerpt,
+        url: item.url
+      })));
       setStatus(`${items.length} search results shown.`);
     } catch {
-      results.innerHTML = '<div class="search-message">Search failed. Rebuild the site and try again.</div>';
-      setStatus('Search failed.');
+      const items = fallbackSearch(q);
+      if (run !== searchRun) return;
+      if (items.length === 0) {
+        results.innerHTML = '<div class="search-message">No matches. Try a broader term.</div>';
+        setStatus('No search results found.');
+        return;
+      }
+      renderItems(items);
+      setStatus(`${items.length} fallback search results shown.`);
     }
   });
 
