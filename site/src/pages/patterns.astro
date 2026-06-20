@@ -22,6 +22,20 @@ const sectionDescriptions = new Map([
   ['hands-on-labs', 'Practical implementation paths and vertical slices.'],
   ['deprecated', 'Historical patterns retained for context.']
 ]);
+
+const sectionUseWhen = new Map([
+  ['front-matter', 'Use when you need to choose, compare, or combine patterns before implementation.'],
+  ['foundations', 'Use when you need the basic building blocks of any agentic system.'],
+  ['agent-engineering-practice', 'Use when moving from demo behavior to engineered, testable agent systems.'],
+  ['control-loops', 'Use when the agent needs structured reasoning, correction, or iterative execution.'],
+  ['memory-knowledge', 'Use when the system must retrieve, remember, budget, or verify knowledge.'],
+  ['tools-skills-protocols', 'Use when agents need safe external capabilities or communication protocols.'],
+  ['multi-agent-systems', 'Use when one agent is not enough and work must be split or coordinated.'],
+  ['systems-architecture', 'Use when designing full systems, services, reference architectures, or domain agents.'],
+  ['production-runtime', 'Use when operating agents under real constraints: cost, policy, evals, events, and durability.'],
+  ['hands-on-labs', 'Use when you want implementation practice and vertical slices.'],
+  ['deprecated', 'Use when comparing modern patterns with historical terminology.']
+]);
 ---
 
 <BookLayout title="Pattern Catalog | Agentic Systems Patterns">
@@ -32,39 +46,71 @@ const sectionDescriptions = new Map([
   </section>
 
   <section class="catalog-filters" aria-label="Pattern filters">
-    <button class="filter-chip is-active" type="button" data-filter="all">All</button>
-    {filterSections.map(section => (
-      <button class="filter-chip" type="button" data-filter={section.id}>{section.title}</button>
-    ))}
+    <div class="catalog-search">
+      <label for="catalog-search-input">Search catalog</label>
+      <input id="catalog-search-input" type="search" placeholder="Search title, category, or use case..." autocomplete="off" />
+    </div>
+    <div class="filter-row">
+      <button class="filter-chip is-active" type="button" data-filter="all">All</button>
+      {filterSections.map(section => (
+        <button class="filter-chip" type="button" data-filter={section.id}>{section.title}</button>
+      ))}
+    </div>
+    <p class="catalog-count" aria-live="polite"><span id="catalog-count">{catalogChapters.length}</span> patterns shown</p>
   </section>
 
   <section class="catalog-grid" aria-label="Pattern cards">
     {catalogChapters.map((chapter, index) => (
-      <article class="pattern-card" data-section={chapter.sectionId}>
+      <article
+        class="pattern-card"
+        data-section={chapter.sectionId}
+        data-search={`${chapter.title} ${sectionTitle.get(chapter.sectionId)} ${sectionDescriptions.get(chapter.sectionId)} ${sectionUseWhen.get(chapter.sectionId)}`.toLowerCase()}
+      >
         <div class="pattern-card__meta">
           <span>{String(index + 1).padStart(2, '0')}</span>
           <span>{sectionTitle.get(chapter.sectionId)}</span>
         </div>
         <h2>{chapter.title}</h2>
         <p>{sectionDescriptions.get(chapter.sectionId)}</p>
+        <p class="pattern-card__use">{sectionUseWhen.get(chapter.sectionId)}</p>
         <a href={`${siteBase}/book/${chapter.slug}/`}>Read chapter</a>
       </article>
     ))}
   </section>
+  <p id="catalog-empty" class="catalog-empty" hidden>No matching patterns. Clear the search or switch filters.</p>
 
   <script>
     const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-chip'));
     const cards = Array.from(document.querySelectorAll<HTMLElement>('.pattern-card'));
+    const searchInput = document.querySelector<HTMLInputElement>('#catalog-search-input');
+    const count = document.querySelector<HTMLSpanElement>('#catalog-count');
+    const empty = document.querySelector<HTMLParagraphElement>('#catalog-empty');
+    let activeFilter = 'all';
+
+    function applyCatalogFilters() {
+      const query = searchInput?.value.trim().toLowerCase() ?? '';
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const matchesFilter = activeFilter === 'all' || card.dataset.section === activeFilter;
+        const matchesQuery = !query || (card.dataset.search ?? '').includes(query);
+        const visible = matchesFilter && matchesQuery;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      if (count) count.textContent = String(visibleCount);
+      if (empty) empty.hidden = visibleCount !== 0;
+    }
 
     buttons.forEach(button => {
       button.addEventListener('click', () => {
-        const filter = button.dataset.filter ?? 'all';
+        activeFilter = button.dataset.filter ?? 'all';
         buttons.forEach(item => item.classList.toggle('is-active', item === button));
-        cards.forEach(card => {
-          const visible = filter === 'all' || card.dataset.section === filter;
-          card.hidden = !visible;
-        });
+        applyCatalogFilters();
       });
     });
+
+    searchInput?.addEventListener('input', applyCatalogFilters);
   </script>
 </BookLayout>
