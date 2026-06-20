@@ -1,0 +1,63 @@
+<div class="search" role="search">
+  <label for="search-input">Search prototype</label>
+  <input id="search-input" type="search" placeholder="Search chapters..." />
+  <div id="search-results"></div>
+</div>
+
+<script>
+  const input = document.querySelector<HTMLInputElement>('#search-input');
+  const results = document.querySelector<HTMLDivElement>('#search-results');
+  const pagefindPath = '/Agentic-Systems-Patterns/pagefind/pagefind.js';
+
+  async function loadPagefind() {
+    const pagefind = await import(/* @vite-ignore */ pagefindPath);
+    await pagefind.options({ baseUrl: '/Agentic-Systems-Patterns/' });
+    return pagefind;
+  }
+
+  let pagefindPromise: ReturnType<typeof loadPagefind> | undefined;
+
+  input?.addEventListener('input', async () => {
+    const q = input.value.trim();
+    if (!results) return;
+    if (!q) {
+      results.innerHTML = '';
+      return;
+    }
+
+    pagefindPromise ??= loadPagefind();
+    const pagefind = await pagefindPromise;
+    const search = await pagefind.search(q);
+    const items = await Promise.all(search.results.slice(0, 5).map(result => result.data()));
+    results.innerHTML = items.map(item => `<a href="${item.url}">${item.meta.title}</a>`).join('');
+  });
+</script>
+
+<style>
+  .search {
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    padding-top: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  input {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+  }
+
+  #search-results {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+</style>

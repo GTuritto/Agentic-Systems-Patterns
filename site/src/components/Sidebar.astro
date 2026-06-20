@@ -1,9 +1,11 @@
 ---
+import SearchBox from './SearchBox.astro';
 import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
 ---
 
 <aside class="book-sidebar" aria-label="Book navigation">
   <a class="brand" href={`${siteBase}/`}>Agentic Systems Patterns</a>
+  <SearchBox />
   <nav>
     {siteSidebarGroups.map(group => (
       <section class="nav-group">
