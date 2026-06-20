@@ -14,8 +14,8 @@ They are either speculative, too broad, duplicated by stronger chapters, or curr
 - Meta-Cognitive Agent: folded into Reflection, Evaluator-Optimizer, and Self-Improvement.
 - Recursive Agent: folded into Planning, Goals and State, and Task Delegation.
 - Distributed Agent: replaced by A2A, durable workflows, and protocol-first composition.
-- API Integration Copilot: archived as an applied placeholder.
-- Data Pipeline Orchestrator Agent: archived as an applied placeholder.
+- API Integration Copilot: archived as an applied integration sketch.
+- Data Pipeline Orchestrator Agent: archived as an applied orchestration sketch.
 - Multi-Modal Tool-Using Agent: archived until it has a developed multimodal implementation.
 
 Source archive: [`deprecated`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/deprecated)

@@ -254,7 +254,7 @@ export const patterns = [
     sourceFolder: 'memory-augmented-agent-pattern',
     bundleName: 'memory-augmented-agent',
     summary:
-      'Memory-augmented agents store and retrieve information across turns or sessions.',
+      'Memory gives an agent continuity, but it also creates a durable trust boundary.',
     useWhen: [
       'The agent needs continuity beyond one interaction.',
       'Stored facts can be scoped, updated, and deleted.',

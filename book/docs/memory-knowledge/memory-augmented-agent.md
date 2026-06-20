@@ -4,7 +4,7 @@ title: Memory-Augmented Agent
 
 # Memory-Augmented Agent
 
-Memory-augmented agents store and retrieve information across turns or sessions.
+Memory gives an agent continuity, but it also creates a durable trust boundary.
 
 > Source and downloads
 >

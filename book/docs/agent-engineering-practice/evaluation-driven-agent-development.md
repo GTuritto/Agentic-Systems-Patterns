@@ -4,7 +4,7 @@ title: Evaluation-Driven Agent Development
 
 # Evaluation-Driven Agent Development
 
-Evaluation is where agent development becomes engineering.
+Evaluation turns agent development from demo-driven guessing into engineering.
 
 Without evals, the team is arguing from demos, anecdotes, and vibes. With evals, the team can say what failed, why it matters, whether the next change helped, and what it broke.
 
