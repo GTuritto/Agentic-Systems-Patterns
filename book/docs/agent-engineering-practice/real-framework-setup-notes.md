@@ -96,12 +96,17 @@ Native example acceptance check: the example must pause at an approval interrupt
 
 Use AutoGen when the main risk is collaborative behavior: role contracts, message history, team termination, and transcript review.
 
+Repository native example: `native-framework-examples/autogen-delivery/`.
+
 Official setup references:
 
 - [AutoGen documentation](https://microsoft.github.io/autogen/stable//index.html)
 - [AgentChat user guide](https://microsoft.github.io/autogen/stable//user-guide/agentchat-user-guide/index.html)
 - [AgentChat installation](https://microsoft.github.io/autogen/stable//user-guide/agentchat-user-guide/installation.html)
+- [AgentChat agents](https://microsoft.github.io/autogen/stable//user-guide/agentchat-user-guide/tutorial/agents.html)
 - [AgentChat teams](https://microsoft.github.io/autogen/stable//user-guide/agentchat-user-guide/tutorial/teams.html)
+- [AgentChat termination](https://microsoft.github.io/autogen/stable//user-guide/agentchat-user-guide/tutorial/termination.html)
+- [AutoGen to Microsoft Agent Framework migration guide](https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/)
 
 Typical local setup:
 
@@ -111,7 +116,7 @@ source .venv/bin/activate
 pip install -U "autogen-agentchat" "autogen-ext[openai]"
 ```
 
-AutoGen AgentChat currently requires Python 3.10 or later. Keep provider packages explicit so model dependencies do not hide inside the framework.
+AutoGen AgentChat currently requires Python 3.10 or later. AutoGen is community-maintained, so new long-lived Microsoft-stack projects should also evaluate Microsoft Agent Framework before standardizing on AutoGen. Keep provider packages explicit so model dependencies do not hide inside the framework.
 
 Porting path from the labs:
 
@@ -132,6 +137,8 @@ Production questions:
 - Which agent may call which tool?
 - Can a retry duplicate a tool side effect?
 - Which transcript failures become eval fixtures?
+
+Native example acceptance check: the example must define role-specific AgentChat agents, a team termination rule, a normalized transcript export, and evals that fail on missing roles, invalid turn order, or missing final owner.
 
 ## Mastra Variant
 

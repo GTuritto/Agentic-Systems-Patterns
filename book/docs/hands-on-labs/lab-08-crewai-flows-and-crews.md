@@ -41,6 +41,16 @@ Expected result:
 CrewAI-style flow and crew tests OK
 ```
 
+Native CrewAI comparison point:
+
+```text
+native-framework-examples/crewai-delivery/
+flow: DeliveryFlow
+crew: Planner, Risk reviewer, Test planner
+acceptance owner: Flow
+eval gate: role outputs present before acceptance
+```
+
 ## Inspect The Code
 
 Open `crewai-flows-and-crews-pattern/python/flow_crew.py` and find these boundaries:
@@ -115,6 +125,16 @@ The Flow remains the accountable owner:
 | rollback | runtime or deployment platform |
 
 Completion standard: the native project proves the same role and acceptance behavior as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow). A native CrewAI run is not complete just because the crew returns text; the Flow must preserve separate role outputs and validate them before acceptance.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+| --- | --- | --- |
+| crew returns one aggregate answer only | task outputs are not preserved separately | Read task-level outputs and copy planner, reviewer, and tester results into Flow state separately. |
+| Flow accepts weak or duplicate role output | acceptance is based on completion, not validation | Add Flow-level validators before setting `accepted`. |
+| provider credentials fail | CrewAI model provider variables are missing | Configure the provider environment required by your CrewAI setup. |
+| roles overlap heavily | agents do not have distinct contracts | Remove the role or rewrite task contracts until each role changes risk or output quality. |
+| rollback is unclear | delegation is embedded in the main path | Keep a deterministic single-owner fallback path outside the Crew route. |
 
 ## Cross-Framework Mapping
 

@@ -8,6 +8,7 @@ These examples show how selected capstone patterns map into real framework APIs.
 | --- | --- | --- |
 | `langgraph-refund/` | LangGraph | Support Refund Agent |
 | `mastra-refund/` | Mastra | Support Refund Agent |
+| `autogen-delivery/` | AutoGen | Multi-Agent Delivery Workflow |
 | `crewai-delivery/` | CrewAI | Multi-Agent Delivery Workflow |
 
 ## Validate Syntax

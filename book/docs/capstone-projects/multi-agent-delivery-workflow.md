@@ -82,7 +82,10 @@ Every role needs a reason to exist. If a role does not change the output or risk
 
 ## Native Framework Mapping
 
-Start with the deterministic TypeScript capstone, then compare the CrewAI native slice at `native-framework-examples/crewai-delivery/`. The native slice should prove role separation and flow-owned acceptance before adding real project-management or repository tools.
+Start with the deterministic TypeScript capstone, then compare the native slices:
+
+- `native-framework-examples/crewai-delivery/` proves role separation and flow-owned acceptance before adding real project-management or repository tools.
+- `native-framework-examples/autogen-delivery/` proves AgentChat team roles, termination, normalized transcript export, and transcript evals.
 
 | Framework | Best Mapping |
 | --- | --- |
@@ -181,4 +184,7 @@ post-incident action: add transcript regression fixture and update role contract
 - [Lab 12 - LangGraph State Graph](../hands-on-labs/lab-12-langgraph-state-graph)
 - [Lab 13 - AutoGen Transcript Evals](../hands-on-labs/lab-13-autogen-transcript-evals)
 
-Native example: `native-framework-examples/crewai-delivery/`.
+Native examples:
+
+- `native-framework-examples/crewai-delivery/`
+- `native-framework-examples/autogen-delivery/`

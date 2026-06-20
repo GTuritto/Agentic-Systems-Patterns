@@ -44,6 +44,16 @@ Expected result:
 AutoGen-style transcript tests OK
 ```
 
+Native AutoGen comparison point:
+
+```text
+native-framework-examples/autogen-delivery/
+team: RoundRobinGroupChat
+agents: delivery_manager, delivery_planner, risk_reviewer, test_planner
+termination: TextMentionTermination("ACCEPTED") OR MaxMessageTermination(8)
+eval gate: delivery_transcript_acceptance
+```
+
 ## Inspect The Code
 
 Open `autogen-transcript-pattern/typescript/src/team_transcript.ts` and find these boundaries:
@@ -111,7 +121,7 @@ Before using a real AutoGen implementation in production, add:
 
 ## Native Framework Extension
 
-After the deterministic lab passes, port one vertical slice into a real AutoGen AgentChat team. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance.
+After the deterministic lab passes, port one vertical slice into a real AutoGen AgentChat team. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance and compare your work with the repository example at `native-framework-examples/autogen-delivery/`.
 
 Native porting steps:
 
@@ -133,7 +143,17 @@ Transcript evals should check more than final text:
 | tool calls permissioned | worker uses a tool outside its role |
 | final owner present | no accountable acceptance boundary |
 
-Completion standard: the native project proves the same transcript guarantees as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow).
+Completion standard: the native project proves the same transcript guarantees as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow). A native AutoGen team is not complete just because agents exchange messages; the system must normalize the transcript, preserve stop reason, and replay it through evals.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+| --- | --- | --- |
+| team runs until the max-message limit | termination phrase is missing or too ambiguous | Add an explicit `TextMentionTermination` phrase and require only the final owner to use it. |
+| eval cannot prove role order | raw chat is not normalized | Store sender, recipient, message type, task ID, turn number, and stop reason outside the raw transcript. |
+| reviewer or tester role is skipped | team composition or turn policy is too loose | Use a bounded team pattern and eval required roles before accepting output. |
+| provider import or model client fails | optional AutoGen extension package is missing | Install `autogen-ext[openai]` or the provider extension used by the project. |
+| new project concern | AutoGen maintenance status is a risk | Compare AutoGen with Microsoft Agent Framework before committing long-term platform architecture. |
 
 ## Cross-Framework Mapping
 

@@ -43,6 +43,16 @@ Expected result:
 LangGraph-style state graph tests OK
 ```
 
+Native LangGraph comparison point:
+
+```text
+native-framework-examples/langgraph-refund/
+graph: StateGraph
+checkpointer: InMemorySaver for local development
+interrupt: finance approval
+eval gate: draft stops before money movement
+```
+
 ## Inspect The Code
 
 Open `langgraph-state-graph-pattern/python/state_graph.py` and find these boundaries:
@@ -132,6 +142,16 @@ Do not consider the native port complete until it proves:
 | rollback is possible | disable one graph route or tool |
 
 This extension maps directly to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent) and [Research RAG Agent capstone](/capstone-projects/research-rag-agent). The native example is intentionally small: it proves state, interrupt, resume, and eval behavior before adding real order tools or model calls.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+| --- | --- | --- |
+| resume restarts earlier work | graph lacks a checkpointer or stable thread ID | Compile with a checkpointer and pass a tenant-safe `thread_id`. |
+| side effects repeat after resume | side-effect node is not idempotent | Move side effects behind idempotency keys or approval records. |
+| approval payload is hard to audit | interrupt data is unstructured | Store ticket ID, draft ID, approver role, expiry, and requested action in the interrupt payload. |
+| state migrations are unclear | state schema is only implicit | Version the state schema and document migration rules before production. |
+| trace only shows final output | node spans are missing | Emit node, tool, policy, interrupt, resume, and eval events. |
 
 ## Cross-Framework Mapping
 
