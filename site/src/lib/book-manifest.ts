@@ -36,3 +36,11 @@ export const siteSidebarGroups = sidebarGroups.map(group => ({
 export function chapterBySlug(slug: string) {
   return siteChapters.find(chapter => chapter.slug === slug);
 }
+
+export function chapterNavigation(slug: string) {
+  const index = siteChapters.findIndex(chapter => chapter.slug === slug);
+  return {
+    previous: index > 0 ? siteChapters[index - 1] : undefined,
+    next: index >= 0 && index < siteChapters.length - 1 ? siteChapters[index + 1] : undefined
+  };
+}

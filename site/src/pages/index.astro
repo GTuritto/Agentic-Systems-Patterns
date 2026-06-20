@@ -1,19 +1,51 @@
 ---
 import BookLayout from '../layouts/BookLayout.astro';
-import { siteBase, siteChapters } from '../lib/book-manifest';
+import { siteBase, siteChapters, siteSidebarGroups } from '../lib/book-manifest';
+
+const firstChapter = siteChapters[0];
+const featuredGroups = siteSidebarGroups.slice(0, 6);
 ---
 
 <BookLayout title="Agentic Systems Patterns">
-  <h1>Agentic Systems Patterns</h1>
-  <p>A practical online book for modern agent architecture: goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.</p>
+  <section class="hero">
+    <p class="eyebrow">Online-first field guide</p>
+    <h1>Agentic Systems Patterns</h1>
+    <p class="lede">A practical book for designing, evaluating, and operating agentic systems: goals, loops, tools, skills, memory, protocols, multi-agent topologies, and production runtimes.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href={`${siteBase}/book/${firstChapter.slug}/`}>Start reading</a>
+      <a class="button button-secondary" href="#sections">Browse sections</a>
+    </div>
+  </section>
 
-  <h2>Astro Spike</h2>
-  <p>This prototype renders a representative slice of the existing book from the canonical manifest. VitePress remains the production site until this spike is accepted.</p>
+  <section class="stats-panel" aria-label="Book status">
+    <div>
+      <strong>{siteChapters.length}</strong>
+      <span>chapters</span>
+    </div>
+    <div>
+      <strong>{siteSidebarGroups.length}</strong>
+      <span>sections</span>
+    </div>
+    <div>
+      <strong>Static</strong>
+      <span>searchable site</span>
+    </div>
+  </section>
 
-  <h2>Prototype Chapters</h2>
-  <ul>
-    {siteChapters.map(chapter => (
-      <li><a href={`${siteBase}/book/${chapter.slug}/`}>{chapter.title}</a></li>
-    ))}
-  </ul>
+  <section id="sections" class="section-grid">
+    <div class="section-heading">
+      <p class="eyebrow">Reading paths</p>
+      <h2>Browse the book</h2>
+    </div>
+    <div class="cards">
+      {featuredGroups.map(group => (
+        <article class="section-card">
+          <span>{group.items.length} chapters</span>
+          <h3>{group.text}</h3>
+          <p>{group.items.slice(0, 3).map(item => item.text).join(' · ')}</p>
+          <a href={group.items[0].href}>Open section</a>
+        </article>
+      ))}
+    </div>
+  </section>
 </BookLayout>

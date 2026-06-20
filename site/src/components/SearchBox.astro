@@ -1,5 +1,5 @@
 <div class="search" role="search">
-  <label for="search-input">Search prototype</label>
+  <label for="search-input">Search book</label>
   <input id="search-input" type="search" placeholder="Search chapters..." />
   <div id="search-results"></div>
 </div>
@@ -36,28 +36,45 @@
 <style>
   .search {
     border-top: 1px solid var(--border);
-    margin-top: 24px;
-    padding-top: 16px;
+    margin-top: 22px;
+    padding-top: 18px;
   }
 
   label {
     display: block;
-    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
     font-weight: 700;
+    letter-spacing: 0.1em;
     margin-bottom: 8px;
+    text-transform: uppercase;
   }
 
   input {
+    background: #fffaf0;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 999px;
     box-sizing: border-box;
-    padding: 10px;
+    color: var(--text);
+    font: 0.9rem var(--font-ui);
+    padding: 10px 13px;
     width: 100%;
   }
 
   #search-results {
     display: grid;
-    gap: 8px;
+    gap: 6px;
+    font-family: var(--font-ui);
+    font-size: 0.84rem;
     margin-top: 12px;
+  }
+
+  #search-results :global(a) {
+    background: var(--sidebar-hover);
+    border-radius: 8px;
+    color: var(--nav);
+    padding: 8px 9px;
+    text-decoration: none;
   }
 </style>

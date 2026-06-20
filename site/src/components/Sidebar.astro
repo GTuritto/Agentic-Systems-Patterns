@@ -1,18 +1,31 @@
 ---
 import SearchBox from './SearchBox.astro';
 import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
+
+const { currentSlug } = Astro.props;
 ---
 
 <aside class="book-sidebar" aria-label="Book navigation">
-  <a class="brand" href={`${siteBase}/`}>Agentic Systems Patterns</a>
+  <a class="brand" href={`${siteBase}/`}>
+    <span class="brand-kicker">Online book</span>
+    <span>Agentic Systems Patterns</span>
+  </a>
   <SearchBox />
-  <nav>
+  <nav class="book-nav">
     {siteSidebarGroups.map(group => (
       <section class="nav-group">
         <h2>{group.text}</h2>
         <ul>
           {group.items.map(item => (
-            <li><a href={item.href}>{item.text}</a></li>
+            <li>
+              <a
+                href={item.href}
+                class:list={['nav-link', { 'is-active': item.path.replace(/\.md$/, '').replace(/\/index$/, '') === currentSlug }]}
+                aria-current={item.path.replace(/\.md$/, '').replace(/\/index$/, '') === currentSlug ? 'page' : undefined}
+              >
+                {item.text}
+              </a>
+            </li>
           ))}
         </ul>
       </section>
@@ -23,18 +36,35 @@ import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
 <style>
   .brand {
     color: var(--nav);
-    display: inline-block;
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 24px;
+    display: grid;
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    font-weight: 760;
+    gap: 3px;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 22px;
     text-decoration: none;
+  }
+
+  .brand-kicker {
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .book-nav {
+    padding-bottom: 40px;
   }
 
   .nav-group h2 {
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.68rem;
     letter-spacing: 0.08em;
-    margin-top: 24px;
+    margin: 22px 0 8px;
     text-transform: uppercase;
   }
 
@@ -45,10 +75,28 @@ import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
   }
 
   li {
-    margin: 8px 0;
+    margin: 2px 0;
   }
 
-  a {
+  .nav-link {
+    border-radius: 8px;
+    color: var(--sidebar-link);
+    display: block;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    padding: 7px 9px;
     text-decoration: none;
+  }
+
+  .nav-link:hover {
+    background: var(--sidebar-hover);
+    color: var(--nav);
+  }
+
+  .nav-link.is-active {
+    background: var(--nav);
+    box-shadow: 0 10px 24px rgb(23 63 79 / 0.14);
+    color: #fff;
+    font-weight: 760;
   }
 </style>

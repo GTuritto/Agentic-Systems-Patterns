@@ -1,6 +1,6 @@
 ---
 import BookLayout from '../../layouts/BookLayout.astro';
-import { siteChapters } from '../../lib/book-manifest';
+import { chapterNavigation, siteBase, siteChapters } from '../../lib/book-manifest';
 import { renderChapter } from '../../lib/markdown';
 
 export function getStaticPaths() {
@@ -12,8 +12,23 @@ export function getStaticPaths() {
 
 const { chapter } = Astro.props;
 const rendered = await renderChapter(chapter);
+const navigation = chapterNavigation(chapter.slug);
 ---
 
-<BookLayout title={`${rendered.title} | Agentic Systems Patterns`}>
+<BookLayout title={`${rendered.title} | Agentic Systems Patterns`} currentSlug={chapter.slug}>
   <article set:html={rendered.html} />
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    {navigation.previous ? (
+      <a class="page-link page-link--previous" href={`${siteBase}/book/${navigation.previous.slug}/`}>
+        <span>Previous</span>
+        <strong>{navigation.previous.title}</strong>
+      </a>
+    ) : <span></span>}
+    {navigation.next ? (
+      <a class="page-link page-link--next" href={`${siteBase}/book/${navigation.next.slug}/`}>
+        <span>Next</span>
+        <strong>{navigation.next.title}</strong>
+      </a>
+    ) : <span></span>}
+  </nav>
 </BookLayout>

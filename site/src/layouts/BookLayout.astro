@@ -2,7 +2,7 @@
 import Sidebar from '../components/Sidebar.astro';
 import '../styles/global.css';
 
-const { title = 'Agentic Systems Patterns' } = Astro.props;
+const { title = 'Agentic Systems Patterns', currentSlug } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,7 +15,7 @@ const { title = 'Agentic Systems Patterns' } = Astro.props;
   </head>
   <body>
     <div class="book-shell">
-      <Sidebar />
+      <Sidebar currentSlug={currentSlug} />
       <main class="book-content" id="main-content">
         <slot />
       </main>
