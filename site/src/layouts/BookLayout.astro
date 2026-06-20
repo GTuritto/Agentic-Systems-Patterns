@@ -1,0 +1,24 @@
+---
+import Sidebar from '../components/Sidebar.astro';
+import '../styles/global.css';
+
+const { title = 'Agentic Systems Patterns' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content="An online book for designing, evaluating, and operating agentic systems." />
+  </head>
+  <body>
+    <div class="book-shell">
+      <Sidebar />
+      <main class="book-content" id="main-content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

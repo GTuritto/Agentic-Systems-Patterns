@@ -1,0 +1,19 @@
+---
+import BookLayout from '../../layouts/BookLayout.astro';
+import { siteChapters } from '../../lib/book-manifest';
+import { renderChapter } from '../../lib/markdown';
+
+export function getStaticPaths() {
+  return siteChapters.map(chapter => ({
+    params: { slug: chapter.slug },
+    props: { chapter }
+  }));
+}
+
+const { chapter } = Astro.props;
+const rendered = await renderChapter(chapter);
+---
+
+<BookLayout title={`${rendered.title} | Agentic Systems Patterns`}>
+  <article set:html={rendered.html} />
+</BookLayout>

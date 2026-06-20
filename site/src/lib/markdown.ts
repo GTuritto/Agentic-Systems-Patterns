@@ -1,13 +1,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
 import matter from 'gray-matter';
 import type { SiteChapter } from './book-manifest.ts';
 import { siteBase } from './book-manifest.ts';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, '..', '..', '..');
+const repoRoot = path.resolve(process.cwd(), '..');
 const docsRoot = path.join(repoRoot, 'book', 'docs');
 
 const md = new MarkdownIt({

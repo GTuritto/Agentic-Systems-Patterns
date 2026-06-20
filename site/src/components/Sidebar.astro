@@ -1,0 +1,52 @@
+---
+import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
+---
+
+<aside class="book-sidebar" aria-label="Book navigation">
+  <a class="brand" href={`${siteBase}/`}>Agentic Systems Patterns</a>
+  <nav>
+    {siteSidebarGroups.map(group => (
+      <section class="nav-group">
+        <h2>{group.text}</h2>
+        <ul>
+          {group.items.map(item => (
+            <li><a href={item.href}>{item.text}</a></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </nav>
+</aside>
+
+<style>
+  .brand {
+    color: var(--nav);
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    text-decoration: none;
+  }
+
+  .nav-group h2 {
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    margin-top: 24px;
+    text-transform: uppercase;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 8px 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>

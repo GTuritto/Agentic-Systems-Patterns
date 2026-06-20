@@ -1,0 +1,19 @@
+---
+import BookLayout from '../layouts/BookLayout.astro';
+import { siteBase, siteChapters } from '../lib/book-manifest';
+---
+
+<BookLayout title="Agentic Systems Patterns">
+  <h1>Agentic Systems Patterns</h1>
+  <p>A practical online book for modern agent architecture: goals, loops, tools, skills, memory, protocols, multi-agent systems, and production runtimes.</p>
+
+  <h2>Astro Spike</h2>
+  <p>This prototype renders a representative slice of the existing book from the canonical manifest. VitePress remains the production site until this spike is accepted.</p>
+
+  <h2>Prototype Chapters</h2>
+  <ul>
+    {siteChapters.map(chapter => (
+      <li><a href={`${siteBase}/book/${chapter.slug}/`}>{chapter.title}</a></li>
+    ))}
+  </ul>
+</BookLayout>
