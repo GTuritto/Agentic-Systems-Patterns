@@ -82,14 +82,15 @@ This path is best for architecture work, design reviews, and production readines
 
 Use this path when you want to run code:
 
-1. [Lab 01 - Tool-Using Agent](/hands-on-labs/lab-01-tool-using-agent)
-2. [Lab 02 - Agent Loop and Planning](/hands-on-labs/lab-02-agent-loop-and-planning)
-3. [Lab 03 - Agentic RAG](/hands-on-labs/lab-03-agentic-rag)
-4. [Lab 04 - A2A Communication](/hands-on-labs/lab-04-a2a-communication)
-5. [Lab 05 - Multi-Agent Supervisor](/hands-on-labs/lab-05-multi-agent-supervisor)
-6. [Lab 06 - Observability and Evals](/hands-on-labs/lab-06-observability-and-evals)
+1. [Lab Framework and Language Matrix](/hands-on-labs/framework-language-matrix)
+2. [Lab 01 - Tool-Using Agent](/hands-on-labs/lab-01-tool-using-agent)
+3. [Lab 02 - Agent Loop and Planning](/hands-on-labs/lab-02-agent-loop-and-planning)
+4. [Lab 03 - Agentic RAG](/hands-on-labs/lab-03-agentic-rag)
+5. [Lab 04 - A2A Communication](/hands-on-labs/lab-04-a2a-communication)
+6. [Lab 05 - Multi-Agent Supervisor](/hands-on-labs/lab-05-multi-agent-supervisor)
+7. [Lab 06 - Observability and Evals](/hands-on-labs/lab-06-observability-and-evals)
 
-Each lab links back to the pattern chapters and downloadable source bundles.
+Each lab links back to the pattern chapters and downloadable source bundles. The labs intentionally move between Python, TypeScript, framework-neutral code, LangChain/LangGraph-style retrieval, AutoGen-style supervision, protocol-first A2A code, and test-based evals so you can see the architecture beneath the API.
 
 ## Reference Path
 

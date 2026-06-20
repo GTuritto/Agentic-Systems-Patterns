@@ -10,6 +10,9 @@ Separate planning from execution. The planner decides the steps; the executor ru
 
 ## What You Will Use
 
+- Language: TypeScript, with a Python mirror
+- Framework/runtime: framework-neutral planner and executor
+- Framework-agnostic lesson: planning and execution are separate responsibilities even when a framework packages them together.
 - Pattern chapters: [Agent Loop](/foundations/agent-loop), [Planning and Execution](/control-loops/planning-and-execution)
 - Source folder: [`planning-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/planning-pattern)
 - Download: [planning-and-execution.zip](/downloads/planning-and-execution.zip)
@@ -90,6 +93,13 @@ Add loop controls before using this pattern in production:
 - human review for high-risk steps
 
 Planning is useful only when execution is bounded and inspectable.
+
+## Cross-Framework Mapping
+
+- In LangGraph, planning and execution can be separate nodes connected through shared graph state.
+- In Mastra AI, the same split can appear as a workflow that coordinates agent and tool steps.
+- In AutoGen-style systems, a manager agent may propose a plan while executor functions perform bounded work.
+- In CrewAI, a flow can own the sequence while crews or agents handle delegated tasks.
 
 ## Related Chapters
 

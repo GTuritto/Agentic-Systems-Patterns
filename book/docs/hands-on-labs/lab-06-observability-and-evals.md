@@ -10,6 +10,9 @@ Turn the examples into something you can evaluate. A production agent needs trac
 
 ## What You Will Use
 
+- Language: TypeScript
+- Framework/runtime: framework-neutral tests over the repository examples
+- Framework-agnostic lesson: evals should inspect trajectories, tool calls, policy outcomes, and stop reasons, not only final answers.
 - Pattern chapters: [Observability and Evals](/production-runtime/observability-and-evals), [Evaluator-Optimizer](/control-loops/evaluator-optimizer)
 - Source folder: [`observability-and-evals-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/observability-and-evals-pattern)
 - Download: [observability-and-evals.zip](/downloads/observability-and-evals.zip)
@@ -101,6 +104,13 @@ Then add release gates:
 - no unresolved safety or policy failures
 
 Observability records what happened. Evals decide whether it is good enough to ship.
+
+## Cross-Framework Mapping
+
+- In LangGraph, traces and checkpoints let you inspect node paths, state changes, and stop conditions.
+- In Mastra AI, evals and observability should connect agent, tool, workflow, and memory events.
+- In AutoGen-style systems, message logs need to become structured traces before they are reliable eval data.
+- In CrewAI, task and flow outputs need eval cases that check role behavior and final synthesis.
 
 ## Related Chapters
 

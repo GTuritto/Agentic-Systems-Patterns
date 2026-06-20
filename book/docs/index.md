@@ -37,7 +37,7 @@ features:
     details: Lifecycle, framework selection, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
     link: /agent-engineering-practice/agent-development-lifecycle
   - title: Hands-On Labs
-    details: Guided exercises for tool use, planning loops, Agentic RAG, A2A communication, multi-agent supervision, and evals.
+    details: Framework-agnostic Python and TypeScript exercises for tool use, planning loops, Agentic RAG, A2A communication, multi-agent supervision, and evals.
     link: /hands-on-labs/
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.

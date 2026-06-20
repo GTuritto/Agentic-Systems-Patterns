@@ -10,6 +10,9 @@ Build the supervision shape behind multi-agent systems: one coordinator owns the
 
 ## What You Will Use
 
+- Language: TypeScript
+- Framework/runtime: AutoGen-style manager/worker example
+- Framework-agnostic lesson: a supervisor owns decomposition, worker contracts, merge policy, and final synthesis.
 - Pattern chapters: [Supervisor / Worker](/multi-agent-systems/supervisor-worker), [Task Delegation](/multi-agent-systems/task-delegation)
 - Source folder: [`hierarchical-agent-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/hierarchical-agent-pattern)
 - Download: [supervisor-worker.zip](/downloads/supervisor-worker.zip)
@@ -76,6 +79,13 @@ Replace natural-language subtask parsing with structured output:
 - human escalation for disagreement
 
 Multi-agent systems need strong contracts. More agents without a merge policy usually means more failure modes.
+
+## Cross-Framework Mapping
+
+- In LangGraph, this maps to a coordinator graph that routes work to specialized nodes or subgraphs.
+- In Mastra AI, this maps to workflows that coordinate agents and tools under one runtime.
+- In AutoGen-style systems, this is the manager/worker conversation pattern made explicit.
+- In CrewAI, this maps to crews with role-specific tasks, while a flow should still own state and final acceptance.
 
 ## Related Chapters
 

@@ -10,6 +10,9 @@ Build the smallest useful agent boundary: a user message enters, the agent decid
 
 ## What You Will Use
 
+- Language: TypeScript
+- Framework/runtime: minimal custom runtime with an AutoGen-style example path
+- Framework-agnostic lesson: the model may propose tool use, but software owns validation, execution, and error handling.
 - Pattern chapter: [Tool Use](/foundations/tool-use)
 - Source folder: [`tool-using-agent-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/tool-using-agent-pattern)
 - Download: [tool-use.zip](/downloads/tool-use.zip)
@@ -77,6 +80,13 @@ Replace prefix routing with a typed tool request:
 - trace ID for the run
 
 Do not give the model broad access to arbitrary functions. Expose narrow tools with explicit permissions.
+
+## Cross-Framework Mapping
+
+- In LangGraph, this boundary usually appears as a tool node or callable bound to graph state.
+- In Mastra AI, it maps to a typed tool exposed through an agent or workflow.
+- In AutoGen-style systems, it maps to a function/tool call proposed by an assistant and executed by the runtime.
+- In CrewAI, it maps to tools assigned to an agent role, with the flow or crew configuration limiting access.
 
 ## Related Chapters
 

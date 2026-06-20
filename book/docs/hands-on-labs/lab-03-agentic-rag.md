@@ -10,6 +10,9 @@ Build the retrieval boundary behind an Agentic RAG system: retrieve scoped evide
 
 ## What You Will Use
 
+- Language: Python
+- Framework/runtime: LangChain/LangGraph-style retrieval stack with FAISS and Hugging Face embeddings
+- Framework-agnostic lesson: retrieval produces scoped evidence; generation should stay grounded in that evidence.
 - Pattern chapters: [Semantic Recall and RAG](/memory-knowledge/semantic-recall-rag), [Agentic RAG Systems](/systems-architecture/agentic-rag-systems)
 - Source folder: [`context-engineering-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/context-engineering-pattern)
 - Download: [semantic-recall-rag.zip](/downloads/semantic-recall-rag.zip)
@@ -75,6 +78,13 @@ Add production controls:
 - refusal when evidence is missing
 
 Agentic RAG is not only vector search. It is a controlled loop around retrieval, evidence, tool use, and verification.
+
+## Cross-Framework Mapping
+
+- In LangGraph, retrieval can be a graph node that updates state with evidence before generation.
+- In LangChain, this maps to retrievers, document loaders, vector stores, and chains or runnables.
+- In Mastra AI, retrieval becomes a knowledge or tool capability used by an agent or workflow.
+- In CrewAI, a research role may retrieve evidence, but the flow still needs to validate grounding and citations.
 
 ## Related Chapters
 

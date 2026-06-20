@@ -10,6 +10,9 @@ Build a typed communication boundary between two agents. One agent requests work
 
 ## What You Will Use
 
+- Language: TypeScript
+- Framework/runtime: protocol-first runtime with Ajv JSON schema validation
+- Framework-agnostic lesson: agent communication needs typed envelopes, correlation IDs, refusal states, error states, and cancellation.
 - Pattern chapter: [A2A Agent Interoperability](/tools-skills-protocols/a2a-agent-interoperability)
 - Source folder: [`agent-to-agent-communication-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/agent-to-agent-communication-pattern)
 - Download: [a2a-agent-interoperability.zip](/downloads/a2a-agent-interoperability.zip)
@@ -87,6 +90,13 @@ Before using A2A across services, add:
 - transport-level encryption
 
 A2A is a protocol boundary, not just one agent calling another function.
+
+## Cross-Framework Mapping
+
+- In LangGraph, this resembles graph-to-graph or service-to-service handoff with typed state.
+- In Mastra AI, this maps to service or workflow boundaries around agent calls.
+- In AutoGen-style systems, it maps to structured messages between agents rather than free-form chat alone.
+- In CrewAI, it maps to task handoffs and role outputs that still need schema, identity, and trace correlation.
 
 ## Related Chapters
 

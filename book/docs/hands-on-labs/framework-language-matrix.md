@@ -30,4 +30,10 @@ If you later use LangGraph, Mastra AI, AutoGen, CrewAI, Semantic Kernel, MCP, or
 
 ## Current Coverage
 
-The current labs are strongest on TypeScript examples, protocol boundaries, and small runnable demos. The Python coverage is concentrated in the Agentic RAG lab. Later lab phases should add explicit Mastra AI and CrewAI labs so framework diversity is visible as a first-class teaching choice, not an accident.
+The current labs are strongest on TypeScript examples, protocol boundaries, and small runnable demos. The Python coverage is concentrated in the Agentic RAG lab.
+
+Planned lab expansion should add:
+
+- a Mastra AI lab for TypeScript runtime packaging of agents, tools, workflows, memory, and evals;
+- a CrewAI lab for Python flows, crews, role boundaries, and task contracts;
+- a from-scratch mini-runtime track that shows what frameworks package under the hood.
