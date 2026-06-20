@@ -1,0 +1,52 @@
+---
+import BookLayout from '../../layouts/BookLayout.astro';
+import {
+  chaptersForSection,
+  sectionDescriptions,
+  sectionUseWhen,
+  siteBase,
+  siteSections
+} from '../../lib/book-manifest';
+
+export function getStaticPaths() {
+  const sectionsWithChapters = siteSections
+    .map(section => ({
+      ...section,
+      chapters: chaptersForSection(section.id)
+    }))
+    .filter(section => section.chapters.length > 0);
+
+  return sectionsWithChapters.map(section => ({
+    params: { section: section.id },
+    props: { section }
+  }));
+}
+
+const { section } = Astro.props;
+---
+
+<BookLayout title={`${section.title} | Agentic Systems Patterns`}>
+  <section class="section-landing">
+    <p class="eyebrow">Section guide</p>
+    <h1>{section.title}</h1>
+    <p class="lede">{sectionDescriptions.get(section.id) ?? 'A curated section from the Agentic Systems Patterns book.'}</p>
+    <p class="section-use">{sectionUseWhen.get(section.id)}</p>
+  </section>
+
+  <section class="section-toc" aria-labelledby="section-toc-title">
+    <div class="section-toc-header">
+      <h2 id="section-toc-title">Reading order</h2>
+      <span>{section.chapters.length} chapters</span>
+    </div>
+    <ol class="section-chapter-list">
+      {section.chapters.map((chapter, index) => (
+        <li>
+          <a href={`${siteBase}/book/${chapter.slug}/`}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{chapter.title}</strong>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BookLayout>

@@ -1,9 +1,12 @@
 ---
 import BookLayout from '../layouts/BookLayout.astro';
-import { siteBase, siteChapters, siteSidebarGroups } from '../lib/book-manifest';
+import { chaptersForSection, sectionDescriptions, siteBase, siteChapters, siteSections } from '../lib/book-manifest';
 
 const firstChapter = siteChapters[0];
-const featuredGroups = siteSidebarGroups.slice(0, 6);
+const sectionsWithChapters = siteSections
+  .map(section => ({ ...section, chapters: chaptersForSection(section.id) }))
+  .filter(section => section.chapters.length > 0);
+const featuredSections = sectionsWithChapters.slice(0, 6);
 ---
 
 <BookLayout title="Agentic Systems Patterns">
@@ -24,7 +27,7 @@ const featuredGroups = siteSidebarGroups.slice(0, 6);
       <span>chapters</span>
     </div>
     <div>
-      <strong>{siteSidebarGroups.length}</strong>
+      <strong>{sectionsWithChapters.length}</strong>
       <span>sections</span>
     </div>
     <div>
@@ -39,12 +42,12 @@ const featuredGroups = siteSidebarGroups.slice(0, 6);
       <h2>Browse the book</h2>
     </div>
     <div class="cards">
-      {featuredGroups.map(group => (
+      {featuredSections.map(section => (
         <article class="section-card">
-          <span>{group.items.length} chapters</span>
-          <h3>{group.text}</h3>
-          <p>{group.items.slice(0, 3).map(item => item.text).join(' · ')}</p>
-          <a href={group.items[0].href}>Open section</a>
+          <span>{section.chapters.length} chapters</span>
+          <h3>{section.title}</h3>
+          <p>{sectionDescriptions.get(section.id)}</p>
+          <a href={`${siteBase}/sections/${section.id}/`}>Open section</a>
         </article>
       ))}
     </div>
