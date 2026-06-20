@@ -20,6 +20,8 @@ The labs are intentionally language- and framework-agnostic. They use different 
 | [Lab 09 - Minimal Agent Loop](./lab-09-minimal-agent-loop.md) | Agent loop | TypeScript or Python | From-scratch educational runtime | State, decisions, observations, budgets, and stop reasons are the core loop. |
 | [Lab 10 - Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md) | Tool and policy boundary | TypeScript or Python | From-scratch educational runtime | Tool availability and policy authorization are different runtime decisions. |
 | [Lab 11 - Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md) | Runtime observability | TypeScript or Python | From-scratch educational runtime | Context, memory, traces, and trajectory evals make the runtime reviewable. |
+| [Lab 12 - LangGraph State Graph](./lab-12-langgraph-state-graph.md) | State graph and resume | Python | LangGraph-style graph state, nodes, edges, checkpoints, and interrupts | Graph execution is strongest when state, branching, pause/resume, and node observability matter. |
+| [Lab 13 - AutoGen Transcript Evals](./lab-13-autogen-transcript-evals.md) | Multi-agent transcript evaluation | TypeScript | AutoGen-style agents, teams, messages, and transcript evals | A multi-agent run needs a reviewable transcript, explicit stop reason, and role-level acceptance criteria. |
 
 ## How To Read The Matrix
 
@@ -36,10 +38,10 @@ If you later use LangGraph, Mastra AI, AutoGen, CrewAI, Semantic Kernel, MCP, or
 
 ## Current Coverage
 
-The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, Mastra-style runtime packaging, CrewAI-style flow orchestration, and from-scratch runtime primitives.
+The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, LangGraph-style state graphs, AutoGen-style transcripts, Mastra-style runtime packaging, CrewAI-style flow orchestration, and from-scratch runtime primitives.
 
 Planned lab expansion should add:
 
-- a fuller LangGraph graph-state lab beyond the current RAG mapping;
-- a deeper AutoGen conversation-management lab with transcript evals;
 - production deployment notes for each framework-specific lab.
+- real framework installation variants for the deterministic framework-style labs.
+- side-by-side diagrams comparing state ownership across LangGraph, Mastra, AutoGen, CrewAI, and custom runtimes.

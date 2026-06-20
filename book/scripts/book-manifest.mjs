@@ -127,6 +127,8 @@ export const bookChapters = deepFreeze([
   chapter('lab-09-minimal-agent-loop', '09 - Minimal Agent Loop', 'hands-on-labs/lab-09-minimal-agent-loop.md', 'hands-on-labs'),
   chapter('lab-10-tool-registry-and-policy-gate', '10 - Tool Registry and Policy Gate', 'hands-on-labs/lab-10-tool-registry-and-policy-gate.md', 'hands-on-labs'),
   chapter('lab-11-context-memory-trace-evals', '11 - Context, Memory, Trace, and Evals', 'hands-on-labs/lab-11-context-memory-trace-evals.md', 'hands-on-labs'),
+  chapter('lab-12-langgraph-state-graph', '12 - LangGraph State Graph', 'hands-on-labs/lab-12-langgraph-state-graph.md', 'hands-on-labs'),
+  chapter('lab-13-autogen-transcript-evals', '13 - AutoGen Transcript Evals', 'hands-on-labs/lab-13-autogen-transcript-evals.md', 'hands-on-labs'),
   chapter('vertical-slice-examples', 'Vertical Slice Examples', 'hands-on-labs/vertical-slice-examples.md', 'hands-on-labs'),
 
   chapter('historical-patterns', 'Historical Patterns', 'deprecated/historical-patterns.md', 'deprecated'),

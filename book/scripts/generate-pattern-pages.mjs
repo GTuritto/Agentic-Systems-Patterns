@@ -13,6 +13,16 @@ const githubRoot = 'https://github.com/GTuritto/Agentic-Systems-Patterns/tree/ma
 const rawGithubRoot = 'https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main';
 const excerptLineLimit = 90;
 const excerptCharLimit = 9000;
+const sourceBundles = [
+  {
+    sourceFolder: 'langgraph-state-graph-pattern',
+    bundleName: 'langgraph-state-graph'
+  },
+  {
+    sourceFolder: 'autogen-transcript-pattern',
+    bundleName: 'autogen-transcript'
+  }
+];
 
 const sectionAliases = {
   intent: ['Intent'],
@@ -672,6 +682,10 @@ async function main() {
     await fs.mkdir(path.dirname(chapterPath), { recursive: true });
     await fs.writeFile(chapterPath, chapter, 'utf8');
     await createBundle(pattern);
+  }
+
+  for (const bundle of sourceBundles) {
+    await createBundle(bundle);
   }
 
   console.log(`Generated ${patterns.length} expanded pattern chapters.`);

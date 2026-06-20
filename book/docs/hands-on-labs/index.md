@@ -65,7 +65,9 @@ Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, Aut
 11. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
 12. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
 13. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
-14. [Study Vertical Slice Examples](./vertical-slice-examples.md)
+14. [Model State Graphs, Checkpoints, and Interrupts](./lab-12-langgraph-state-graph.md)
+15. [Evaluate Multi-Agent Transcripts](./lab-13-autogen-transcript-evals.md)
+16. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
 ## How To Use These Labs
 
