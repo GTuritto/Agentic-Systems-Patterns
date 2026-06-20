@@ -5,16 +5,17 @@ A practical book and example library for designing modern agentic systems.
 The project covers patterns for goals, loops, tools, skills, memory, structured output, protocols, multi-agent coordination, durable execution, observability, evals, and production runtimes. It is maintained as both a source-code reference and a publishable book.
 
 - Read the book: https://gturitto.github.io/Agentic-Systems-Patterns/
-- How to read it: https://gturitto.github.io/Agentic-Systems-Patterns/publishing/how-to-read
+- How to read it: https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/
 - Download the PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
-- Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/hands-on-labs/
+- Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
 - Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
 
 ## What Is Here
 
-This repository has three related parts:
+This repository has several related parts:
 
-- `book/docs/`: VitePress source for the published book.
+- `site/`: Astro online reader deployed to GitHub Pages.
+- `book/docs/`: canonical Markdown source for the book, VitePress preview, and PDF pipeline.
 - `book/docs/hands-on-labs/`: guided labs that use the runnable examples as a learning path.
 - `book/docs/publishing/`: reader paths, publishing commands, release artifact guidance, and license notes.
 - Pattern folders such as `agent-loop-pattern/`, `skills-pattern/`, and `modern-tool-use-pattern/`: source material and runnable examples.
@@ -93,15 +94,19 @@ npm run router:run -- "I need a refund for a wrong charge on my invoice."
 npm run plan:py
 ```
 
-## Book Publishing
+## Online Book Publishing
 
-The book is built with VitePress and deployed to GitHub Pages from GitHub Actions.
+The primary reader experience is the Astro site in `site/`. The VitePress project in `book/` remains the canonical authoring, validation, and PDF pipeline.
 
 ```sh
-# Install book dependencies
+# Install publishing dependencies
 npm run book:install
+npm run site:install
 
-# Start local preview
+# Start the Astro online reader
+npm run site:dev
+
+# Optional: start the VitePress authoring preview
 npm run book:start
 
 # Regenerate expanded book pages and source bundles
@@ -110,14 +115,20 @@ npm run book:content
 # Validate or export draw.io diagrams
 npm run book:diagrams
 
-# Build the static site
+# Build the Astro site
+npm run site:build
+
+# Verify Astro has every canonical chapter and no broken internal links
+npm run site:parity
+
+# Build the VitePress authoring site
 npm run book:build
 
 # Generate the offline PDF
 npm run book:pdf
 ```
 
-Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the PDF, builds the VitePress site, uploads the Pages artifact, and deploys the site.
+Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the PDF, builds the VitePress authoring output, builds the Astro online site, runs Astro parity checks, uploads the Pages artifact from `site/dist`, and deploys it.
 
 The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
 
@@ -125,7 +136,7 @@ Each `Publish Book` workflow run also uploads the generated PDF as a GitHub Acti
 
 Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs). Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`. Architecture chapters under `book/docs/systems-architecture/` are hand-written because they describe cross-pattern composition rather than one source folder.
 
-Architecture diagrams are maintained as editable diagrams.net files under `book/diagrams/` and rendered as SVG assets under `book/docs/public/diagrams/`. If the `drawio` CLI is installed, `npm run book:diagrams` refreshes the SVG exports; otherwise it validates that the committed SVG exports exist for the site and PDF builds.
+Architecture diagrams are maintained as editable diagrams.net files under `book/diagrams/` and rendered as SVG assets under `book/docs/public/diagrams/`. If the `drawio` CLI is installed, `npm run book:diagrams` refreshes the SVG exports; otherwise it validates that the committed SVG exports exist for the site and PDF builds. `npm run site:build` syncs `book/docs/public/` into `site/public/` before building Astro.
 
 ## Repository Map
 
@@ -133,9 +144,10 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 .
 ├── Agentic_Patterns.md              # Full active/deprecated pattern index
 ├── book/
-│   ├── docs/                        # VitePress book source
+│   ├── docs/                        # Canonical book Markdown and public assets
 │   ├── releases/                    # Checked-in offline PDF artifact
 │   └── scripts/                     # Book page, download, and PDF generation
+├── site/                            # Astro online reader and Pagefind search
 ├── deprecated/                      # Archived patterns kept for history
 ├── *-pattern/                       # Pattern chapters and examples
 ├── package.json                     # Root demo/test scripts
@@ -151,10 +163,10 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 - When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
 - When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and register them in `book/scripts/book-manifest.mjs`.
 - When adding architecture diagrams, edit `book/diagrams/*.drawio`, export or commit the matching SVG under `book/docs/public/diagrams/`, and run `npm run book:diagrams`.
-- Run `npm test`, `npm run typecheck`, `npm run book:pdf`, and `npm run book:build` before publishing larger changes.
+- Run `npm test`, `npm run typecheck`, `npm run book:build`, `npm run site:build`, `npm run site:parity`, and `npm run book:pdf` before publishing larger changes.
 
 ## License
 
 This book/reference and its examples are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).
 
-Last reviewed: 2026-06-16.
+Last reviewed: 2026-06-20.

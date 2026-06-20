@@ -4,7 +4,7 @@ title: Publishing and Releases
 
 # Publishing and Releases
 
-The book is published as a GitHub Pages site and as a downloadable PDF.
+The book is published as an Astro GitHub Pages site and as a downloadable PDF. The PDF is a companion artifact; the online reader is the primary product.
 
 ## Public URLs
 
@@ -33,13 +33,31 @@ Each `Publish Book` workflow run also uploads the PDF as a workflow artifact. Us
 From the repository root:
 
 ```sh
-npm run book:content
-npm run book:diagrams
-npm run book:pdf
 npm run book:build
+npm run site:build
+npm run site:parity
+npm run book:pdf
 ```
 
-Use `npm run book:start` for local preview.
+Use `npm run site:dev` for the primary local reader preview.
+
+Use `npm run book:start` only for the VitePress authoring preview.
+
+The main outputs are:
+
+```text
+site/dist
+book/releases/Agentic-Systems-Patterns.pdf
+```
+
+`site/dist` is deployed to GitHub Pages. The Astro build uses the base path `/Agentic-Systems-Patterns/`.
+
+The lower-level book pipeline commands are:
+
+```sh
+npm run book:content
+npm run book:diagrams
+```
 
 ## Deployment
 
@@ -49,7 +67,7 @@ Deployment is handled by:
 .github/workflows/publish-book.yml
 ```
 
-The workflow runs on every push to `main` and can also be triggered manually with `workflow_dispatch`.
+The workflow runs on every push to `main` and can also be triggered manually with `workflow_dispatch`. It builds the PDF, validates the VitePress authoring build, builds the Astro site, runs Astro parity/link checks, and deploys `site/dist`.
 
 ## License
 

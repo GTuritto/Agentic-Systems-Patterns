@@ -18,6 +18,7 @@
     "site:dev": "npm run dev --prefix site",
     "site:build": "npm run build --prefix site",
     "site:parity": "npm run parity --prefix site",
+    "site:preview": "npm run preview --prefix site",
     "tools:test": "ts-node --esm ./tools/rename_patterns.spec.ts",
     "single-agent": "ts-node --esm ./single-agent-pattern/autogen_typescript_example/single_agent.ts",
     "agent-loop": "ts-node --esm ./agent-loop-pattern/typescript/src/run_demo.ts",

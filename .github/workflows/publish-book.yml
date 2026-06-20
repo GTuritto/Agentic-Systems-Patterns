@@ -27,11 +27,15 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             book/package-lock.json
+            site/package-lock.json
       - run: npm ci
       - run: npm ci --prefix book
+      - run: npm ci --prefix site
       - run: npx --prefix book playwright install --with-deps chromium
       - run: npm run book:pdf
       - run: npm run book:build
+      - run: npm run site:build
+      - run: npm run site:parity
       - uses: actions/upload-artifact@v4
         with:
           name: Agentic-Systems-Patterns.pdf
@@ -40,7 +44,7 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: book/docs/.vitepress/dist
+          path: site/dist
   deploy:
     environment:
       name: github-pages
