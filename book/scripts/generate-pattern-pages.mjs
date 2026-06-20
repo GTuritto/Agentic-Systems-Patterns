@@ -651,7 +651,12 @@ async function createBundle(pattern) {
       '*/.DS_Store',
       '*/.git/*',
       '*/dist/*',
-      '*/build/*'
+      '*/build/*',
+      '*/__pycache__/*',
+      '*.pyc',
+      '*/.pytest_cache/*',
+      '*/.mypy_cache/*',
+      '*/.tsbuildinfo'
     ],
     repoRoot
   );

@@ -559,6 +559,11 @@ export const patterns = [
       'A simple function pipeline is enough.',
       'Framework abstractions hide state transitions or error handling.',
       'Crew roles are vague and overlap heavily.'
+    ],
+    commands: ['npm run crewai-flow', 'npm run crewai-flow:test'],
+    codeFiles: [
+      'crewai-flows-and-crews-pattern/python/flow_crew.py',
+      'crewai-flows-and-crews-pattern/python/test_flow_crew.py'
     ]
   },
   {
@@ -649,6 +654,11 @@ export const patterns = [
       'A small script or single prompt is enough.',
       'The framework hides workflow state, testability, or observability.',
       'You are choosing a framework before identifying runtime requirements.'
+    ],
+    commands: ['npm run mastra-runtime:demo', 'npm run mastra-runtime:test'],
+    codeFiles: [
+      'mastra-runtime-pattern/typescript/src/runtime_packaging.ts',
+      'mastra-runtime-pattern/typescript/test/runtime_packaging.spec.ts'
     ]
   }
 ];

@@ -121,6 +121,8 @@ export const bookChapters = deepFreeze([
   chapter('lab-04-a2a-communication', '04 - A2A Communication', 'hands-on-labs/lab-04-a2a-communication.md', 'hands-on-labs'),
   chapter('lab-05-multi-agent-supervisor', '05 - Multi-Agent Supervisor', 'hands-on-labs/lab-05-multi-agent-supervisor.md', 'hands-on-labs'),
   chapter('lab-06-observability-and-evals', '06 - Observability and Evals', 'hands-on-labs/lab-06-observability-and-evals.md', 'hands-on-labs'),
+  chapter('lab-07-mastra-runtime-packaging', '07 - Mastra Runtime Packaging', 'hands-on-labs/lab-07-mastra-runtime-packaging.md', 'hands-on-labs'),
+  chapter('lab-08-crewai-flows-and-crews', '08 - CrewAI Flows and Crews', 'hands-on-labs/lab-08-crewai-flows-and-crews.md', 'hands-on-labs'),
   chapter('from-scratch-mini-framework', 'From-Scratch Mini-Framework Track', 'hands-on-labs/from-scratch-mini-framework.md', 'hands-on-labs'),
   chapter('lab-09-minimal-agent-loop', '09 - Minimal Agent Loop', 'hands-on-labs/lab-09-minimal-agent-loop.md', 'hands-on-labs'),
   chapter('lab-10-tool-registry-and-policy-gate', '10 - Tool Registry and Policy Gate', 'hands-on-labs/lab-10-tool-registry-and-policy-gate.md', 'hands-on-labs'),

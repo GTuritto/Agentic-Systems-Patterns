@@ -37,6 +37,7 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 - **State owner:** the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
 - **Primary artifact:** `crewai-flows-and-crews-pattern/` contains the runnable reference implementation and examples.
 - **Operational promise:** CrewAI Flows own state and execution order. Crews group specialized agents that collaborate on delegated work inside the flow.
+- **Runnable path:** start with `npm run crewai-flow` before adapting the pattern to a larger system.
 
 ## Core Protocol
 
@@ -77,13 +78,135 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 - Define human escalation for ambiguous, high-risk, or policy-blocked work.
 - Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
+## Run the Example
+
+```sh
+npm run crewai-flow
+npm run crewai-flow:test
+```
+
 ## Code Walkthrough
 
 Read the excerpt as the smallest executable expression of the pattern. The surrounding chapter explains the design constraints; the code shows where those constraints become concrete interfaces, state, validation, or control flow.
 
 ## Source Code
 
-This pattern currently has no dedicated code excerpt. Use the source and download links below for the full pattern folder.
+These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
+
+### `crewai-flows-and-crews-pattern/python/flow_crew.py`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/crewai-flows-and-crews-pattern/python/flow_crew.py)
+
+```py
+from dataclasses import dataclass, field
+from typing import Callable
+
+@dataclass
+class Agent:
+    role: str
+    goal: str
+    run: Callable[[str], str]
+
+@dataclass
+class Task:
+    name: str
+    agent_role: str
+    input: str
+
+@dataclass
+class Crew:
+    name: str
+    agents: dict[str, Agent]
+
+    def kickoff(self, tasks: list[Task]) -> dict[str, str]:
+        outputs: dict[str, str] = {}
+        for task in tasks:
+            agent = self.agents[task.agent_role]
+            outputs[task.name] = agent.run(task.input)
+        return outputs
+
+@dataclass
+class FlowState:
+    goal: str
+    accepted: bool = False
+    crew_outputs: dict[str, str] = field(default_factory=dict)
+    trace: list[str] = field(default_factory=list)
+    final: str | None = None
+
+def build_research_crew() -> Crew:
+    return Crew(
+        name="support_research_crew",
+        agents={
+            "researcher": Agent(
+                role="researcher",
+                goal="Find policy facts relevant to the task.",
+                run=lambda task_input: f"policy evidence for {task_input}: refund window is 30 days",
+            ),
+            "writer": Agent(
+                role="writer",
+                goal="Turn evidence into a concise draft.",
+                run=lambda task_input: f"draft based on {task_input}: offer review, do not promise payment",
+            ),
+        },
+    )
+
+def run_support_flow(goal: str) -> FlowState:
+    state = FlowState(goal=goal)
+    crew = build_research_crew()
+
+    state.trace.append("flow:start")
+    tasks = [
+        Task(name="evidence", agent_role="researcher", input=goal),
+        Task(name="draft", agent_role="writer", input="policy evidence"),
+    ]
+    state.trace.append("flow:crew_kickoff")
+    state.crew_outputs = crew.kickoff(tasks)
+
+    evidence = state.crew_outputs["evidence"]
+    draft = state.crew_outputs["draft"]
+    state.trace.append("flow:evaluate")
+
+    state.accepted = "30 days" in evidence and "do not promise payment" in draft
+    if state.accepted:
+        state.final = "Crew output accepted by the flow."
+        state.trace.append("flow:accepted")
+    else:
+        state.final = "Crew output rejected by the flow."
+        state.trace.append("flow:rejected")
+
+    return state
+
+def evaluate_flow(state: FlowState) -> dict[str, object]:
+    reasons: list[str] = []
+    if not state.accepted:
+        reasons.append("flow did not accept crew output")
+    if "evidence" not in state.crew_outputs:
+```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
+
+### `crewai-flows-and-crews-pattern/python/test_flow_crew.py`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/crewai-flows-and-crews-pattern/python/test_flow_crew.py)
+
+```py
+from flow_crew import evaluate_flow, run_support_flow
+
+def assert_true(condition, message):
+    if not condition:
+        raise AssertionError(message)
+
+state = run_support_flow("Prepare a refund response")
+evaluation = evaluate_flow(state)
+
+assert_true(state.accepted, "Expected flow to accept crew output")
+assert_true(state.crew_outputs["evidence"].startswith("policy evidence"), "Expected researcher output")
+assert_true("do not promise payment" in state.crew_outputs["draft"], "Expected constrained writer output")
+assert_true(state.trace == ["flow:start", "flow:crew_kickoff", "flow:evaluate", "flow:accepted"], "Expected deterministic flow trace")
+assert_true(evaluation["status"] == "pass", "Expected flow evaluation to pass")
+
+print("CrewAI-style flow and crew tests OK")
+```
 
 ## Download
 

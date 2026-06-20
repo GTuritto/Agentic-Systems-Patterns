@@ -59,13 +59,13 @@ Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, Aut
 5. [Build A2A Agent Communication](./lab-04-a2a-communication.md)
 6. [Build a Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md)
 7. [Add Observability and Evals](./lab-06-observability-and-evals.md)
-8. [Study the From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md)
-9. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
-10. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
-11. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
-12. [Study Vertical Slice Examples](./vertical-slice-examples.md)
-
-Labs 07 and 08 are intentionally reserved for framework-specific expansions, such as Mastra AI and CrewAI. The mini-framework track starts at Lab 09 so future framework labs can be inserted without renumbering the runtime track.
+8. [Package Agents, Tools, Workflows, Memory, and Evals](./lab-07-mastra-runtime-packaging.md)
+9. [Model Flows, Crews, Roles, and Task Contracts](./lab-08-crewai-flows-and-crews.md)
+10. [Study the From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md)
+11. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
+12. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
+13. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
+14. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
 ## How To Use These Labs
 

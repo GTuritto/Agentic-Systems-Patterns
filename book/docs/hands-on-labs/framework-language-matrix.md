@@ -14,6 +14,8 @@ The labs are intentionally language- and framework-agnostic. They use different 
 | [Lab 04 - A2A Communication](./lab-04-a2a-communication.md) | Agent-to-agent protocol | TypeScript | Protocol-first runtime with Ajv schema validation | Agent communication needs typed envelopes, correlation IDs, refusals, errors, and cancellation. |
 | [Lab 05 - Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md) | Supervisor / worker | TypeScript | AutoGen-style manager/worker example | A supervisor owns decomposition, worker contracts, and final synthesis. |
 | [Lab 06 - Observability and Evals](./lab-06-observability-and-evals.md) | Trace and eval harness | TypeScript | Framework-neutral tests over examples | Evals should inspect trajectories, not only final answers. |
+| [Lab 07 - Mastra Runtime Packaging](./lab-07-mastra-runtime-packaging.md) | Runtime packaging | TypeScript | Mastra-style agents, tools, workflows, memory, and evals | Framework runtime packaging does not remove product ownership of state, policy, and acceptance. |
+| [Lab 08 - CrewAI Flows and Crews](./lab-08-crewai-flows-and-crews.md) | Flow and crew orchestration | Python | CrewAI-style flows, crews, roles, and tasks | Flows own state and acceptance; crews perform bounded specialist work. |
 | [Mini-Framework Track](./from-scratch-mini-framework.md) | Runtime primitives | TypeScript or Python | From-scratch educational runtime | Building the primitives once clarifies what frameworks package. |
 | [Lab 09 - Minimal Agent Loop](./lab-09-minimal-agent-loop.md) | Agent loop | TypeScript or Python | From-scratch educational runtime | State, decisions, observations, budgets, and stop reasons are the core loop. |
 | [Lab 10 - Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md) | Tool and policy boundary | TypeScript or Python | From-scratch educational runtime | Tool availability and policy authorization are different runtime decisions. |
@@ -34,10 +36,10 @@ If you later use LangGraph, Mastra AI, AutoGen, CrewAI, Semantic Kernel, MCP, or
 
 ## Current Coverage
 
-The current labs are strongest on TypeScript examples, protocol boundaries, small runnable demos, and from-scratch runtime primitives. The Python coverage is concentrated in the Agentic RAG lab, while the mini-framework track can be implemented in either Python or TypeScript.
+The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, Mastra-style runtime packaging, CrewAI-style flow orchestration, and from-scratch runtime primitives.
 
 Planned lab expansion should add:
 
-- a Mastra AI lab for TypeScript runtime packaging of agents, tools, workflows, memory, and evals;
-- a CrewAI lab for Python flows, crews, role boundaries, and task contracts;
-- richer framework-specific comparisons after readers understand the runtime primitives.
+- a fuller LangGraph graph-state lab beyond the current RAG mapping;
+- a deeper AutoGen conversation-management lab with transcript evals;
+- production deployment notes for each framework-specific lab.

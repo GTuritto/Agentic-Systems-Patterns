@@ -91,12 +91,14 @@ Use this path when you want to run code:
 5. [Lab 04 - A2A Communication](/hands-on-labs/lab-04-a2a-communication)
 6. [Lab 05 - Multi-Agent Supervisor](/hands-on-labs/lab-05-multi-agent-supervisor)
 7. [Lab 06 - Observability and Evals](/hands-on-labs/lab-06-observability-and-evals)
-8. [From-Scratch Mini-Framework Track](/hands-on-labs/from-scratch-mini-framework)
-9. [Lab 09 - Minimal Agent Loop](/hands-on-labs/lab-09-minimal-agent-loop)
-10. [Lab 10 - Tool Registry and Policy Gate](/hands-on-labs/lab-10-tool-registry-and-policy-gate)
-11. [Lab 11 - Context, Memory, Trace, and Evals](/hands-on-labs/lab-11-context-memory-trace-evals)
+8. [Lab 07 - Mastra Runtime Packaging](/hands-on-labs/lab-07-mastra-runtime-packaging)
+9. [Lab 08 - CrewAI Flows and Crews](/hands-on-labs/lab-08-crewai-flows-and-crews)
+10. [From-Scratch Mini-Framework Track](/hands-on-labs/from-scratch-mini-framework)
+11. [Lab 09 - Minimal Agent Loop](/hands-on-labs/lab-09-minimal-agent-loop)
+12. [Lab 10 - Tool Registry and Policy Gate](/hands-on-labs/lab-10-tool-registry-and-policy-gate)
+13. [Lab 11 - Context, Memory, Trace, and Evals](/hands-on-labs/lab-11-context-memory-trace-evals)
 
-Each lab links back to the pattern chapters and downloadable source bundles. The labs intentionally move between Python, TypeScript, framework-neutral code, LangChain/LangGraph-style retrieval, AutoGen-style supervision, protocol-first A2A code, and test-based evals so you can see the architecture beneath the API.
+Each lab links back to the pattern chapters and downloadable source bundles. The labs intentionally move between Python, TypeScript, framework-neutral code, LangChain/LangGraph-style retrieval, AutoGen-style supervision, Mastra-style runtime packaging, CrewAI-style flow orchestration, protocol-first A2A code, and test-based evals so you can see the architecture beneath the API.
 
 ## Reference Path
 

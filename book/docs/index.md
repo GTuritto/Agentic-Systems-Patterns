@@ -37,7 +37,7 @@ features:
     details: Lifecycle, minimal runtime primitives, framework selection, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
     link: /agent-engineering-practice/agent-development-lifecycle
   - title: Hands-On Labs
-    details: Framework-agnostic Python and TypeScript exercises, including a from-scratch mini-runtime track, for tool use, planning, RAG, A2A, supervision, and evals.
+    details: Framework-agnostic Python and TypeScript exercises, including Mastra-style, CrewAI-style, and from-scratch mini-runtime tracks.
     link: /hands-on-labs/
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.

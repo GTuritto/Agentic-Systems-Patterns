@@ -37,6 +37,7 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 - **State owner:** the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
 - **Primary artifact:** `mastra-runtime-pattern/` contains the runnable reference implementation and examples.
 - **Operational promise:** Mastra is a TypeScript runtime pattern for applications that need agents, workflows, tools, memory, evals, and observability in one framework.
+- **Runnable path:** start with `npm run mastra-runtime:demo` before adapting the pattern to a larger system.
 
 ## Core Protocol
 
@@ -77,13 +78,144 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 - Define human escalation for ambiguous, high-risk, or policy-blocked work.
 - Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
 
+## Run the Example
+
+```sh
+npm run mastra-runtime:demo
+npm run mastra-runtime:test
+```
+
 ## Code Walkthrough
 
 Read the excerpt as the smallest executable expression of the pattern. The surrounding chapter explains the design constraints; the code shows where those constraints become concrete interfaces, state, validation, or control flow.
 
 ## Source Code
 
-This pattern currently has no dedicated code excerpt. Use the source and download links below for the full pattern folder.
+These excerpts show the implementation shape. The complete code is available in the download bundle and repository source.
+
+### `mastra-runtime-pattern/typescript/src/runtime_packaging.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/mastra-runtime-pattern/typescript/src/runtime_packaging.ts)
+
+```ts
+export type ToolCall = {
+  name: string;
+  input: Record<string, unknown>;
+};
+
+export type RuntimeTrace = {
+  step: string;
+  detail: Record<string, unknown>;
+};
+
+export type RuntimeState = {
+  runId: string;
+  goal: string;
+  memory: Record<string, string>;
+  traces: RuntimeTrace[];
+  toolCalls: ToolCall[];
+  result?: string;
+};
+
+export type Tool = {
+  name: string;
+  description: string;
+  execute(input: Record<string, unknown>, state: RuntimeState): Promise<string>;
+};
+
+export type Agent = {
+  name: string;
+  instructions: string;
+  decide(state: RuntimeState): Promise<ToolCall | { answer: string }>;
+};
+
+export type WorkflowStep = {
+  name: string;
+  run(state: RuntimeState): Promise<RuntimeState>;
+};
+
+export type PackagedRuntime = {
+  agent: Agent;
+  tools: Record<string, Tool>;
+  workflow: WorkflowStep[];
+  run(goal: string): Promise<RuntimeState>;
+};
+
+function trace(state: RuntimeState, step: string, detail: Record<string, unknown>) {
+  state.traces.push({ step, detail });
+}
+
+export function createSupportRuntime(): PackagedRuntime {
+  const tools: Record<string, Tool> = {
+    read_policy: {
+      name: "read_policy",
+      description: "Read the support policy for a refund request.",
+      execute: async input => `Policy ${input.policyId}: refunds under 30 days can be drafted for review.`,
+    },
+    draft_response: {
+      name: "draft_response",
+      description: "Draft a customer-safe response without sending it.",
+      execute: async input => `Draft response for ${input.customerId}: refund request is ready for review.`,
+    },
+  };
+
+  const agent: Agent = {
+    name: "support-runtime-agent",
+    instructions: "Check policy before drafting. Do not send messages directly.",
+    decide: async state => {
+      if (!state.memory.policy) {
+        return { name: "read_policy", input: { policyId: "refund-v1" } };
+      }
+      if (!state.memory.draft) {
+        return { name: "draft_response", input: { customerId: "cust_123" } };
+      }
+      return { answer: "Policy checked and draft created for human review." };
+    },
+  };
+
+  const workflow: WorkflowStep[] = [
+    {
+      name: "agent_decision",
+      run: async state => {
+        const decision = await agent.decide(state);
+        trace(state, "agent_decision", { decision });
+
+        if ("answer" in decision) {
+          state.result = decision.answer;
+          return state;
+        }
+
+        const tool = tools[decision.name];
+        if (!tool) throw new Error(`Unknown tool: ${decision.name}`);
+```
+
+_Excerpt truncated for readability. Download the bundle or open the source file for the complete implementation._
+
+### `mastra-runtime-pattern/typescript/test/runtime_packaging.spec.ts`
+
+[Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/mastra-runtime-pattern/typescript/test/runtime_packaging.spec.ts)
+
+```ts
+import { createSupportRuntime, evaluateRuntime } from "../src/runtime_packaging.ts";
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
+
+const runtime = createSupportRuntime();
+const state = await runtime.run("Prepare a policy-safe refund response");
+const evaluation = evaluateRuntime(state);
+
+assert(state.result === "Policy checked and draft created for human review.", "Expected final runtime result");
+assert(state.toolCalls.map(call => call.name).join(",") === "read_policy,draft_response", "Expected ordered tool calls");
+assert(state.memory.policy.includes("refunds under 30 days"), "Expected policy memory");
+assert(state.memory.draft.includes("ready for review"), "Expected draft memory");
+assert(state.traces.some(event => event.step === "workflow_step"), "Expected workflow trace");
+assert(state.traces.some(event => event.step === "agent_decision"), "Expected agent decision trace");
+assert(evaluation.status === "pass", "Expected runtime evaluation to pass");
+
+console.log("Mastra-style runtime packaging tests OK");
+```
 
 ## Download
 
