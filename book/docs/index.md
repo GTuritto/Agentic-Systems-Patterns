@@ -34,10 +34,10 @@ features:
     details: Source-informed guidance for choosing between chains, routing, agents, multi-agent systems, and reliability controls.
     link: /pattern-selection/choosing-the-right-pattern
   - title: Engineering Practice
-    details: Lifecycle, minimal runtime primitives, framework selection, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
+    details: Lifecycle, minimal runtime primitives, cross-framework decisions, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
     link: /agent-engineering-practice/agent-development-lifecycle
   - title: Hands-On Labs
-    details: Framework-agnostic Python and TypeScript exercises, including LangGraph-style, AutoGen-style, Mastra-style, CrewAI-style, and from-scratch runtime tracks.
+    details: Framework-agnostic Python and TypeScript exercises with production readiness gates for LangGraph, AutoGen, Mastra, CrewAI, and custom runtimes.
     link: /hands-on-labs/
   - title: Runnable Examples
     details: TypeScript and Python examples remain in the repository and are linked from the book.

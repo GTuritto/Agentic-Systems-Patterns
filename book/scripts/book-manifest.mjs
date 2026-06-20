@@ -62,6 +62,7 @@ export const bookChapters = deepFreeze([
   chapter('building-a-minimal-agent-runtime', 'Building a Minimal Agent Runtime', 'agent-engineering-practice/building-a-minimal-agent-runtime.md', 'agent-engineering-practice'),
   chapter('agent-engineer-toolkit', 'Agent Engineer Toolkit', 'agent-engineering-practice/agent-engineer-toolkit.md', 'agent-engineering-practice'),
   chapter('framework-selection', 'Framework Selection', 'agent-engineering-practice/framework-selection.md', 'agent-engineering-practice'),
+  chapter('cross-framework-decision-matrix', 'Cross-Framework Decision Matrix', 'agent-engineering-practice/cross-framework-decision-matrix.md', 'agent-engineering-practice'),
   chapter('evaluation-driven-agent-development', 'Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md', 'agent-engineering-practice'),
   chapter('agent-threat-model', 'Agent Threat Model', 'agent-engineering-practice/agent-threat-model.md', 'agent-engineering-practice'),
   chapter('agent-security-and-sandboxing', 'Agent Security and Sandboxing', 'agent-engineering-practice/agent-security-and-sandboxing.md', 'agent-engineering-practice'),
@@ -115,6 +116,7 @@ export const bookChapters = deepFreeze([
 
   chapter('hands-on-labs', 'Lab Guide', 'hands-on-labs/index.md', 'hands-on-labs'),
   chapter('framework-language-matrix', 'Framework and Language Matrix', 'hands-on-labs/framework-language-matrix.md', 'hands-on-labs'),
+  chapter('lab-production-readiness-checklist', 'Lab Production Readiness Checklist', 'hands-on-labs/production-readiness-checklist.md', 'hands-on-labs'),
   chapter('lab-01-tool-using-agent', '01 - Tool-Using Agent', 'hands-on-labs/lab-01-tool-using-agent.md', 'hands-on-labs'),
   chapter('lab-02-agent-loop-and-planning', '02 - Agent Loop and Planning', 'hands-on-labs/lab-02-agent-loop-and-planning.md', 'hands-on-labs'),
   chapter('lab-03-agentic-rag', '03 - Agentic RAG', 'hands-on-labs/lab-03-agentic-rag.md', 'hands-on-labs'),

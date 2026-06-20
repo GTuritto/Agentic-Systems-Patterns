@@ -8,7 +8,7 @@ The labs turn the reference chapters into a build path. Each lab uses code that 
 
 The labs are intentionally framework-agnostic. They move between TypeScript and Python, and across minimal custom runtimes, LangChain/LangGraph-style retrieval, AutoGen-style manager/worker examples, A2A protocol code, MCP-style tool boundaries, and framework-neutral tests. The point is not to teach one API. The point is to show the architecture that survives when the framework changes.
 
-Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task.
+Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Lab Production Readiness Checklist](./production-readiness-checklist.md) after each lab to identify what the demo still needs before production. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task.
 
 Run these commands from the repository root before starting:
 
@@ -53,21 +53,22 @@ Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, Aut
 ## Lab Sequence
 
 1. [Lab Framework and Language Matrix](./framework-language-matrix.md)
-2. [Build a Tool-Using Agent](./lab-01-tool-using-agent.md)
-3. [Build an Agent Loop with Planning](./lab-02-agent-loop-and-planning.md)
-4. [Build Agentic RAG](./lab-03-agentic-rag.md)
-5. [Build A2A Agent Communication](./lab-04-a2a-communication.md)
-6. [Build a Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md)
-7. [Add Observability and Evals](./lab-06-observability-and-evals.md)
-8. [Package Agents, Tools, Workflows, Memory, and Evals](./lab-07-mastra-runtime-packaging.md)
-9. [Model Flows, Crews, Roles, and Task Contracts](./lab-08-crewai-flows-and-crews.md)
-10. [Study the From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md)
-11. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
-12. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
-13. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
-14. [Model State Graphs, Checkpoints, and Interrupts](./lab-12-langgraph-state-graph.md)
-15. [Evaluate Multi-Agent Transcripts](./lab-13-autogen-transcript-evals.md)
-16. [Study Vertical Slice Examples](./vertical-slice-examples.md)
+2. [Lab Production Readiness Checklist](./production-readiness-checklist.md)
+3. [Build a Tool-Using Agent](./lab-01-tool-using-agent.md)
+4. [Build an Agent Loop with Planning](./lab-02-agent-loop-and-planning.md)
+5. [Build Agentic RAG](./lab-03-agentic-rag.md)
+6. [Build A2A Agent Communication](./lab-04-a2a-communication.md)
+7. [Build a Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md)
+8. [Add Observability and Evals](./lab-06-observability-and-evals.md)
+9. [Package Agents, Tools, Workflows, Memory, and Evals](./lab-07-mastra-runtime-packaging.md)
+10. [Model Flows, Crews, Roles, and Task Contracts](./lab-08-crewai-flows-and-crews.md)
+11. [Study the From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md)
+12. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
+13. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
+14. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
+15. [Model State Graphs, Checkpoints, and Interrupts](./lab-12-langgraph-state-graph.md)
+16. [Evaluate Multi-Agent Transcripts](./lab-13-autogen-transcript-evals.md)
+17. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
 ## How To Use These Labs
 

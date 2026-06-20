@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" role="img" aria-labelledby="title desc">
+  <title id="title">Cross-framework state ownership comparison</title>
+  <desc id="desc">Comparison of state, tools, memory, evals, deployment, and escape hatches across LangGraph, AutoGen, Mastra, CrewAI, and a mini-runtime.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}
+      .title{font-family:Inter,Arial,sans-serif;font-size:25px;font-weight:700;fill:#0f172a}
+      .sub{font-family:Inter,Arial,sans-serif;font-size:14px;fill:#475569}
+      .head{fill:#0f172a}
+      .headText{font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:700;fill:#fff}
+      .cell{fill:#fff;stroke:#cbd5e1;stroke-width:1.4}
+      .axis{fill:#e0f2fe;stroke:#0284c7;stroke-width:1.4}
+      .axisText{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:700;fill:#075985}
+      .txt{font-family:Inter,Arial,sans-serif;font-size:12.5px;fill:#0f172a}
+      .note{font-family:Inter,Arial,sans-serif;font-size:12px;fill:#64748b}
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1180" height="700"/>
+  <text class="title" x="40" y="44">Cross-Framework Ownership Map</text>
+  <text class="sub" x="40" y="68">Use this to decide what the framework owns, what your application owns, and what must remain portable.</text>
+
+  <rect class="head" x="40" y="100" width="180" height="44" rx="6"/>
+  <text class="headText" x="62" y="127">Responsibility</text>
+  <rect class="head" x="220" y="100" width="180" height="44" rx="6"/>
+  <text class="headText" x="262" y="127">LangGraph</text>
+  <rect class="head" x="400" y="100" width="180" height="44" rx="6"/>
+  <text class="headText" x="448" y="127">AutoGen</text>
+  <rect class="head" x="580" y="100" width="180" height="44" rx="6"/>
+  <text class="headText" x="634" y="127">Mastra</text>
+  <rect class="head" x="760" y="100" width="180" height="44" rx="6"/>
+  <text class="headText" x="812" y="127">CrewAI</text>
+  <rect class="head" x="940" y="100" width="200" height="44" rx="6"/>
+  <text class="headText" x="990" y="127">Mini-Runtime</text>
+
+  <g transform="translate(40,144)">
+    <rect class="axis" x="0" y="0" width="180" height="70"/><text class="axisText" x="18" y="39">State Owner</text>
+    <rect class="cell" x="180" y="0" width="180" height="70"/><text class="txt" x="196" y="27">Graph state,</text><text class="txt" x="196" y="47">checkpoints</text>
+    <rect class="cell" x="360" y="0" width="180" height="70"/><text class="txt" x="376" y="27">Team/task state</text><text class="txt" x="376" y="47">outside messages</text>
+    <rect class="cell" x="540" y="0" width="180" height="70"/><text class="txt" x="556" y="27">Runtime workflow</text><text class="txt" x="556" y="47">and memory</text>
+    <rect class="cell" x="720" y="0" width="180" height="70"/><text class="txt" x="736" y="27">Flow state</text><text class="txt" x="736" y="47">owns acceptance</text>
+    <rect class="cell" x="900" y="0" width="200" height="70"/><text class="txt" x="916" y="27">Your state model</text><text class="txt" x="916" y="47">and persistence</text>
+
+    <rect class="axis" x="0" y="70" width="180" height="70"/><text class="axisText" x="18" y="109">Tool Policy</text>
+    <rect class="cell" x="180" y="70" width="180" height="70"/><text class="txt" x="196" y="97">Guard nodes or</text><text class="txt" x="196" y="117">middleware</text>
+    <rect class="cell" x="360" y="70" width="180" height="70"/><text class="txt" x="376" y="97">Manager/runtime</text><text class="txt" x="376" y="117">exec boundary</text>
+    <rect class="cell" x="540" y="70" width="180" height="70"/><text class="txt" x="556" y="97">Tool/workflow</text><text class="txt" x="556" y="117">policy hooks</text>
+    <rect class="cell" x="720" y="70" width="180" height="70"/><text class="txt" x="736" y="97">Role tools plus</text><text class="txt" x="736" y="117">flow guards</text>
+    <rect class="cell" x="900" y="70" width="200" height="70"/><text class="txt" x="916" y="97">Explicit policy</text><text class="txt" x="916" y="117">function</text>
+
+    <rect class="axis" x="0" y="140" width="180" height="70"/><text class="axisText" x="18" y="179">Memory</text>
+    <rect class="cell" x="180" y="140" width="180" height="70"/><text class="txt" x="196" y="167">State plus</text><text class="txt" x="196" y="187">external stores</text>
+    <rect class="cell" x="360" y="140" width="180" height="70"/><text class="txt" x="376" y="167">Transcript and</text><text class="txt" x="376" y="187">external memory</text>
+    <rect class="cell" x="540" y="140" width="180" height="70"/><text class="txt" x="556" y="167">Runtime memory</text><text class="txt" x="556" y="187">abstractions</text>
+    <rect class="cell" x="720" y="140" width="180" height="70"/><text class="txt" x="736" y="167">Flow context,</text><text class="txt" x="736" y="187">crew context</text>
+    <rect class="cell" x="900" y="140" width="200" height="70"/><text class="txt" x="916" y="167">Your context</text><text class="txt" x="916" y="187">packet</text>
+
+    <rect class="axis" x="0" y="210" width="180" height="70"/><text class="axisText" x="18" y="249">Evals</text>
+    <rect class="cell" x="180" y="210" width="180" height="70"/><text class="txt" x="196" y="237">Node paths,</text><text class="txt" x="196" y="257">state diffs</text>
+    <rect class="cell" x="360" y="210" width="180" height="70"/><text class="txt" x="376" y="237">Transcript and</text><text class="txt" x="376" y="257">team turns</text>
+    <rect class="cell" x="540" y="210" width="180" height="70"/><text class="txt" x="556" y="237">Runtime evals,</text><text class="txt" x="556" y="257">tool traces</text>
+    <rect class="cell" x="720" y="210" width="180" height="70"/><text class="txt" x="736" y="237">Flow acceptance,</text><text class="txt" x="736" y="257">role outputs</text>
+    <rect class="cell" x="900" y="210" width="200" height="70"/><text class="txt" x="916" y="237">Trajectory tests</text><text class="txt" x="916" y="257">you define</text>
+
+    <rect class="axis" x="0" y="280" width="180" height="70"/><text class="axisText" x="18" y="319">Deployment</text>
+    <rect class="cell" x="180" y="280" width="180" height="70"/><text class="txt" x="196" y="307">App service plus</text><text class="txt" x="196" y="327">checkpointer</text>
+    <rect class="cell" x="360" y="280" width="180" height="70"/><text class="txt" x="376" y="307">App service with</text><text class="txt" x="376" y="327">agent runtime</text>
+    <rect class="cell" x="540" y="280" width="180" height="70"/><text class="txt" x="556" y="307">Runtime package</text><text class="txt" x="556" y="327">and deploy path</text>
+    <rect class="cell" x="720" y="280" width="180" height="70"/><text class="txt" x="736" y="307">Python flow app</text><text class="txt" x="736" y="327">and workers</text>
+    <rect class="cell" x="900" y="280" width="200" height="70"/><text class="txt" x="916" y="307">Your infra,</text><text class="txt" x="916" y="327">queues, jobs</text>
+
+    <rect class="axis" x="0" y="350" width="180" height="70"/><text class="axisText" x="18" y="389">Escape Hatch</text>
+    <rect class="cell" x="180" y="350" width="180" height="70"/><text class="txt" x="196" y="377">Nodes are</text><text class="txt" x="196" y="397">plain code</text>
+    <rect class="cell" x="360" y="350" width="180" height="70"/><text class="txt" x="376" y="377">Messages can be</text><text class="txt" x="376" y="397">replayed/exported</text>
+    <rect class="cell" x="540" y="350" width="180" height="70"/><text class="txt" x="556" y="377">Keep tools and</text><text class="txt" x="556" y="397">evals portable</text>
+    <rect class="cell" x="720" y="350" width="180" height="70"/><text class="txt" x="736" y="377">Keep flow state</text><text class="txt" x="736" y="397">separate</text>
+    <rect class="cell" x="900" y="350" width="200" height="70"/><text class="txt" x="916" y="377">Already explicit,</text><text class="txt" x="916" y="397">but you own all ops</text>
+  </g>
+
+  <text class="note" x="40" y="650">Decision rule: choose the framework that makes your highest-risk ownership boundary most inspectable.</text>
+</svg>

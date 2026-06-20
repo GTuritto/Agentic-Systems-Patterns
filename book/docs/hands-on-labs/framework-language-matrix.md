@@ -38,10 +38,9 @@ If you later use LangGraph, Mastra AI, AutoGen, CrewAI, Semantic Kernel, MCP, or
 
 ## Current Coverage
 
-The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, LangGraph-style state graphs, AutoGen-style transcripts, Mastra-style runtime packaging, CrewAI-style flow orchestration, and from-scratch runtime primitives.
+The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, LangGraph-style state graphs, AutoGen-style transcripts, Mastra-style runtime packaging, CrewAI-style flow orchestration, from-scratch runtime primitives, and production readiness gates.
 
 Planned lab expansion should add:
 
-- production deployment notes for each framework-specific lab.
 - real framework installation variants for the deterministic framework-style labs.
-- side-by-side diagrams comparing state ownership across LangGraph, Mastra, AutoGen, CrewAI, and custom runtimes.
+- deeper deployment walkthroughs that connect the readiness checklist to concrete cloud/runtime targets.
