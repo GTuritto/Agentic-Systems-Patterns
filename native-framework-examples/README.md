@@ -1,0 +1,34 @@
+# Native Framework Examples
+
+These examples show how selected capstone patterns map into real framework APIs. They are intentionally isolated from the core labs so the book stays framework-agnostic while still giving readers concrete native ports to study.
+
+## Examples
+
+| Example | Framework | Capstone |
+| --- | --- | --- |
+| `langgraph-refund/` | LangGraph | Support Refund Agent |
+| `crewai-delivery/` | CrewAI | Multi-Agent Delivery Workflow |
+
+## Validate Syntax
+
+From the repository root:
+
+```sh
+npm run native-examples:validate
+```
+
+This command compiles the Python files without installing optional framework packages.
+
+## Run With Dependencies
+
+Each example has its own `requirements.txt` and README. Install dependencies in a virtual environment inside the example folder. Do not install these optional dependencies into the repository root unless you are deliberately working on native framework ports.
+
+## How To Read These Examples
+
+Use the deterministic labs first. They expose the architecture without model or provider variability. Then compare the native examples against the same acceptance criteria:
+
+- state owner is explicit;
+- tool or role authority is bounded;
+- approval, validation, or final acceptance is outside model text;
+- trace and eval evidence can prove the behavior;
+- rollback can disable the framework route without deleting the product contract.

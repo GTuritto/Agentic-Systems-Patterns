@@ -4,7 +4,7 @@
   "license": "CC-BY-SA-4.0",
   "type": "module",
   "scripts": {
-    "test": "npm run tools:test && npm run agent-loop:test && npm run approval-gate:test && npm run tool-runtime:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run mastra-runtime:test && npm run crewai-flow:test && npm run langgraph-state:test && npm run autogen-transcript:test && npm run mini-runtime:test && npm run capstones:test && npm run router:test && npm run mcp:test",
+    "test": "npm run tools:test && npm run agent-loop:test && npm run approval-gate:test && npm run tool-runtime:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run mastra-runtime:test && npm run crewai-flow:test && npm run langgraph-state:test && npm run autogen-transcript:test && npm run mini-runtime:test && npm run capstones:test && npm run native-examples:validate && npm run router:test && npm run mcp:test",
     "typecheck": "tsc --noEmit",
     "book:install": "npm install --prefix book",
     "book:manifest:test": "npm run manifest:test --prefix book",
@@ -62,6 +62,7 @@
     "mini-runtime:test": "ts-node --esm ./minimal-agent-runtime/typescript/test/runtime.spec.ts",
     "capstones:demo": "ts-node --esm ./capstone-projects-runtime/typescript/src/run_demo.ts",
     "capstones:test": "ts-node --esm ./capstone-projects-runtime/typescript/test/capstones.spec.ts",
+    "native-examples:validate": "python3 -m py_compile ./native-framework-examples/langgraph-refund/refund_graph.py ./native-framework-examples/crewai-delivery/delivery_flow.py",
     "plan:py": "python3 ./planning-pattern/python/run.py",
     "mcp:search": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_search_server.ts",
     "mcp:cloud": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_cloud_server.ts",

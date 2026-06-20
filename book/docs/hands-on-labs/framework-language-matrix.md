@@ -38,9 +38,15 @@ If you later use LangGraph, Mastra AI, AutoGen, CrewAI, Semantic Kernel, MCP, or
 
 ## Current Coverage
 
-The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, LangGraph-style state graphs, AutoGen-style transcripts, Mastra-style runtime packaging, CrewAI-style flow orchestration, from-scratch runtime primitives, and production readiness gates.
+The current labs now cover TypeScript, Python, protocol boundaries, framework-neutral tests, LangGraph-style state graphs, AutoGen-style transcripts, Mastra-style runtime packaging, CrewAI-style flow orchestration, from-scratch runtime primitives, production readiness gates, and isolated native framework examples.
+
+Repository native examples:
+
+| Example | Framework | Connects To |
+| --- | --- | --- |
+| `native-framework-examples/langgraph-refund/` | LangGraph | Lab 12 and Support Refund Agent capstone |
+| `native-framework-examples/crewai-delivery/` | CrewAI | Lab 08 and Multi-Agent Delivery Workflow capstone |
 
 Planned lab expansion should add:
 
-- real framework installation variants for the deterministic framework-style labs.
 - deeper deployment walkthroughs that connect the readiness checklist to concrete cloud/runtime targets.

@@ -6,15 +6,15 @@ title: Capstone Projects
 
 The capstones show how the patterns combine into product-shaped systems. Each capstone starts from a concrete workflow, chooses the right agentic boundaries, maps the design across frameworks, and defines the production evidence required before release.
 
-Use these chapters after the labs. The labs isolate one pattern at a time. The capstones combine patterns into systems with state, tools, policy, memory, observability, evals, deployment, rollback, and ownership.
+Use these chapters after the labs. The labs isolate one pattern at a time. The capstones combine patterns into systems with state, tools, policy, memory, observability, evals, deployment, rollback, ownership, and selected native framework slices.
 
 ## Capstone Set
 
 | Capstone | Primary Goal | Main Patterns | Framework Lens |
 | --- | --- | --- | --- |
-| [Support Refund Agent](./support-refund-agent) | Draft policy-safe refund recommendations. | Tool use, policy enforcement, approval gates, observability, evals. | Mastra runtime, LangGraph workflow, mini-runtime. |
+| [Support Refund Agent](./support-refund-agent) | Draft policy-safe refund recommendations. | Tool use, policy enforcement, approval gates, observability, evals. | Mastra runtime, LangGraph workflow, mini-runtime, native LangGraph slice. |
 | [Research RAG Agent](./research-rag-agent) | Answer from approved sources with citations and memory rules. | Context engineering, semantic recall, knowledge-bound agents, memory, evals. | LangGraph graph, direct Python/TypeScript, Mastra runtime. |
-| [Multi-Agent Delivery Workflow](./multi-agent-delivery-workflow) | Coordinate specialist agents while preserving one accountable owner. | Supervisor/worker, CrewAI flows, AutoGen transcripts, durable workflows. | CrewAI, AutoGen, LangGraph, Mastra. |
+| [Multi-Agent Delivery Workflow](./multi-agent-delivery-workflow) | Coordinate specialist agents while preserving one accountable owner. | Supervisor/worker, CrewAI flows, AutoGen transcripts, durable workflows. | CrewAI, AutoGen, LangGraph, Mastra, native CrewAI slice. |
 
 ## Run The Capstones
 
@@ -40,6 +40,7 @@ Each capstone includes:
 - data and state model;
 - tool, policy, memory, and approval boundaries;
 - native framework mapping;
+- native framework example path where one exists;
 - trace example;
 - eval report example;
 - ADR example;

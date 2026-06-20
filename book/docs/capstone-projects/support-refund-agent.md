@@ -96,6 +96,8 @@ Downloadable evidence:
 
 ## Native Framework Mapping
 
+Start with the deterministic TypeScript capstone, then compare the LangGraph native slice at `native-framework-examples/langgraph-refund/`. The native slice should prove pause/resume and approval behavior before any real money-moving integration is added.
+
 | Framework | Best Mapping |
 | --- | --- |
 | Mastra | Agent drafts; workflow owns order lookup, policy retrieval, approval wait, evals, and trace export. |
@@ -194,3 +196,5 @@ post-incident action: create regression eval before re-enable
 - [Lab 07 - Mastra Runtime Packaging](../hands-on-labs/lab-07-mastra-runtime-packaging)
 - [Lab 10 - Tool Registry and Policy Gate](../hands-on-labs/lab-10-tool-registry-and-policy-gate)
 - [Lab 12 - LangGraph State Graph](../hands-on-labs/lab-12-langgraph-state-graph)
+
+Native example: `native-framework-examples/langgraph-refund/`.

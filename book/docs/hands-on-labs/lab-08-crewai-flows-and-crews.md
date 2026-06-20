@@ -91,7 +91,7 @@ Before a real CrewAI implementation ships, add:
 
 ## Native Framework Extension
 
-After the deterministic lab passes, port one vertical slice into a real CrewAI Flow and Crew. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance.
+After the deterministic lab passes, port one vertical slice into a real CrewAI Flow and Crew. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance and compare your work with the repository example at `native-framework-examples/crewai-delivery/`.
 
 Native porting steps:
 
@@ -114,7 +114,7 @@ The Flow remains the accountable owner:
 | final acceptance | Flow |
 | rollback | runtime or deployment platform |
 
-Completion standard: the native project proves the same role and acceptance behavior as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow).
+Completion standard: the native project proves the same role and acceptance behavior as this lab and links to the [Multi-Agent Delivery Workflow capstone](/capstone-projects/multi-agent-delivery-workflow). A native CrewAI run is not complete just because the crew returns text; the Flow must preserve separate role outputs and validate them before acceptance.
 
 ## Cross-Framework Mapping
 

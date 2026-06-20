@@ -8,7 +8,7 @@ The labs turn the reference chapters into a build path. Each lab uses code that 
 
 The labs are intentionally framework-agnostic. They move between TypeScript and Python, and across minimal custom runtimes, LangChain/LangGraph-style retrieval, AutoGen-style manager/worker examples, A2A protocol code, MCP-style tool boundaries, and framework-neutral tests. The point is not to teach one API. The point is to show the architecture that survives when the framework changes.
 
-Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Lab Production Readiness Checklist](./production-readiness-checklist.md) after each lab to identify what the demo still needs before production. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task. Use [Capstone Projects](/capstone-projects/) when you want product-shaped examples with ADRs, traces, evals, runbooks, and rollback plans.
+Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Lab Production Readiness Checklist](./production-readiness-checklist.md) after each lab to identify what the demo still needs before production. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task. Use [Capstone Projects](/capstone-projects/) when you want product-shaped examples with ADRs, traces, evals, runbooks, rollback plans, and native framework slices.
 
 Run these commands from the repository root before starting:
 
@@ -34,7 +34,7 @@ Every lab follows the same learning contract:
 6. Verify the result.
 7. Identify what production would need next.
 
-The examples stay small on purpose. A small example is useful only when the lab also says what is intentionally missing: durable state, policy enforcement, stronger schemas, approval, tracing, evals, deployment, or framework integration.
+The examples stay small on purpose. A small example is useful only when the lab also says what is intentionally missing: durable state, policy enforcement, stronger schemas, approval, tracing, evals, deployment, or framework integration. When a native framework slice exists, treat it as the next comparison point, not as a replacement for the deterministic lab.
 
 ## Framework-Agnostic Rule
 
@@ -82,6 +82,6 @@ Do the labs in order if you are new to agent systems. The sequence starts with o
 
 If you already know the basics, start with the lab closest to your current system and use the related chapters as reference material.
 
-After the labs, read the vertical slices to see how the same patterns compose into support, coding, and research workflows. Then read the [Capstone Projects](/capstone-projects/) to see production-shaped systems with framework mappings and release evidence.
+After the labs, read the vertical slices to see how the same patterns compose into support, coding, and research workflows. Then read the [Capstone Projects](/capstone-projects/) to see production-shaped systems with framework mappings, native slices, and release evidence.
 
 If you are evaluating frameworks, do the mini-framework track before choosing a production runtime. Building the primitives once makes it easier to see which responsibilities a framework owns and which responsibilities remain in your application.

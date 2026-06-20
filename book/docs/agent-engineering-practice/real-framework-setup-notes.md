@@ -43,10 +43,12 @@ Keep secrets out of examples. Use `.env.example` for names and local environment
 
 Use LangGraph when the main risk is stateful control flow: branching, checkpoints, interrupts, replay, or human approval waits.
 
+Repository native example: `native-framework-examples/langgraph-refund/`.
+
 Official setup references:
 
 - [LangGraph install](https://docs.langchain.com/oss/python/langgraph/install)
-- [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/use-graph-api)
+- [LangGraph graph API](https://docs.langchain.com/oss/python/langgraph/graph-api)
 - [LangGraph local server](https://docs.langchain.com/oss/python/langgraph/local-server)
 - [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence)
 - [LangGraph interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts)
@@ -87,6 +89,8 @@ Production questions:
 - Are side-effect nodes idempotent under retry or resume?
 - Which state fields need migrations?
 - Which interrupts require human approval records?
+
+Native example acceptance check: the example must pause at an approval interrupt, resume by thread ID, preserve prior state, and pass evals without issuing money.
 
 ## AutoGen Variant
 
@@ -170,6 +174,8 @@ Production questions:
 
 Use CrewAI when the main risk is Python workflow automation with flow-owned state and bounded specialist crews.
 
+Repository native example: `native-framework-examples/crewai-delivery/`.
+
 Official setup references:
 
 - [CrewAI docs](https://docs.crewai.com/)
@@ -177,7 +183,7 @@ Official setup references:
 - [CrewAI quickstart](https://docs.crewai.com/en/quickstart)
 - [CrewAI introduction](https://docs.crewai.com/en/introduction)
 
-CrewAI's docs emphasize `uv`-based installation and a quickstart that scaffolds a Flow plus an agent crew. Keep the generated flow small enough that state transitions remain visible.
+CrewAI's current docs emphasize Python 3.10 through 3.13, `uv`-based installation, and a quickstart that scaffolds a Flow plus an agent crew. Keep the generated flow small enough that state transitions remain visible.
 
 Porting path from the labs:
 
@@ -197,6 +203,8 @@ Production questions:
 - How are crew outputs validated before the flow accepts them?
 - What happens when one role fails or disagrees?
 - Which flow checkpoints are needed before external side effects?
+
+Native example acceptance check: the example must keep planner, reviewer, and tester outputs separate, then let the Flow decide final acceptance.
 
 ## Mini-Runtime Variant
 

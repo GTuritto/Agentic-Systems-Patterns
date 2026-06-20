@@ -82,6 +82,8 @@ Every role needs a reason to exist. If a role does not change the output or risk
 
 ## Native Framework Mapping
 
+Start with the deterministic TypeScript capstone, then compare the CrewAI native slice at `native-framework-examples/crewai-delivery/`. The native slice should prove role separation and flow-owned acceptance before adding real project-management or repository tools.
+
 | Framework | Best Mapping |
 | --- | --- |
 | CrewAI | Flow owns state and final acceptance. Crew agents produce planner, reviewer, and tester outputs. |
@@ -178,3 +180,5 @@ post-incident action: add transcript regression fixture and update role contract
 - [Lab 08 - CrewAI Flows and Crews](../hands-on-labs/lab-08-crewai-flows-and-crews)
 - [Lab 12 - LangGraph State Graph](../hands-on-labs/lab-12-langgraph-state-graph)
 - [Lab 13 - AutoGen Transcript Evals](../hands-on-labs/lab-13-autogen-transcript-evals)
+
+Native example: `native-framework-examples/crewai-delivery/`.

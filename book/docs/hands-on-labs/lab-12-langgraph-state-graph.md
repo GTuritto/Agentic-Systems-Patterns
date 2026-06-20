@@ -109,7 +109,7 @@ Before using a real LangGraph implementation in production, add:
 
 ## Native Framework Extension
 
-After the deterministic lab passes, port one vertical slice into a real LangGraph app. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance.
+After the deterministic lab passes, port one vertical slice into a real LangGraph app. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for setup guidance and compare your work with the repository example at `native-framework-examples/langgraph-refund/`.
 
 Native porting steps:
 
@@ -131,7 +131,7 @@ Do not consider the native port complete until it proves:
 | trace is useful | node, tool, policy, interrupt, and eval spans |
 | rollback is possible | disable one graph route or tool |
 
-This extension maps directly to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent) and [Research RAG Agent capstone](/capstone-projects/research-rag-agent).
+This extension maps directly to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent) and [Research RAG Agent capstone](/capstone-projects/research-rag-agent). The native example is intentionally small: it proves state, interrupt, resume, and eval behavior before adding real order tools or model calls.
 
 ## Cross-Framework Mapping
 
