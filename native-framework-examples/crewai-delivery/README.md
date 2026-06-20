@@ -2,6 +2,8 @@
 
 This example maps the Multi-Agent Delivery Workflow capstone into CrewAI concepts: `Agent`, `Task`, `Crew`, and `Flow`. It is the native counterpart to the deterministic Lab 08 flow-and-crew implementation.
 
+Download bundle: [native-crewai-delivery.zip](/downloads/native-crewai-delivery.zip)
+
 It demonstrates:
 
 - a Flow-owned state boundary;

@@ -4,6 +4,8 @@ This example maps the Multi-Agent Delivery Workflow capstone into native AutoGen
 
 It is the native counterpart to Lab 13. The deterministic lab teaches the transcript contract; this example shows how the same contract maps to a real AgentChat team.
 
+Download bundle: [native-autogen-delivery.zip](/downloads/native-autogen-delivery.zip)
+
 It demonstrates:
 
 - manager, planner, reviewer, and tester role contracts;

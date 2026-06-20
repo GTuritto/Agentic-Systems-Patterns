@@ -45,6 +45,7 @@ Native CrewAI comparison point:
 
 ```text
 native-framework-examples/crewai-delivery/
+download: /downloads/native-crewai-delivery.zip
 flow: DeliveryFlow
 crew: Planner, Risk reviewer, Test planner
 acceptance owner: Flow

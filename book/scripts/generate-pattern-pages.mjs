@@ -21,6 +21,22 @@ const sourceBundles = [
   {
     sourceFolder: 'autogen-transcript-pattern',
     bundleName: 'autogen-transcript'
+  },
+  {
+    sourceFolder: 'native-framework-examples/langgraph-refund',
+    bundleName: 'native-langgraph-refund'
+  },
+  {
+    sourceFolder: 'native-framework-examples/mastra-refund',
+    bundleName: 'native-mastra-refund'
+  },
+  {
+    sourceFolder: 'native-framework-examples/crewai-delivery',
+    bundleName: 'native-crewai-delivery'
+  },
+  {
+    sourceFolder: 'native-framework-examples/autogen-delivery',
+    bundleName: 'native-autogen-delivery'
   }
 ];
 

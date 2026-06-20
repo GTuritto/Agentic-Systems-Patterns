@@ -4,6 +4,8 @@ This example maps the Support Refund Agent capstone into native Mastra concepts:
 
 It is the native counterpart to Lab 07. The deterministic lab teaches the architecture; this example shows where those contracts land in a Mastra project.
 
+Download bundle: [native-mastra-refund.zip](/downloads/native-mastra-refund.zip)
+
 It demonstrates:
 
 - a refund draft agent with constrained instructions;

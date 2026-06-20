@@ -46,6 +46,7 @@ Native Mastra comparison point:
 
 ```text
 native-framework-examples/mastra-refund/
+download: /downloads/native-mastra-refund.zip
 agent: refundDraftAgent
 workflow: refundDraftWorkflow
 tools: refund_policy.retrieve, refunds.create_draft

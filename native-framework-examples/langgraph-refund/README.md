@@ -2,6 +2,8 @@
 
 This example maps the Support Refund Agent capstone into a real LangGraph `StateGraph`. It is the native counterpart to the deterministic Lab 12 state graph.
 
+Download bundle: [native-langgraph-refund.zip](/downloads/native-langgraph-refund.zip)
+
 It demonstrates:
 
 - graph state;

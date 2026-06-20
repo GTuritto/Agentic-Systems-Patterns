@@ -90,6 +90,26 @@ Read the objective first, then run the command exactly as shown. After that, ins
 
 Each lab ends with a production extension. Treat that section as the bridge between a working demo and an architecture decision.
 
+## Expected Output Map
+
+Use this table as the quick success check before you move to the production extension.
+
+| Lab | Expected Output Signal |
+| --- | --- |
+| Lab 01 | `Agent: 4` for the calculator path and a controlled error for invalid input. |
+| Lab 02 | `Planning test OK` plus a deterministic plan and result for the CLI path. |
+| Lab 03 | Answer reflects retrieved evidence from the local document set. |
+| Lab 04 | A2A test shows success, refusal, invalid-input error, and cancellation. |
+| Lab 05 | Manager delegates bounded work and final aggregation uses worker outputs. |
+| Lab 06 | Eval records expose success and negative cases, not only final text. |
+| Lab 07 | `Mastra-style runtime packaging tests OK`; native slice exposes agent, tools, workflow, and eval gate. |
+| Lab 08 | `CrewAI-style flow and crew tests OK`; Flow accepts only validated role outputs. |
+| Lab 09 | Immediate answer stops with `success`; repeated tool proposals stop with `budget_exhausted`. |
+| Lab 10 | Unknown tools are refused, write tools require approval, and allowed tools record observations. |
+| Lab 11 | Trace contains context, decision, tool/policy, and stop events; unsafe trajectory eval fails. |
+| Lab 12 | `LangGraph-style state graph tests OK`; resume preserves checkpointed state. |
+| Lab 13 | `AutoGen-style transcript tests OK`; transcript proves role order, stop reason, and final owner. |
+
 ## Recommended Order
 
 Do the labs in order if you are new to agent systems. The sequence starts with one agent and one tool, then adds planning, retrieval, remote agent communication, multi-agent coordination, and production-quality evaluation.

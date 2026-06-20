@@ -186,5 +186,5 @@ post-incident action: add transcript regression fixture and update role contract
 
 Native examples:
 
-- `native-framework-examples/crewai-delivery/`
-- `native-framework-examples/autogen-delivery/`
+- `native-framework-examples/crewai-delivery/` ([download](/downloads/native-crewai-delivery.zip))
+- `native-framework-examples/autogen-delivery/` ([download](/downloads/native-autogen-delivery.zip))

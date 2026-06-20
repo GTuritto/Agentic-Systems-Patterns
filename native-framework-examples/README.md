@@ -4,12 +4,12 @@ These examples show how selected capstone patterns map into real framework APIs.
 
 ## Examples
 
-| Example | Framework | Capstone |
-| --- | --- | --- |
-| `langgraph-refund/` | LangGraph | Support Refund Agent |
-| `mastra-refund/` | Mastra | Support Refund Agent |
-| `autogen-delivery/` | AutoGen | Multi-Agent Delivery Workflow |
-| `crewai-delivery/` | CrewAI | Multi-Agent Delivery Workflow |
+| Example | Framework | Capstone | Download |
+| --- | --- | --- | --- |
+| `langgraph-refund/` | LangGraph | Support Refund Agent | [native-langgraph-refund.zip](/downloads/native-langgraph-refund.zip) |
+| `mastra-refund/` | Mastra | Support Refund Agent | [native-mastra-refund.zip](/downloads/native-mastra-refund.zip) |
+| `autogen-delivery/` | AutoGen | Multi-Agent Delivery Workflow | [native-autogen-delivery.zip](/downloads/native-autogen-delivery.zip) |
+| `crewai-delivery/` | CrewAI | Multi-Agent Delivery Workflow | [native-crewai-delivery.zip](/downloads/native-crewai-delivery.zip) |
 
 ## Validate Syntax
 

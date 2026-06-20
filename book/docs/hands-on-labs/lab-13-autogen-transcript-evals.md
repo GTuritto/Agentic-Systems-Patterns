@@ -48,6 +48,7 @@ Native AutoGen comparison point:
 
 ```text
 native-framework-examples/autogen-delivery/
+download: /downloads/native-autogen-delivery.zip
 team: RoundRobinGroupChat
 agents: delivery_manager, delivery_planner, risk_reviewer, test_planner
 termination: TextMentionTermination("ACCEPTED") OR MaxMessageTermination(8)

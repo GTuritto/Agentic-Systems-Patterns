@@ -212,5 +212,5 @@ post-incident action: create regression eval before re-enable
 
 Native examples:
 
-- `native-framework-examples/mastra-refund/`
-- `native-framework-examples/langgraph-refund/`
+- `native-framework-examples/mastra-refund/` ([download](/downloads/native-mastra-refund.zip))
+- `native-framework-examples/langgraph-refund/` ([download](/downloads/native-langgraph-refund.zip))
