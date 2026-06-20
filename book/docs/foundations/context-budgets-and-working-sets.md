@@ -175,6 +175,18 @@ Compaction is not the same as ordinary summarization. Summarization produces a s
 
 It should not be your primary context strategy. If every run depends on emergency compaction, the system is loading too much context too early. Use compaction as a recovery and continuation mechanism, not as permission to keep flooding the model.
 
+## Compaction Boundaries
+
+Context compaction should happen at stable boundaries, not in the middle of a fragile reasoning step. Good boundaries include:
+
+- after requirements are restated;
+- after discovery produces a source list;
+- after a plan is accepted;
+- after a commit or checkpoint;
+- before handing work to another agent.
+
+Each compaction should preserve decisions, open risks, file paths, verification evidence, and user constraints. It should remove transcript noise, not erase accountability.
+
 ## Context Minimization
 
 Remove context once it has served its purpose. This matters most for untrusted content. After a user message, web page, email, ticket, or document has been turned into a validated intermediate artifact, the later steps often do not need the raw source text at all:
