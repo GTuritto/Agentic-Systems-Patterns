@@ -113,6 +113,7 @@ export const bookChapters = deepFreeze([
   chapter('mastra-runtime', 'Mastra Runtime', 'production-runtime/mastra-runtime.md', 'production-runtime', 'generated'),
 
   chapter('hands-on-labs', 'Lab Guide', 'hands-on-labs/index.md', 'hands-on-labs'),
+  chapter('framework-language-matrix', 'Framework and Language Matrix', 'hands-on-labs/framework-language-matrix.md', 'hands-on-labs'),
   chapter('lab-01-tool-using-agent', '01 - Tool-Using Agent', 'hands-on-labs/lab-01-tool-using-agent.md', 'hands-on-labs'),
   chapter('lab-02-agent-loop-and-planning', '02 - Agent Loop and Planning', 'hands-on-labs/lab-02-agent-loop-and-planning.md', 'hands-on-labs'),
   chapter('lab-03-agentic-rag', '03 - Agentic RAG', 'hands-on-labs/lab-03-agentic-rag.md', 'hands-on-labs'),
