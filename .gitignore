@@ -6,6 +6,7 @@ build/
 book/docs/.vitepress/cache/
 book/docs/.vitepress/dist/
 book/docs/.vitepress/.temp/
+site/.astro/
 book/.docusaurus/
 book/docs/public/releases/*.pdf
 book/docs/public/downloads/*.zip
