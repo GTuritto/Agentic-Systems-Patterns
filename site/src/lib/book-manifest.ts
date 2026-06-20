@@ -44,3 +44,17 @@ export function chapterNavigation(slug: string) {
     next: index >= 0 && index < siteChapters.length - 1 ? siteChapters[index + 1] : undefined
   };
 }
+
+export function relatedChapters(slug: string, limit = 4) {
+  const current = chapterBySlug(slug);
+  if (!current) return [];
+
+  const sectionChapters = siteChapters.filter(chapter => chapter.sectionId === current.sectionId);
+  const currentIndex = sectionChapters.findIndex(chapter => chapter.slug === slug);
+  const ordered = [
+    ...sectionChapters.slice(currentIndex + 1),
+    ...sectionChapters.slice(0, currentIndex)
+  ];
+
+  return ordered.filter(chapter => chapter.slug !== slug).slice(0, limit);
+}

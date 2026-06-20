@@ -452,6 +452,56 @@ input:focus-visible {
   padding: 18px;
 }
 
+.related-chapters {
+  background: rgb(255 250 240 / 0.72);
+  border: 1px solid var(--border);
+  margin-top: 28px;
+  padding: clamp(22px, 4vw, 34px);
+}
+
+.related-chapters h2 {
+  border: 0;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.related-chapter-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.related-chapter-card {
+  background: var(--panel-deep);
+  border: 1px solid var(--border);
+  color: var(--nav);
+  display: grid;
+  gap: 8px;
+  min-height: 128px;
+  padding: 18px;
+  text-decoration: none;
+}
+
+.related-chapter-card:hover {
+  border-color: var(--accent);
+}
+
+.related-chapter-card span {
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.related-chapter-card strong {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
 .chapter-pagination {
   display: grid;
   gap: 16px;
@@ -512,6 +562,10 @@ input:focus-visible {
   .catalog-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .related-chapter-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -522,6 +576,7 @@ input:focus-visible {
   .cards,
   .catalog-grid,
   .chapter-pagination,
+  .related-chapter-grid,
   .stats-panel {
     grid-template-columns: 1fr;
   }
