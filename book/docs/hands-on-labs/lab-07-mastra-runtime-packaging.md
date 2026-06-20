@@ -42,6 +42,16 @@ Expected result:
 Mastra-style runtime packaging tests OK
 ```
 
+Native Mastra comparison point:
+
+```text
+native-framework-examples/mastra-refund/
+agent: refundDraftAgent
+workflow: refundDraftWorkflow
+tools: refund_policy.retrieve, refunds.create_draft
+eval gate: refund_draft_no_money_movement
+```
+
 ## Inspect The Code
 
 Open `mastra-runtime-pattern/typescript/src/runtime_packaging.ts` and find these boundaries:
@@ -88,7 +98,7 @@ Before a real Mastra implementation ships, add:
 
 ## Native Framework Extension
 
-After the deterministic lab passes, port one vertical slice into a real Mastra project. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for current setup commands.
+After the deterministic lab passes, port one vertical slice into a real Mastra project. Use [Real Framework Setup Notes](/agent-engineering-practice/real-framework-setup-notes) for current setup commands and compare your work with the repository example at `native-framework-examples/mastra-refund/`.
 
 Native porting steps:
 
@@ -110,7 +120,16 @@ Keep these assets outside framework-only code:
 | trace schema | operations need stable fields across runtimes |
 | ADR | the framework choice needs a recorded owner and rollback path |
 
-Completion standard: the native project proves the same behavior as this lab and links to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent).
+Completion standard: the native project proves the same behavior as this lab and links to the [Support Refund Agent capstone](/capstone-projects/support-refund-agent). A native Mastra run is not complete just because an agent responds; the workflow must preserve tool order, side-effect policy, trace evidence, and eval gates.
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+| --- | --- | --- |
+| `mastra dev` cannot find provider credentials | `.env` is missing or provider variables are unset | Copy `.env.example`, set provider keys, and restart the dev server. |
+| workflow drafts before policy lookup | workflow step order is wrong | Keep policy retrieval as the first workflow step and make the draft step consume the policy output. |
+| eval passes after adding `refunds.issue_refund` | forbidden tool list is incomplete | Add the tool name to the release eval and rerun the validation. |
+| trace explains final text but not tool order | trace is only model-level | Emit workflow, tool, policy, and eval events separately. |
 
 ## Cross-Framework Mapping
 

@@ -50,6 +50,20 @@ Frameworks change the API, not the architecture questions. For every lab, ask:
 
 Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, AutoGen-style agents, CrewAI, MCP, A2A, or a small custom runtime.
 
+## End-To-End Reader Path
+
+Use this path when you want to move from learning to implementation:
+
+1. Start with [Lab Framework and Language Matrix](./framework-language-matrix.md) and choose the highest-risk boundary.
+2. Run the matching deterministic lab.
+3. Read the production extension and readiness checklist.
+4. Compare the matching native example under `native-framework-examples/`.
+5. Map the same behavior to a capstone.
+6. Fill out the framework selection ADR and rollback worksheet.
+7. Add evals that fail the build before adding real side-effect tools.
+
+For the support refund path, use Lab 07, `native-framework-examples/mastra-refund/`, the Support Refund Agent capstone, and the production readiness worksheet.
+
 ## Lab Sequence
 
 1. [Lab Framework and Language Matrix](./framework-language-matrix.md)

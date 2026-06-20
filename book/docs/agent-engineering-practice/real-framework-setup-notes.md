@@ -137,11 +137,17 @@ Production questions:
 
 Use Mastra when the main risk is packaging a TypeScript product runtime around agents, workflows, tools, memory, observability, and evals.
 
+Repository native example: `native-framework-examples/mastra-refund/`.
+
 Official setup references:
 
 - [Mastra docs](https://mastra.ai/docs)
 - [Mastra quickstart](https://mastra.ai/guides/getting-started/quickstart)
 - [Mastra manual install](https://mastra.ai/docs/getting-started/manual-install)
+- [Mastra agents](https://mastra.ai/docs/agents/overview)
+- [Mastra tools](https://mastra.ai/docs/agents/using-tools)
+- [Mastra workflows](https://mastra.ai/docs/workflows/overview)
+- [Mastra evals](https://mastra.ai/docs/evals/overview)
 
 Typical local setup starts from the framework CLI:
 
@@ -169,6 +175,8 @@ Production questions:
 - How are workflows deployed, retried, and rolled back?
 - How are traces and eval results exported to the team's operational system?
 - Which framework upgrades require regression evals?
+
+Native example acceptance check: the example must define a refund draft agent, typed policy and draft tools, a workflow that enforces policy-before-draft order, and an eval that fails on money movement or customer messaging.
 
 ## CrewAI Variant
 
