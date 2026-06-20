@@ -34,8 +34,11 @@ features:
     details: Source-informed guidance for choosing between chains, routing, agents, multi-agent systems, and reliability controls.
     link: /pattern-selection/choosing-the-right-pattern
   - title: Engineering Practice
-    details: Lifecycle, minimal runtime primitives, cross-framework decisions, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
+    details: Lifecycle, minimal runtime primitives, cross-framework decisions, real setup notes, templates, evaluation, security, sandboxing, resource, and UX guidance for taking agents beyond demos.
     link: /agent-engineering-practice/agent-development-lifecycle
+  - title: Production Walkthrough
+    details: Local development, secrets, persistence, observability export, eval gates, rollout, rollback, and runbook guidance for lab-derived systems.
+    link: /production-runtime/deployment-walkthrough
   - title: Hands-On Labs
     details: Framework-agnostic Python and TypeScript exercises with production readiness gates for LangGraph, AutoGen, Mastra, CrewAI, and custom runtimes.
     link: /hands-on-labs/

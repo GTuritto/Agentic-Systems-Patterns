@@ -6,7 +6,7 @@ title: Lab Production Readiness Checklist
 
 The labs are teaching implementations. This checklist defines what must be added before a lab pattern becomes production work.
 
-Use this after completing a lab. The goal is to identify the next engineering boundary: persistence, authorization, retries, idempotency, observability, eval gates, deployment, and rollback.
+Use this after completing a lab. The goal is to identify the next engineering boundary: persistence, authorization, retries, idempotency, observability, eval gates, deployment, and rollback. For the full production path, continue with [Deployment Walkthrough](../production-runtime/deployment-walkthrough) and [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets).
 
 ## Universal Production Gate
 
@@ -72,6 +72,9 @@ If any line is unknown, the system is still a demo.
 
 - [Cross-Framework Decision Matrix](../agent-engineering-practice/cross-framework-decision-matrix)
 - [Framework Selection](../agent-engineering-practice/framework-selection)
+- [Real Framework Setup Notes](../agent-engineering-practice/real-framework-setup-notes)
+- [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets)
 - [Production Runtime Overview](../production-runtime/overview)
+- [Deployment Walkthrough](../production-runtime/deployment-walkthrough)
 - [Policy Enforcement](../production-runtime/policy-enforcement)
 - [Observability and Evals](../production-runtime/observability-and-evals)

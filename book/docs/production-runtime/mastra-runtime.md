@@ -33,19 +33,23 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 
 ## System Shape
 
-- **Pattern boundary:** a production service or framework hosts the agent behind durable workflow, policy, observability, and deployment boundaries.
-- **State owner:** the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
-- **Primary artifact:** `mastra-runtime-pattern/` contains the runnable reference implementation and examples.
-- **Operational promise:** Mastra is a TypeScript runtime pattern for applications that need agents, workflows, tools, memory, evals, and observability in one framework.
-- **Runnable path:** start with `npm run mastra-runtime:demo` before adapting the pattern to a larger system.
+- **Application boundary:** the product service owns user identity, tenant scope, request validation, and response delivery.
+- **Runtime boundary:** Mastra hosts the agent, workflow, tools, memory, evals, and observability concerns.
+- **Workflow boundary:** deterministic state transitions, retries, approval waits, and rollback points belong in workflows, not prompts.
+- **Tool boundary:** tools expose typed inputs, typed outputs, side-effect labels, permission requirements, and trace fields.
+- **Policy boundary:** product policy runs before tools, memory writes, outbound messages, or external side effects.
+- **Portability boundary:** prompts, tool manifests, eval fixtures, trace schema, and policy rules remain readable outside Mastra-specific code.
 
 ## Core Protocol
 
-1. Receive a user request, event, schedule, or workflow step with an idempotency key.
-2. Load durable state, policy context, memory, and runtime configuration.
-3. Execute one bounded step through the agent, tool, or workflow engine.
-4. Checkpoint result, trace data, cost, and error state.
-5. Retry, compensate, continue, or escalate according to operational policy.
+1. Accept a request with actor, tenant, goal, release version, and idempotency key.
+2. Load runtime configuration, memory policy, tool registry, and workflow state.
+3. Route deterministic steps through the workflow and open-ended decisions through the agent.
+4. Check policy before retrieval, memory writes, tool calls, and final answers that require approved evidence.
+5. Execute tools through typed wrappers that record status, latency, cost, retry count, and side-effect IDs.
+6. Emit trace events for workflow steps, model calls, tool calls, policy decisions, memory access, and eval results.
+7. Run post-run evals or CI evals against the trace before promoting the change.
+8. Roll back by disabling the risky tool, prompt, model, workflow, or whole agent route.
 
 ## Implementation Notes
 
@@ -53,6 +57,10 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 - Use workflows for predetermined control flow, state transitions, retries, and production orchestration.
 - Keep tools typed and independently testable.
 - Capture traces and evals from the beginning rather than adding them after failures.
+- Keep provider credentials in environment variables and document them in `.env.example`.
+- Keep framework-generated defaults out of product policy. Product policy should be visible in code, tests, ADRs, and eval fixtures.
+- Version prompts, tools, policies, memory contracts, eval datasets, and workflow definitions together.
+- Treat framework upgrades like runtime changes: run regression evals and inspect traces before promotion.
 
 ## Failure Modes
 
@@ -60,23 +68,25 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 - Putting deterministic workflow logic inside prompts.
 - Creating tools with vague descriptions and unvalidated inputs.
 - Shipping without eval datasets or trace review.
+- Letting memory writes bypass retention, deletion, correction, or consent rules.
+- Exporting traces without redaction or without enough fields to replay a failure.
+- Hiding rollback inside code deploys instead of feature flags, tool disablement, or policy tightening.
 
 ## Evaluation Strategy
 
-- Replay production-like traces through regression evals before deployment.
-- Test retries, duplicate events, partial outages, policy denial, and human approval waits.
-- Measure reliability, recovery time, cost, latency, user impact, and eval regression rate.
-- Include cases that prove each "Use When" condition is true for this pattern.
-- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+- Test the agent path, workflow path, policy denial path, approval path, and tool failure path separately.
+- Assert that the trace contains workflow, model, tool, policy, memory, and evaluator events for representative runs.
+- Compare prompt, model, tool, and framework changes against the same fixture set before release.
+- Include a negative case where the runtime must draft or escalate instead of executing a side effect.
 
 ## Production Checklist
 
-- Use durable checkpoints for long-running or externally visible work.
-- Add structured traces, metrics, cost tracking, and replay data.
-- Define deployment rollback and feature-flag strategy.
-- Document operational ownership, alerts, and escalation paths.
-- Define human escalation for ambiguous, high-risk, or policy-blocked work.
-- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
+- Document install, local run, test, eval, and cleanup commands.
+- Commit `.env.example` and keep secret values out of source.
+- Define workflow state, memory retention, tool side effects, and policy enforcement points.
+- Export redacted traces to the team's observability system.
+- Add CI eval gates for prompt, model, tool, policy, memory, and workflow changes.
+- Define rollback for model, prompt, tool, workflow, policy, and full agent disablement.
 
 ## Run the Example
 

@@ -600,7 +600,8 @@ export const patterns = [
       'Logs would expose sensitive data without controls.',
       'Metrics do not connect to user-visible quality.',
       'Evals are too synthetic to predict production failures.'
-    ]
+    ],
+    codeFiles: ['observability-and-evals-pattern/trace-contract.ts']
   },
   {
     title: 'Policy Enforcement',
@@ -618,7 +619,8 @@ export const patterns = [
       'Policy is only written as prompt text with no runtime enforcement.',
       'The system cannot identify the actor, resource, action, and context.',
       'Exceptions are silent or unreviewed.'
-    ]
+    ],
+    codeFiles: ['compliance-policy-enforcer-agent/policy_contract.ts']
   },
   {
     title: 'Event-Triggered Agents',

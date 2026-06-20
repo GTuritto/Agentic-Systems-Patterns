@@ -14,6 +14,8 @@ This chapter owns execution control across runs: admission, state, policy, budge
 
 Read this after [Agent Harnesses](../agent-engineering-practice/agent-harnesses). The harness explains the working environment around one agent; this chapter explains what has to be true when that work runs as a production system with queues, budgets, retries, state, rollout, rollback, and operators.
 
+For a step-by-step path from lab to release, use [Deployment Walkthrough](./deployment-walkthrough). For framework setup and decision templates, use [Real Framework Setup Notes](../agent-engineering-practice/real-framework-setup-notes) and [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets).
+
 ![Production runtime control plane](../public/diagrams/production-runtime-overview.svg)
 
 ## What The Runtime Owns

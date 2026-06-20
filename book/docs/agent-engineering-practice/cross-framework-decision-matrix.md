@@ -6,7 +6,7 @@ title: Cross-Framework Decision Matrix
 
 This chapter compares LangGraph, AutoGen-style systems, Mastra AI, CrewAI, and a small custom runtime by engineering responsibility. The goal is not to crown one framework. The goal is to decide what should own state, tools, policy, memory, evals, deployment, and failure recovery for a specific system.
 
-Use this chapter after the labs. The labs show each framework shape in isolation. This chapter helps choose among them for a real product.
+Use this chapter after the labs. The labs show each framework shape in isolation. This chapter helps choose among them for a real product. Pair it with [Real Framework Setup Notes](./real-framework-setup-notes) when you need concrete install and porting guidance.
 
 ![Cross-framework state ownership comparison](/diagrams/framework-state-ownership.svg)
 
@@ -86,6 +86,8 @@ Before choosing a framework, answer:
 ## Related Chapters
 
 - [Framework Selection](./framework-selection)
+- [Real Framework Setup Notes](./real-framework-setup-notes)
+- [Templates and Worksheets](./templates-and-worksheets)
 - [Building a Minimal Agent Runtime](./building-a-minimal-agent-runtime)
 - [Agent Harnesses](./agent-harnesses)
 - [Lab Production Readiness Checklist](../hands-on-labs/production-readiness-checklist)

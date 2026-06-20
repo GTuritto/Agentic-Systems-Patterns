@@ -8,7 +8,7 @@ Agent frameworks can accelerate development, but they also shape the system's bo
 
 Use this chapter to compare frameworks without turning the architecture into a framework demo.
 
-For a side-by-side comparison of LangGraph, AutoGen-style systems, Mastra AI, CrewAI, and a custom mini-runtime, use [Cross-Framework Decision Matrix](./cross-framework-decision-matrix).
+For a side-by-side comparison of LangGraph, AutoGen-style systems, Mastra AI, CrewAI, and a custom mini-runtime, use [Cross-Framework Decision Matrix](./cross-framework-decision-matrix). For concrete install and porting notes, use [Real Framework Setup Notes](./real-framework-setup-notes). For the decision record, use [Templates and Worksheets](./templates-and-worksheets).
 
 ## Intent
 
@@ -191,6 +191,8 @@ Before adopting a framework, answer:
 
 - [Agent Engineer Toolkit](./agent-engineer-toolkit)
 - [Cross-Framework Decision Matrix](./cross-framework-decision-matrix)
+- [Real Framework Setup Notes](./real-framework-setup-notes)
+- [Templates and Worksheets](./templates-and-worksheets)
 - [Agent Harnesses](./agent-harnesses)
 - [Agent Development Lifecycle](./agent-development-lifecycle)
 - [Architecture Decision Records for Agents](../systems-architecture/architecture-decision-records)

@@ -33,19 +33,23 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 
 ## System Shape
 
-- **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.
-- **State owner:** the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
-- **Primary artifact:** `crewai-flows-and-crews-pattern/` contains the runnable reference implementation and examples.
-- **Operational promise:** CrewAI Flows own state and execution order. Crews group specialized agents that collaborate on delegated work inside the flow.
-- **Runnable path:** start with `npm run crewai-flow` before adapting the pattern to a larger system.
+- **Flow boundary:** the Flow owns durable state, ordering, branching, checkpoints, acceptance, and final output.
+- **Crew boundary:** a Crew performs bounded specialist work inside a Flow step and returns structured outputs.
+- **Agent boundary:** each agent has a role, goal, tools, permissions, and expected output shape that differ from the other roles.
+- **Policy boundary:** the Flow checks authority before crew kickoff, tool use, memory writes, and final acceptance.
+- **Evaluation boundary:** flow state transitions and crew outputs are tested separately, then tested together as one trajectory.
+- **Operational boundary:** traces record flow events, crew kickoff, role outputs, validation, acceptance, rejection, and escalation.
 
 ## Core Protocol
 
-1. Define the shared goal, worker roles, expected outputs, and acceptance criteria.
-2. Split work only where independent or specialist execution adds value.
-3. Dispatch tasks with scoped context and permissions.
-4. Collect outputs, errors, refusals, and evidence from each worker.
-5. Merge results through an explicit judge, reducer, supervisor, or human review gate.
+1. Accept an event or request with actor, tenant, goal, release version, and idempotency key.
+2. Initialize Flow state and decide whether the work needs a Crew or a deterministic function.
+3. Create tasks with scoped inputs, expected outputs, allowed tools, and acceptance criteria.
+4. Run the Crew and collect role outputs, errors, refusals, and evidence.
+5. Validate each role output before it can mutate Flow state.
+6. Let the Flow accept, reject, retry, escalate, or request human review.
+7. Emit trace events for flow steps, crew kickoff, role outputs, policy decisions, and final acceptance.
+8. Convert rejected outputs, role disagreements, and incidents into eval fixtures.
 
 ## Implementation Notes
 
@@ -53,6 +57,10 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 - Give each crew a bounded task with clear expected output.
 - Give each agent a role that changes behavior, not just a different name.
 - Test flow state transitions separately from crew output quality.
+- Prefer deterministic Flow logic for ordering, retry, checkpointing, approval, and rollback.
+- Keep Crew-local conversation from becoming the only source of truth for workflow state.
+- Validate role outputs with schemas or explicit acceptance functions before using them.
+- Record why the Flow accepted or rejected the Crew result.
 
 ## Failure Modes
 
@@ -60,23 +68,26 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 - Too many agents with vague roles.
 - Flow state mutated implicitly through chat history.
 - No evaluator for whether the crew result satisfies the flow step.
+- Role outputs accepted without schema, evidence, or policy checks.
+- Crew failure hidden as a weak final answer instead of a typed failed state.
+- Human escalation missing for ambiguous, high-risk, or conflicting outputs.
 
 ## Evaluation Strategy
 
-- Compare multi-agent output against a single-agent baseline on the same tasks.
-- Test worker disagreement, worker failure, duplicated work, and bad merge decisions.
-- Measure quality lift, latency cost, token cost, merge accuracy, and accountability.
-- Include cases that prove each "Use When" condition is true for this pattern.
-- Include negative cases from "Avoid When" so the system chooses a simpler or safer pattern when appropriate.
+- Test Flow transitions with deterministic fixtures before involving Crew behavior.
+- Test each role's expected output shape, tool permissions, and refusal behavior.
+- Test worker disagreement, missing evidence, tool timeout, and rejected Crew output.
+- Compare Crew output against a single-agent or deterministic baseline to prove the Crew adds value.
+- Gate releases on final answer quality and trajectory quality: role behavior, policy decisions, and Flow acceptance.
 
 ## Production Checklist
 
-- Give every worker a narrow contract and permission set.
-- Make the merge policy explicit before workers run.
-- Log per-worker inputs, outputs, and decision evidence.
-- Keep one owner for final acceptance and escalation.
-- Define human escalation for ambiguous, high-risk, or policy-blocked work.
-- Keep the source bundle, generated chapter, tests, and deployment artifact in the same release.
+- Document install, local run, test, eval, and cleanup commands.
+- Define Flow state, checkpoint strategy, role permissions, and task schemas.
+- Validate Crew outputs before they modify Flow state or produce user-visible output.
+- Export redacted flow, task, role, policy, and evaluator traces.
+- Add evals for accepted output, rejected output, role disagreement, tool failure, and escalation.
+- Define rollback for disabling one role, one tool, one Flow path, or the whole Crew route.
 
 ## Run the Example
 

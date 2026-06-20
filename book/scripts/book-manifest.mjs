@@ -63,6 +63,8 @@ export const bookChapters = deepFreeze([
   chapter('agent-engineer-toolkit', 'Agent Engineer Toolkit', 'agent-engineering-practice/agent-engineer-toolkit.md', 'agent-engineering-practice'),
   chapter('framework-selection', 'Framework Selection', 'agent-engineering-practice/framework-selection.md', 'agent-engineering-practice'),
   chapter('cross-framework-decision-matrix', 'Cross-Framework Decision Matrix', 'agent-engineering-practice/cross-framework-decision-matrix.md', 'agent-engineering-practice'),
+  chapter('real-framework-setup-notes', 'Real Framework Setup Notes', 'agent-engineering-practice/real-framework-setup-notes.md', 'agent-engineering-practice'),
+  chapter('templates-and-worksheets', 'Templates and Worksheets', 'agent-engineering-practice/templates-and-worksheets.md', 'agent-engineering-practice'),
   chapter('evaluation-driven-agent-development', 'Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md', 'agent-engineering-practice'),
   chapter('agent-threat-model', 'Agent Threat Model', 'agent-engineering-practice/agent-threat-model.md', 'agent-engineering-practice'),
   chapter('agent-security-and-sandboxing', 'Agent Security and Sandboxing', 'agent-engineering-practice/agent-security-and-sandboxing.md', 'agent-engineering-practice'),
@@ -106,6 +108,7 @@ export const bookChapters = deepFreeze([
   chapter('reference-architecture', 'Reference Architecture', 'systems-architecture/reference-architecture.md', 'systems-architecture'),
 
   chapter('production-runtime-overview', 'Overview', 'production-runtime/overview.md', 'production-runtime'),
+  chapter('deployment-walkthrough', 'Deployment Walkthrough', 'production-runtime/deployment-walkthrough.md', 'production-runtime'),
   chapter('durable-workflows', 'Durable Workflows', 'production-runtime/durable-workflows.md', 'production-runtime', 'generated'),
   chapter('observability-and-evals', 'Observability and Evals', 'production-runtime/observability-and-evals.md', 'production-runtime', 'generated'),
   chapter('production-evaluation-feedback-loops', 'Production Evaluation Feedback Loops', 'production-runtime/production-evaluation-feedback-loops.md', 'production-runtime'),
