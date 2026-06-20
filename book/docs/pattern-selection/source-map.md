@@ -36,7 +36,7 @@ The sources repeat several core ideas: start simple, separate workflows from age
 | [YouTube: AI agent design patterns](https://www.youtube.com/watch?v=GDm_uH6VxPY) | Video walkthrough of agent design patterns. | Use as companion media, not as a primary textual source unless transcript review is added. |
 | [YouTube: Master ALL 20 Agentic AI Design Patterns](https://www.youtube.com/watch?v=e2zIr_2JMbE) | Broad video catalog of pattern names and examples. | Use as discovery material; validate individual claims against primary sources. |
 
-The LinkedIn checkpoint link was not useful as a public source because it requires a login challenge. The Google search URL was used only as a discovery route, not as a source to map.
+Sources that were not publicly accessible or only served as discovery routes were excluded from the map.
 
 ## Local Pattern Repository Coverage
 

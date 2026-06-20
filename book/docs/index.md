@@ -1,5 +1,6 @@
 ---
 layout: home
+title: Agentic Systems Patterns
 
 hero:
   name: Agentic Systems Patterns

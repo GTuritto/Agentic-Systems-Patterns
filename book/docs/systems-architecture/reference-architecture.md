@@ -6,6 +6,8 @@ title: Reference Architecture
 
 This reference architecture combines the core patterns in the book into a production-ready agentic system. It is intentionally conservative: deterministic software owns state, policy, and side effects; model calls propose decisions inside bounded loops.
 
+Use this chapter as the bridge from pattern selection to system design. The diagram is not a framework prescription; it shows the ownership boundaries a production system needs before agents handle private data, external actions, or long-running work.
+
 ## Architecture
 
 ![Production agentic system reference architecture](../public/diagrams/reference-architecture.svg)
