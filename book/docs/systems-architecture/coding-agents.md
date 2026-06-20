@@ -155,6 +155,8 @@ The agent should explain why it is running a command when the command has side e
 
 CI is one of the best evaluators for coding agents.
 
+A coding agent should treat CI as an external evaluator, not as an afterthought. It should reduce each failure to a reproducible local command or an explicit environmental blocker before continuing.
+
 A useful loop is:
 
 1. agent creates a branch or worktree;
