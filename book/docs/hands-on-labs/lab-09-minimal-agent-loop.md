@@ -98,12 +98,21 @@ const answerImmediately = async (): Promise<Decision> => ({
 });
 ```
 
-Expected result:
+## Expected Result
+
+The immediate-answer case should end with:
 
 ```text
 stopReason: success
 steps: 1
 observations: at least one decision observation
+```
+
+The repeated-tool case should end with:
+
+```text
+stopReason: budget_exhausted
+steps: maxSteps
 ```
 
 ## Failure Case
@@ -116,13 +125,6 @@ const neverStops = async (): Promise<Decision> => ({
   name: "search",
   input: { query: "keep going" },
 });
-```
-
-Expected result:
-
-```text
-stopReason: budget_exhausted
-steps: maxSteps
 ```
 
 This is the first safety property of an agent runtime: the model cannot create an infinite loop just by continuing to ask.

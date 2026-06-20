@@ -77,7 +77,7 @@ From the repository root:
 npm run native-examples:validate
 ```
 
-The root validation checks Python syntax without installing optional AutoGen dependencies.
+The root validation checks Python syntax without installing optional AutoGen dependencies. A full native run still requires the setup above.
 
 ## Expected Behavior
 
@@ -89,6 +89,16 @@ The team should:
 4. terminate with an explicit accepted or max-message stop reason;
 5. export transcript events for eval replay;
 6. fail the eval if review or test planning is skipped.
+
+## Modify This Next
+
+Make one focused change before moving to production design:
+
+1. remove the `risk_reviewer` turn or change its message type;
+2. update the transcript eval so the run fails;
+3. restore the reviewer turn and confirm the eval passes again.
+
+This change teaches the AutoGen boundary: a multi-agent transcript must prove role coverage and turn order, not only produce a final answer.
 
 ## Production Notes
 

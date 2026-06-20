@@ -34,7 +34,7 @@ The calculator path works without a model key. The fallback chat path calls Mist
 NON_INTERACTIVE_INPUT="calculate 2+2" npm run tool-using-agent
 ```
 
-Expected result:
+Expected output:
 
 ```text
 Agent: 4

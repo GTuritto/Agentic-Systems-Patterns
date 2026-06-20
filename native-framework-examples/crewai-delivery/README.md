@@ -37,11 +37,33 @@ CrewAI agents normally require model provider configuration. Set the provider va
 python delivery_flow.py
 ```
 
-Expected behavior:
+This command requires the optional CrewAI dependencies from this folder's `requirements.txt` and the model provider environment expected by your CrewAI setup.
+
+## Validate The Slice
+
+From the repository root:
+
+```sh
+npm run native-examples:validate
+```
+
+The root validation checks Python syntax without installing optional CrewAI dependencies. A full native run still requires the setup above.
+
+## Expected Behavior
 
 1. the Flow starts from a delivery request;
 2. the Crew produces planner, risk, and test outputs;
 3. the Flow evaluates the outputs before final acceptance.
+
+## Modify This Next
+
+Make one focused change before moving to production design:
+
+1. remove the risk reviewer output from the Crew result;
+2. add or update the Flow eval so acceptance fails;
+3. restore the role output and rerun the validation.
+
+This change teaches the main CrewAI boundary: Crew completion is not enough; the Flow must prove each required role produced usable output.
 
 ## Production Notes
 

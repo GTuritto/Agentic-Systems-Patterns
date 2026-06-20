@@ -101,12 +101,22 @@ Use the reference demo or a decision function that calls `lookup_policy`.
 npm run mini-runtime
 ```
 
-Expected result:
+## Expected Result
+
+The allowed read-tool path should produce:
 
 ```text
 tool result: ok
 stopReason: success or budget_exhausted depending on your decide function
 observation includes lookup_policy
+```
+
+The refusal paths should produce:
+
+```text
+unknown tool -> refused
+write tool -> approval_required
+tool error -> tool_failure or recorded error observation
 ```
 
 ## Failure Cases
@@ -116,14 +126,6 @@ Test these cases:
 1. Unknown tool name.
 2. Tool with `write` side effect.
 3. Tool execution returns `error`.
-
-Expected outcomes:
-
-```text
-unknown tool -> refused
-write tool -> approval_required
-tool error -> tool_failure or recorded error observation
-```
 
 The exact stop behavior can vary, but the runtime must not silently execute forbidden or unknown tools.
 

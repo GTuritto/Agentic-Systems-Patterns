@@ -73,7 +73,7 @@ From the repository root:
 npm run native-examples:validate
 ```
 
-The root validation checks TypeScript syntax without installing the optional Mastra dependencies.
+The root validation checks TypeScript syntax without installing optional Mastra dependencies. A full native run still requires the setup above.
 
 ## Expected Behavior
 
@@ -85,6 +85,16 @@ The workflow should:
 4. refuse to issue money or send customer messages;
 5. emit trace fields for workflow, tool, agent, policy, and eval evidence;
 6. fail the release eval if forbidden tools appear.
+
+## Modify This Next
+
+Make one focused change before moving to production design:
+
+1. add a forbidden `refunds.issue_refund` tool to the local tool list;
+2. add a fixture where the agent tries to call it;
+3. confirm the release eval fails before any money movement can occur.
+
+This change teaches the Mastra boundary: registering tools and workflows does not replace product-owned authority.
 
 ## Production Notes
 

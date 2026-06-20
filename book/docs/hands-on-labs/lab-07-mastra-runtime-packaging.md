@@ -36,11 +36,20 @@ npm run mastra-runtime:demo
 npm run mastra-runtime:test
 ```
 
-Expected result:
+## Expected Result
+
+The test command should print:
 
 ```text
 Mastra-style runtime packaging tests OK
 ```
+
+The run should also prove these behavior signals:
+
+- policy is read before drafting;
+- the draft is created for review, not sent;
+- workflow steps and tool results are traced;
+- the eval fails if a direct send tool is used.
 
 Native Mastra comparison point:
 
@@ -79,12 +88,7 @@ Run:
 npm run mastra-runtime:test
 ```
 
-Check that:
-
-- policy is read before drafting;
-- the draft is created for review, not sent;
-- workflow steps and tool results are traced;
-- the eval fails if a direct send tool is used.
+Compare the output with the expected result above before moving to the production extension.
 
 ## Production Extension
 

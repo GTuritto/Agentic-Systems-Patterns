@@ -37,10 +37,26 @@ npm run langgraph-state
 npm run langgraph-state:test
 ```
 
-Expected result:
+## Expected Result
+
+The test command should print:
 
 ```text
 LangGraph-style state graph tests OK
+```
+
+The first run should stop at human approval:
+
+```text
+stop_reason: human_interrupt
+trace includes checkpoint:review
+```
+
+The resumed run should start from the review node with approval:
+
+```text
+stop_reason: success
+trace starts with checkpoint:review
 ```
 
 Native LangGraph comparison point:
@@ -68,27 +84,13 @@ Open `langgraph-state-graph-pattern/python/state_graph.py` and find these bounda
 
 ## Baseline Run
 
-The first run stops at human approval:
-
-```text
-stop_reason: human_interrupt
-trace includes checkpoint:review
-```
-
-The resumed run starts from the review node with approval:
-
-```text
-stop_reason: success
-trace starts with checkpoint:review
-```
-
 This is the core state-graph lesson: the runtime should not have to replay classification, retrieval, and drafting when a saved checkpoint is enough.
 
 ## Change One Thing
 
 Remove the `checkpoint(run, node)` call before node execution.
 
-Expected result: the test should fail because the graph can no longer prove where it paused and resumed.
+Expected failure: the test should fail because the graph can no longer prove where it paused and resumed.
 
 Restore the checkpoint call and rerun:
 

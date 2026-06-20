@@ -35,11 +35,20 @@ npm run crewai-flow
 npm run crewai-flow:test
 ```
 
-Expected result:
+## Expected Result
+
+The test command should print:
 
 ```text
 CrewAI-style flow and crew tests OK
 ```
+
+The run should also prove these behavior signals:
+
+- researcher and writer roles produce separate outputs;
+- the flow trace records start, crew kickoff, evaluation, and acceptance;
+- the flow rejects output that fails the acceptance rule;
+- the final state has one accountable owner.
 
 Native CrewAI comparison point:
 
@@ -68,7 +77,7 @@ The important design rule is that crew output is not automatically accepted. The
 
 Change the writer output so it omits `do not promise payment`.
 
-Expected result:
+Expected rejection:
 
 ```text
 flow rejected by evaluation
@@ -82,12 +91,7 @@ npm run crewai-flow:test
 
 ## Verify
 
-Check that:
-
-- researcher and writer roles produce separate outputs;
-- the flow trace records start, crew kickoff, evaluation, and acceptance;
-- the flow rejects output that fails the acceptance rule;
-- the final state has one accountable owner.
+Compare the output with the expected result above before moving to the production extension.
 
 ## Production Extension
 

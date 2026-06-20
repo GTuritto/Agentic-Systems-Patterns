@@ -35,11 +35,33 @@ pip install -r requirements.txt
 python refund_graph.py
 ```
 
-Expected behavior:
+This command requires the optional LangGraph dependencies from this folder's `requirements.txt`. It uses local development checkpointing only.
+
+## Validate The Slice
+
+From the repository root:
+
+```sh
+npm run native-examples:validate
+```
+
+The root validation checks Python syntax without installing optional LangGraph dependencies. A full native run still requires the setup above.
+
+## Expected Behavior
 
 1. the first invocation pauses at the approval interrupt;
 2. the resumed invocation approves the draft;
 3. the final eval passes without issuing money.
+
+## Modify This Next
+
+Make one focused change before moving to production design:
+
+1. add a `tenant_id` field to graph state;
+2. include it in the thread ID or checkpoint key;
+3. add an eval that fails when resume state crosses tenant boundaries.
+
+This change teaches the production risk behind checkpointing: saved state is useful only when isolation is explicit.
 
 ## Production Notes
 

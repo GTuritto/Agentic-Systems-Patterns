@@ -38,10 +38,28 @@ npm run autogen-transcript
 npm run autogen-transcript:test
 ```
 
-Expected result:
+## Expected Result
+
+The test command should print:
 
 ```text
 AutoGen-style transcript tests OK
+```
+
+The transcript should include this role flow:
+
+```text
+manager -> researcher: task
+researcher -> reviewer: evidence
+reviewer -> manager: review
+manager -> team: final
+```
+
+The final state should include:
+
+```text
+stopReason: completed
+evaluation: pass
 ```
 
 Native AutoGen comparison point:
@@ -69,27 +87,13 @@ The transcript is the core artifact. It should show task assignment, evidence, r
 
 ## Baseline Run
 
-Expected transcript:
-
-```text
-manager -> researcher: task
-researcher -> reviewer: evidence
-reviewer -> manager: review
-manager -> team: final
-```
-
-Expected final state:
-
-```text
-stopReason: completed
-evaluation: pass
-```
+Use the expected result above as the baseline transcript contract.
 
 ## Change One Thing
 
 Remove the researcher turn or change its message type from `evidence` to `final`.
 
-Expected result: the transcript eval should fail because the team can no longer prove that evidence preceded review and final synthesis.
+Expected failure: the transcript eval should fail because the team can no longer prove that evidence preceded review and final synthesis.
 
 Restore the researcher turn and rerun:
 

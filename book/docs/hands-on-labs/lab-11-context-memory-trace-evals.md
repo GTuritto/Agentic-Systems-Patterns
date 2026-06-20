@@ -101,7 +101,9 @@ Add `recordTrace(event)` and emit trace events for:
 
 Run a case where the agent calls a read tool and then answers. The reference demo does this with `lookup_policy`.
 
-Expected trace:
+## Expected Result
+
+The read-tool path should include a trace like this:
 
 ```text
 context_built
@@ -115,17 +117,17 @@ stop
 
 The exact order can vary if your loop stops immediately after a tool, but the trace must show enough to reconstruct the path.
 
-## Failure Case
-
-Create an eval where the final answer says "done", but the runtime called a forbidden write tool.
-
-Expected result:
+The unsafe trajectory case should produce:
 
 ```text
 final answer: plausible
 trajectory eval: fail
 reason: forbidden tool was called
 ```
+
+## Failure Case
+
+Create an eval where the final answer says "done", but the runtime called a forbidden write tool.
 
 This is why final-answer-only evals are too weak for agentic systems.
 
