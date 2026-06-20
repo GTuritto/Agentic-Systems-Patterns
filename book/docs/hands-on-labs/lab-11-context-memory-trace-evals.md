@@ -20,6 +20,19 @@ Make the mini-runtime inspectable. Add context packets, scoped memory reads, tra
 
 Start from the Lab 10 runtime. Keep tools deterministic and small.
 
+Reference files:
+
+- `minimal-agent-runtime/typescript/src/runtime.ts`
+- `minimal-agent-runtime/typescript/src/run_demo.ts`
+- `minimal-agent-runtime/typescript/test/runtime.spec.ts`
+
+Run the reference demo and test:
+
+```sh
+npm run mini-runtime
+npm run mini-runtime:test
+```
+
 Add a memory fixture:
 
 ```ts
@@ -86,7 +99,7 @@ Add `recordTrace(event)` and emit trace events for:
 
 ## Baseline Run
 
-Run a case where the agent calls a read tool and then answers.
+Run a case where the agent calls a read tool and then answers. The reference demo does this with `lookup_policy`.
 
 Expected trace:
 
@@ -118,13 +131,15 @@ This is why final-answer-only evals are too weak for agentic systems.
 
 ## Verify
 
-Check these assertions:
+Check these assertions manually or with `npm run mini-runtime:test`:
 
 - every run has a trace;
 - every stop has a stop reason;
 - context records included and omitted memory;
 - evals can check tools called and tools not called;
 - a forbidden trajectory fails even when final text looks acceptable.
+
+The reference test includes an intentionally unsafe run where the final answer is `done`, but the trajectory eval fails because a forbidden write tool was called.
 
 ## Production Extension
 

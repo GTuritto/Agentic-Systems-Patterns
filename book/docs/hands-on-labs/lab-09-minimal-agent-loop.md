@@ -18,7 +18,19 @@ Build the smallest useful runtime primitive: a loop that receives a goal, asks f
 
 ## Setup
 
-Create a small file outside production code, such as `scratch/minimal-agent-loop.ts` or `scratch/minimal_agent_loop.py`.
+Use the maintained TypeScript reference or create your own small file outside production code, such as `scratch/minimal-agent-loop.ts` or `scratch/minimal_agent_loop.py`.
+
+Reference files:
+
+- `minimal-agent-runtime/typescript/src/runtime.ts`
+- `minimal-agent-runtime/typescript/src/run_demo.ts`
+- `minimal-agent-runtime/typescript/test/runtime.spec.ts`
+
+Run the reference test first:
+
+```sh
+npm run mini-runtime:test
+```
 
 This lab does not require a model key. Use a deterministic `decide` function so you can test the runtime without model variability.
 
@@ -71,7 +83,13 @@ The loop should:
 
 ## Baseline Run
 
-Use a decision function that answers immediately:
+Use the reference demo:
+
+```sh
+npm run mini-runtime
+```
+
+Then inspect the immediate-answer case in `minimal-agent-runtime/typescript/test/runtime.spec.ts`, or use a decision function that answers immediately:
 
 ```ts
 const answerImmediately = async (): Promise<Decision> => ({
@@ -111,12 +129,14 @@ This is the first safety property of an agent runtime: the model cannot create a
 
 ## Verify
 
-Check these assertions manually or with a tiny test:
+Check these assertions manually or with the reference test:
 
 - immediate answer stops with `success`;
 - repeated tool proposals stop with `budget_exhausted`;
 - every loop step records an observation;
 - the final state contains a stop reason.
+
+The reference test covers these cases with deterministic decisions, so the result is stable across machines.
 
 ## Production Extension
 

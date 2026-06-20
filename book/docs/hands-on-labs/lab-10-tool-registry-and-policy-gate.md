@@ -22,6 +22,17 @@ Start from the Lab 09 loop. Add a registry object or map keyed by tool name.
 
 Use deterministic tools. Do not call external systems in this lab.
 
+Reference files:
+
+- `minimal-agent-runtime/typescript/src/runtime.ts`
+- `minimal-agent-runtime/typescript/test/runtime.spec.ts`
+
+Run the reference test before editing:
+
+```sh
+npm run mini-runtime:test
+```
+
 ## Runtime Contract
 
 ```ts
@@ -84,7 +95,11 @@ Update the loop so tool decisions pass through:
 
 ## Baseline Run
 
-Use a decision function that calls `lookup_policy`.
+Use the reference demo or a decision function that calls `lookup_policy`.
+
+```sh
+npm run mini-runtime
+```
 
 Expected result:
 
@@ -114,13 +129,15 @@ The exact stop behavior can vary, but the runtime must not silently execute forb
 
 ## Verify
 
-Check these assertions:
+Check these assertions manually or with `npm run mini-runtime:test`:
 
 - unknown tools are not executed;
 - policy runs before execution;
 - approval-required is represented as a runtime state;
 - tool results are structured;
 - observations record both allowed and refused paths.
+
+The reference test also proves that `send_message` is blocked before execution when the default policy requires approval for write tools.
 
 ## Production Extension
 

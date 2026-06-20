@@ -29,6 +29,8 @@ goal
 
 That is the shape hidden under many framework abstractions.
 
+![Minimal agent runtime architecture](/diagrams/minimal-agent-runtime.svg)
+
 ## What This Runtime Is Not
 
 This is not a production framework. It does not try to solve deployment, streaming, distributed execution, persistence, authentication, workflow queues, model adapters, UI integration, tracing backends, or memory stores.
@@ -223,6 +225,16 @@ Useful evals catch forbidden tools, missing evidence, approval bypasses, invalid
 | Eval harness | graph-level tests | eval suites | transcript/trajectory tests | task/flow quality checks |
 
 Frameworks can package these primitives, but they do not remove the need to design them.
+
+The important comparison is responsibility, not API shape:
+
+| Question | If You Build It Yourself | If You Use A Framework |
+| --- | --- | --- |
+| Who owns state? | Your runtime data model and persistence plan. | The framework may provide state containers or checkpoints, but your application still defines the business state. |
+| Who authorizes tools? | Your policy function, approval records, and audit trail. | The framework can expose hooks or middleware, but product policy still belongs outside the prompt. |
+| Who assembles context? | Your context builder chooses memory, evidence, tools, and omissions. | The framework can provide memory abstractions, but you still need source, freshness, and privacy rules. |
+| Who evaluates behavior? | Your tests inspect decisions, tools, traces, and stop reasons. | The framework can run evals, but you still decide what unsafe or low-quality behavior means. |
+| Who handles production failures? | You must add retries, idempotency, durability, alerts, and incident workflow. | Mature runtimes can provide pieces of this, but they must be configured against your risk model. |
 
 ## What the Labs Do
 

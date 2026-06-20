@@ -8,6 +8,13 @@ This track builds a tiny educational agent runtime from first principles. It is 
 
 Start with [Building a Minimal Agent Runtime](../agent-engineering-practice/building-a-minimal-agent-runtime) for the theory. Then use these labs if you want to implement the primitives yourself.
 
+The maintained TypeScript implementation lives in `minimal-agent-runtime/typescript`. Use it as the reference solution while implementing your own small version in TypeScript or Python.
+
+```sh
+npm run mini-runtime
+npm run mini-runtime:test
+```
+
 ## What You Build
 
 | Lab | Component | Main Lesson |
@@ -34,6 +41,8 @@ By the end of the track, you should be able to explain:
 The labs are written so you can implement the runtime in TypeScript or Python. Use TypeScript if you want strong discriminated unions and a direct path to the repository's existing examples. Use Python if you want a compact teaching implementation before mapping the ideas to LangGraph or CrewAI.
 
 Keep the implementation small. The target is not a general-purpose framework. The target is a runtime you can understand in one sitting.
+
+The TypeScript reference is intentionally dependency-free. The Python version should preserve the same contracts: decisions are typed proposals, policy runs before execution, traces record the path, and evals inspect the trajectory.
 
 ## Production Warning
 

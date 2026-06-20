@@ -65,6 +65,8 @@ Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, Aut
 11. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
 12. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
+Labs 07 and 08 are intentionally reserved for framework-specific expansions, such as Mastra AI and CrewAI. The mini-framework track starts at Lab 09 so future framework labs can be inserted without renumbering the runtime track.
+
 ## How To Use These Labs
 
 Read the objective first, then run the command exactly as shown. After that, inspect the named source files and make the small change in the lab. The goal is to see where the pattern becomes code: input contracts, state, tool boundaries, stop conditions, evaluation, and failure handling.
