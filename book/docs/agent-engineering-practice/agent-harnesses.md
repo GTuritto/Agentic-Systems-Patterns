@@ -195,6 +195,18 @@ Recovery needs side-effect discipline:
 
 A replay mode should be able to run with mocked tools, frozen context packets, and recorded model outputs when debugging. That is how teams compare prompt, model, policy, or tool changes without reissuing refunds, resending emails, or rewriting memory.
 
+## Harness Observability For Background Agents
+
+Background agents need a harness that can be inspected after the fact. At minimum, capture:
+
+- the initial task and acceptance criteria;
+- selected files, tools, and models;
+- tool calls with inputs, outputs, policy decisions, and errors;
+- checkpoints or handoff summaries after major phases;
+- final verification commands and their results.
+
+Without this record, a background agent becomes an opaque worker. With it, the agent becomes reviewable infrastructure.
+
 ## Harness Evaluation
 
 Evaluate the harness directly. Freeze or mock the model response where possible so the test isolates harness behavior instead of model quality.

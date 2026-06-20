@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
 import { chromium } from 'playwright';
+import { bookSections, pdfChapters } from './book-manifest.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const bookRoot = path.resolve(__dirname, '..');
@@ -15,75 +16,18 @@ const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
 const pdfUrl = `${siteUrl}releases/${pdfName}`;
 const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 
-const chapters = [
-  ['Introduction', 'intro.md'],
-  ['Publishing / How To Read This Book', 'publishing/how-to-read.md'],
-  ['Publishing / Publishing and Releases', 'publishing/publishing-and-releases.md'],
-  ['Foundations / Single Agent', 'foundations/single-agent.md'],
-  ['Foundations / Agent Loop', 'foundations/agent-loop.md'],
-  ['Foundations / Goals and State', 'foundations/goals-and-state.md'],
-  ['Foundations / Tool Use', 'foundations/tool-use.md'],
-  ['Foundations / Structured Output', 'foundations/structured-output.md'],
-  ['Foundations / Context Engineering', 'foundations/context-engineering.md'],
-  ['Pattern Selection / Choosing the Right Pattern', 'pattern-selection/choosing-the-right-pattern.md'],
-  ['Pattern Selection / Prompt Chaining and Gates', 'pattern-selection/prompt-chaining-and-gates.md'],
-  ['Pattern Selection / Routing and Handoffs', 'pattern-selection/routing-and-handoffs.md'],
-  ['Pattern Selection / Resource-Aware Agent Design', 'pattern-selection/resource-aware-agent-design.md'],
-  ['Pattern Selection / Circuit Breakers, Fallbacks, and Replay', 'pattern-selection/circuit-breakers-fallbacks-replay.md'],
-  ['Pattern Selection / Source Map', 'pattern-selection/source-map.md'],
-  ['Agent Engineering Practice / Agent Development Lifecycle', 'agent-engineering-practice/agent-development-lifecycle.md'],
-  ['Agent Engineering Practice / Agent Engineer Toolkit', 'agent-engineering-practice/agent-engineer-toolkit.md'],
-  ['Agent Engineering Practice / Framework Selection', 'agent-engineering-practice/framework-selection.md'],
-  ['Agent Engineering Practice / Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md'],
-  ['Agent Engineering Practice / Agent Security and Sandboxing', 'agent-engineering-practice/agent-security-and-sandboxing.md'],
-  ['Agent Engineering Practice / Agent UX and Human Trust', 'agent-engineering-practice/agent-ux-and-human-trust.md'],
-  ['Control Loops / Planning and Execution', 'control-loops/planning-and-execution.md'],
-  ['Control Loops / ReAct', 'control-loops/react.md'],
-  ['Control Loops / Reflection', 'control-loops/reflection.md'],
-  ['Control Loops / Evaluator-Optimizer', 'control-loops/evaluator-optimizer.md'],
-  ['Control Loops / Self-Improvement', 'control-loops/self-improvement.md'],
-  ['Control Loops / Self-Healing Workflows', 'control-loops/self-healing-workflows.md'],
-  ['Memory and Knowledge / Memory-Augmented Agent', 'memory-knowledge/memory-augmented-agent.md'],
-  ['Memory and Knowledge / Long-Term Episodic Memory', 'memory-knowledge/long-term-episodic-memory.md'],
-  ['Memory and Knowledge / Semantic Recall and RAG', 'memory-knowledge/semantic-recall-rag.md'],
-  ['Memory and Knowledge / Working Memory', 'memory-knowledge/working-memory.md'],
-  ['Memory and Knowledge / Knowledge-Bound Agents', 'memory-knowledge/knowledge-bound-agents.md'],
-  ['Tools, Skills, and Protocols / Skills', 'tools-skills-protocols/skills.md'],
-  ['Tools, Skills, and Protocols / MCP-first Tool Use', 'tools-skills-protocols/mcp-first-tool-use.md'],
-  ['Tools, Skills, and Protocols / A2A Agent Interoperability', 'tools-skills-protocols/a2a-agent-interoperability.md'],
-  ['Tools, Skills, and Protocols / Secure Agent Communication', 'tools-skills-protocols/secure-agent-communication.md'],
-  ['Tools, Skills, and Protocols / Human Approval Gates', 'tools-skills-protocols/human-approval-gates.md'],
-  ['Multi-Agent Systems / Task Delegation', 'multi-agent-systems/task-delegation.md'],
-  ['Multi-Agent Systems / Supervisor / Worker', 'multi-agent-systems/supervisor-worker.md'],
-  ['Multi-Agent Systems / Debate and Consensus', 'multi-agent-systems/debate-and-consensus.md'],
-  ['Multi-Agent Systems / Parallel Agents', 'multi-agent-systems/parallel-agents.md'],
-  ['Multi-Agent Systems / CrewAI Flows and Crews', 'multi-agent-systems/crewai-flows-and-crews.md'],
-  ['Systems Architecture / Agentic System Architecture', 'systems-architecture/agentic-system-architecture.md'],
-  ['Systems Architecture / Agentic RAG Systems', 'systems-architecture/agentic-rag-systems.md'],
-  ['Systems Architecture / Open Personal Agent Architectures', 'systems-architecture/open-personal-agent-architectures.md'],
-  ['Systems Architecture / Coding Agents', 'systems-architecture/coding-agents.md'],
-  ['Systems Architecture / Computer-Use Agents', 'systems-architecture/computer-use-agents.md'],
-  ['Systems Architecture / Domain Agent Architectures', 'systems-architecture/domain-agent-architectures.md'],
-  ['Systems Architecture / Architecture Decision Records', 'systems-architecture/architecture-decision-records.md'],
-  ['Systems Architecture / Reference Architecture', 'systems-architecture/reference-architecture.md'],
-  ['Production Runtime / Overview', 'production-runtime/overview.md'],
-  ['Production Runtime / Durable Workflows', 'production-runtime/durable-workflows.md'],
-  ['Production Runtime / Observability and Evals', 'production-runtime/observability-and-evals.md'],
-  ['Production Runtime / Production Evaluation Feedback Loops', 'production-runtime/production-evaluation-feedback-loops.md'],
-  ['Production Runtime / Cost Controls and Runtime Budgets', 'production-runtime/cost-controls-runtime-budgets.md'],
-  ['Production Runtime / Policy Enforcement', 'production-runtime/policy-enforcement.md'],
-  ['Production Runtime / Event-Triggered Agents', 'production-runtime/event-triggered-agents.md'],
-  ['Production Runtime / Mastra Runtime', 'production-runtime/mastra-runtime.md'],
-  ['Deprecated / Historical Patterns', 'deprecated/historical-patterns.md'],
-  ['Hands-On Labs / Lab Guide', 'hands-on-labs/index.md'],
-  ['Hands-On Labs / Lab 01 - Tool-Using Agent', 'hands-on-labs/lab-01-tool-using-agent.md'],
-  ['Hands-On Labs / Lab 02 - Agent Loop and Planning', 'hands-on-labs/lab-02-agent-loop-and-planning.md'],
-  ['Hands-On Labs / Lab 03 - Agentic RAG', 'hands-on-labs/lab-03-agentic-rag.md'],
-  ['Hands-On Labs / Lab 04 - A2A Communication', 'hands-on-labs/lab-04-a2a-communication.md'],
-  ['Hands-On Labs / Lab 05 - Multi-Agent Supervisor', 'hands-on-labs/lab-05-multi-agent-supervisor.md'],
-  ['Hands-On Labs / Lab 06 - Observability and Evals', 'hands-on-labs/lab-06-observability-and-evals.md'],
-  ['Hands-On Labs / Vertical Slice Examples', 'hands-on-labs/vertical-slice-examples.md']
-];
+const sectionsById = new Map(bookSections.map(section => [section.id, section]));
+
+function chapterLabel(chapter) {
+  const section = sectionsById.get(chapter.sectionId);
+  if (!section) {
+    throw new Error(`Unknown PDF chapter sectionId "${chapter.sectionId}" for chapter "${chapter.id}"`);
+  }
+  if (chapter.title === 'Introduction') return chapter.title;
+  return `${section.title} / ${chapter.title}`;
+}
+
+const chapters = pdfChapters.map(chapter => [chapterLabel(chapter), chapter.path]);
 
 const md = new MarkdownIt({
   html: false,

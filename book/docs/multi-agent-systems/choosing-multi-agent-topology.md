@@ -161,6 +161,19 @@ type TopologyContract = {
 
 The contract forces the key question: what does the topology buy that a simpler design does not?
 
+## Declare The Topology Before You Code It
+
+A multi-agent system should have a visible topology before it has framework glue. Write down:
+
+- agents and their responsibilities;
+- allowed communication paths;
+- fan-out and fan-in points;
+- gates and approval boundaries;
+- shared state and private state;
+- failure and cancellation behavior.
+
+This can be a diagram, a table, or a small declarative file. The important property is reviewability: a reader should understand the agent graph without reverse-engineering callbacks and prompts.
+
 ## Deterministic Workflow First
 
 If code can own the sequence, let code own the sequence.

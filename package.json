@@ -7,6 +7,7 @@
     "test": "npm run tools:test && npm run agent-loop:test && npm run approval-gate:test && npm run tool-runtime:test && npm run a2a:test && npm run plan:test && npm run codeact:test && npm run router:test && npm run mcp:test",
     "typecheck": "tsc --noEmit",
     "book:install": "npm install --prefix book",
+    "book:manifest:test": "npm run manifest:test --prefix book",
     "book:diagrams": "npm run diagrams --prefix book",
     "book:content": "npm run content --prefix book",
     "book:start": "npm run start --prefix book",

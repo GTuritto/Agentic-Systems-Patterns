@@ -118,6 +118,18 @@ Replay must be designed before the incident. After a failure, it is too late to 
 
 Replay also needs safety rules. A replay should not accidentally send another customer email, issue another refund, or write another memory record. Separate read-only trace replay, deterministic replay with mocked outputs, and sandbox replay with fake side effects.
 
+## Replayable Actions
+
+When an agent performs expensive or risky work, make the action replayable:
+
+- record the input, selected tool, policy decision, and result;
+- attach an idempotency key to external side effects;
+- cache safe read-only results when freshness rules allow it;
+- preserve enough context to reproduce a failed run;
+- make rollback explicit for operations that change state.
+
+Replay turns a failure from a mystery into a test case.
+
 ## Replay Levels
 
 | Level | Capability | Use |

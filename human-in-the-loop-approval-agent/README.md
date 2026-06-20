@@ -189,6 +189,16 @@ Approval gates fail when a decision can be replayed outside its original context
 
 This matters for retries. Durable workflows should resume from the approval wait, not rebuild a similar looking action from fresh model output and assume the old approval still applies. If the model re-plans after approval, the new plan must pass policy again.
 
+### Denial Tracking
+
+Repeated denials are signal, not noise. Track denied tool requests by tool, scope, and reason. After a small threshold, the agent should stop retrying and choose one of three paths:
+
+1. ask for a broader approval with a clear reason;
+2. switch to a lower-risk fallback;
+3. stop and report the blocked requirement.
+
+This prevents approval loops where the agent burns its budget asking for the same blocked action in slightly different forms.
+
 ### Observability
 
 Approvals should appear as first-class spans in traces, not as notes attached to a final answer. A trace should show the policy decision that required approval, the approval request, the wait duration, the approver, the decision, the resume token, and the final side effect or stop reason.
