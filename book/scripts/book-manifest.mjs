@@ -59,6 +59,7 @@ export const bookChapters = deepFreeze([
 
   chapter('agent-development-lifecycle', 'Agent Development Lifecycle', 'agent-engineering-practice/agent-development-lifecycle.md', 'agent-engineering-practice'),
   chapter('agent-harnesses', 'Agent Harnesses', 'agent-engineering-practice/agent-harnesses.md', 'agent-engineering-practice'),
+  chapter('building-a-minimal-agent-runtime', 'Building a Minimal Agent Runtime', 'agent-engineering-practice/building-a-minimal-agent-runtime.md', 'agent-engineering-practice'),
   chapter('agent-engineer-toolkit', 'Agent Engineer Toolkit', 'agent-engineering-practice/agent-engineer-toolkit.md', 'agent-engineering-practice'),
   chapter('framework-selection', 'Framework Selection', 'agent-engineering-practice/framework-selection.md', 'agent-engineering-practice'),
   chapter('evaluation-driven-agent-development', 'Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md', 'agent-engineering-practice'),
@@ -120,6 +121,10 @@ export const bookChapters = deepFreeze([
   chapter('lab-04-a2a-communication', '04 - A2A Communication', 'hands-on-labs/lab-04-a2a-communication.md', 'hands-on-labs'),
   chapter('lab-05-multi-agent-supervisor', '05 - Multi-Agent Supervisor', 'hands-on-labs/lab-05-multi-agent-supervisor.md', 'hands-on-labs'),
   chapter('lab-06-observability-and-evals', '06 - Observability and Evals', 'hands-on-labs/lab-06-observability-and-evals.md', 'hands-on-labs'),
+  chapter('from-scratch-mini-framework', 'From-Scratch Mini-Framework Track', 'hands-on-labs/from-scratch-mini-framework.md', 'hands-on-labs'),
+  chapter('lab-09-minimal-agent-loop', '09 - Minimal Agent Loop', 'hands-on-labs/lab-09-minimal-agent-loop.md', 'hands-on-labs'),
+  chapter('lab-10-tool-registry-and-policy-gate', '10 - Tool Registry and Policy Gate', 'hands-on-labs/lab-10-tool-registry-and-policy-gate.md', 'hands-on-labs'),
+  chapter('lab-11-context-memory-trace-evals', '11 - Context, Memory, Trace, and Evals', 'hands-on-labs/lab-11-context-memory-trace-evals.md', 'hands-on-labs'),
   chapter('vertical-slice-examples', 'Vertical Slice Examples', 'hands-on-labs/vertical-slice-examples.md', 'hands-on-labs'),
 
   chapter('historical-patterns', 'Historical Patterns', 'deprecated/historical-patterns.md', 'deprecated'),

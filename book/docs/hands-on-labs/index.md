@@ -8,7 +8,7 @@ The labs turn the reference chapters into a build path. Each lab uses code that 
 
 The labs are intentionally framework-agnostic. They move between TypeScript and Python, and across minimal custom runtimes, LangChain/LangGraph-style retrieval, AutoGen-style manager/worker examples, A2A protocol code, MCP-style tool boundaries, and framework-neutral tests. The point is not to teach one API. The point is to show the architecture that survives when the framework changes.
 
-Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task.
+Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task.
 
 Run these commands from the repository root before starting:
 
@@ -59,7 +59,11 @@ Those questions apply whether the code uses LangGraph, LangChain, Mastra AI, Aut
 5. [Build A2A Agent Communication](./lab-04-a2a-communication.md)
 6. [Build a Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md)
 7. [Add Observability and Evals](./lab-06-observability-and-evals.md)
-8. [Study Vertical Slice Examples](./vertical-slice-examples.md)
+8. [Study the From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md)
+9. [Build a Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
+10. [Build a Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md)
+11. [Add Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md)
+12. [Study Vertical Slice Examples](./vertical-slice-examples.md)
 
 ## How To Use These Labs
 
@@ -74,3 +78,5 @@ Do the labs in order if you are new to agent systems. The sequence starts with o
 If you already know the basics, start with the lab closest to your current system and use the related chapters as reference material.
 
 After the labs, read the vertical slices to see how the same patterns compose into support, coding, and research workflows.
+
+If you are evaluating frameworks, do the mini-framework track before choosing a production runtime. Building the primitives once makes it easier to see which responsibilities a framework owns and which responsibilities remain in your application.
