@@ -147,9 +147,9 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 - Keep active patterns in kebab-case folders.
 - Add deprecated or superseded material under `deprecated/` and mark it clearly in [Agentic_Patterns.md](./Agentic_Patterns.md).
 - Prefer deterministic example paths for tests and demos.
-- When adding book chapters, update `book/docs/.vitepress/config.ts` so the sidebar and PDF order stay aligned.
+- When adding book chapters, update `book/scripts/book-manifest.mjs` so the sidebar and PDF order stay aligned.
 - When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
-- When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and update `book/scripts/generate-pdf.mjs`.
+- When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and register them in `book/scripts/book-manifest.mjs`.
 - When adding architecture diagrams, edit `book/diagrams/*.drawio`, export or commit the matching SVG under `book/docs/public/diagrams/`, and run `npm run book:diagrams`.
 - Run `npm test`, `npm run typecheck`, `npm run book:pdf`, and `npm run book:build` before publishing larger changes.
 
