@@ -19,6 +19,12 @@ const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
 const pdfUrl = `${siteUrl}releases/${pdfName}`;
 const epubUrl = `${siteUrl}releases/${epubName}`;
 const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
+const pdfPageWidthMm = 210;
+const pdfPageHeightMm = 297;
+const pdfHorizontalMarginMm = 32;
+const pdfVerticalMarginMm = 36;
+const tocColumnGapPx = 26;
+const tocColumnsPerPage = 2;
 
 const sectionsById = new Map(bookSections.map(section => [section.id, section]));
 
@@ -160,6 +166,18 @@ function chapterId(index) {
   return `chapter-${index + 1}`;
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function mmToPx(value) {
+  return value * 96 / 25.4;
+}
+
 async function renderChapters(renderer) {
   const rendered = [];
   for (const [index, [fallbackTitle, relativePath]] of chapters.entries()) {
@@ -177,40 +195,162 @@ async function renderChapters(renderer) {
   return rendered.join('\n');
 }
 
-function renderTableOfContents() {
-  const itemsPerColumn = 30;
-  const pageSize = itemsPerColumn * 2;
-  const pages = [];
+async function measureTableOfContents(browser) {
+  const contentWidth = mmToPx(pdfPageWidthMm - pdfHorizontalMarginMm);
+  const contentHeight = mmToPx(pdfPageHeightMm - pdfVerticalMarginMm);
+  const columnWidth = (contentWidth - tocColumnGapPx) / tocColumnsPerPage;
+  const page = await browser.newPage({
+    viewport: {
+      width: Math.ceil(contentWidth),
+      height: Math.ceil(contentHeight)
+    }
+  });
 
-  for (let offset = 0; offset < chapters.length; offset += pageSize) {
-    const columns = [0, 1].map(columnIndex => {
-      const columnStart = offset + columnIndex * itemsPerColumn;
-      const items = chapters
-        .slice(columnStart, columnStart + itemsPerColumn)
-        .map(([title], index) => `<li><a href="#${chapterId(columnStart + index)}">${title}</a></li>`)
-        .join('\n');
-      return `
-        <ol start="${columnStart + 1}">
+  try {
+    const measuredItems = chapters
+      .map(([title], index) => `<li><a href="#${chapterId(index)}">${escapeHtml(title)}</a></li>`)
+      .join('\n');
+
+    await page.setContent(`<!doctype html>
+      <html>
+      <head>
+        <style>
+          body {
+            color: #202124;
+            font: 11.5pt/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            margin: 0;
+          }
+
+          .chapter-label {
+            color: #b7791f;
+            font-size: 8.5pt;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+          }
+
+          h1 {
+            color: #173f4f;
+            font-size: 24pt;
+            line-height: 1.15;
+            margin: 0 0 18px;
+          }
+
+          .toc h1 {
+            border-bottom: 3px solid #1f8a8a;
+            padding-bottom: 8px;
+          }
+
+          .toc-grid {
+            margin-top: 18px;
+          }
+
+          .measure-column {
+            width: ${columnWidth}px;
+          }
+
+          .measure-column ol {
+            font-size: 8.8pt;
+            line-height: 1.28;
+            margin: 0;
+            padding-left: 34px;
+          }
+
+          .measure-column li {
+            break-inside: avoid;
+            margin-bottom: 3px;
+          }
+
+          a {
+            color: #1f8a8a;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <section class="toc">
+          <div class="chapter-label">Front Matter</div>
+          <h1>Table of Contents, Continued</h1>
+          <div class="toc-grid"></div>
+        </section>
+        <div class="measure-column">
+          <ol>${measuredItems}</ol>
+        </div>
+      </body>
+      </html>`);
+
+    return await page.evaluate(() => {
+      const gridTop = document.querySelector('.toc-grid').getBoundingClientRect().top;
+      const availableHeight = window.innerHeight - gridTop;
+      const itemHeights = [...document.querySelectorAll('.measure-column li')].map(item => {
+        const style = window.getComputedStyle(item);
+        return item.getBoundingClientRect().height + Number.parseFloat(style.marginBottom || '0');
+      });
+      return { availableHeight, itemHeights };
+    });
+  } finally {
+    await page.close();
+  }
+}
+
+function paginateTableOfContents(itemHeights, availableHeight) {
+  const pages = [];
+  let page = [[], []];
+  let columnIndex = 0;
+  let columnHeight = 0;
+
+  for (const [index, [title]] of chapters.entries()) {
+    const itemHeight = itemHeights[index] ?? 16;
+    if (page[columnIndex].length > 0 && columnHeight + itemHeight > availableHeight) {
+      columnIndex += 1;
+      columnHeight = 0;
+      if (columnIndex >= tocColumnsPerPage) {
+        pages.push(page);
+        page = [[], []];
+        columnIndex = 0;
+      }
+    }
+
+    page[columnIndex].push({ index, title, height: itemHeight });
+    columnHeight += itemHeight;
+  }
+
+  if (page.some(column => column.length > 0)) pages.push(page);
+  return pages;
+}
+
+async function renderTableOfContents(browser) {
+  const { availableHeight, itemHeights } = await measureTableOfContents(browser);
+  return paginateTableOfContents(itemHeights, availableHeight).map((page, pageIndex) => {
+    const columns = page
+      .filter(column => column.length > 0)
+      .map((column, columnIndex) => {
+        const columnStart = column[0].index;
+        const measuredHeight = Math.ceil(column.reduce((total, item) => total + item.height, 0));
+        const items = column
+          .map(({ index, title }) => `<li><a href="#${chapterId(index)}">${escapeHtml(title)}</a></li>`)
+          .join('\n');
+        return `
+        <ol start="${columnStart + 1}" data-toc-column="${columnIndex + 1}" data-toc-items="${column.length}" data-toc-measured-height="${measuredHeight}">
           ${items}
         </ol>
       `;
-    }).join('\n');
-    const title = offset === 0 ? 'Table of Contents' : 'Table of Contents, Continued';
-    pages.push(`
-      <section class="toc">
+      }).join('\n');
+    const title = pageIndex === 0 ? 'Table of Contents' : 'Table of Contents, Continued';
+    return `
+      <section class="toc" data-toc-mode="auto-fit" data-toc-available-height="${Math.floor(availableHeight)}">
         <div class="chapter-label">Front Matter</div>
         <h1>${title}</h1>
         <div class="toc-grid">
           ${columns}
         </div>
       </section>
-    `);
-  }
-
-  return pages.join('\n');
+    `;
+  }).join('\n');
 }
 
-function htmlDocument(body) {
+function htmlDocument(toc, body) {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -299,7 +439,7 @@ function htmlDocument(body) {
       font-size: 8.8pt;
       line-height: 1.28;
       margin: 0;
-      padding-left: 22px;
+      padding-left: 34px;
     }
 
     .toc li {
@@ -428,7 +568,7 @@ function htmlDocument(body) {
     </div>
     <div class="license">Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Code examples licensed under MIT.</div>
   </section>
-  ${renderTableOfContents()}
+  ${toc}
   ${body}
 </body>
 </html>`;
@@ -443,29 +583,34 @@ async function main() {
     await mermaidRenderer.close();
   }
 
-  const html = htmlDocument(body);
   const htmlPath = path.join(releasesRoot, 'Agentic-Systems-Patterns.html');
   const pdfPath = path.join(releasesRoot, pdfName);
   const publicPdfPath = path.join(publicReleasesRoot, pdfName);
 
   await fs.mkdir(releasesRoot, { recursive: true });
   await fs.mkdir(publicReleasesRoot, { recursive: true });
-  await fs.writeFile(htmlPath, html, 'utf8');
 
   const browser = await chromium.launch();
-  const page = await browser.newPage();
-  await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
-  await page.pdf({
-    path: pdfPath,
-    format: 'A4',
-    printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: '<div></div>',
-    footerTemplate:
-      '<div style="font-size:8px;color:#78909c;width:100%;padding:0 16mm;text-align:right;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
-    margin: { top: '18mm', right: '16mm', bottom: '18mm', left: '16mm' }
-  });
-  await browser.close();
+  try {
+    const toc = await renderTableOfContents(browser);
+    const html = htmlDocument(toc, body);
+    await fs.writeFile(htmlPath, html, 'utf8');
+
+    const page = await browser.newPage();
+    await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+    await page.pdf({
+      path: pdfPath,
+      format: 'A4',
+      printBackground: true,
+      displayHeaderFooter: true,
+      headerTemplate: '<div></div>',
+      footerTemplate:
+        '<div style="font-size:8px;color:#78909c;width:100%;padding:0 16mm;text-align:right;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
+      margin: { top: '18mm', right: '16mm', bottom: '18mm', left: '16mm' }
+    });
+  } finally {
+    await browser.close();
+  }
 
   await fs.copyFile(pdfPath, publicPdfPath);
   console.log(`PDF written to ${pdfPath}`);
