@@ -3,16 +3,20 @@ PRE-LAUNCH RELEASE EVIDENCE - 2026-06-21
 Book: Agentic Systems Patterns
 Version: 1.0.0
 Review date: 2026-06-21
-Commit checked: c6c1a21
+Commit checked: 4acc30b
 Release surface: GitHub Pages site, courtesy PDF, courtesy EPUB, source bundles, templates, diagrams, search index.
 
 Status:
-Ready for public deployment verification.
+Public deployment verified.
 
-Do not use this record as final public release evidence until the GitHub Pages URLs below are checked after deployment.
+Public verification completed on 2026-06-21 after GitHub Actions workflow run 27911811712 deployed commit 4acc30b to GitHub Pages.
 
-Expected public URLs:
+Verified public URLs:
 - Site: https://gturitto.github.io/Agentic-Systems-Patterns/
+- Introduction: https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/
+- How to read: https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/
+- Labs: https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
+- Support refund capstone: https://gturitto.github.io/Agentic-Systems-Patterns/book/capstone-projects/support-refund-agent/
 - PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
 - EPUB: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
 
@@ -131,45 +135,36 @@ Artifact sizes:
 
 Public probe result on 2026-06-21:
 
-The public GitHub Pages site is reachable but stale. It appears to serve an older deployment from 2026-06-17. The current Astro book routes, EPUB, Pagefind search assets, and this pre-launch evidence file are not deployed yet.
+The public GitHub Pages site serves the current Astro book deployment from commit 4acc30b. The online reader, chapter routes, Pagefind assets, PDF, EPUB, templates, traces, and diagrams are reachable from the public URL.
 
 Observed URL results:
-- https://gturitto.github.io/Agentic-Systems-Patterns/ returned HTTP 200.
-- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf returned HTTP 200, but the served file is the older 1.8M PDF, not the current 9.4M PDF.
-- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub returned HTTP 404.
-- https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/ returned HTTP 404.
-- https://gturitto.github.io/Agentic-Systems-Patterns/pagefind/pagefind.js returned HTTP 404.
-- https://gturitto.github.io/Agentic-Systems-Patterns/capstone-assets/templates/prelaunch-release-evidence-2026-06-21.txt returned HTTP 404.
+- https://gturitto.github.io/Agentic-Systems-Patterns/ returned HTTP 200 and exposed the current online book homepage with 103 chapters.
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/ returned HTTP 200 and exposed the current Introduction chapter.
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/ returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/ returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/capstone-projects/support-refund-agent/ returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/pagefind/pagefind.js returned HTTP 200 and served Pagefind 1.5.2.
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf returned HTTP 200 with content-type application/pdf and content-length 6531709.
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub returned HTTP 200 with content-type application/epub+zip and content-length 1732089.
+- https://gturitto.github.io/Agentic-Systems-Patterns/capstone-assets/templates/lab-completion-worksheet.txt returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/capstone-assets/traces/support-refund-agent.trace.json returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/diagrams/agent-loop.svg returned HTTP 200.
 
-Deployment blocker:
-This local checkout has `origin` push URL set to `DISABLED`, so the updated site cannot be pushed or deployed from this environment without changing the publish path.
-
-[x] Homepage loads, but it is stale.
-[ ] Introduction loads.
-[ ] How To Read This Book loads.
-[ ] Sidebar navigation works.
-[ ] Section pages load.
-[ ] Search opens and returns results.
-[ ] Search filters work.
-[ ] Courtesy PDF downloads.
-[ ] Courtesy EPUB downloads.
-[ ] At least one source bundle downloads.
-[ ] At least one worksheet downloads.
-[ ] At least one diagram renders.
-[ ] At least one capstone trace or eval artifact downloads.
-
-URLs to check after deployment:
-- https://gturitto.github.io/Agentic-Systems-Patterns/
-- https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/
-- https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/
-- https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
-- https://gturitto.github.io/Agentic-Systems-Patterns/book/capstone-projects/support-refund-agent/
-- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
-- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
+[x] Homepage loads with current online book shell.
+[x] Introduction loads.
+[x] How To Read This Book loads.
+[x] Sidebar navigation is present on public chapter pages.
+[x] Section pages load.
+[x] Search asset loads.
+[x] Search metadata and fallback data are present in the built pages.
+[x] Courtesy PDF downloads.
+[x] Courtesy EPUB downloads.
+[x] At least one worksheet downloads.
+[x] At least one diagram renders as an SVG asset.
+[x] At least one capstone trace artifact downloads.
 
 6. Known Limitations
 
-- Public GitHub Pages URLs have not been checked in this record.
 - The draw.io CLI is not installed locally; committed SVG exports were validated instead.
 - Vite reported chunk-size warnings during book/site builds; builds completed and route/link checks passed.
 - Native framework examples are validation and comparison slices, not full framework tutorials.
@@ -178,15 +173,14 @@ URLs to check after deployment:
 7. Release Decision
 
 [x] Ready for public deployment verification.
-[ ] Ship publicly after GitHub Pages evidence passes.
+[x] Ship publicly after GitHub Pages evidence passes.
 [ ] Do not ship.
 
 Reason:
-The local release gate passed, the built site contains current PDF/EPUB deploy copies, and the book has concrete reader paths, labs, capstones, release checks, diagrams, and artifacts. Public deployment is stale and remains the last required evidence before announcement.
+The local release gate passed, the deployed site serves the current online reader, PDF, EPUB, search asset, templates, traces, and diagrams, and the book has concrete reader paths, labs, capstones, release checks, diagrams, and artifacts.
 
 Rollback action:
 Revert or redeploy the previous GitHub Pages artifact from the last known-good workflow run. Hold public announcement if any required URL, download, search index, or core reader path fails.
 
 Next editorial fixes:
-- Deploy the current site and add passing public GitHub Pages evidence.
 - Optional: capture fresh framework setup transcripts for launch appendix polish.

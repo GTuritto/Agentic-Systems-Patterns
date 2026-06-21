@@ -8,11 +8,11 @@ Current quality: 9.91/10.
 
 Current reader value: 9.97/10.
 
-GitHub Pages readiness: 9.6/10. The Astro site builds, Pagefind indexes the pages with chapter metadata filters and sorts, parity checks pass, internal links in the generated dist pass, rendered search checks pass, refreshed PDF/EPUB deploy copies are present in the built site, and a filled pre-launch release evidence record exists.
+GitHub Pages readiness: 10/10. The Astro site builds, Pagefind indexes the pages with chapter metadata filters and sorts, parity checks pass, internal links in the generated dist pass, rendered search checks pass, refreshed PDF/EPUB deploy copies are present in the built site, GitHub Actions deployed the current book to Pages, and public URL checks pass for the online reader, intro chapter, reader paths, PDF, EPUB, search asset, worksheet, trace artifact, and SVG diagram.
 
 The book is already useful because it has a clear thesis: agentic systems are software systems with boundaries, state, policy, evaluation, and runtime controls. The strongest material is not the pattern naming. It is the engineering judgment around autonomy, validation, security, evals, traces, budgets, and production operation.
 
-To become A++ / 10/10, the book now needs less structural repair and more final public launch evidence. The named high-importance gaps from this audit have been expanded with diagrams, scenarios, contracts, a running support refund case study, concrete pattern scenarios, review artifacts, completed lab evidence examples, completed production-readiness examples, per-exercise lab time budgets, framework setup failure examples, incident-to-eval walkthroughs, domain production case cards, UI and dashboard mockups, captured output examples, search metadata, local pre-launch release evidence, and rendered verification. The remaining work is deploying the current GitHub Pages site and capturing passing public URL evidence.
+To become A++ / 10/10, the book needed less structural repair and more final public launch evidence. The named high-importance gaps from this audit have been expanded with diagrams, scenarios, contracts, a running support refund case study, concrete pattern scenarios, review artifacts, completed lab evidence examples, completed production-readiness examples, per-exercise lab time budgets, framework setup failure examples, incident-to-eval walkthroughs, domain production case cards, UI and dashboard mockups, captured output examples, search metadata, local pre-launch release evidence, rendered verification, and passing public GitHub Pages checks. No main-work blocker remains.
 
 ## Current Evidence Update
 
@@ -29,8 +29,8 @@ Verified evidence:
 - The capstone section now has scorecard links, capstone review gates, production bridge tables, and an A++ rubric.
 - The publishing section now has GitHub Pages release gates, download/asset QA, release evidence records, and post-release checks.
 - The book source currently includes 55 template, checklist, worksheet, and evidence files under `capstone-assets/templates`.
-- The template library now includes a filled pre-launch release evidence record for June 21, 2026, with command results, asset counts, PDF/EPUB evidence, known limitations, rollback action, and pending public URL checks.
-- A public GitHub Pages probe on June 21, 2026 found the live site reachable but stale: homepage and old PDF returned HTTP 200, while the current Astro `/book/intro/` route, EPUB, Pagefind asset, and pre-launch evidence asset returned HTTP 404.
+- The template library now includes a filled release evidence record for June 21, 2026, with command results, asset counts, PDF/EPUB evidence, known limitations, rollback action, and passing public URL checks.
+- A public GitHub Pages verification on June 21, 2026 confirmed the live site serves the current Astro book: homepage, `/book/intro/`, How To Read, Hands-On Labs, Support Refund Agent, PDF, EPUB, Pagefind, worksheet, trace artifact, and SVG diagram routes returned HTTP 200.
 - The earlier high-priority short chapters have been expanded: Skills, Debate and Consensus, Agentic System Architecture, Agentic RAG Systems, Open Personal Agent Architectures, Reference Architecture, Event-Triggered Agents, Self-Healing Workflows, and Historical Patterns.
 - Recent verification passed for `book:quality`, `book:pdf`, `book:epub`, `site:build`, `site:parity`, `typecheck`, and built-output checks for the changed lab and release-note pages.
 - The online reader now exposes chapter type, level, reader path, read time, and effort estimates across chapter pages, section reading lists, featured cards, the pattern catalog, Pagefind metadata, and search fallback data.
@@ -96,7 +96,7 @@ For GitHub Pages, the online version should also add:
 | Production runtime | 9.15 | 9.6 | High-value section; incident-to-eval walkthrough is stronger, with SLO and rollout examples still useful. |
 | Hands-on labs | 9.35 | 9.65 | Labs now have review gates, production bridges, guided exercises, per-exercise time budgets, completed evidence examples, and captured output examples. |
 | Capstones | 9.2 | 9.6 | Capstones now have review gates, rubrics, approval mockups, trace/eval artifacts, and captured output examples. |
-| Historical/publishing | 9.2 | 9.4 | Add public deployment evidence and release screenshots after publishing. |
+| Historical/publishing | 9.8 | 9.8 | Public deployment evidence now passes; optional release screenshots can polish the launch package. |
 
 ## Chapter-By-Chapter Audit
 
@@ -212,10 +212,9 @@ Completed priority: the highest-value formulaic pattern chapters now have concre
 Completed priority: optional per-exercise time budgets now exist across Labs 01-13, with row-level estimates in the focused guided-exercise tables.
 Completed priority: final naming, diagram, release-evidence, PDF, EPUB, site, and parity checks were rerun after the lab-time pass.
 Completed priority: selected advanced chapters now include framework setup failure evidence, a worked incident-to-eval walkthrough, and domain-specific production case cards.
-Completed priority: a filled pre-launch release evidence record now captures local command results, asset evidence, PDF/EPUB evidence, limitations, rollback action, and pending public URL checks.
+Completed priority: a filled release evidence record now captures local command results, asset evidence, PDF/EPUB evidence, limitations, rollback action, and passing public URL checks.
 
-1. Deploy the current GitHub Pages site and capture passing public URL evidence.
-2. Add optional captured screenshots or command-output transcripts from fresh framework setup runs if preparing a formal public launch package.
+1. Add optional captured screenshots or command-output transcripts from fresh framework setup runs if preparing a formal public launch package.
 
 ## Final Assessment
 
