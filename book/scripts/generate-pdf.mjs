@@ -177,22 +177,31 @@ async function renderChapters(renderer) {
 }
 
 function renderTableOfContents() {
-  const pageSize = 46;
+  const itemsPerColumn = 30;
+  const pageSize = itemsPerColumn * 2;
   const pages = [];
 
   for (let offset = 0; offset < chapters.length; offset += pageSize) {
-    const items = chapters
-      .slice(offset, offset + pageSize)
-      .map(([title], index) => `<li><a href="#${chapterId(offset + index)}">${title}</a></li>`)
-      .join('\n');
+    const columns = [0, 1].map(columnIndex => {
+      const columnStart = offset + columnIndex * itemsPerColumn;
+      const items = chapters
+        .slice(columnStart, columnStart + itemsPerColumn)
+        .map(([title], index) => `<li><a href="#${chapterId(columnStart + index)}">${title}</a></li>`)
+        .join('\n');
+      return `
+        <ol start="${columnStart + 1}">
+          ${items}
+        </ol>
+      `;
+    }).join('\n');
     const title = offset === 0 ? 'Table of Contents' : 'Table of Contents, Continued';
     pages.push(`
       <section class="toc">
         <div class="chapter-label">Front Matter</div>
         <h1>${title}</h1>
-        <ol start="${offset + 1}">
-          ${items}
-        </ol>
+        <div class="toc-grid">
+          ${columns}
+        </div>
       </section>
     `);
   }
@@ -278,18 +287,23 @@ function htmlDocument(body) {
       page-break-after: always;
     }
 
-    .toc ol {
-      columns: 2;
-      column-gap: 28px;
-      font-size: 10.5pt;
-      line-height: 1.55;
+    .toc-grid {
+      column-gap: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       margin-top: 18px;
+    }
+
+    .toc ol {
+      font-size: 8.8pt;
+      line-height: 1.28;
+      margin: 0;
       padding-left: 22px;
     }
 
     .toc li {
       break-inside: avoid;
-      margin-bottom: 5px;
+      margin-bottom: 3px;
     }
 
     .toc h1 {
