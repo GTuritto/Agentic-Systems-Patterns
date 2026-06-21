@@ -62,7 +62,7 @@
     "mini-runtime:test": "ts-node --esm ./minimal-agent-runtime/typescript/test/runtime.spec.ts",
     "capstones:demo": "ts-node --esm ./capstone-projects-runtime/typescript/src/run_demo.ts",
     "capstones:test": "ts-node --esm ./capstone-projects-runtime/typescript/test/capstones.spec.ts",
-    "native-examples:validate": "python3 -m py_compile ./native-framework-examples/langgraph-refund/refund_graph.py ./native-framework-examples/crewai-delivery/delivery_flow.py ./native-framework-examples/autogen-delivery/delivery_team.py && node ./tools/validate_native_examples.mjs",
+    "native-examples:validate": "python3 -m py_compile ./native-framework-examples/langgraph-refund/refund_graph.py ./native-framework-examples/langgraph-research-rag/research_rag_graph.py ./native-framework-examples/crewai-delivery/delivery_flow.py ./native-framework-examples/autogen-delivery/delivery_team.py && node ./tools/validate_native_examples.mjs",
     "plan:py": "python3 ./planning-pattern/python/run.py",
     "mcp:search": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_search_server.ts",
     "mcp:cloud": "ts-node --esm ./modern-tool-use-pattern/typescript/src/mcp_cloud_server.ts",

@@ -7,6 +7,7 @@ These examples show how selected capstone patterns map into real framework APIs.
 | Example | Framework | Capstone | Download |
 | --- | --- | --- | --- |
 | `langgraph-refund/` | LangGraph | Support Refund Agent | [native-langgraph-refund.zip](/downloads/native-langgraph-refund.zip) |
+| `langgraph-research-rag/` | LangGraph | Research RAG Agent | [native-langgraph-research-rag.zip](/downloads/native-langgraph-research-rag.zip) |
 | `mastra-refund/` | Mastra | Support Refund Agent | [native-mastra-refund.zip](/downloads/native-mastra-refund.zip) |
 | `autogen-delivery/` | AutoGen | Multi-Agent Delivery Workflow | [native-autogen-delivery.zip](/downloads/native-autogen-delivery.zip) |
 | `crewai-delivery/` | CrewAI | Multi-Agent Delivery Workflow | [native-crewai-delivery.zip](/downloads/native-crewai-delivery.zip) |

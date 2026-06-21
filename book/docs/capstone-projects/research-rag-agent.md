@@ -68,6 +68,10 @@ Downloadable evidence:
 - [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
 - [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
 
+Native example:
+
+- `native-framework-examples/langgraph-research-rag/` ([download](/downloads/native-langgraph-research-rag.zip))
+
 ## Context Packet
 
 | Field | Required Rule |
@@ -171,6 +175,20 @@ post-incident action: add retrieval fixture and citation eval before re-enable
 - Missing evidence produces refusal or escalation.
 - Memory writes have retention, deletion, and correction rules.
 - Evals cover stale, forbidden, missing, and conflicting sources.
+
+## Native Slice Completion Standard
+
+The native LangGraph slice is complete when it proves these outcomes:
+
+| Requirement | Evidence |
+| --- | --- |
+| source access runs before retrieval output enters context | `check_access` node and policy trace |
+| stale and forbidden sources stay out of the evidence packet | `filter_sources` node and omitted source list |
+| answer cites only approved current evidence | `answer_with_citations` output and citation eval |
+| missing approved evidence escalates | conditional edge to `escalate` |
+| release gate blocks bad grounding | `evaluate_answer` failures for stale or forbidden citations |
+
+The slice should remain small. Its job is to prove source policy, context assembly, citation faithfulness, and escalation before adding real vector stores or model calls.
 
 ## Related Labs
 

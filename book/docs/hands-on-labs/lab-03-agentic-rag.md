@@ -17,6 +17,7 @@ Build the retrieval boundary behind an Agentic RAG system: retrieve scoped evide
 - Source folder: [`context-engineering-pattern/`](https://github.com/GTuritto/Agentic-Systems-Patterns/tree/main/context-engineering-pattern)
 - Download: [semantic-recall-rag.zip](/downloads/semantic-recall-rag.zip)
 - Main file: `context-engineering-pattern/langgraph_python_example/rag_example.py`
+- Native comparison: `native-framework-examples/langgraph-research-rag/` ([download](/downloads/native-langgraph-research-rag.zip))
 
 ## Setup
 
@@ -79,6 +80,12 @@ Add production controls:
 
 Agentic RAG is not only vector search. It is a controlled loop around retrieval, evidence, tool use, and verification.
 
+## Native Framework Extension
+
+After the deterministic RAG example passes, compare it with `native-framework-examples/langgraph-research-rag/`. The native slice maps the same boundary to a LangGraph `StateGraph` with nodes for access policy, retrieval, source filtering, answer synthesis, escalation, and citation evals.
+
+Completion standard: the native graph should prove that stale and forbidden sources are omitted before answer synthesis, and that missing approved evidence escalates instead of producing an unsupported answer.
+
 ## Cross-Framework Mapping
 
 - In LangGraph, retrieval can be a graph node that updates state with evidence before generation.
@@ -91,3 +98,4 @@ Agentic RAG is not only vector search. It is a controlled loop around retrieval,
 - [Context Engineering](/foundations/context-engineering)
 - [Knowledge-Bound Agents](/memory-knowledge/knowledge-bound-agents)
 - [Working Memory](/memory-knowledge/working-memory)
+- [Research RAG Agent Capstone](/capstone-projects/research-rag-agent)

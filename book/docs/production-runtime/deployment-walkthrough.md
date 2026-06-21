@@ -207,6 +207,59 @@ post-incident eval process:
 
 The runbook should link to the framework selection ADR, production readiness worksheet, eval suite, and deployment dashboard.
 
+## 9. Concrete Runtime Path
+
+Use this path when a lab or capstone becomes a service. It keeps framework code behind product-owned contracts.
+
+| Step | Artifact | Completion Signal |
+| --- | --- | --- |
+| package | container image or serverless bundle | image contains only required runtime files, lockfile, and config template |
+| entrypoint | HTTP handler, queue consumer, or workflow worker | request creates a run ID and trace ID before model or tool work starts |
+| config | `.env.example`, secret names, policy version | startup fails closed when required values are missing |
+| state | database table, checkpointer, or workflow store | interrupted or retried run resumes from known state |
+| tools | registry plus capability metadata | each tool has side-effect class, owner, timeout, retry, and approval rule |
+| evals | release gate command | CI blocks deploy when grounding, policy, schema, or trajectory evals fail |
+| observability | trace export and dashboard | one run can be reconstructed without raw secrets |
+| rollback | feature flag, route switch, or tool disablement | owner can disable risky capability without code deploy |
+
+Minimum service contract:
+
+```text
+POST /runs
+input: actor, tenant, task, request payload, idempotency key
+output: run_id, trace_id, status, response or escalation
+side effects: none before policy, approval, and idempotency checks
+```
+
+For queue or workflow deployments, keep the same contract even if transport changes. The request envelope, state record, trace ID, policy decision, and eval result should look the same across HTTP, worker, and scheduled jobs.
+
+## 10. Research RAG Deployment Notes
+
+Research RAG systems need extra deployment controls because retrieval can expose forbidden, stale, or unsupported material.
+
+Required runtime controls:
+
+| Control | Production Rule |
+| --- | --- |
+| ingestion | store source ID, title, version, freshness, owner, ACL group, and citation label |
+| retrieval | retrieve candidates with metadata, not text alone |
+| source filter | enforce ACL, freshness, and source type before context assembly |
+| context packet | include evidence, omissions, and citation labels as structured fields |
+| answer synthesis | answer only from approved evidence packet |
+| citation eval | block answers that cite missing, stale, or forbidden sources |
+| fallback | return ranked approved sources or escalate when evidence is weak |
+
+Deployment sequence:
+
+1. deploy retrieval in read-only mode;
+2. compare retrieved candidates with source-filter output;
+3. enable answer synthesis for internal users only;
+4. gate release on citation faithfulness, forbidden-source omission, and stale-source rejection;
+5. add dashboards for missing evidence, stale-source hits, forbidden-source attempts, and citation failures;
+6. keep a kill switch that disables synthesis and returns approved source lists only.
+
+This path connects directly to the [Research RAG Agent capstone](../capstone-projects/research-rag-agent) and the native LangGraph slice under `native-framework-examples/langgraph-research-rag/`.
+
 ## Framework-Specific Deployment Notes
 
 | Framework Shape | Deployment Note |

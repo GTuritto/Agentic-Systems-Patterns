@@ -27,6 +27,10 @@ const sourceBundles = [
     bundleName: 'native-langgraph-refund'
   },
   {
+    sourceFolder: 'native-framework-examples/langgraph-research-rag',
+    bundleName: 'native-langgraph-research-rag'
+  },
+  {
     sourceFolder: 'native-framework-examples/mastra-refund',
     bundleName: 'native-mastra-refund'
   },

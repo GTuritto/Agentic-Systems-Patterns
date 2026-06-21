@@ -45,6 +45,7 @@ Repository native examples:
 | Example | Framework | Connects To |
 | --- | --- | --- |
 | `native-framework-examples/langgraph-refund/` | LangGraph | Lab 12 and Support Refund Agent capstone |
+| `native-framework-examples/langgraph-research-rag/` | LangGraph | Lab 03 and Research RAG Agent capstone |
 | `native-framework-examples/mastra-refund/` | Mastra | Lab 07 and Support Refund Agent capstone |
 | `native-framework-examples/autogen-delivery/` | AutoGen | Lab 13 and Multi-Agent Delivery Workflow capstone |
 | `native-framework-examples/crewai-delivery/` | CrewAI | Lab 08 and Multi-Agent Delivery Workflow capstone |
