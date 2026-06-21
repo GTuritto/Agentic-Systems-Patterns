@@ -170,7 +170,6 @@ const authoredSummaryByPath = new Map([
   ['pattern-selection/architecture-before-autonomy.md', 'Architecture Before Autonomy explains why ownership, policy, state, evals, and rollback should come before adding agentic behavior.'],
   ['pattern-selection/choosing-the-right-pattern.md', 'Choosing the Right Pattern helps you select the least agentic architecture that can meet the workload with acceptable quality, cost, latency, and risk.'],
   ['pattern-selection/pattern-evaluation-checklist.md', 'The evaluation checklist turns pattern choice into reviewable evidence: use cases, avoid cases, failure modes, evals, and release blockers.'],
-  ['pattern-selection/pattern-classification-mind-map.md', 'The mind map gives a visual index of how agentic system patterns relate across control, memory, tools, runtime, and multi-agent design.'],
   ['pattern-selection/from-patterns-to-systems.md', 'This chapter shows how individual patterns compose into systems with explicit state, tools, policy, evals, runtime, and ownership.'],
   ['pattern-selection/pattern-composition-playbook.md', 'The playbook shows common pattern combinations and the controls needed when loops, tools, memory, routing, and evaluation meet.'],
   ['pattern-selection/prompt-chaining-and-gates.md', 'Prompt Chaining and Gates covers fixed multi-step model workflows where software validates each stage before the next one runs.'],

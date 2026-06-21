@@ -185,7 +185,6 @@ This minimum bar applies to simple systems too. Small systems fail faster becaus
 
 - [Prompt Chaining and Gates](./prompt-chaining-and-gates)
 - [Routing and Handoffs](./routing-and-handoffs)
-- [Pattern Classification Mind Map](./pattern-classification-mind-map)
 - [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay)
 - [Agent Loop](../foundations/agent-loop)
 - [Goals and State](../foundations/goals-and-state)

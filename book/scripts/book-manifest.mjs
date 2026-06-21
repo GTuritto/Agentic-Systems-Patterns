@@ -47,7 +47,6 @@ export const bookChapters = deepFreeze([
   chapter('architecture-before-autonomy', 'Architecture Before Autonomy', 'pattern-selection/architecture-before-autonomy.md', 'pattern-selection'),
   chapter('choosing-the-right-pattern', 'Choosing the Right Pattern', 'pattern-selection/choosing-the-right-pattern.md', 'pattern-selection'),
   chapter('pattern-evaluation-checklist', 'Pattern Evaluation Checklist', 'pattern-selection/pattern-evaluation-checklist.md', 'pattern-selection'),
-  chapter('pattern-classification-mind-map', 'Linked Pattern Mind Map', 'pattern-selection/pattern-classification-mind-map.md', 'pattern-selection'),
   chapter('from-patterns-to-systems', 'From Patterns To Systems', 'pattern-selection/from-patterns-to-systems.md', 'pattern-selection'),
   chapter('pattern-composition-playbook', 'Pattern Composition Playbook', 'pattern-selection/pattern-composition-playbook.md', 'pattern-selection'),
   chapter('prompt-chaining-and-gates', 'Prompt Chaining and Gates', 'pattern-selection/prompt-chaining-and-gates.md', 'pattern-selection'),

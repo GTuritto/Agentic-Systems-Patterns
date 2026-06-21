@@ -15,7 +15,7 @@
     "serve": "vitepress preview docs",
     "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist",
     "pdf": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && node scripts/generate-pdf.mjs && node scripts/verify-pdf-diagrams.mjs && npm run diagrams:verify",
-    "epub": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && node scripts/generate-epub.mjs"
+    "epub": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && node scripts/generate-epub.mjs && node scripts/verify-epub-diagrams.mjs"
   },
   "devDependencies": {
     "markdown-it": "^14.1.0",

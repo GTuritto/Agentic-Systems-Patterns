@@ -93,7 +93,6 @@ const previouslyMissing = [
   'foundations/what-is-an-agent.md',
   'pattern-selection/architecture-before-autonomy.md',
   'pattern-selection/pattern-evaluation-checklist.md',
-  'pattern-selection/pattern-classification-mind-map.md',
   'pattern-selection/from-patterns-to-systems.md',
   'pattern-selection/pattern-composition-playbook.md',
   'foundations/context-budgets-and-working-sets.md',

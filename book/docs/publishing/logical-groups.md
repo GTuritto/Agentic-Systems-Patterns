@@ -93,16 +93,15 @@ Use this route when you want the diagrams to carry the first pass. It is useful 
 
 | Step | Chapter | What The Diagram Should Clarify |
 | --- | --- | --- |
-| 1 | [Pattern Classification Mind Map](/pattern-selection/pattern-classification-mind-map) | Where each pattern family fits before choosing one. |
-| 2 | [Agent Loop](/foundations/agent-loop) | How state, actions, observations, and stop conditions form a run. |
-| 3 | [Planning and Execution](/control-loops/planning-and-execution) | Who owns the plan, validation, execution, and progress. |
-| 4 | [Memory-Augmented Agent](/memory-knowledge/memory-augmented-agent) | How retrieval, context injection, storage, and correction stay governed. |
-| 5 | [Tool Capability Design](/tools-skills-protocols/tool-capability-design) | Where permissions, policy, tool calls, and audit records sit. |
-| 6 | [Secure Agent Communication](/tools-skills-protocols/secure-agent-communication) | Which authority gates protect agent-to-agent or remote-tool exchange. |
-| 7 | [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology) | When to delegate, supervise, debate, parallelize, or stay single-agent. |
-| 8 | [Agentic System Architecture](/systems-architecture/agentic-system-architecture) | How the patterns compose into services, state, policy, evals, and operations. |
-| 9 | [Production Runtime Overview](/production-runtime/overview) | What must exist around the agent before production use. |
-| 10 | [Event-Triggered Agents](/production-runtime/event-triggered-agents) | How unattended triggers stay idempotent, observable, replayable, and safe. |
+| 1 | [Agent Loop](/foundations/agent-loop) | How state, actions, observations, and stop conditions form a run. |
+| 2 | [Planning and Execution](/control-loops/planning-and-execution) | Who owns the plan, validation, execution, and progress. |
+| 3 | [Memory-Augmented Agent](/memory-knowledge/memory-augmented-agent) | How retrieval, context injection, storage, and correction stay governed. |
+| 4 | [Tool Capability Design](/tools-skills-protocols/tool-capability-design) | Where permissions, policy, tool calls, and audit records sit. |
+| 5 | [Secure Agent Communication](/tools-skills-protocols/secure-agent-communication) | Which authority gates protect agent-to-agent or remote-tool exchange. |
+| 6 | [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology) | When to delegate, supervise, debate, parallelize, or stay single-agent. |
+| 7 | [Agentic System Architecture](/systems-architecture/agentic-system-architecture) | How the patterns compose into services, state, policy, evals, and operations. |
+| 8 | [Production Runtime Overview](/production-runtime/overview) | What must exist around the agent before production use. |
+| 9 | [Event-Triggered Agents](/production-runtime/event-triggered-agents) | How unattended triggers stay idempotent, observable, replayable, and safe. |
 
 After this route, use the pattern chapters as a reference. Each diagram should answer a concrete ownership question, not just decorate the page.
 

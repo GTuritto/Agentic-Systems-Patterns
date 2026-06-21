@@ -3,6 +3,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MarkdownIt from 'markdown-it';
 import { bookSections, pdfChapters } from './book-manifest.mjs';
+import {
+  createMermaidSvgRenderer,
+  diagramsRoot,
+  replaceMermaidWithDiagramImages,
+  resetGeneratedMermaidArtifacts
+} from './mermaid-assets.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const bookRoot = path.resolve(__dirname, '..');
@@ -23,6 +29,16 @@ const md = new MarkdownIt({
   typographer: true,
   xhtmlOut: true
 });
+
+const defaultImageRender = md.renderer.rules.image ?? ((tokens, index, options, _env, self) => self.renderToken(tokens, index, options));
+md.renderer.rules.image = (tokens, index, options, env, self) => {
+  const token = tokens[index];
+  const src = token.attrGet('src') ?? '';
+  if (src.includes('/diagrams/')) {
+    token.attrJoin('class', 'diagram-asset');
+  }
+  return defaultImageRender(tokens, index, options, env, self);
+};
 
 function chapterLabel(chapter) {
   const section = sectionsById.get(chapter.sectionId);
@@ -50,8 +66,20 @@ function rewriteLinks(markdown, fromChapterPath) {
     const [rawPath, hash] = target.split('#');
     const hashSuffix = hash ? `#${hash}` : '';
 
+    if (rawPath.startsWith('../public/diagrams/')) {
+      return `](../assets/diagrams/${rawPath.slice('../public/diagrams/'.length)}${hashSuffix})`;
+    }
+
     if (rawPath.startsWith('../public/')) {
       return `](${siteUrl}${rawPath.slice('../public/'.length)}${hashSuffix})`;
+    }
+
+    if (rawPath.startsWith('../assets/')) {
+      return `](${rawPath}${hashSuffix})`;
+    }
+
+    if (rawPath.startsWith('/diagrams/')) {
+      return `](../assets/diagrams/${rawPath.slice('/diagrams/'.length)}${hashSuffix})`;
     }
 
     if (rawPath.startsWith('/')) {
@@ -69,6 +97,14 @@ function rewriteLinks(markdown, fromChapterPath) {
   });
 }
 
+function collectEpubDiagramAssets(markdown) {
+  const assets = new Set();
+  for (const match of markdown.matchAll(/!\[[^\]]*]\(\.\.\/assets\/diagrams\/([^)#?]+)(?:[#?][^)]*)?\)/g)) {
+    assets.add(match[1]);
+  }
+  return assets;
+}
+
 function xhtmlDocument(title, body) {
   return `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
@@ -84,13 +120,19 @@ ${body}
 `;
 }
 
-async function renderChapters() {
+async function renderChapters(renderer) {
   const rendered = [];
+  const diagramAssets = new Set();
 
   for (const [index, chapter] of pdfChapters.entries()) {
     const fullPath = path.join(docsRoot, chapter.path);
     const raw = await fs.readFile(fullPath, 'utf8');
-    const markdown = rewriteLinks(stripFrontmatter(raw).trim(), chapter.path);
+    const { markdown: diagramMarkdown, assets } = await replaceMermaidWithDiagramImages(stripFrontmatter(raw).trim(), chapter.path, renderer, {
+      linkPrefix: '../assets/diagrams'
+    });
+    for (const asset of assets) diagramAssets.add(asset);
+    const markdown = rewriteLinks(diagramMarkdown, chapter.path);
+    for (const asset of collectEpubDiagramAssets(markdown)) diagramAssets.add(asset);
     const fallbackTitle = chapterLabel(chapter);
     const title = markdown.match(/^#\s+(.+)$/m)?.[1] ?? fallbackTitle;
     const body = [
@@ -107,7 +149,10 @@ async function renderChapters() {
     });
   }
 
-  return rendered;
+  return {
+    chapters: rendered,
+    diagramAssets: [...diagramAssets].sort()
+  };
 }
 
 function coverDocument() {
@@ -151,9 +196,12 @@ function navDocument(chapters) {
 `;
 }
 
-function packageDocument(chapters) {
+function packageDocument(chapters, diagramAssets) {
   const manifestItems = chapters
     .map(chapter => `<item id="${chapter.id}" href="${chapter.href}" media-type="application/xhtml+xml" />`)
+    .join('\n    ');
+  const diagramItems = diagramAssets
+    .map((asset, index) => `<item id="diagram-${index + 1}" href="assets/diagrams/${escapeXml(asset)}" media-type="image/svg+xml" />`)
     .join('\n    ');
   const spineItems = chapters
     .map(chapter => `<itemref idref="${chapter.id}" />`)
@@ -175,6 +223,7 @@ function packageDocument(chapters) {
     <item id="cover" href="cover.xhtml" media-type="application/xhtml+xml" />
     <item id="styles" href="styles.css" media-type="text/css" />
     ${manifestItems}
+    ${diagramItems}
   </manifest>
   <spine>
     <itemref idref="cover" />
@@ -222,6 +271,16 @@ blockquote {
 
 table {
   border-collapse: collapse;
+  width: 100%;
+}
+
+img.diagram-asset {
+  display: block;
+  height: auto;
+  margin: 1rem auto;
+  max-height: 72vh;
+  max-width: 100%;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -324,15 +383,27 @@ function zipArchive(entries) {
 }
 
 async function main() {
-  const chapters = await renderChapters();
+  await resetGeneratedMermaidArtifacts();
+  const mermaidRenderer = await createMermaidSvgRenderer();
+  let rendered;
+  try {
+    rendered = await renderChapters(mermaidRenderer);
+  } finally {
+    await mermaidRenderer.close();
+  }
+  const { chapters, diagramAssets } = rendered;
   const entries = [
     { name: 'mimetype', content: 'application/epub+zip' },
     { name: 'META-INF/container.xml', content: containerDocument },
-    { name: 'OEBPS/content.opf', content: packageDocument(chapters) },
+    { name: 'OEBPS/content.opf', content: packageDocument(chapters, diagramAssets) },
     { name: 'OEBPS/nav.xhtml', content: navDocument(chapters) },
     { name: 'OEBPS/cover.xhtml', content: coverDocument() },
     { name: 'OEBPS/styles.css', content: stylesheet },
-    ...chapters.map(chapter => ({ name: `OEBPS/${chapter.href}`, content: chapter.content }))
+    ...chapters.map(chapter => ({ name: `OEBPS/${chapter.href}`, content: chapter.content })),
+    ...(await Promise.all(diagramAssets.map(async asset => ({
+      name: `OEBPS/assets/diagrams/${asset}`,
+      content: await fs.readFile(path.join(diagramsRoot, asset))
+    }))))
   ];
 
   const epub = zipArchive(entries);
