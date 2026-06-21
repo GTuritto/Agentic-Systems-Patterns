@@ -36,15 +36,15 @@ Several chapters return to one product-shaped example: a support refund assistan
 The point is not to make refunds special. The point is to watch one system move from simple software, to bounded model judgment, to agentic investigation, to approval-gated side effects, to production evidence.
 
 ```mermaid
-flowchart LR
+flowchart TD
     Request["Customer asks for a refund"] --> Intake["Workflow owns intake and state"]
     Intake --> Evidence["Retrieve order, payment, and policy evidence"]
     Evidence --> Judgment["Model summarizes evidence and proposes recommendation"]
     Judgment --> Policy["Software validates policy, risk, and threshold"]
     Policy --> Approval{"Approval required?"}
     Approval -->|Yes| Human["Human reviews exact proposed action"]
-    Approval -->|No| Draft["Draft response or refund request"]
     Human --> Action["Payment tool runs with idempotency and audit"]
+    Approval -->|No| Draft["Draft response or refund request"]
     Draft --> Trace["Trace, eval, and stop reason"]
     Action --> Trace
 ```
