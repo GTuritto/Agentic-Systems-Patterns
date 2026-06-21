@@ -39,6 +39,8 @@ The model can propose a next step, a state update, or a stop reason. The runtime
 
 ## Architecture
 
+Use this diagram to read Working Memory as a system boundary, not only a code shape. The key ownership question is: the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+
 ![Goals, state, and working memory architecture](../public/diagrams/goals-state-working-memory.svg)
 
 ## System Shape

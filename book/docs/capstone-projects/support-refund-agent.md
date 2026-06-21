@@ -33,6 +33,8 @@ Support teams often need to gather order details, read policy, draft a response,
 
 ## Architecture
 
+Read this diagram as an authority boundary. The runtime may gather evidence and draft a recommendation, but policy and finance approval decide whether any money-moving path can continue.
+
 ![Support refund agent capstone architecture](../public/diagrams/capstone-support-refund-agent.svg)
 
 ```mermaid

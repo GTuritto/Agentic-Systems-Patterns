@@ -92,6 +92,9 @@ npm run router:run -- "I need a refund for a wrong charge on my invoice."
 
 # Python planning mirror
 npm run plan:py
+
+# Optional native LangGraph dependency smoke checks
+npm run native-examples:smoke:langgraph
 ```
 
 ## Online Book Publishing
@@ -164,9 +167,10 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 - When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and register them in `book/scripts/book-manifest.mjs`.
 - When adding architecture diagrams, edit `book/diagrams/*.drawio`, export or commit the matching SVG under `book/docs/public/diagrams/`, and run `npm run book:diagrams`.
 - Run `npm test`, `npm run typecheck`, `npm run book:build`, `npm run site:build`, `npm run site:parity`, and `npm run book:pdf` before publishing larger changes.
+- When changing native LangGraph examples, run `npm run native-examples:smoke:langgraph` to install their optional dependencies in a temporary virtual environment and execute the examples end to end.
 
 ## License
 
 This book/reference and its examples are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).
 
-Last reviewed: 2026-06-20.
+Last reviewed: 2026-06-21.

@@ -39,6 +39,8 @@ The model can propose a next step, a state update, or a stop reason. The runtime
 
 ## Architecture
 
+Use this diagram to read Goals and State as a system boundary, not only a code shape. The key ownership question is: the caller or a small application service owns task state until a runtime pattern is introduced.
+
 ![Goals, state, and working memory architecture](../public/diagrams/goals-state-working-memory.svg)
 
 ## System Shape

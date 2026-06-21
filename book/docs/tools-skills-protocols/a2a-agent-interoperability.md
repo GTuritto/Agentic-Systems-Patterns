@@ -37,6 +37,8 @@ Microservice communication patterns still apply. REST, gRPC, MCP, and A2A are di
 
 ## Architecture
 
+Use this diagram to read A2A Agent Interoperability as a system boundary, not only a code shape. The key ownership question is: the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+
 ![A2A agent interoperability architecture](../public/diagrams/a2a-agent-interoperability.svg)
 
 ## System Shape

@@ -29,6 +29,8 @@ The Skills Pattern packages procedural knowledge as discoverable folders: concis
 
 ## Architecture
 
+Use this diagram to read Skills as a system boundary, not only a code shape. The key ownership question is: the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+
 ![Skills packaging architecture](../public/diagrams/skills-packaging.svg)
 
 ## System Shape

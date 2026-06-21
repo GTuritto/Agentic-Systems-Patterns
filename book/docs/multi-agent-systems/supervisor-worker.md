@@ -36,6 +36,8 @@ The supervisor is not just a manager-shaped prompt. It is the control point that
 
 ## Architecture
 
+Use this diagram to read Supervisor / Worker as a system boundary, not only a code shape. The key ownership question is: the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+
 ![Supervisor worker architecture](../public/diagrams/supervisor-worker.svg)
 
 ## System Shape

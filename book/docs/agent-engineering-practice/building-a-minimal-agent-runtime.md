@@ -29,6 +29,8 @@ goal
 
 That is the shape hidden under many framework abstractions.
 
+Use this diagram to keep the runtime responsibilities separate. The model proposes a decision, but the runtime owns validation, policy, execution, observation, and stop conditions.
+
 ![Minimal agent runtime architecture](/diagrams/minimal-agent-runtime.svg)
 
 ## What This Runtime Is Not

@@ -37,6 +37,8 @@ This pattern owns the proposal-to-execution boundary. It does not own business a
 
 ## Architecture
 
+Use this diagram to read Tool Use as a system boundary, not only a code shape. The key ownership question is: the caller or a small application service owns task state until a runtime pattern is introduced.
+
 ![Tool use policy boundary](../public/diagrams/tool-use-policy-boundary.svg)
 
 ## System Shape

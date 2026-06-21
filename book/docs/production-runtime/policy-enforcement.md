@@ -42,6 +42,8 @@ The practical rule is: policy runs before authority. Before retrieval, before me
 
 ## Architecture
 
+Use this diagram to read Policy Enforcement as a system boundary, not only a code shape. The key ownership question is: the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
+
 ![Policy enforcement boundary](../public/diagrams/policy-enforcement-boundary.svg)
 
 ## System Shape

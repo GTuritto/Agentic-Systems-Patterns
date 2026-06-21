@@ -37,6 +37,8 @@ Reflection and Evaluator-Optimizer are related, but not identical. Reflection cr
 
 ## Architecture
 
+Use this diagram to read Evaluator-Optimizer as a system boundary, not only a code shape. The key ownership question is: the loop controller owns progress, budgets, stop conditions, and recovery state.
+
 ![Evaluator-optimizer loop architecture](../public/diagrams/evaluator-optimizer-loop.svg)
 
 ## System Shape

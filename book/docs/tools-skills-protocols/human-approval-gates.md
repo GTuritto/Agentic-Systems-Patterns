@@ -37,6 +37,8 @@ The important detail is that approval does not make an agent safe by itself. A v
 
 ## Architecture
 
+Use this diagram to read Human Approval Gates as a system boundary, not only a code shape. The key ownership question is: the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+
 ![Human approval gate](../public/diagrams/human-approval-gate.svg)
 
 ## System Shape

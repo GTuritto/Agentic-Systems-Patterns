@@ -32,6 +32,8 @@ Product, support, and engineering teams often need answers from internal documen
 
 ## Architecture
 
+Read this diagram as an evidence boundary. Retrieval can find candidates, but only source filtering, context assembly, and grounding evals decide what the answer may cite.
+
 ![Research RAG agent capstone architecture](../public/diagrams/capstone-research-rag-agent.svg)
 
 ```mermaid

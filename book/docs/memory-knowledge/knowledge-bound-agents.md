@@ -42,6 +42,8 @@ The practical rule is: policy runs before authority. Before retrieval, before me
 
 ## Architecture
 
+Use this diagram to read Knowledge-Bound Agents as a system boundary, not only a code shape. The key ownership question is: the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+
 ![Policy enforcement boundary](../public/diagrams/policy-enforcement-boundary.svg)
 
 ## System Shape

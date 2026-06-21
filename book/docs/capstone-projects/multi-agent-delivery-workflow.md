@@ -32,6 +32,8 @@ A team wants an agentic workflow that turns a product request into a reviewed de
 
 ## Architecture
 
+Read this diagram as an accountability boundary. Specialist agents contribute work, but the workflow owner keeps state, merges outputs, runs evals, and accepts the final package.
+
 ![Multi-agent delivery workflow capstone architecture](../public/diagrams/capstone-multi-agent-delivery-workflow.svg)
 
 ```mermaid

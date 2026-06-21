@@ -29,6 +29,8 @@ The Structured Output Pattern constrains model responses to typed data that soft
 
 ## Architecture
 
+Use this diagram to read Structured Output as a system boundary, not only a code shape. The key ownership question is: the caller or a small application service owns task state until a runtime pattern is introduced.
+
 ![Structured output validation architecture](../public/diagrams/structured-output-validation.svg)
 
 ## System Shape

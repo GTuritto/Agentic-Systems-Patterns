@@ -391,7 +391,12 @@ function generatedSystemShape(pattern) {
 function diagramArchitecture(pattern) {
   const diagram = architectureDiagrams[pattern.bundleName];
   if (!diagram) return '';
-  return `![${diagram.alt}](../public/diagrams/${diagram.file})`;
+  const profile = profileFor(pattern);
+  return [
+    `Use this diagram to read ${pattern.title} as a system boundary, not only a code shape. The key ownership question is: ${profile.stateOwner}.`,
+    '',
+    `![${diagram.alt}](../public/diagrams/${diagram.file})`
+  ].join('\n');
 }
 
 function generatedCoreProtocol(pattern) {

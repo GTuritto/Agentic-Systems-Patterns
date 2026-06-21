@@ -42,6 +42,8 @@ Use RAG for evidence and explanation. Use tools for current operational truth. M
 
 ## Reference Flow
 
+Use this diagram to check whether the system can move backward when evidence is weak. The important path is not only query-to-answer; it is the loop from retrieval to verification, refinement, refusal, or escalation.
+
 ![Agentic RAG system](../public/diagrams/agentic-rag-system.svg)
 
 ## System Components

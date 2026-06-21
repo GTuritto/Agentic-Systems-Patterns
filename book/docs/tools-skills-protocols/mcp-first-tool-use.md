@@ -29,6 +29,8 @@ Use this pattern when the set of tools may evolve independently from the agent. 
 
 ## Architecture
 
+Use this diagram to read MCP-first Tool Use as a system boundary, not only a code shape. The key ownership question is: the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+
 ![MCP-first tool use architecture](../public/diagrams/mcp-first-tool-use.svg)
 
 ## System Shape

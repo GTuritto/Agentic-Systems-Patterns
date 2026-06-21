@@ -41,6 +41,8 @@ This pattern owns the assembly boundary, not every source system inside it. Work
 
 ## Architecture
 
+Use this diagram to read Semantic Recall and RAG as a system boundary, not only a code shape. The key ownership question is: the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+
 ![RAG evidence pipeline](../public/diagrams/rag-evidence-pipeline.svg)
 
 ## System Shape

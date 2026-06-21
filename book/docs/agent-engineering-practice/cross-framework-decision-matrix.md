@@ -8,6 +8,8 @@ This chapter compares LangGraph, AutoGen-style systems, Mastra AI, CrewAI, and a
 
 Use this chapter after the labs. The labs show each framework shape in isolation. This chapter helps choose among them for a real product. Pair it with [Real Framework Setup Notes](./real-framework-setup-notes) when you need concrete install and porting guidance.
 
+Use this diagram to locate the state owner before comparing APIs. A framework is a better fit when its state boundary matches the failure you most need to inspect and recover.
+
 ![Cross-framework state ownership comparison](/diagrams/framework-state-ownership.svg)
 
 ## Decision Rule

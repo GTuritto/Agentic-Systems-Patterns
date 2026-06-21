@@ -29,6 +29,8 @@ The Mastra Runtime Pattern uses Mastra as a TypeScript runtime for production ag
 
 ## Architecture
 
+Use this diagram to read Mastra Runtime as a system boundary, not only a code shape. The key ownership question is: the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
+
 ![Mastra runtime architecture](../public/diagrams/mastra-runtime.svg)
 
 ## System Shape

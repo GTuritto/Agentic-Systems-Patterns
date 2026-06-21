@@ -37,6 +37,8 @@ This pattern owns iteration: proposal, validation, action, observation, budget, 
 
 ## Architecture
 
+Use this diagram to read Agent Loop as a system boundary, not only a code shape. The key ownership question is: the caller or a small application service owns task state until a runtime pattern is introduced.
+
 ![Agent loop architecture](../public/diagrams/agent-loop.svg)
 
 ## System Shape

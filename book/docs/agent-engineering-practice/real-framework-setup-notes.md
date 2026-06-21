@@ -43,7 +43,10 @@ Keep secrets out of examples. Use `.env.example` for names and local environment
 
 Use LangGraph when the main risk is stateful control flow: branching, checkpoints, interrupts, replay, or human approval waits.
 
-Repository native example: `native-framework-examples/langgraph-refund/`.
+Repository native examples:
+
+- `native-framework-examples/langgraph-refund/` for approval, interrupt, and resume behavior.
+- `native-framework-examples/langgraph-research-rag/` for source filtering, citation faithfulness, and escalation behavior.
 
 Official setup references:
 
@@ -90,7 +93,7 @@ Production questions:
 - Which state fields need migrations?
 - Which interrupts require human approval records?
 
-Native example acceptance check: the example must pause at an approval interrupt, resume by thread ID, preserve prior state, and pass evals without issuing money.
+Native example acceptance check: the example must prove the highest-risk boundary. For refund workflows, it must pause at an approval interrupt, resume by thread ID, preserve prior state, and pass evals without issuing money. For Research RAG, it must omit stale and forbidden sources before answer synthesis, cite only approved current evidence, and escalate when approved evidence is missing.
 
 ## AutoGen Variant
 

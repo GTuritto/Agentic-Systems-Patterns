@@ -16,6 +16,8 @@ Read this after [Agent Harnesses](../agent-engineering-practice/agent-harnesses)
 
 For a step-by-step path from lab to release, use [Deployment Walkthrough](./deployment-walkthrough). For framework setup and decision templates, use [Real Framework Setup Notes](../agent-engineering-practice/real-framework-setup-notes) and [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets).
 
+Use this diagram as a control-plane map. Each box names a runtime responsibility that should have an owner, a trace record, and a rollback path before production traffic.
+
 ![Production runtime control plane](../public/diagrams/production-runtime-overview.svg)
 
 ## What The Runtime Owns

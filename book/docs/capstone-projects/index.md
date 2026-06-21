@@ -13,7 +13,7 @@ Use these chapters after the labs. The labs isolate one pattern at a time. The c
 | Capstone | Primary Goal | Main Patterns | Framework Lens |
 | --- | --- | --- | --- |
 | [Support Refund Agent](./support-refund-agent) | Draft policy-safe refund recommendations. | Tool use, policy enforcement, approval gates, observability, evals. | Mastra runtime, LangGraph workflow, mini-runtime, native Mastra and LangGraph slices. |
-| [Research RAG Agent](./research-rag-agent) | Answer from approved sources with citations and memory rules. | Context engineering, semantic recall, knowledge-bound agents, memory, evals. | LangGraph graph, direct Python/TypeScript, Mastra runtime. |
+| [Research RAG Agent](./research-rag-agent) | Answer from approved sources with citations and memory rules. | Context engineering, semantic recall, knowledge-bound agents, memory, evals. | LangGraph graph, direct Python/TypeScript, Mastra runtime, native LangGraph slice. |
 | [Multi-Agent Delivery Workflow](./multi-agent-delivery-workflow) | Coordinate specialist agents while preserving one accountable owner. | Supervisor/worker, CrewAI flows, AutoGen transcripts, durable workflows. | CrewAI, AutoGen, LangGraph, Mastra, native CrewAI and AutoGen slices. |
 
 ## Run The Capstones

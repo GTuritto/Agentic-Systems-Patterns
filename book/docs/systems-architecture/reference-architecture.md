@@ -10,6 +10,8 @@ Use this chapter as the bridge from pattern selection to system design. The diag
 
 ## Architecture
 
+Read this diagram as an ownership map for production systems: deterministic services own identity, state, policy, retrieval, approvals, and traces around bounded model calls.
+
 ![Production agentic system reference architecture](../public/diagrams/reference-architecture.svg)
 
 ## Request Flow

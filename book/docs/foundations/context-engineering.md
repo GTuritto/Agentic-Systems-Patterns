@@ -41,6 +41,8 @@ This pattern owns the assembly boundary, not every source system inside it. Work
 
 ## Architecture
 
+Use this diagram to read Context Engineering as a system boundary, not only a code shape. The key ownership question is: the caller or a small application service owns task state until a runtime pattern is introduced.
+
 ![Context assembly pipeline](../public/diagrams/context-assembly-pipeline.svg)
 
 ## System Shape

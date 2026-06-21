@@ -37,6 +37,8 @@ Read this after the runtime and security chapters if you are designing for produ
 
 ## Architecture
 
+Use this diagram to read Observability and Evals as a system boundary, not only a code shape. The key ownership question is: the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
+
 ![Observability and evals architecture](../public/diagrams/observability-evals.svg)
 
 ## System Shape

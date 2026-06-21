@@ -29,6 +29,8 @@ The CrewAI Flows and Crews Pattern separates production workflow control from co
 
 ## Architecture
 
+Use this diagram to read CrewAI Flows and Crews as a system boundary, not only a code shape. The key ownership question is: the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+
 ![CrewAI flows and crews architecture](../public/diagrams/crewai-flows-crews.svg)
 
 ## System Shape

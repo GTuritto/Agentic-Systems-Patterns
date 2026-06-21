@@ -35,6 +35,8 @@ This distinction matters. An agent loop is not a workflow engine. A model can pr
 
 ## Architecture
 
+Use this diagram to read Durable Workflows as a system boundary, not only a code shape. The key ownership question is: the runtime owns durable state, retries, traces, triggers, deployment configuration, and operational controls.
+
 ![Durable workflow architecture](../public/diagrams/durable-workflow.svg)
 
 ## System Shape
