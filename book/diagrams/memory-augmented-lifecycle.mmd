@@ -1,0 +1,21 @@
+flowchart LR
+  Input["User or workflow input"] --> Classify["Classify memory need"]
+  Classify --> Retrieve{"Retrieve memory?"}
+  Retrieve -->|"No"| Context["Build task context"]
+  Retrieve -->|"Yes"| Scope["Scope by actor, tenant, task, permission, freshness"]
+  Scope --> SafeRead{"Safe to inject?"}
+  SafeRead -->|"No"| Exclude["Exclude, redact, or ask"]
+  SafeRead -->|"Yes"| Context
+  Exclude --> Context
+  Context --> Agent["Agent reasons with labeled memory"]
+  Agent --> Proposal{"Propose memory write?"}
+  Proposal -->|"No"| Output["Answer or action"]
+  Proposal -->|"Yes"| Policy["Consent, privacy, retention, source, correction policy"]
+  Policy --> Decision{"Write decision"}
+  Decision -->|"Deny"| Output
+  Decision -->|"Review"| Review["Human or product review"]
+  Decision -->|"Allow"| Store["Memory store"]
+  Review -->|"Approved"| Store
+  Review -->|"Denied"| Output
+  Store --> Audit["Trace reads, writes, updates, deletion path"]
+  Output --> Audit

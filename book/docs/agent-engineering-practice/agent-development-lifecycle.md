@@ -14,6 +14,16 @@ The lifecycle has one job: keep autonomy connected to evidence, state, policy, e
 
 The first discipline is not to start with the agent. Start with the task, the state it needs, the tools it may use, the risk it creates, and the evidence that proves success. Add autonomy only where it earns its keep.
 
+## What You Should Be Able To Do
+
+After this chapter, you should be able to:
+
+- move an agent from idea to production through explicit gates;
+- name the artifacts required before prototype, pilot, production, and higher autonomy;
+- separate prompt changes from architecture, policy, tool, memory, and eval changes;
+- decide when production evidence justifies more autonomy;
+- turn incidents into evals, policy updates, runbook changes, or architecture changes.
+
 ## Lifecycle Map
 
 Use this diagram to read the lifecycle as an evidence loop, not a sequence of project phases. Each stage should produce artifacts that make the next gate inspectable.
@@ -46,6 +56,22 @@ The lifecycle should have gates. Without gates, a demo becomes a pilot, a pilot 
 | Higher autonomy ready | Production traces prove low override rate, evals cover known incidents, and rollback is tested. |
 
 Each gate should have an owner. If nobody owns the gate, the gate does not exist.
+
+## Lifecycle Artifact Set
+
+The lifecycle becomes real when each gate produces reviewable artifacts.
+
+| Artifact | Created By | Used To Decide |
+| --- | --- | --- |
+| Capability map | Product and engineering. | What the agent may do, must not do, and should escalate. |
+| Pattern decision | Architecture owner. | Whether the system needs a prompt, workflow, loop, tools, memory, or multiple agents. |
+| Authority map | Security, platform, and feature team. | Which actions are read-only, draft-only, approval-gated, or forbidden. |
+| State and context contract | Runtime owner. | What survives retries, resumes, approvals, and handoffs. |
+| Eval suite | Engineering and domain reviewers. | Whether behavior is good enough to advance a gate. |
+| Trace schema | Operations owner. | Whether failures can be reconstructed and replayed. |
+| Rollback plan | Release owner. | How to disable a model route, prompt, tool, policy, or capability. |
+
+If one artifact is missing, the gate should say so directly. A vague "looks good" review is not enough for systems that can act.
 
 ## Do Not Start With The Agent
 

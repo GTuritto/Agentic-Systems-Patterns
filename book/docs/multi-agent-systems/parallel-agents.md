@@ -27,6 +27,14 @@ Parallel agents run independent work concurrently, then merge results through a 
 - The merge policy is vague.
 - Parallel work increases cost without increasing quality.
 
+## Architecture
+
+Use this diagram to read Parallel Agents as a system boundary, not only a code shape. The key ownership question is: the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+
+![Parallel agents fan-out and fan-in](../public/diagrams/parallel-agents-fanout-fanin.svg)
+
+Read it as a fan-out/fan-in boundary: parallelism is useful only when workers are independent and the coordinator can compare, merge, or reject their outputs.
+
 ## System Shape
 
 - **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.

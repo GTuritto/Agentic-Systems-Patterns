@@ -156,6 +156,35 @@ function applyStateEvent(state: WorkingMemoryState, event: StateEvent): WorkingM
 
 This is intentionally simple. The important part is the rule: state transitions are explicit, typed, replayable, and tied to observations.
 
+### Running Case: Refund Goal And State
+
+A refund assistant needs more than a chat transcript because operators must know what evidence the system used before money moved. The goal record should name the outcome and the risk; the working state should show the evidence, open questions, approval state, and stop reason.
+
+```yaml
+goal:
+  description: "Resolve refund eligibility for order O-104."
+  success_criteria:
+    - "current refund policy is referenced"
+    - "order and delivery evidence are attached"
+    - "recommendation is validated by policy gate"
+    - "high-value refund waits for approval"
+  risk_class: "high"
+state:
+  completed_steps:
+    - "order_loaded"
+    - "delivery_status_loaded"
+  open_questions:
+    - "policy exception evidence is missing"
+  evidence_refs:
+    - "order:O-104"
+    - "delivery:D-88"
+    - "policy:refunds:v2026-06"
+  approval_refs: []
+  stop_reason: "approval_required"
+```
+
+This state tells the runtime what happened and what remains. It also gives evals something concrete to inspect: missing policy should block the recommendation, denied approval should block payment, and a resumed run should preserve the same evidence references.
+
 ### Promotion Rules
 
 Working memory should not automatically become durable memory. A completed step, tool result, or user correction may be a candidate for long-term memory, but promotion needs a separate policy decision.

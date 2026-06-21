@@ -37,20 +37,11 @@ The goal is not to remember everything. The goal is to preserve useful events wi
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  E[Interaction or workflow event] --> C[Event classifier]
-  C --> P[Write policy]
-  P -->|deny| D[Do not store]
-  P -->|review| H[Human review]
-  P -->|allow| S[Episodic memory store]
-  H -->|approved| S
-  H -->|denied| D
-  Q[New task] --> R[Scoped event retrieval]
-  S --> R
-  R --> X[Context builder]
-  X --> A[Agent step]
-```
+Use this diagram to read Long-Term Episodic Memory as a system boundary, not only a code shape. The key ownership question is: the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+
+![Episodic memory event lifecycle](../public/diagrams/episodic-memory-event-lifecycle.svg)
+
+Read it as an event lifecycle: store only policy-approved episodes, retrieve them by scope and freshness, and keep correction, deletion, expiry, and audit paths visible.
 
 ## System Shape
 

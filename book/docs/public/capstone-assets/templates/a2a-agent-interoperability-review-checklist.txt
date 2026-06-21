@@ -1,0 +1,67 @@
+A2A Agent Interoperability Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Agents cross process, team, runtime, or vendor boundaries
+[ ] Caller must discover remote capabilities
+[ ] Task lifecycle can include progress, refusal, error, timeout, retry, and cancellation
+[ ] Caller and callee have stable owners
+[ ] Deterministic workflow or local tool call is insufficient
+
+Agent card
+[ ] Capabilities listed
+[ ] Input schemas versioned
+[ ] Output schemas versioned
+[ ] Required scopes listed
+[ ] Owner listed
+[ ] Timeout policy listed
+[ ] Lifecycle states listed
+[ ] Backward compatibility policy listed
+
+Message envelope
+[ ] Trace ID required
+[ ] Message ID required
+[ ] Task ID required
+[ ] Idempotency key required where needed
+[ ] Source agent recorded
+[ ] Target agent recorded
+[ ] Tenant recorded
+[ ] Audience recorded
+[ ] Scopes recorded
+[ ] Timeout recorded
+
+Authorization and lifecycle
+[ ] Caller is authenticated
+[ ] Audience is verified
+[ ] Scopes are verified
+[ ] Tenant boundary is enforced
+[ ] Duplicate messages are detected
+[ ] Refusal is a valid outcome
+[ ] Cancellation is a valid outcome
+[ ] Timeout is a valid outcome
+[ ] Delegation loops are detected
+[ ] Capability-level kill switch exists
+
+Evaluation
+[ ] Fixture covers valid call
+[ ] Fixture covers wrong audience
+[ ] Fixture covers missing scope
+[ ] Fixture covers schema mismatch
+[ ] Fixture covers duplicate message
+[ ] Fixture covers refusal
+[ ] Fixture covers timeout and cancellation
+[ ] Fixture covers delegation loop
+[ ] Fixture covers backward-compatible schema evolution
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve schemas, auth, lifecycle, or traces
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

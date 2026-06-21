@@ -5,8 +5,8 @@
   "scripts": {
     "sync:public": "node scripts/sync-public-assets.mjs",
     "dev": "npm run sync:public && ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "npm run sync:public && ASTRO_TELEMETRY_DISABLED=1 astro build && pagefind --site dist",
-    "parity": "node scripts/parity-check.mjs && node scripts/check-dist-links.mjs",
+    "build": "npm run sync:public && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-sitemap.mjs && pagefind --site dist",
+    "parity": "node scripts/check-source-excerpts.mjs && node scripts/parity-check.mjs && node scripts/check-dist-links.mjs",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
   },
   "dependencies": {
@@ -14,6 +14,7 @@
     "astro": "^6.0.0",
     "gray-matter": "^4.0.3",
     "markdown-it": "^14.1.0",
+    "mermaid": "^10.9.6",
     "pagefind": "^1.4.0",
     "rehype-mermaid": "^2.0.0"
   },

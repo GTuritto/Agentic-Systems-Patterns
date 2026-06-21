@@ -1,0 +1,61 @@
+Knowledge-Bound Agents Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Agent handles private, regulated, security-sensitive, or business-critical data
+[ ] Approved sources can be identified and cited
+[ ] Policy decisions are auditable and replayable
+[ ] Runtime can identify actor, resource, action, capability, risk, and context
+[ ] Human approval path exists for high-risk valid actions
+
+Policy boundary
+[ ] Policy runs before retrieval
+[ ] Policy runs before tool execution
+[ ] Policy runs before memory writes
+[ ] Policy runs before external communication
+[ ] Policy runs before final answer where evidence is required
+[ ] Missing policy context denies or escalates
+[ ] Retries and resumed workflows rerun policy
+
+Knowledge boundary
+[ ] Approved sources listed
+[ ] Stale sources identified
+[ ] Forbidden sources identified
+[ ] Citation rules declared
+[ ] Missing evidence causes refusal or escalation
+[ ] Conflicting evidence is surfaced
+[ ] Source revocation changes answer eligibility
+
+Decision record
+[ ] Actor recorded
+[ ] Resource recorded
+[ ] Capability recorded
+[ ] Risk level recorded
+[ ] Decision recorded
+[ ] Reason recorded
+[ ] Required approval recorded where relevant
+[ ] Policy version recorded
+[ ] Trace ID recorded
+
+Evaluation
+[ ] Fixture covers allowed low-risk action
+[ ] Fixture covers denied tenant boundary
+[ ] Fixture covers approval-required side effect
+[ ] Fixture covers stale or unapproved source
+[ ] Fixture covers retry policy recheck
+[ ] Fixture covers missing policy context
+[ ] Fixture covers missing evidence final answer
+[ ] Fixture covers memory-write denial
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve policy context, citations, or approval path
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

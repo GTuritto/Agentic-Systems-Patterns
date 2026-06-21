@@ -11,8 +11,13 @@
     { "turn": 7, "from": "workflow", "to": "team", "type": "accepted_package" }
   ],
   "evals": [
-    { "case_id": "required_roles_present", "status": "pass" },
-    { "case_id": "risk_review_before_acceptance", "status": "pass" },
-    { "case_id": "test_plan_before_acceptance", "status": "pass" }
+    { "case_id": "planner_present", "status": "pass" },
+    { "case_id": "risk_review_present", "status": "pass" },
+    { "case_id": "test_plan_present", "status": "pass" },
+    { "case_id": "turns_sequential", "status": "pass" },
+    { "case_id": "final_owner_accepts_last", "status": "pass" }
+  ],
+  "trace_events": [
+    { "span": "eval", "case_id": "delivery_workflow_release_gate", "status": "pass" }
   ]
 }

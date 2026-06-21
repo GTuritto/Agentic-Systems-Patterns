@@ -14,6 +14,16 @@ This chapter owns the agent's working environment. It does not own the model pro
 
 This chapter comes after the loop because the loop alone is too small for real work. Use it as the bridge from "what is the agent doing?" to "what environment keeps that work bounded?" The next production chapters take the same control ideas into runtime, observability, and security.
 
+## What You Should Be Able To Do
+
+After this chapter, you should be able to:
+
+- distinguish the agent loop from the harness around it;
+- name the controls a harness must own before the agent can do real work;
+- decide which harness features are needed for a given capability;
+- evaluate harness behavior separately from model answer quality;
+- identify framework defaults that need product-owned policy.
+
 ## Harness Boundary
 
 Use this diagram to separate the model loop from the environment that makes the loop safe and useful. The harness owns the controls around the loop: context, tools, policy, memory, traces, evals, sandboxing, and recovery.
@@ -39,6 +49,22 @@ The terms overlap, but the distinction is worth keeping.
 A product may use all three. A framework may include a runtime, and a runtime may include harness features. The names matter less than the responsibilities, and the question that cuts through the overlap is simple: which layer owns which control?
 
 If the answer is "the framework handles it", keep asking. Which component stores state? Which component enforces permission? Which component owns memory writes? Which component can stop a side effect? Which component emits the trace? Those are harness responsibilities whether the code lives in your application or a framework.
+
+## Harness Responsibility Matrix
+
+Use this matrix when reviewing a framework, SDK, or custom harness.
+
+| Responsibility | Product Question | Harness Evidence |
+| --- | --- | --- |
+| Context control | What did the model see for this call? | Context packet, omitted refs, trust labels. |
+| Tool disclosure | Which tools were visible at this state? | Tool profile by route, role, and approval state. |
+| Permission enforcement | Why was an action allowed or denied? | Policy decision with actor, target, mode, and reason. |
+| Memory access | Why was memory read or written? | Memory policy ref, source ref, retention, deletion path. |
+| Approval binding | What exact action did the human approve? | Approval ID tied to tool, args, actor, and expiry. |
+| Recovery | Can this run resume or replay safely? | Checkpoints, idempotency keys, mocked-tool replay mode. |
+| Observability | Can an operator reconstruct the run? | Trace events for proposal, validation, action, result, stop reason. |
+
+If the harness cannot produce evidence for a row, that row is still a design risk, even if the demo works.
 
 ## Core Harness Capabilities
 

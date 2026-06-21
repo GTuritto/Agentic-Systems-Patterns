@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820" role="img" aria-labelledby="title desc">
+  <title id="title">Computer-Use Agent Action-Space Control Flow</title>
+  <desc id="desc">Decision flow for choosing safer interfaces, limiting computer-use action tiers, applying visual confirmation gates, and stopping or recovering safely.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:13px}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .note{font-size:12px;fill:#5f6368}
+    </style>
+  </defs>
+  <rect width="1280" height="820" fill="#ffffff"/>
+  <text x="640" y="48" text-anchor="middle" class="title">Computer-Use Agent Action-Space Control Flow</text>
+  <text x="640" y="76" text-anchor="middle" class="note">Use the narrowest UI authority that can complete the task, then gate high-risk actions with visible evidence.</text>
+
+  <g transform="translate(50 145)">
+    <rect class="box" width="170" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="85" y="43" text-anchor="middle" class="label">User goal</text>
+  </g>
+
+  <g transform="translate(285 130)">
+    <path class="diamond" d="M95 0 L190 52 L95 104 L0 52 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="95" y="46" text-anchor="middle" class="label">Safer interface</text>
+    <text x="95" y="64" text-anchor="middle" class="label">exists?</text>
+  </g>
+
+  <g transform="translate(535 145)">
+    <rect class="box" width="210" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="105" y="36" text-anchor="middle" class="label">Use typed tool</text>
+    <text x="105" y="56" text-anchor="middle" class="small">API, MCP, DB, workflow</text>
+  </g>
+
+  <g transform="translate(535 280)">
+    <rect class="box" width="210" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="105" y="43" text-anchor="middle" class="label">Observe only</text>
+  </g>
+
+  <g transform="translate(815 263)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Evidence</text>
+    <text x="105" y="69" text-anchor="middle" class="label">complete?</text>
+  </g>
+
+  <g transform="translate(1070 285)">
+    <rect class="box" width="160" height="72" fill="#fce8e6" stroke="#d93025"/>
+    <text x="80" y="36" text-anchor="middle" class="label">Stop or</text>
+    <text x="80" y="56" text-anchor="middle" class="label">ask human</text>
+  </g>
+
+  <g transform="translate(815 430)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Required</text>
+    <text x="105" y="69" text-anchor="middle" class="label">action tier</text>
+  </g>
+
+  <g transform="translate(500 438)">
+    <rect class="box" width="210" height="100" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="105" y="30" text-anchor="middle" class="label">Narrow action</text>
+    <text x="105" y="52" text-anchor="middle" class="small">guided click or type</text>
+    <text x="105" y="70" text-anchor="middle" class="small">bounded form</text>
+    <text x="105" y="88" text-anchor="middle" class="small">sandbox file workflow</text>
+  </g>
+
+  <g transform="translate(500 610)">
+    <rect class="box" width="210" height="72" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="105" y="35" text-anchor="middle" class="label">Authenticated</text>
+    <text x="105" y="55" text-anchor="middle" class="label">operation</text>
+  </g>
+
+  <g transform="translate(815 595)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">High-risk</text>
+    <text x="105" y="69" text-anchor="middle" class="label">action?</text>
+  </g>
+
+  <g transform="translate(1060 515)">
+    <rect class="box" width="180" height="80" fill="#fce8e6" stroke="#d93025"/>
+    <text x="90" y="34" text-anchor="middle" class="label">Visual</text>
+    <text x="90" y="54" text-anchor="middle" class="label">confirmation gate</text>
+  </g>
+
+  <g transform="translate(1060 660)">
+    <rect class="box" width="180" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="90" y="35" text-anchor="middle" class="label">Execute and</text>
+    <text x="90" y="55" text-anchor="middle" class="label">check result</text>
+  </g>
+
+  <path class="edge" d="M220 181 L285 181"/>
+  <path class="edge" d="M475 181 L535 181"/>
+  <path class="edge" d="M380 234 C430 300 480 316 535 316"/>
+  <path class="edge" d="M745 316 L815 321"/>
+  <path class="edge" d="M1025 321 L1070 321"/>
+  <path class="edge" d="M920 379 L920 430"/>
+  <path class="edge" d="M815 488 L710 488"/>
+  <path class="edge" d="M815 506 C720 555 680 590 640 610"/>
+  <path class="edge" d="M710 488 C760 555 800 600 835 628"/>
+  <path class="edge" d="M710 646 L815 653"/>
+  <path class="edge" d="M1025 653 L1060 555"/>
+  <path class="edge" d="M1025 653 L1060 696"/>
+  <path class="edge" d="M1150 595 L1150 660"/>
+
+  <text x="505" y="164" class="note">yes</text>
+  <text x="445" y="288" class="note">no, UI only</text>
+  <text x="1040" y="305" class="note">no</text>
+  <text x="930" y="410" class="note">yes</text>
+  <text x="1036" y="632" class="note">yes</text>
+  <text x="1036" y="704" class="note">no</text>
+</svg>

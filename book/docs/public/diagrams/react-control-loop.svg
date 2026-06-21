@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="720" viewBox="0 0 1260 720" role="img" aria-labelledby="title desc">
+  <title id="title">ReAct Control Loop</title>
+  <desc id="desc">A ReAct agent moves from goal and state to reasoning, action validation, tool action, observation, state update, stop decision, final answer, refusal, escalation, and audit trace.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .good{stroke:#188038;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .warn{stroke:#f9ab00;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .loop{stroke:#3367d6;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1260" height="720" fill="#ffffff"/>
+  <text x="630" y="46" text-anchor="middle" class="title">ReAct Control Loop</text>
+  <text x="630" y="74" text-anchor="middle" class="subtitle">Reason, validate, act, observe, and update state until a stop condition ends the loop.</text>
+
+  <rect x="54" y="118" width="1152" height="410" class="boundary"/>
+  <text x="74" y="144" class="small">Loop boundary: the controller owns state, budgets, tool validation, stop conditions, and trace evidence.</text>
+
+  <g transform="translate(78 205)">
+    <rect class="box" width="170" height="74" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="85" y="33" text-anchor="middle" class="label">Goal, constraints,</text>
+    <text x="85" y="54" text-anchor="middle" class="label">budget</text>
+  </g>
+
+  <g transform="translate(300 205)">
+    <rect class="box" width="160" height="74" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="80" y="34" text-anchor="middle" class="label">Current</text>
+    <text x="80" y="54" text-anchor="middle" class="label">state</text>
+  </g>
+
+  <g transform="translate(515 205)">
+    <rect class="box" width="185" height="74" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="92.5" y="34" text-anchor="middle" class="label">Reason about</text>
+    <text x="92.5" y="54" text-anchor="middle" class="label">next step</text>
+  </g>
+
+  <g transform="translate(755 184)">
+    <path class="diamond" d="M100 0 L200 58 L100 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="100" y="51" text-anchor="middle" class="label">Action</text>
+    <text x="100" y="70" text-anchor="middle" class="label">allowed?</text>
+  </g>
+
+  <g transform="translate(1005 205)">
+    <rect class="box" width="160" height="74" fill="#e6f4ea" stroke="#188038"/>
+    <text x="80" y="33" text-anchor="middle" class="label">Act through</text>
+    <text x="80" y="54" text-anchor="middle" class="label">validated tool</text>
+  </g>
+
+  <g transform="translate(1005 390)">
+    <rect class="box" width="160" height="74" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="80" y="34" text-anchor="middle" class="label">Observe</text>
+    <text x="80" y="54" text-anchor="middle" class="label">result</text>
+  </g>
+
+  <g transform="translate(755 390)">
+    <rect class="box" width="200" height="74" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="100" y="33" text-anchor="middle" class="label">Update state</text>
+    <text x="100" y="54" text-anchor="middle" class="label">and trace</text>
+  </g>
+
+  <g transform="translate(505 369)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Stop condition</text>
+    <text x="105" y="70" text-anchor="middle" class="label">met?</text>
+  </g>
+
+  <g transform="translate(300 390)">
+    <rect class="box" width="160" height="74" fill="#e6f4ea" stroke="#188038"/>
+    <text x="80" y="34" text-anchor="middle" class="label">Final answer</text>
+    <text x="80" y="54" text-anchor="middle" class="label">or action</text>
+  </g>
+
+  <g transform="translate(78 390)">
+    <rect class="box" width="170" height="74" fill="#fce8e6" stroke="#d93025"/>
+    <text x="85" y="32" text-anchor="middle" class="label">Refuse, re-plan,</text>
+    <text x="85" y="53" text-anchor="middle" class="label">or escalate</text>
+  </g>
+
+  <g transform="translate(475 590)">
+    <rect class="box" width="310" height="74" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="155" y="33" text-anchor="middle" class="label">Trace decision, action, observation,</text>
+    <text x="155" y="54" text-anchor="middle" class="label">and stop reason</text>
+  </g>
+
+  <path class="edge" d="M248 242 H300"/>
+  <path class="edge" d="M460 242 H515"/>
+  <path class="edge" d="M700 242 H755"/>
+  <path class="good" d="M955 242 H1005"/>
+  <path class="edge" d="M1085 279 V390"/>
+  <path class="edge" d="M1005 427 H955"/>
+  <path class="edge" d="M755 427 H715"/>
+  <path class="good" d="M505 427 H460"/>
+  <path class="deny" d="M505 427 C390 500 270 500 210 464"/>
+  <path class="deny" d="M855 300 C820 345 770 365 700 390"/>
+  <path class="loop" d="M610 369 C610 320 608 300 608 279"/>
+  <path class="edge" d="M380 464 C405 540 500 550 568 590"/>
+  <path class="edge" d="M163 464 C260 620 365 625 475 625"/>
+
+  <text x="970" y="232" class="small">yes</text>
+  <text x="815" y="340" class="small">no</text>
+  <text x="460" y="417" class="small">success</text>
+  <text x="370" y="505" class="small">failure, budget, or risk</text>
+  <text x="620" y="326" class="small">no</text>
+</svg>

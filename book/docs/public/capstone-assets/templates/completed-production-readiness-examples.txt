@@ -1,0 +1,160 @@
+COMPLETED PRODUCTION READINESS EXAMPLES
+
+Use these examples as calibration for the production readiness worksheet. A useful readiness record names evidence, owner, release decision, blocking gaps, and the exact next action. Do not copy these answers into your own release record.
+
+---
+
+COMPLETED EXAMPLE: SUPPORT REFUND ASSISTANT
+
+service:
+support-refund-assistant
+
+owner:
+support-platform
+
+framework:
+deterministic workflow with bounded investigation loop, policy gate, approval gate, and tool gateway
+
+release:
+internal pilot candidate; draft-only for real traffic until finance approval integration is live
+
+| Gate | Evidence |
+| --- | --- |
+| State owner | refund_workflow owns request state, order evidence, recommendation, approval status, and stop reason. |
+| Tool manifest | read_order, search_refund_policy, draft_refund_request; issue_refund remains blocked outside finance approval. |
+| Policy enforcement point | policy_gate validates policy version, refund threshold, account status, and evidence completeness before any recommendation can move forward. |
+| Approval boundary | finance approval required for high-value refunds and policy exceptions; approval binds exact action, amount, account, expiry, and idempotency key. |
+| Memory rules | no long-term customer memory writes in pilot; run evidence stays in trace with retention and redaction policy. |
+| Trace schema | trace includes intake, route, evidence retrieval, recommendation, policy decision, approval decision, tool proposal, and stop reason. |
+| Eval suite | support refund eval report covers missing policy, high-value approval, denied approval, unsupported direct refund, and stale policy version. |
+| CI gate | npm test and npm run capstones:evidence must pass before release candidate. |
+| Rollback path | disable draft_refund_request and route all refund cases to human support queue. |
+| Kill switch | feature flag refund_assistant_enabled=false blocks model-mediated recommendation path. |
+| Incident process | every wrong recommendation becomes an eval fixture with trace ID, policy version, and reviewer decision. |
+
+Readiness:
+
+green:
+read-only evidence gathering and draft recommendation for internal reviewers.
+
+yellow:
+limited internal pilot when approval UI, trace dashboard, eval report, and rollback owner are verified.
+
+red:
+automatic payment execution. The payment tool remains unavailable until live approval, idempotency, and finance audit checks pass.
+
+release decision:
+Yellow. Safe for internal pilot as draft-only. Not approved for autonomous refunds.
+
+blocking gaps:
+- live finance approval integration;
+- production trace dashboard link in release evidence;
+- on-call runbook for payment-tool incident.
+
+next action:
+Complete approval integration test and attach the trace for one approved and one denied refund.
+
+---
+
+COMPLETED EXAMPLE: RESEARCH RAG ASSISTANT
+
+service:
+research-rag-assistant
+
+owner:
+knowledge-platform
+
+framework:
+retrieval workflow with answer synthesis, citation check, refusal path, and eval gate
+
+release:
+read-only beta for approved source collections
+
+| Gate | Evidence |
+| --- | --- |
+| State owner | research_workflow owns query, source collection, retrieval set, citation check, answer draft, and refusal reason. |
+| Tool manifest | search_index, read_source, check_citations; no write tools or external messaging tools in beta. |
+| Policy enforcement point | source_access_gate checks tenant, collection, source license, and freshness before retrieval result enters context. |
+| Approval boundary | no human approval for read-only answers; approval required before adding a new source collection. |
+| Memory rules | no personal memory writes; source snippets are trace references, not durable user memories. |
+| Trace schema | trace records query, retrieval filters, source IDs, omitted sources, citation decisions, answer/refusal, and stop reason. |
+| Eval suite | missing-evidence, stale-source, conflicting-source, citation-faithfulness, and refusal-quality cases. |
+| CI gate | retrieval eval must pass minimum faithfulness and refusal thresholds before deployment. |
+| Rollback path | pin previous index version and disable new source collection route. |
+| Kill switch | disable answer synthesis and return retrieval-only source list. |
+| Incident process | unsupported answer becomes a regression case with source IDs and citation check output. |
+
+Readiness:
+
+green:
+retrieval-only source browsing for approved collections.
+
+yellow:
+answer synthesis when citation checks pass and missing-evidence cases refuse.
+
+red:
+answers over unapproved sources, private documents without access trace, or stale indexes without freshness labels.
+
+release decision:
+Yellow. Release as read-only beta for approved collections.
+
+blocking gaps:
+- broader stale-source fixtures;
+- dashboard panel for citation-check failure rate;
+- source owner signoff for new collections.
+
+next action:
+Add three stale-source regression fixtures and require citation-check output in release evidence.
+
+---
+
+COMPLETED EXAMPLE: MULTI-AGENT DELIVERY WORKFLOW
+
+service:
+delivery-workflow-assistant
+
+owner:
+operations-platform
+
+framework:
+coordinator workflow with specialist workers, merge policy, transcript eval, and human escalation
+
+release:
+demo only until operations approval and live-system sandboxing exist
+
+| Gate | Evidence |
+| --- | --- |
+| State owner | delivery_coordinator owns shared goal, task assignments, worker outputs, merge decision, escalation state, and final status. |
+| Tool manifest | read_delivery_plan, read_inventory_status, draft_customer_update; no live dispatch or driver-contact tool in demo. |
+| Policy enforcement point | coordinator validates worker outputs against route policy, customer communication policy, and escalation rules. |
+| Approval boundary | operations approval required before customer-visible message or dispatch change. |
+| Memory rules | worker transcripts stay in run trace; no cross-run memory until retention and correction rules are approved. |
+| Trace schema | trace records task split, worker input, worker output, dissent, merge decision, policy check, escalation, and stop reason. |
+| Eval suite | transcript eval checks role drift, missing dissent, bad merge, unsupported customer message, and failed worker handling. |
+| CI gate | transcript eval must fail on bad merge or customer-visible action without approval. |
+| Rollback path | disable worker dispatch and return to single human-owned operations workflow. |
+| Kill switch | delivery_multi_agent_enabled=false disables coordinator fan-out. |
+| Incident process | failed merge becomes a transcript eval with expected dissent and accepted final decision. |
+
+Readiness:
+
+green:
+offline transcript evaluation and internal planning demo.
+
+yellow:
+internal operations assistant after sandboxed tools, approval UI, and runbook are verified.
+
+red:
+live dispatch, driver contact, or customer messaging without approval and sandboxed side effects.
+
+release decision:
+Red for production. Keep as demo and evaluation harness.
+
+blocking gaps:
+- sandboxed operations tools;
+- approval UI for customer-visible messages;
+- live runbook and escalation owner;
+- baseline comparison against single-workflow design.
+
+next action:
+Add sandboxed tool adapter and compare coordinator output against the deterministic workflow baseline on ten incidents.

@@ -1,0 +1,97 @@
+HISTORICAL PATTERN MIGRATION RECORD
+
+Use this record when a roadmap, design review, vendor deck, or legacy repository uses an older agent pattern name.
+The goal is to translate the label into a current, testable architecture decision.
+
+1. Source
+Legacy term:
+Source or link:
+Who is using the term:
+Date reviewed:
+Reviewer:
+
+2. Claimed capability
+What the term claims the system can do:
+What user or business problem it is meant to solve:
+What evidence the source provides:
+
+3. Translation
+Current decision category:
+[ ] Pattern selection
+[ ] Runtime foundation
+[ ] Control loop
+[ ] Context, memory, or knowledge
+[ ] Tools, skills, or protocols
+[ ] Multi-agent topology
+[ ] System architecture
+[ ] Production runtime
+[ ] Product workflow
+[ ] Other:
+
+Hidden decision:
+What must the team actually decide?
+
+Ownership boundary:
+Who owns state:
+Who owns tools:
+Who owns policy:
+Who owns memory:
+Who owns final acceptance:
+Who owns rollback:
+
+4. Current chapter mapping
+Primary replacement chapter:
+Secondary replacement chapters:
+Why this mapping is stronger than the legacy label:
+
+5. Evidence required
+Required artifact:
+[ ] System boundary diagram
+[ ] Typed contract or schema
+[ ] Tool manifest
+[ ] Approval record
+[ ] Eval fixture
+[ ] Trace or transcript
+[ ] Runbook
+[ ] Rollback command
+[ ] Cost or latency budget
+[ ] Security review
+
+Evidence link or location:
+
+6. Risk review
+What could go wrong if the legacy label drives the architecture:
+What current chapter reduces that risk:
+What decision remains unresolved:
+
+7. Triage score
+Score each category 0, 1, or 2.
+
+Intent:
+Boundary:
+Implementation:
+Failure modes:
+Evaluation:
+Operations:
+Total:
+
+Score interpretation:
+[ ] 0-4: keep deprecated
+[ ] 5-8: map to existing chapter
+[ ] 9-12: candidate new chapter after code and eval evidence exists
+
+8. Promotion decision
+Decision:
+[ ] Keep deprecated
+[ ] Map to existing chapter
+[ ] Candidate new chapter
+
+Reason:
+
+New chapter is allowed only if the term has a distinct intent, implementation shape, failure mode, eval method, and production guidance.
+
+9. Follow-up
+Owner:
+Due date:
+Next evidence needed:
+Decision review date:

@@ -27,6 +27,14 @@ Task delegation assigns bounded subtasks to specialized workers and combines the
 - Workers share hidden mutable state.
 - The manager cannot evaluate returned work.
 
+## Architecture
+
+Use this diagram to read Task Delegation as a system boundary, not only a code shape. The key ownership question is: the coordinator owns the shared goal, decomposition, assignments, merge policy, and final acceptance.
+
+![Task delegation contract flow](../public/diagrams/task-delegation-contract-flow.svg)
+
+Read it as an ownership contract: the coordinator owns decomposition, worker scope, merge policy, final acceptance, and escalation.
+
 ## System Shape
 
 - **Pattern boundary:** a coordinator delegates bounded work to agents with narrow roles, then evaluates and merges their outputs.

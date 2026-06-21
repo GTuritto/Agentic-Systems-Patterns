@@ -1,0 +1,60 @@
+Semantic Recall and RAG Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Answer depends on a large, changing, or private knowledge base
+[ ] Sources can be chunked, filtered, cited, and inspected
+[ ] Tenant, role, source, and freshness constraints are enforceable
+[ ] Missing or conflicting evidence has a refusal or escalation path
+[ ] Retrieval quality can be evaluated separately from final answer quality
+
+Source eligibility
+[ ] Approved source types listed
+[ ] Forbidden source types listed
+[ ] Freshness rule declared per source type
+[ ] Permission filter runs before ranking
+[ ] Redaction or exclusion happens before generation
+[ ] Source-level kill switch exists
+
+Context packet
+[ ] System instructions separated from retrieved evidence
+[ ] Policy separated from retrieved evidence
+[ ] Working memory labeled separately
+[ ] Tool results labeled separately
+[ ] Retrieved memory labeled separately
+[ ] Omitted references and reasons recorded
+[ ] Token budget reserves output tokens
+[ ] Context packet can be reconstructed after incident
+
+Evidence and answer
+[ ] Evidence chunks include source ID
+[ ] Evidence chunks include trust level
+[ ] Evidence chunks include freshness metadata
+[ ] Evidence chunks include permissions metadata
+[ ] Final answer carries citations
+[ ] Missing evidence returns missing_evidence or escalation
+[ ] Conflicting evidence is surfaced
+
+Evaluation
+[ ] Fixture covers known-answer retrieval
+[ ] Fixture covers missing evidence
+[ ] Fixture covers stale source
+[ ] Fixture covers conflicting sources
+[ ] Fixture covers prompt injection in retrieved text
+[ ] Fixture covers tenant boundary
+[ ] Fixture covers budget pressure
+[ ] Fixture covers citation coverage
+[ ] Fixture covers access revocation and index removal
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve source policy, citations, or evals
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

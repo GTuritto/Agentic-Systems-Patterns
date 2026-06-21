@@ -119,6 +119,8 @@ export function evaluateTranscript(state: TeamState) {
   const reasons: string[] = [];
   const senders = new Set(state.transcript.map(message => message.sender));
   const types = new Set(state.transcript.map(message => message.type));
+  const firstTurnByType = (type: TeamMessage["type"]) =>
+    state.transcript.find(message => message.type === type)?.turn;
 
   for (const role of ["manager", "researcher", "reviewer"] as Role[]) {
     if (!senders.has(role)) reasons.push(`missing role: ${role}`);
@@ -126,10 +128,20 @@ export function evaluateTranscript(state: TeamState) {
   for (const type of ["task", "evidence", "review", "final"]) {
     if (!types.has(type as TeamMessage["type"])) reasons.push(`missing message type: ${type}`);
   }
+  if (!state.transcript.every(message => message.metadata.taskId === state.taskId)) {
+    reasons.push("message task IDs do not match team task");
+  }
   if (state.stopReason !== "completed") reasons.push(`unexpected stop reason: ${state.stopReason}`);
   if (!state.transcript.every((message, index) => message.turn === index + 1)) {
     reasons.push("turn numbers are not sequential");
   }
+  const taskTurn = firstTurnByType("task");
+  const evidenceTurn = firstTurnByType("evidence");
+  const reviewTurn = firstTurnByType("review");
+  const finalTurn = firstTurnByType("final");
+  if (taskTurn && evidenceTurn && taskTurn > evidenceTurn) reasons.push("task must precede evidence");
+  if (evidenceTurn && reviewTurn && evidenceTurn > reviewTurn) reasons.push("evidence must precede review");
+  if (reviewTurn && finalTurn && reviewTurn > finalTurn) reasons.push("review must precede final");
   if (
     state.transcript.some(
       message =>

@@ -1,0 +1,17 @@
+flowchart LR
+  Caller["Calling agent"] --> Transport["TLS or mTLS transport"]
+  Transport --> Identity{"Identity valid?"}
+  Identity -->|"No"| Refuse["Refuse and trace"]
+  Identity -->|"Yes"| Envelope{"Envelope valid?"}
+  Envelope -->|"No schema, expiry, nonce, or trace ID"| Refuse
+  Envelope -->|"Yes"| Authz{"Scope and policy allow?"}
+  Authz -->|"Deny"| Refuse
+  Authz -->|"Approval required"| Approval["Human approval"]
+  Approval -->|"Denied or expired"| Refuse
+  Approval -->|"Approved"| Capability["Bounded remote capability"]
+  Authz -->|"Allow"| Capability
+  Capability --> Response{"Response valid?"}
+  Response -->|"No"| Refuse
+  Response -->|"Yes"| Return["Redacted response"]
+  Refuse --> Audit["Audit record and regression eval"]
+  Return --> Audit

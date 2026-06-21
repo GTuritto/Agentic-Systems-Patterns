@@ -1,0 +1,63 @@
+Memory-Augmented Agent Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Product needs continuity beyond one interaction
+[ ] Memory types are explicitly defined
+[ ] Consent, retention, privacy, and tenant boundaries are known
+[ ] Memory can be inspected, corrected, and deleted
+[ ] Retrieval results can be cited and excluded
+
+Write policy
+[ ] Memory write request is typed
+[ ] Actor ID recorded
+[ ] Tenant ID recorded
+[ ] Source references recorded
+[ ] Source trust recorded
+[ ] Confidence recorded
+[ ] Privacy class recorded
+[ ] Retention rule recorded
+[ ] Consent state recorded where required
+[ ] Correction path recorded
+[ ] Policy decision recorded
+
+Retrieval
+[ ] Retrieval filters by tenant before ranking
+[ ] Retrieval filters by actor and permissions
+[ ] Retrieval filters by memory kind and retention
+[ ] Retrieved memory is labeled as memory, not instruction
+[ ] Stale memory loses to fresh evidence
+[ ] Conflicting memory is surfaced or escalated
+
+Operations
+[ ] Reads are traced
+[ ] Writes are traced
+[ ] Denials are traced
+[ ] Corrections are traced
+[ ] Deletions are traced
+[ ] Expiry and index removal are tested
+[ ] Write kill switch exists
+[ ] Read kill switch exists
+
+Evaluation
+[ ] Fixture covers allowed preference write
+[ ] Fixture covers denied sensitive write
+[ ] Fixture covers review-required untrusted write
+[ ] Fixture covers correction
+[ ] Fixture covers deletion
+[ ] Fixture covers stale memory
+[ ] Fixture covers tenant isolation
+[ ] Fixture covers memory not overriding instructions
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve policy, deletion, or retrieval scope
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

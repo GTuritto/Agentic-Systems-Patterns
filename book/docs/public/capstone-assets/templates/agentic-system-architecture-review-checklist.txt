@@ -1,0 +1,64 @@
+Agentic System Architecture Review Checklist
+
+System:
+Owner:
+Incident owner:
+Reviewer:
+Date:
+
+Plane ownership
+[ ] Experience plane owner named
+[ ] Control plane owner named
+[ ] Execution plane owner named
+[ ] Knowledge plane owner named
+[ ] Evaluation plane owner named
+[ ] Observability plane owner named
+[ ] Safety plane owner named
+[ ] Runtime plane flow shows how requests, evidence, authorization, tool results, traces, and evals move across planes
+
+System contract
+[ ] Supported goals listed
+[ ] Entrypoints listed
+[ ] State owner declared
+[ ] Tool authority declared
+[ ] Knowledge sources declared
+[ ] Memory policy declared
+[ ] Eval gate declared
+[ ] Observability contract declared
+[ ] Rollback controls declared
+
+Authority boundaries
+[ ] Model outputs are structured proposals
+[ ] Deterministic code validates proposals before side effects
+[ ] Read, write, and execution tools have separate permissions
+[ ] High-risk actions require policy, approval, or both
+[ ] Side-effect tools use idempotency keys
+[ ] Prompt-only policy is not the only safety control
+[ ] No route reaches execution without a policy, approval, or authorization check appropriate to its risk
+
+Knowledge and memory
+[ ] Retrieval sources have access rules
+[ ] Retrieval sources have freshness rules
+[ ] Citations are required where evidence matters
+[ ] Memory writes have an owner
+[ ] Memory writes have retention and deletion rules
+[ ] Users or operators can correct unsafe or stale memory
+
+Evaluation and observability
+[ ] Evals cover successful runs
+[ ] Evals cover refusal and missing evidence
+[ ] Evals cover policy denial
+[ ] Evals cover tool failure
+[ ] Evals cover replay and rollback
+[ ] A failed run can be reconstructed from traces
+[ ] Trace redaction is verified
+[ ] Production traces can become regression evals or release gates
+
+Release decision
+[ ] Green: ready for controlled production use
+[ ] Yellow: internal, read-only, or limited beta only
+[ ] Red: demo or design review only
+
+Required changes before release:
+
+Reviewer notes:

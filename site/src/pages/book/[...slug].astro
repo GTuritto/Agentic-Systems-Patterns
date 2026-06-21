@@ -1,6 +1,6 @@
 ---
 import BookLayout from '../../layouts/BookLayout.astro';
-import { chapterNavigation, relatedChapters, siteBase, siteChapters } from '../../lib/book-manifest';
+import { chapterNavigation, chapterSearchExcerpt, relatedChapters, siteBase, siteChapters, siteSections } from '../../lib/book-manifest';
 import { renderChapter } from '../../lib/markdown';
 
 export function getStaticPaths() {
@@ -14,9 +14,66 @@ const { chapter } = Astro.props;
 const rendered = await renderChapter(chapter);
 const navigation = chapterNavigation(chapter.slug);
 const related = relatedChapters(chapter.slug);
+const sectionTitle = siteSections.find(section => section.id === chapter.sectionId)?.title ?? chapter.sectionId;
+const description = `${chapter.title}: ${rendered.summary}`;
+const chapterIndex = siteChapters.findIndex(item => item.id === chapter.id);
+const searchDescription = chapterSearchExcerpt(chapter);
+const pagefind = {
+  title: rendered.title,
+  description: searchDescription,
+  meta: [
+    { key: 'section', value: sectionTitle },
+    { key: 'type', value: chapter.type },
+    { key: 'level', value: chapter.difficulty },
+    { key: 'effort', value: chapter.effort },
+    { key: 'reader_paths', value: chapter.readerPaths.join(', ') },
+    { key: 'read_time', value: `${rendered.readingMinutes} min` }
+  ],
+  filters: [
+    { key: 'section', value: sectionTitle },
+    { key: 'type', value: chapter.type },
+    { key: 'level', value: chapter.difficulty },
+    { key: 'reader_path', value: chapter.readerPaths }
+  ],
+  sorts: [
+    { key: 'reading_minutes', value: rendered.readingMinutes },
+    { key: 'manifest_order', value: chapterIndex >= 0 ? String(chapterIndex + 1).padStart(3, '0') : '999' }
+  ]
+};
 ---
 
-<BookLayout title={`${rendered.title} | Agentic Systems Patterns`} currentSlug={chapter.slug}>
+<BookLayout title={`${rendered.title} | Agentic Systems Patterns`} description={description} currentSlug={chapter.slug} pagefind={pagefind}>
+  <header class="chapter-meta-panel" aria-label="Chapter metadata">
+    <div>
+      <p class="eyebrow">Chapter guide</p>
+      <p class="chapter-meta-summary">{chapterSearchExcerpt(chapter)}</p>
+      <div class="reader-path-tags" aria-label="Recommended reader paths">
+        {chapter.readerPaths.map(path => <span>{path}</span>)}
+      </div>
+    </div>
+    <dl class="chapter-meta-grid">
+      <div>
+        <dt>Section</dt>
+        <dd>{sectionTitle}</dd>
+      </div>
+      <div>
+        <dt>Type</dt>
+        <dd>{chapter.type}</dd>
+      </div>
+      <div>
+        <dt>Level</dt>
+        <dd>{chapter.difficulty}</dd>
+      </div>
+      <div>
+        <dt>Read</dt>
+        <dd>{rendered.readingMinutes} min</dd>
+      </div>
+      <div>
+        <dt>Effort</dt>
+        <dd>{chapter.effort}</dd>
+      </div>
+    </dl>
+  </header>
   <article set:html={rendered.html} />
   {related.length > 0 && (
     <section class="related-chapters" aria-labelledby="related-chapters-title">
@@ -25,8 +82,11 @@ const related = relatedChapters(chapter.slug);
       <div class="related-chapter-grid">
         {related.map(item => (
           <a class="related-chapter-card" href={`${siteBase}/book/${item.slug}/`}>
-            <span>{item.sectionId.replaceAll('-', ' ')}</span>
+            <span>{item.type} · {item.difficulty}</span>
+            <span>{item.effort}</span>
             <strong>{item.title}</strong>
+            <small>{item.readerPaths.join(' · ')}</small>
+            <p>{chapterSearchExcerpt(item)}</p>
           </a>
         ))}
       </div>

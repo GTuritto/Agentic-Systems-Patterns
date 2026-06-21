@@ -1,0 +1,90 @@
+PERSONAL AGENT ARCHITECTURE REVIEW CHECKLIST
+
+System:
+Owner:
+Reviewer:
+Date:
+
+1. User Control
+
+[ ] User can inspect connected accounts, tools, memories, automations, and pending actions.
+[ ] User can revoke a connector without deleting the whole agent.
+[ ] User can pause automations globally and per connector.
+[ ] User can export or delete personal memory.
+[ ] The control panel shows consent receipts, memory proposals, pending approvals, audit records, and emergency stop state.
+
+Evidence:
+
+2. Trust Boundary Diagram
+
+[ ] The architecture diagram separates user control, local stores, optional cloud services, and connected apps.
+[ ] Every cross-boundary arrow has a reason, scope, retention rule, and user-visible control.
+[ ] Credentials are fetched only at execution time and never enter model-visible context.
+[ ] Untrusted content from email, web, documents, and chat is labeled as data, not instruction authority.
+
+Evidence:
+
+3. Identity and Connectors
+
+[ ] Every connector has scoped OAuth or equivalent credentials.
+[ ] Connector scopes are justified by task.
+[ ] Shared channels verify sender identity before action.
+[ ] Credentials are stored outside model-visible context.
+
+Evidence:
+
+4. Local and Cloud Split
+
+[ ] Local-only data is named.
+[ ] Cloud-processed data is named.
+[ ] Data that may leave the user's environment is visible to the user.
+[ ] Sensitive files, inbox content, calendar data, and credentials have explicit handling rules.
+
+Evidence:
+
+5. Memory
+
+[ ] Working memory, durable user preferences, task history, and sensitive facts are separate.
+[ ] Memory writes require source, reason, retention class, and correction path.
+[ ] Incorrect memories can be edited or deleted.
+[ ] Private data is not promoted into durable memory by default.
+
+Evidence:
+
+6. Tool Authority
+
+[ ] Read tools and write tools are separated.
+[ ] Outbound messages, purchases, account changes, deletions, and permission changes require approval.
+[ ] Tool actions have idempotency or undo paths where possible.
+[ ] Every external action is logged.
+
+Evidence:
+
+7. Prompt Injection and Untrusted Content
+
+[ ] Email, webpage, document, and chat content are treated as untrusted data.
+[ ] Retrieved instructions cannot override user policy.
+[ ] Cross-connector data movement is policy checked.
+[ ] The agent refuses or escalates suspicious instructions.
+
+Evidence:
+
+8. Operations
+
+[ ] User-visible audit log exists.
+[ ] Emergency stop exists.
+[ ] Failed automations surface useful status.
+[ ] Agent upgrades preserve or migrate memory safely.
+
+Evidence:
+
+9. Final Decision
+
+[ ] Prototype only
+[ ] Local-only pilot
+[ ] Limited connector pilot
+[ ] Production candidate
+
+Blocking gaps:
+
+Next actions:

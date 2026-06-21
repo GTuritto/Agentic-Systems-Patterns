@@ -1,0 +1,31 @@
+# Policy Enforcement Review Checklist
+
+Use this checklist before an agent reads private data, writes memory, calls tools, sends messages, moves money, or returns regulated answers.
+
+## Authority Inventory
+
+- [ ] Read, write, send, remember, refund, approve, and answer capabilities are inventoried.
+- [ ] Each capability has an owner, risk level, actor requirement, and allowed resource scope.
+- [ ] Tenant, role, resource, and capability boundaries are explicit.
+- [ ] Knowledge-bound answers name approved sources, freshness rules, and citation requirements.
+
+## Enforcement Points
+
+- [ ] Policy runs before retrieval, tool execution, memory writes, final answers, and workflow transitions.
+- [ ] Retries and resumed workflows repeat policy checks.
+- [ ] Missing actor, resource, tenant, capability, or evidence context denies or escalates the action.
+- [ ] Approval-required actions pause before side effects.
+
+## Decision Contract
+
+- [ ] Policy returns typed allow, deny, require-approval, escalate, or audit decisions.
+- [ ] Decisions include actor, resource, capability, reason, policy version, and trace ID.
+- [ ] Runtime state, not model text alone, supplies policy context.
+- [ ] Exceptions have an owner, expiry, approval record, trace event, and review path.
+
+## Evals And Operations
+
+- [ ] Evals cover allowed, denied, approval-required, and escalation paths.
+- [ ] Evals test role, tenant, resource, capability, stale evidence, memory writes, retries, and budget thresholds.
+- [ ] Dashboards show denials, approvals, overrides, false allows, and policy misses.
+- [ ] Serious denials, misses, overrides, and incidents become regression fixtures.

@@ -1,0 +1,158 @@
+PATTERN EVALUATION SCORECARD
+
+Use this scorecard before choosing a pattern, composing patterns, or promoting an agentic workflow toward production.
+
+Pattern:
+System or workflow:
+Reviewer:
+Date:
+Release mode under review: prototype | internal_pilot | controlled_production | production
+
+SCORING
+
+0 = Missing or only prompt-level.
+1 = Described but not implemented or tested.
+2 = Implemented but weakly tested or hard to inspect.
+3 = Implemented, tested, traceable, and owned.
+
+Do not average away hard failures. A pattern that touches money, private data, infrastructure, customer communication, or durable memory must not score 0 or 1 on security, tools, approvals, side effects, evaluation, or observability.
+
+SCORECARD
+
+Area: Goal
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What user or system goal does this pattern own?
+Required evidence: task contract, success criteria, refusal criteria, and owner.
+
+Area: Boundary
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What is outside the pattern's responsibility?
+Required evidence: handoff contract, caller contract, fallback, or escalation path.
+
+Area: Autonomy Split
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What does the model decide, and what does software decide?
+Required evidence: proposal, validation, execution, approval, and stop boundaries.
+
+Area: Tools And Side Effects
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What can the pattern read, write, send, change, delete, or trigger?
+Required evidence: tool allowlist, schemas, authorization checks, risk class, approval rule, idempotency, timeout, and audit record.
+
+Area: State And Memory
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What state is read, written, persisted, retrieved, corrected, or deleted?
+Required evidence: state owner, schema, replay behavior, retention rule, memory write policy, and correction path.
+
+Area: Context And Evidence
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What evidence enters the working set, and why should the model trust it?
+Required evidence: source eligibility, freshness rule, retrieval trace, context budget, and prompt-injection controls.
+
+Area: Security
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What can untrusted input influence?
+Required evidence: threat model, sandbox boundary, credential policy, tenant isolation, policy denial tests, and approval gates.
+
+Area: Evaluation
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: What failure must be caught before release?
+Required evidence: happy path cases, edge cases, adversarial cases, trajectory evals, mocked tools, and regression fixtures.
+
+Area: Observability
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: Can a failed run be explained later?
+Required evidence: trace ID, model spans, tool spans, decision records, policy denials, costs, latency, and stop reason.
+
+Area: Operations
+Score:
+Owner:
+Evidence:
+Reviewer notes:
+
+Question: Can the pattern be disabled, rolled back, replayed, or degraded?
+Required evidence: versioned prompts, tool manifests, model routes, feature flags, rollback plan, circuit breakers, and incident runbook.
+
+RELEASE DECISION
+
+Any score is 0:
+[ ] Yes -> Block release.
+[ ] No
+
+Any score is 1 on security, tools, approvals, side effects, evaluation, or observability:
+[ ] Yes -> Block production release.
+[ ] No
+
+Average score:
+Recommended release mode:
+[ ] Prototype only
+[ ] Internal or low-risk pilot
+[ ] Controlled production candidate
+[ ] Staged production rollout
+[ ] Production for stated scope
+
+Blocking gaps:
+-
+-
+-
+
+Accepted risks:
+-
+-
+-
+
+Required next evidence:
+-
+-
+-
+
+Final decision:
+[ ] Approve for stated scope
+[ ] Approve with limits
+[ ] Pilot only
+[ ] Block
+
+Decision rationale:
+
+FOLLOW-UP
+
+Owner for missing evidence:
+Date for rescore:
+Regression eval to add:
+Rollback or disable path:

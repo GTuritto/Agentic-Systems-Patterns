@@ -12,7 +12,7 @@ The secondary target is an offline PDF stored in the repository at `book/release
 
 ## License
 
-The book/reference and examples use Creative Commons Attribution-ShareAlike 4.0 International (`CC-BY-SA-4.0`). The repository `LICENSE`, root README, VitePress footer, and generated PDF should all point to the canonical license URL: https://creativecommons.org/licenses/by-sa/4.0/
+Source code and runnable examples use the MIT License. Book/reference content, diagrams, worksheets, and generated publishing artifacts use Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (`CC-BY-NC-SA-4.0`). The repository `LICENSE`, `LICENSE-CONTENT.md`, root README, VitePress footer, and generated PDF should identify the split clearly and point to the canonical content license URL: https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 ## Catalog Structure
 
@@ -148,7 +148,7 @@ The refactor is complete when:
 - `npm run book:build` builds the static site into `book/docs/.vitepress/dist`.
 - `book/docs/` has a coherent sidebar and no stale links to active folders that moved to `deprecated/`.
 - The active index lists deprecated patterns with reasons.
-- The root README, `LICENSE`, package metadata, VitePress footer, and PDF release notes identify `CC-BY-SA-4.0`.
+- The root README, `LICENSE`, `LICENSE-CONTENT.md`, package metadata, VitePress footer, and PDF release notes identify MIT for code and `CC-BY-NC-SA-4.0` for content.
 
 ## References
 

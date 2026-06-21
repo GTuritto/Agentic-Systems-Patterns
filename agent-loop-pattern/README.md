@@ -136,6 +136,32 @@ async function runAgentLoop(task: AgentTask, budget: LoopBudget) {
 
 The controller does not need to be complicated. It needs to make the hidden parts explicit: the active goal, the proposal, the validation decision, the action, the observation, the budget counters, and the stop reason.
 
+### Running Case: Bounded Refund Investigation
+
+In the support refund system, the whole product should not be one open-ended loop. The workflow should call a loop only for the uncertain part: investigate whether the available evidence supports the refund recommendation.
+
+```text
+goal: "Decide whether refund evidence is sufficient for order O-104."
+allowed_actions:
+  - read_order
+  - read_delivery_status
+  - search_refund_policy
+  - ask_customer_clarifying_question
+  - draft_refund_recommendation
+forbidden_actions:
+  - issue_refund
+  - change_payment_method
+  - update_policy
+stop_reasons:
+  - completed
+  - evidence_missing
+  - policy_blocked
+  - needs_human
+  - max_steps
+```
+
+This keeps the loop useful and small. It can decide the next evidence-gathering step, but it cannot issue the refund. The payment action stays behind policy validation, approval, idempotency, and audit.
+
 ## Failure Modes
 
 - The goal is vague, so the loop keeps working without a stable success condition.

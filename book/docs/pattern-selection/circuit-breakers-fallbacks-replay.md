@@ -130,6 +130,34 @@ When an agent performs expensive or risky work, make the action replayable:
 
 Replay turns a failure from a mystery into a test case.
 
+## Replay Packet
+
+When a breaker fires, store a replay packet with the smallest useful set of records needed to reconstruct the failure.
+
+```json
+{
+  "replay_id": "replay_support_refund_2026_06_21_001",
+  "run_id": "run_9f32",
+  "trigger": {
+    "breaker": "tool:shipping.read_delivery_status",
+    "reason": "tool_failure_breaker_open",
+    "observed": 3,
+    "threshold": 3
+  },
+  "goal": "Investigate whether order ord_123 qualifies for refund.",
+  "state_snapshot_ref": "state/run_9f32/step_4",
+  "context_packet_ref": "context/run_9f32/step_4",
+  "model_events": ["model_call_1", "model_call_2"],
+  "tool_events": ["tool_call_1", "tool_call_2", "tool_call_3"],
+  "policy_events": ["policy_check_1"],
+  "side_effects": [],
+  "fallback_taken": "needs_human",
+  "safe_replay_mode": "mocked_tools"
+}
+```
+
+The packet should answer four questions: what fired, what the system believed, what happened before the breaker, and how to replay safely without repeating side effects.
+
 ## Replay Levels
 
 | Level | Capability | Use |

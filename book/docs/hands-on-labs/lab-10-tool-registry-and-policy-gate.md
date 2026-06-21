@@ -4,6 +4,8 @@ title: Lab 10 - Build a Tool Registry and Policy Gate
 
 # Lab 10 - Build a Tool Registry and Policy Gate
 
+Download the [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt) and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) before you start.
+
 ## Objective
 
 Extend the mini-runtime with a tool registry and policy gate. The model can propose a tool call, but software decides whether the tool exists, whether the input is acceptable, and whether policy allows execution.
@@ -15,6 +17,17 @@ Extend the mini-runtime with a tool registry and policy gate. The model can prop
 - Framework-agnostic lesson: tool descriptions are not permissions; registry and policy are separate runtime boundaries.
 - Pattern chapters: [Tool Use](/foundations/tool-use), [Tool Capability Design](/tools-skills-protocols/tool-capability-design), [Policy Enforcement](/production-runtime/policy-enforcement)
 - Previous lab: [Lab 09 - Minimal Agent Loop](./lab-09-minimal-agent-loop.md)
+
+## Exercise Time Budget
+
+These estimates assume the Lab 09 loop is already available.
+
+| Exercise | Time | Output |
+| --- | ---: | --- |
+| Run the baseline tool contract | 10 min | Passing mini-runtime test output. |
+| Add registry and policy checks | 20-25 min | Separate tool lookup, schema handling, and policy decision. |
+| Exercise denial and failure cases | 10-15 min | Unknown-tool, approval-required, and tool-failure signals. |
+| Review production boundary | 10-20 min | Notes for registry ownership, approval records, and trace fields. |
 
 ## Setup
 
@@ -103,21 +116,58 @@ npm run mini-runtime
 
 ## Expected Result
 
-The allowed read-tool path should produce:
+The allowed read-tool path in the reference demo should include:
 
 ```text
-tool result: ok
-stopReason: success or budget_exhausted depending on your decide function
-observation includes lookup_policy
+toolsCalled: ["lookup_policy"]
+observations include: lookup_policy:allow
+observations include: lookup_policy:ok
+trace includes: policy_decision
+trace includes: tool_result
+stopReason: success
 ```
 
-The refusal paths should produce:
+The reference test covers these refusal and failure signals:
 
-```text
-unknown tool -> refused
-write tool -> approval_required
-tool error -> tool_failure or recorded error observation
+| Case | Expected Signal |
+| --- | --- |
+| Unknown tool `delete_customer` | `stopReason: refused`; `delete_customer` is not executed. |
+| Write tool `send_message` | `stopReason: blocked`; `send_message` is not executed because approval is required. |
+| Failing read tool `flaky_lookup` | `stopReason: tool_failure`; trace includes `upstream_timeout`. |
+| Permissive unsafe write policy | Final answer can be `success`, but trajectory eval fails because `send_message` was called. |
+
+```mermaid
+sequenceDiagram
+    participant Model
+    participant Runtime
+    participant Registry
+    participant Policy
+    participant Tool
+    participant Trace
+    participant Eval
+
+    Model->>Runtime: Propose tool name and input
+    Runtime->>Registry: Look up tool definition
+    alt Unknown tool
+        Registry-->>Runtime: Not found
+        Runtime->>Trace: Record refused tool proposal
+    else Tool exists
+        Registry-->>Runtime: Tool manifest and side-effect class
+        Runtime->>Policy: Authorize actor, tool, input, side effect
+        alt Allowed
+            Policy-->>Runtime: allow
+            Runtime->>Tool: Execute typed call
+            Tool-->>Runtime: ok, refused, or error result
+            Runtime->>Trace: Record policy and tool result
+        else Denied or approval required
+            Policy-->>Runtime: deny or approval_required
+            Runtime->>Trace: Record blocked execution
+        end
+    end
+    Runtime->>Eval: Check trajectory for forbidden tools
 ```
+
+Use this flow as the lab's acceptance model. The model may propose a tool, but the registry, policy gate, trace, and eval decide whether execution is allowed and reviewable.
 
 ## Failure Cases
 
@@ -126,6 +176,7 @@ Test these cases:
 1. Unknown tool name.
 2. Tool with `write` side effect.
 3. Tool execution returns `error`.
+4. Permissive policy that allows a write tool, so trajectory eval must catch the unsafe path.
 
 The exact stop behavior can vary, but the runtime must not silently execute forbidden or unknown tools.
 
@@ -141,6 +192,20 @@ Check these assertions manually or with `npm run mini-runtime:test`:
 
 The reference test also proves that `send_message` is blocked before execution when the default policy requires approval for write tools.
 
+## Lab Review Gate
+
+Before moving on, verify the tool boundary:
+
+| Check | Evidence |
+| --- | --- |
+| Tool lookup is explicit | Unknown tool names are refused before execution. |
+| Policy runs before execution | Write tools produce `approval_required` before any side effect. |
+| Results are structured | Tool outcomes use `ok`, `refused`, or `error` status. |
+| Side-effect class matters | Read, draft, and write tools can be governed differently. |
+| Observations preserve the path | Allowed and refused outcomes are visible in runtime observations. |
+
+Record the allowed read path, unknown-tool refusal, write-tool approval requirement, and error case in the lab completion worksheet.
+
 ## Production Extension
 
 Before using this pattern with real tools, add:
@@ -151,6 +216,20 @@ Before using this pattern with real tools, add:
 - actor, tenant, route, and approval context;
 - trace IDs for proposed call, policy decision, execution, and result;
 - separate policies for read, draft, write, external communication, money movement, memory write, and code execution.
+
+## Production Bridge
+
+Use this table when adapting the registry to production:
+
+| Lab Concept | Production Version |
+| --- | --- |
+| Tool map | Versioned capability registry with owner, permissions, and disable switch. |
+| `ToolDefinition` | Tool manifest with schema, side-effect class, timeout, retry, and audit fields. |
+| `authorize` | Policy engine using actor, tenant, resource, risk, budget, and approval context. |
+| `approval_required` | Durable approval request with reviewer, expiry, exact action, and trace link. |
+| Tool observation | Trace span with proposed input, decision, result, cost, latency, and redaction. |
+
+The first production milestone is a tool path that can prove why execution was allowed, denied, or paused.
 
 ## Cross-Framework Mapping
 

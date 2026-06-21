@@ -1,0 +1,56 @@
+MCP-First Tool Use Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Tools evolve independently from agent logic
+[ ] Tool schemas and permissions need discovery
+[ ] Tool invocation can be tested separately from model reasoning
+[ ] Local function call is insufficient
+[ ] Tool inputs and outputs can be validated
+
+Manifest
+[ ] Tool name is stable
+[ ] Manifest version is declared
+[ ] Capability class is declared
+[ ] Input schema rejects unknown fields
+[ ] Output schema is declared
+[ ] Side effects are declared
+[ ] Required permissions are declared
+[ ] Timeout behavior is declared
+[ ] Retry behavior is declared
+[ ] Idempotency requirement is declared for side effects
+
+Invocation
+[ ] Model intent is separated from execution permission
+[ ] Policy runs before invocation
+[ ] Actor and tenant are included where relevant
+[ ] Invocation ID is recorded
+[ ] Run ID is recorded
+[ ] Manifest version is recorded
+[ ] Input reference is recorded
+[ ] Policy decision reference is recorded
+[ ] Output or error reference is recorded
+[ ] Cancellation and refusal are first-class outcomes
+
+Evaluation
+[ ] Fixture covers valid call
+[ ] Fixture covers invalid arguments
+[ ] Fixture covers unauthorized call
+[ ] Fixture covers timeout
+[ ] Fixture covers refusal
+[ ] Fixture covers malformed response
+[ ] Fixture covers idempotent retry
+[ ] Fixture covers discovery filtering
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve manifest, policy, or traceability
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

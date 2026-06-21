@@ -1,0 +1,89 @@
+SELF-HEALING WORKFLOW REVIEW CHECKLIST
+
+Workflow:
+Owner:
+Reviewer:
+Date:
+
+1. Failure Classification
+
+[ ] Retryable failures are named.
+[ ] Fatal failures are named.
+[ ] Policy denials are not retried.
+[ ] Partial side effects are named separately from transient failures.
+[ ] Stale plans and missing evidence have separate recovery outcomes.
+[ ] Missing evidence, ambiguity, and unsafe tool proposals have explicit outcomes.
+
+Evidence:
+
+2. Recovery State Machine
+
+[ ] The chapter or design doc includes a recovery state machine or equivalent decision graph.
+[ ] Every graph edge has a trace event, budget check, and stop reason.
+[ ] Retry, fallback, re-plan, compensation, escalation, and stop are distinct states or decisions.
+[ ] Ambiguous classification escalates instead of choosing autonomous recovery.
+
+Evidence:
+
+3. Recovery Policy
+
+[ ] Retry limits are defined per step and per run.
+[ ] Backoff and jitter are defined for transient failures.
+[ ] Fallbacks reduce risk or authority.
+[ ] Re-planning requires new evidence or changed state.
+[ ] Escalation has owner and message.
+
+Evidence:
+
+4. State and Idempotency
+
+[ ] Workflow state is persisted after meaningful steps.
+[ ] Side-effect steps have idempotency keys.
+[ ] Idempotency keys include action target, attempt, and previous result.
+[ ] Compensation is defined for partially completed external actions.
+[ ] Duplicate retry cannot repeat irreversible work.
+
+Evidence:
+
+5. Breakers and Budgets
+
+[ ] No-progress breaker is defined.
+[ ] Tool failure breaker is defined.
+[ ] Cost, latency, and iteration limits are defined.
+[ ] Breaker events include trigger, threshold, observed value, and action.
+
+Evidence:
+
+6. Observability and Replay
+
+[ ] Trace records decision, action, observation, recovery decision, and stop reason.
+[ ] Failed runs produce replay packets.
+[ ] Replay can run with mocked tools or sandboxed side effects.
+[ ] Incidents become regression evals.
+[ ] Escalation packets include current state, failure class, attempted recovery, residual risk, and owner.
+
+Evidence:
+
+7. Evaluation
+
+[ ] Happy path is tested.
+[ ] Transient tool failure is tested.
+[ ] Fatal tool failure is tested.
+[ ] Repeated failure stops safely.
+[ ] Partial side effect is compensated or escalated.
+[ ] Bad recovery decision fails the eval.
+[ ] No-progress loops trip the breaker.
+[ ] Policy-denied actions do not retry.
+
+Evidence:
+
+8. Final Decision
+
+[ ] Prototype only
+[ ] Internal pilot
+[ ] Production candidate
+[ ] Not safe to automate recovery
+
+Blocking gaps:
+
+Next actions:

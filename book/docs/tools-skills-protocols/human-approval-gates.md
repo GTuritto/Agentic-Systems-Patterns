@@ -184,6 +184,61 @@ For a customer refund, the approver should see the order, payment, customer mess
 
 The human should be able to approve, deny, request changes, escalate, or cancel. Free-form comments are useful, but the decision itself should be structured.
 
+### Approval Review Flow
+
+Use this flow to test whether the UI, policy engine, and runtime agree on the same action. The approver should never approve a summary that the runtime later translates into a different payload.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Runtime
+    participant Policy
+    participant ApprovalUI as Approval UI
+    participant Approver
+    participant Tool
+    participant Trace
+
+    Runtime->>Policy: Check proposed action envelope
+    Policy-->>Runtime: require_approval with policy version
+    Runtime->>ApprovalUI: Create request with action ID and args hash
+    ApprovalUI->>Approver: Show action, evidence, risk, expiry
+    alt Approver approves exact action
+        Approver-->>ApprovalUI: approved with reason
+        ApprovalUI-->>Runtime: decision record
+        Runtime->>Runtime: Validate action ID, args hash, role, expiry
+        Runtime->>Tool: Execute approved action once
+        Tool-->>Runtime: Result or failure
+    else Approver denies or requests changes
+        Approver-->>ApprovalUI: denied or changes_requested
+        ApprovalUI-->>Runtime: Stop or revise
+    end
+    Runtime->>Trace: Record request, decision, resume, stop reason
+```
+
+The UI can be simple, but it must preserve the machine contract. The visible action, policy reason, arguments hash, resource IDs, expiry, and decision should match the records used by `canResumeWithApproval`.
+
+### Approval Metrics Panel
+
+Approval gates need operating signals, not just a request screen. A small dashboard should separate convenience problems from safety problems.
+
+```mermaid
+flowchart LR
+    A["Approval requests"] --> B["Volume by risk class"]
+    A --> C["Median approval latency"]
+    A --> D["Denial rate"]
+    A --> E["Changes requested"]
+    A --> F["Expired approvals"]
+    A --> G["Stale approval rejections"]
+    A --> H["Denied-action execution"]
+
+    H --> I{"Blocking incident?"}
+    G --> I
+    I -->|"yes"| J["Create regression eval"]
+    I -->|"no"| K["Tune policy or UX"]
+```
+
+Treat denied-action execution, stale-approval reuse, and missing approval spans as release-blocking signals. High approval latency may be a workflow problem. High denial rate may mean the agent is requesting actions outside its authority. High rubber-stamp rate may mean the UI is asking for too many low-value decisions.
+
 ### Stale Approval And Replay Protection
 
 Approval gates fail when a decision can be replayed outside its original context. The runtime should reject an approval when the action changed, the policy version changed, the approval expired, the approver role no longer matches, the tenant changed, the resource changed, or the idempotency key was already consumed.

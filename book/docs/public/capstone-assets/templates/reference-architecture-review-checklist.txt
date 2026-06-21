@@ -1,0 +1,97 @@
+REFERENCE ARCHITECTURE REVIEW CHECKLIST
+
+System:
+Reviewer:
+Date:
+Release or design version:
+
+1. Entry and Scope
+
+[ ] Entry source is named: chat, API, webhook, IDE, ticket, scheduled job, or event.
+[ ] User, tenant, or event identity is authenticated.
+[ ] Goal, non-goals, and authority level are explicit.
+[ ] Inputs are validated before reaching the model.
+
+Evidence:
+
+2. Control Plane
+
+[ ] Router can choose direct answer, workflow, agent loop, RAG, or multi-agent path.
+[ ] State owner is named.
+[ ] Stop reasons are explicit.
+[ ] Budget, timeout, cancellation, and retry policy are defined.
+[ ] Model output remains a proposal until validated.
+
+Evidence:
+
+3. Knowledge Plane
+
+[ ] Retrieval sources are access-controlled.
+[ ] Source freshness and trust are recorded.
+[ ] Context packet includes source, reason, trust, freshness, and budget.
+[ ] Missing or conflicting evidence has a defined outcome.
+
+Evidence:
+
+4. Tool and Execution Plane
+
+[ ] Tool manifest lists name, schema, permission, timeout, side effect, and audit fields.
+[ ] Policy runs before tool execution.
+[ ] High-risk tools require approval or are forbidden.
+[ ] Side effects use idempotency keys or equivalent protection.
+
+Evidence:
+
+5. Memory Plane
+
+[ ] Working memory and durable memory are separate.
+[ ] Memory writes have policy, provenance, retention, correction, and deletion rules.
+[ ] Sensitive data is redacted or excluded.
+
+Evidence:
+
+6. Approval and Human Control
+
+[ ] Approval requests bind exact action, risk, policy version, expiry, and trace ID.
+[ ] Users or operators can stop, correct, escalate, or roll back risky behavior.
+[ ] Stale approvals cannot authorize changed actions.
+
+Evidence:
+
+7. Evaluation Plane
+
+[ ] Evals cover happy paths, edge cases, unsafe paths, and regressions.
+[ ] Blocking thresholds are defined.
+[ ] Trajectory evals inspect tools, policy, evidence, and stop reason.
+[ ] Incidents become regression cases.
+
+Evidence:
+
+8. Observability Plane
+
+[ ] Trace records goal, context, model decision, policy, tool calls, outputs, and stop reason.
+[ ] Trace redaction is tested.
+[ ] Operators can reconstruct one successful run and one failed run.
+[ ] Cost, latency, tool errors, eval drift, and approvals are measurable.
+
+Evidence:
+
+9. Runtime and Release
+
+[ ] Deployment owner and on-call owner are named.
+[ ] Rollback can disable model, prompt, tool, workflow, or agent behavior.
+[ ] Kill switch is documented and tested.
+[ ] Runbook explains incident triggers and first actions.
+
+Evidence:
+
+10. Final Decision
+
+[ ] Ready for internal prototype.
+[ ] Ready for controlled pilot.
+[ ] Ready for production candidate.
+[ ] Not ready.
+
+Blocking gaps:
+
+Next actions:

@@ -1,0 +1,58 @@
+ReAct Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Task needs tool use
+[ ] Next step depends on observations
+[ ] Loop has clear success and stop conditions
+[ ] Actions can be validated before execution
+[ ] Deterministic workflow or direct tool call is insufficient
+
+Action contract
+[ ] Structured action schema exists
+[ ] Allowed tools are listed
+[ ] Unknown tools are rejected
+[ ] Tool inputs are validated
+[ ] Write-capable actions require policy and approval
+[ ] Final answers require evidence references
+[ ] Refusal and escalation are valid action types
+
+Observation contract
+[ ] Tool results become structured observations
+[ ] Observation source is recorded
+[ ] Observation status is recorded
+[ ] Observation trust level is recorded
+[ ] Errors and partial results are represented
+[ ] Sensitive output is redacted before context reuse
+[ ] Full raw output is stored separately when audit requires it
+
+Loop state
+[ ] Run ID recorded
+[ ] Actions recorded
+[ ] Observations recorded
+[ ] Iteration count recorded
+[ ] Max iterations enforced
+[ ] Cost or budget state recorded where relevant
+[ ] Stop reason recorded
+
+Evaluation
+[ ] Fixture covers unknown tool
+[ ] Fixture covers malformed tool input
+[ ] Fixture covers repeated failed action
+[ ] Fixture covers partial observation
+[ ] Fixture covers final answer without evidence
+[ ] Fixture covers write action request
+[ ] Fixture covers max iterations
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve action validation or observation handling
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

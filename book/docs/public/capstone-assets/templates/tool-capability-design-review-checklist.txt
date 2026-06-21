@@ -1,0 +1,72 @@
+Tool Capability Design Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Tool exposes a narrow capability, not an open-ended primitive
+[ ] Capability class is declared
+[ ] Risk class is declared
+[ ] Side effects are explicit
+[ ] Safer deterministic workflow was considered
+
+Manifest
+[ ] Stable tool name
+[ ] Owner
+[ ] Version
+[ ] Clear description for tool selection
+[ ] Strict input schema
+[ ] Structured output schema
+[ ] Required scopes
+[ ] Permission rules
+[ ] Approval rule
+[ ] Timeout
+[ ] Retry policy
+[ ] Idempotency requirement
+[ ] Egress policy
+[ ] Redaction rules
+
+Authority and safety
+[ ] Model intent is separated from execution permission
+[ ] Policy runs outside the prompt
+[ ] Credentials are scoped and short lived
+[ ] Tenant and actor binding exists
+[ ] Approval is bound to the exact action
+[ ] Private data and untrusted content are labeled separately
+[ ] Tool result is data, not instruction
+[ ] Tool can be disabled quickly
+
+Observability
+[ ] Run ID recorded
+[ ] Actor or service principal recorded
+[ ] Tool name and version recorded
+[ ] Redacted input summary recorded
+[ ] Policy decision recorded
+[ ] Approval ID recorded where relevant
+[ ] Idempotency key recorded where relevant
+[ ] Result status recorded
+[ ] Error class recorded
+[ ] Latency recorded
+[ ] Redaction status recorded
+
+Evaluation
+[ ] Fixture covers successful path
+[ ] Fixture covers missing input
+[ ] Fixture covers malformed input
+[ ] Fixture covers untrusted content injection
+[ ] Fixture covers private data plus external communication
+[ ] Fixture covers duplicate submit or retry
+[ ] Fixture covers approval required but missing
+[ ] Fixture covers disabled tool
+[ ] Fixture covers memory write from untrusted evidence
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve schema, policy, observability, or evals
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

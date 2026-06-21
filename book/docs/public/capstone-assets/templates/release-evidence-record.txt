@@ -1,0 +1,137 @@
+RELEASE EVIDENCE RECORD
+
+Book:
+Version:
+Release owner:
+Reviewer:
+Date:
+Commit:
+Public site URL:
+PDF URL:
+EPUB URL:
+
+1. Reader Promise
+
+What changed in this release?
+
+Which reader path is most affected?
+[ ] First-time path
+[ ] Builder path
+[ ] Lab path
+[ ] Capstone path
+[ ] Reference path
+[ ] Publishing appendix
+
+What should readers be able to do after this release?
+
+2. Command Evidence
+
+[ ] npm test
+Result:
+
+[ ] npm run release:commands
+Result:
+
+[ ] npm run typecheck
+Result:
+
+[ ] npm run capstones:evidence
+Result:
+
+[ ] npm run native-examples:validate
+Result:
+
+[ ] npm run native-examples:smoke:langgraph
+Result:
+
+[ ] npm run book:manifest:test
+Result:
+
+[ ] npm run book:visuals:verify
+Result:
+
+[ ] npm run book:build
+Result:
+
+[ ] npm run site:build
+Result:
+
+[ ] npm run site:parity
+Result:
+
+[ ] npm run book:pdf
+Result:
+
+[ ] npm run book:epub
+Result:
+
+3. GitHub Pages Evidence
+
+[ ] Homepage loads.
+[ ] Introduction loads.
+[ ] How To Read This Book loads.
+[ ] Sidebar navigation works.
+[ ] Section pages load.
+[ ] Search opens and returns results.
+[ ] Courtesy PDF downloads.
+[ ] Courtesy EPUB downloads.
+[ ] At least one source bundle downloads.
+[ ] At least one worksheet downloads.
+[ ] At least one diagram renders.
+[ ] At least one capstone trace or eval artifact downloads.
+
+Checked URLs:
+
+4. Capstone Evidence
+
+[ ] Capstone chapters show the expected runtime pass lines.
+[ ] Capstone stop reasons match the deterministic runtime.
+[ ] Capstone trace JSON files include the release gate IDs.
+[ ] Capstone eval reports include the same eval case IDs as the runtime.
+[ ] Capstone review scorecard links resolve.
+
+Evidence notes:
+
+5. Content Evidence
+
+[ ] New or changed chapters have clear reader payoff.
+[ ] Links to related chapters are correct.
+[ ] Tables have enough context.
+[ ] Diagrams are introduced by the decision they support.
+[ ] Code or command examples still match the repository.
+[ ] Production claims have review gates, tests, traces, or explicit limits.
+
+Evidence notes:
+
+6. Asset Evidence
+
+[ ] site/dist contains current pages.
+[ ] site/dist/releases contains the courtesy PDF.
+[ ] site/dist/releases contains the courtesy EPUB.
+[ ] site/dist/downloads contains source bundles.
+[ ] site/dist/capstone-assets/templates contains worksheets and checklists.
+[ ] site/dist/pagefind contains search index files.
+[ ] sitemap.xml contains public page URLs.
+[ ] robots.txt exists.
+
+Evidence notes:
+
+7. Known Limitations
+
+What is intentionally out of scope?
+
+What is incomplete but acceptable for this release?
+
+What should not be claimed publicly?
+
+8. Release Decision
+
+[ ] Ship
+[ ] Ship with documented limitation
+[ ] Do not ship
+
+Reason:
+
+Rollback action:
+
+Next editorial fixes:

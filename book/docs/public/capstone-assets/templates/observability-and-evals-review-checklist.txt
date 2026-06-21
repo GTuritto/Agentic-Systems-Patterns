@@ -1,0 +1,31 @@
+# Observability And Evals Review Checklist
+
+Use this checklist before production traffic reaches an agent.
+
+## Trace Contract
+
+- [ ] Every run starts with trace ID, run ID, request ID, actor, tenant, environment, and version set.
+- [ ] Model, tool, retrieval, memory, policy, approval, evaluator, retry, and workflow spans are captured where relevant.
+- [ ] Traces record status, stop reason, latency, cost, token count, retry count, and policy outcome.
+- [ ] Prompt, model, tool schema, policy, retriever, memory, and harness versions appear in the trace.
+
+## Data Safety
+
+- [ ] Trace fields are classified before storage.
+- [ ] Secrets, credentials, unnecessary private data, and unsafe raw content are redacted.
+- [ ] Retention, access control, deletion, and export rules are documented.
+- [ ] Content-reference-only tracing is available when raw content should not be stored.
+
+## Eval Coverage
+
+- [ ] Evals cover task success, trajectory correctness, tool correctness, policy compliance, retrieval quality, memory safety, recovery, cost, and latency.
+- [ ] Eval subsets map to prompt, model, tool, retrieval, memory, policy, workflow, and runtime changes.
+- [ ] Failed blocking evals stop release or require a traceable override.
+- [ ] Each eval suite has an owner and freshness process.
+
+## Operational Loop
+
+- [ ] Incidents, near misses, and human corrections can become eval fixtures.
+- [ ] Dashboards show success rate, stop reason, policy denials, tool errors, cost, latency, retries, and eval regression rate.
+- [ ] Operators can reconstruct one failed run without raw secrets.
+- [ ] Release overrides record owner, reason, affected evals, expiry, and follow-up.

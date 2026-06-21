@@ -23,6 +23,20 @@ Start with one vertical slice:
 
 Do not begin by porting every lab. Port the smallest behavior that proves the framework can own the responsibility you need it to own.
 
+```mermaid
+flowchart TB
+    A[Pick one vertical slice] --> B[Create framework project]
+    B --> C[Map state, tools, policy, trace, evals]
+    C --> D[Run locally from clean checkout]
+    D --> E{Boundary proven?}
+    E -->|no| F[Reduce scope or change framework]
+    F --> A
+    E -->|yes| G[Record framework ADR]
+    G --> H[Add release evidence and rollback path]
+```
+
+Use this flow before expanding the port. A framework is a candidate only after it proves the boundary that matters most: state, approval, tool authority, transcript ownership, workflow packaging, or eval integration.
+
 ## Shared Setup Rules
 
 Every framework variant should define these files before the first demo:
@@ -38,6 +52,36 @@ Every framework variant should define these files before the first demo:
 | `README.md` | Shows install, local run, test, eval, and cleanup commands. |
 
 Keep secrets out of examples. Use `.env.example` for names and local environment variables for values.
+
+## Setup Failure Playbook
+
+Framework ports fail in repeatable ways. Treat setup failures as design evidence, not as local annoyance. A framework is not ready for the book's production path until a new engineer can reproduce install, run, test, eval, and cleanup from a clean checkout.
+
+| Failure | Common Signal | What To Capture | Fix Or Decision |
+| --- | --- | --- | --- |
+| Wrong runtime version | Python, Node.js, or package manager rejects install. | Runtime version, lockfile version, install command, failing package. | Pin the runtime in docs and CI, or choose a framework slice with supported versions. |
+| Hidden provider dependency | Demo imports a provider package that was not installed. | Missing module, provider package name, model route, `.env.example` field. | Make provider packages explicit and keep deterministic fallback tests. |
+| Secret required for local test | Baseline test fails before architecture can be inspected. | Command, missing environment variable, whether deterministic fallback exists. | Split unit/eval tests from live-provider smoke tests. |
+| Generated scaffold hides policy | Tool, approval, or memory rules live only inside example prompt text. | File path, hidden rule, missing policy module, failed boundary test. | Move policy into code and add a trajectory eval. |
+| State cannot resume | Interrupt, retry, or local server restart loses run state. | Thread ID, checkpoint store, resume command, expected state diff. | Add persistent checkpointer or reject the framework for durable workflows. |
+| Trace is final-answer only | Logs show output but not route, tool, policy, approval, or stop reason. | Trace fields present and missing, sample run ID, eval requirement. | Add instrumentation before expanding the port. |
+| Upgrade breaks behavior | Package update changes routing, tool calls, memory, or termination. | Old/new versions, changed trace, failing fixture, rollback command. | Require regression evals before framework upgrades. |
+
+Capture the failure in the framework ADR. The useful question is not "Can we install it?" The useful question is "Which production boundary did setup prove or fail to prove?"
+
+Use this setup evidence record for each framework slice:
+
+| Field | Example Value |
+| --- | --- |
+| Framework slice | `native-framework-examples/langgraph-refund/` |
+| Runtime versions | `python --version`, `node --version`, or package manager version. |
+| Install command | Exact command from clean checkout. |
+| Baseline run command | Smallest command that proves the main boundary. |
+| Eval command | Scoped command that proves failure behavior. |
+| Required secrets | Names only; no values. |
+| Deterministic fallback | Yes/no and command. |
+| Known setup failure | One captured failure and fix. |
+| Rollback or disable path | Command, feature flag, or route removal. |
 
 ## LangGraph Variant
 

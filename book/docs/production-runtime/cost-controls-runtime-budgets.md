@@ -6,6 +6,8 @@ title: Cost Controls and Runtime Budgets
 
 Agentic systems spend money, time, context, tool quota, and human attention every time they think, retrieve, call a tool, delegate, retry, evaluate, or ask for approval. Runtime budgets make those costs explicit and enforceable.
 
+Download the [cost controls and runtime budgets review checklist](/capstone-assets/templates/cost-controls-runtime-budgets-review-checklist.txt) before using this chapter for a production review.
+
 This chapter is not about making agents cheap at any cost. It is about making cost, latency, and autonomy part of the control plane. A useful agent should know when to continue, when to degrade, when to ask for approval, and when to stop.
 
 ![Cost controls and runtime budgets flow](../public/diagrams/runtime-budgets.svg)
@@ -15,6 +17,21 @@ This chapter is not about making agents cheap at any cost. It is about making co
 Keep agentic behavior bounded by task value, risk, user tier, and operational limits.
 
 A budget is not only a finance number. It is a runtime contract: how many steps the system may take, how many tools it may call, how long it may run, how much context it may carry, how many retries it may spend, how much human attention it may request, and how much autonomy is justified before escalation.
+
+## Runtime Budget Readiness Questions
+
+Use these questions before enabling autonomous loops, retries, retrieval, delegation, or write tools:
+
+| Question | Evidence To Produce |
+| --- | --- |
+| What does the task justify spending? | Budget policy by task class, risk class, user tier, and business value. |
+| What does the runtime measure? | Counters for model calls, tool calls, retries, retrieval, delegation, wall-clock time, and cost. |
+| Where are budgets enforced? | Pre-action gates before model, tool, retrieval, memory, approval, and delegation steps. |
+| What happens when budget is low? | Defined degraded modes, user-facing message, and operator stop reason. |
+| When is approval required? | Thresholds for extra spend, write tools, risky evidence gaps, or high-risk tasks. |
+| How are budget changes reviewed? | Versioned policy, eval cases, trace comparison, and rollback path. |
+
+Budgeting is an architecture feature. If the budget is only a dashboard after the run, it is accounting, not control.
 
 ## Use When
 
@@ -163,6 +180,27 @@ function checkBudget(
 
 The decision should become part of the trace. Notice that the check uses projected cost, not only current usage. A budget gate that runs after the model call or tool call has already spent the money is only accounting. A budget gate that runs before the next action is control.
 
+### Budget Decision Flow
+
+Use this flow before each model call, retrieval query, tool call, delegation, retry, approval request, or memory write. It turns budget pressure into an explicit runtime decision.
+
+```mermaid
+flowchart LR
+    A[Planned next action] --> B[Project cost, time, calls, retries, and risk]
+    B --> C{Hard cap exceeded?}
+    C -->|Yes| S[Stop with reason]
+    C -->|No| D{Approval threshold crossed?}
+    D -->|Yes| P[Pause for approval]
+    D -->|No| E{Soft budget pressure?}
+    E -->|Yes| G[Degrade mode]
+    E -->|No| R[Continue]
+    P -->|approved| R
+    P -->|denied or expired| S
+    G --> T[Trace budget decision]
+    R --> T
+    S --> T
+```
+
 ## Degraded Modes
 
 When a budget is nearly exhausted, the system should not improvise. It should switch to a known degraded mode:
@@ -196,6 +234,48 @@ Low-risk tasks can be cheap and fast. High-risk tasks may justify stronger model
 | Background research | Longer wall-clock budget, queue support, checkpointing. |
 
 Budgets are a way to encode judgment. They say which tasks are worth more reasoning, more tools, more review, or more time.
+
+## Budget Calculator Example
+
+Start with a simple per-run estimate before building a complex dashboard.
+
+| Item | Quantity | Unit Estimate | Run Estimate |
+| --- | ---: | ---: | ---: |
+| planner model call | 1 | 1.5 cents | 1.5 cents |
+| retrieval queries | 3 | 0.2 cents | 0.6 cents |
+| synthesis model calls | 2 | 2.0 cents | 4.0 cents |
+| tool calls | 4 | 0.5 cents | 2.0 cents |
+| evaluator call | 1 | 1.0 cents | 1.0 cents |
+| retry reserve | 20% | 9.1 cents base | 1.8 cents |
+| total planned budget |  |  | 10.9 cents |
+
+Then map the estimate to a policy:
+
+| Task Class | Default Cap | Approval Above | Degraded Mode |
+| --- | ---: | ---: | --- |
+| read-only support answer | 15 cents | 25 cents | answer with cited evidence and no extra retrieval |
+| refund recommendation | 50 cents | 75 cents | draft recommendation and request human review |
+| multi-agent incident analysis | $2.00 | $3.00 | stop fan-out and assign one owner |
+| background research | $5.00 | $8.00 | queue continuation and return partial findings |
+
+The exact numbers will differ by model and vendor. The useful habit is the same: estimate before the run, reserve for retries, enforce before actions, and record actual spend against the policy version.
+
+## Alert Thresholds
+
+Budget alerts should distinguish one expensive run from a systemic problem.
+
+| Signal | Warning | Critical | Action |
+| --- | ---: | ---: | --- |
+| per-run cost | 80% of cap | 100% of cap | degrade or stop before next action |
+| model calls per run | 80% of cap | cap reached | stop revision loop or require approval |
+| write-tool calls | any unexpected write | cap reached | pause write route and review trace |
+| retry rate | 10% of runs retry | 25% of runs retry | inspect failing step and add eval case |
+| delegation fan-out | above planned worker count | uncontrolled worker creation | stop delegation and assign owner |
+| queue spend rate | 2x normal hourly spend | 5x normal hourly spend | apply backpressure or pause route |
+| approval requests | 2x normal volume | reviewer queue blocked | batch, route, or pause low-priority work |
+| degraded-mode rate | 5% of runs | 15% of runs | review budgets, prompts, tools, or task routing |
+
+Every alert should point to an operator action. A cost alert that only says "spend is high" is too vague to help during an incident.
 
 ## Interaction With Circuit Breakers
 

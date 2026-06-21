@@ -27,6 +27,14 @@ Reflection asks an agent or evaluator to inspect prior output and identify concr
 - There is no acceptance criterion for the revised result.
 - The model is asked to approve its own unsafe actions.
 
+## Architecture
+
+Use this diagram to read Reflection as a system boundary, not only a code shape. The key ownership question is: the loop controller owns progress, budgets, stop conditions, and recovery state.
+
+![Reflection improvement loop](../public/diagrams/reflection-improvement-loop.svg)
+
+Read it as a bounded improvement pass: critique must identify concrete defects, revision must be validated, and budget or risk must stop the loop.
+
 ## System Shape
 
 - **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.

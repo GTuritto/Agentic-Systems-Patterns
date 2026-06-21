@@ -1,0 +1,38 @@
+# Mastra Runtime Review Checklist
+
+Use this checklist before adopting Mastra for a production agent path.
+
+## Runtime Boundary
+
+- [ ] The application boundary is documented: identity, tenant scope, request validation, response delivery.
+- [ ] The Mastra boundary is documented: agents, workflows, tools, memory, evals, observability.
+- [ ] Product policy remains visible outside framework defaults.
+- [ ] Framework-specific code does not hide authorization, approval, or rollback behavior.
+
+## Workflows And Agents
+
+- [ ] Deterministic state transitions live in workflows, not prompts.
+- [ ] Agent decisions have allowed tools, stop reasons, and escalation rules.
+- [ ] Retries, approval waits, cancellation, and rollback points are explicit.
+- [ ] Workflow state can be inspected and replayed.
+
+## Tools, Memory, And Policy
+
+- [ ] Tools have typed inputs, typed outputs, permission checks, timeouts, and side-effect classes.
+- [ ] Tool calls use idempotency keys for externally visible side effects.
+- [ ] Memory reads and writes follow retention, deletion, correction, and consent rules.
+- [ ] Policy runs before retrieval, memory writes, tool calls, and outbound side effects.
+
+## Evals And Observability
+
+- [ ] Traces include workflow, model, tool, policy, memory, and eval events.
+- [ ] Eval fixtures cover success, denial, approval, tool failure, and memory behavior.
+- [ ] Prompt, model, tool, workflow, policy, memory, and framework changes run regression evals.
+- [ ] Redaction rules are tested before exporting traces.
+
+## Release And Rollback
+
+- [ ] Install, run, test, eval, and cleanup commands are documented.
+- [ ] `.env.example` lists required configuration without secrets.
+- [ ] Rollback can disable a model, prompt, tool, workflow, policy, memory write, or full agent route.
+- [ ] Framework upgrades are reviewed as runtime changes, not dependency housekeeping.

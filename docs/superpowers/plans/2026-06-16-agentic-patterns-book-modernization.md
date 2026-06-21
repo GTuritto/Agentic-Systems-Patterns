@@ -6,7 +6,7 @@
 
 **Architecture:** Keep runnable pattern examples at the repository root, add `book/` as the publishable VitePress source, and move weak or obsolete pattern folders into `deprecated/`. `Agentic_Patterns.md` remains the source index; `book/docs/` is the public reference site.
 
-**Tech Stack:** Markdown, TypeScript, Python, npm scripts, VitePress, GitHub Actions, GitHub Pages, Creative Commons Attribution-ShareAlike 4.0 International (`CC-BY-SA-4.0`).
+**Tech Stack:** Markdown, TypeScript, Python, npm scripts, VitePress, GitHub Actions, GitHub Pages, MIT code license, Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (`CC-BY-NC-SA-4.0`) content license.
 
 ---
 
@@ -24,7 +24,8 @@ The original design considered Docusaurus, but Docusaurus SSR builds failed in t
 - `book/docs/`: publishable manuscript pages.
 - `book/releases/`: checked-in release artifact path for `Agentic-Systems-Patterns.pdf`.
 - `.github/workflows/publish-book.yml`: GitHub Pages continuous deployment workflow.
-- `LICENSE`: repository license notice pointing to CC BY-SA 4.0.
+- `LICENSE`: repository code license notice pointing to MIT.
+- `LICENSE-CONTENT.md`: repository content license notice pointing to CC BY-NC-SA 4.0.
 
 ## Tasks
 
@@ -36,7 +37,7 @@ The original design considered Docusaurus, but Docusaurus SSR builds failed in t
 - [x] Add matching `book/docs/` pages for the public reference.
 - [x] Deepen A2A and MCP-first tool-use README content.
 - [x] Rewrite `Agentic_Patterns.md` into the modern sectioned catalog.
-- [x] Update publishing and license references for `CC-BY-SA-4.0`.
+- [x] Update publishing and license references for MIT code and `CC-BY-NC-SA-4.0` content.
 
 ## Verification Commands
 

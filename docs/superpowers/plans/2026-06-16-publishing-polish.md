@@ -22,7 +22,7 @@ Document the recommended paths for first-time readers, experienced engineers, an
 
 - [ ] **Step 2: Add publishing and release guidance**
 
-Document the live site, PDF URL, checked-in PDF, workflow artifact, local commands, and CC BY-SA 4.0 license.
+Document the live site, PDF URL, checked-in PDF, workflow artifact, local commands, and split MIT code / CC BY-NC-SA 4.0 content licenses.
 
 ### Task 2: Improve PDF Front Matter
 

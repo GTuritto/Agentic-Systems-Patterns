@@ -8,6 +8,16 @@ This chapter explains the small runtime behind the from-scratch mini-framework l
 
 Frameworks change APIs and vocabulary. The same responsibilities keep coming back: state, decisions, tools, policy, context, traces, evals, and stop conditions. Once you can build those primitives in a small runtime, LangGraph, Mastra AI, AutoGen-style systems, CrewAI, MCP, A2A, and custom harnesses are easier to evaluate.
 
+## What You Should Be Able To Do
+
+After this chapter, you should be able to:
+
+- identify the runtime primitives hidden inside agent frameworks;
+- explain why the model proposes decisions but the runtime executes them;
+- build a tiny loop with state, policy, tools, context, traces, and stop reasons;
+- compare framework features by responsibility instead of vocabulary;
+- know when the learning runtime should give way to production infrastructure.
+
 ## Why Build One
 
 Most agent failures are not mysterious model failures. They are runtime failures.
@@ -38,6 +48,33 @@ Use this diagram to keep the runtime responsibilities separate. The model propos
 This is not a production framework. It does not try to solve deployment, streaming, distributed execution, persistence, authentication, workflow queues, model adapters, UI integration, tracing backends, or memory stores.
 
 Use it as a learning scaffold. Use mature frameworks when you need production durability, operational integrations, concurrency, checkpoints, retries, hosted observability, and ecosystem support.
+
+## Runtime Readiness Record
+
+Before adapting the mini-runtime to a real system, write down which primitives are learning-only and which are production-owned.
+
+```yaml
+runtime_readiness:
+  purpose: "learning scaffold"
+  state:
+    owner: "mini-runtime"
+    production_gap: "no durable checkpoints"
+  tools:
+    owner: "tool registry"
+    production_gap: "no tenant-scoped authorization service"
+  policy:
+    owner: "local policy gate"
+    production_gap: "no central audit trail"
+  context:
+    owner: "context builder"
+    production_gap: "no retrieval freshness or redaction pipeline"
+  trace:
+    owner: "local trace events"
+    production_gap: "no hosted observability backend"
+  decision: "use for labs only; migrate to mature runtime before real side effects"
+```
+
+The record prevents the common mistake: treating a useful educational runtime as if it already has production durability, security, and operations.
 
 ## Primitive 1: State
 

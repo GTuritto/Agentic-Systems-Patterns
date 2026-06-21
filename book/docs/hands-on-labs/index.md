@@ -8,7 +8,7 @@ The labs turn the reference chapters into a build path. Each lab uses code that 
 
 The labs are intentionally framework-agnostic. They move between TypeScript and Python, and across minimal custom runtimes, LangChain/LangGraph-style retrieval, AutoGen-style manager/worker examples, A2A protocol code, MCP-style tool boundaries, and framework-neutral tests. The point is not to teach one API. The point is to show the architecture that survives when the framework changes.
 
-Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Lab Production Readiness Checklist](./production-readiness-checklist.md) after each lab to identify what the demo still needs before production. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task. Use [Capstone Projects](/capstone-projects/) when you want product-shaped examples with ADRs, traces, evals, runbooks, rollback plans, and native framework slices.
+Use [Lab Framework and Language Matrix](./framework-language-matrix.md) before starting if you want to see which language, framework, and architectural boundary each lab emphasizes. Use [Lab Production Readiness Checklist](./production-readiness-checklist.md) and the [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) after each lab to identify what the demo still needs before production. Use [From-Scratch Mini-Framework Track](./from-scratch-mini-framework.md) when you want to understand what agent frameworks package under the hood. Use [Vertical Slice Examples](./vertical-slice-examples.md) after the labs, or whenever you want to see several patterns composed into one realistic task. Use [Capstone Projects](/capstone-projects/) when you want product-shaped examples with ADRs, traces, evals, runbooks, rollback plans, and native framework slices.
 
 Run these commands from the repository root before starting:
 
@@ -41,6 +41,67 @@ Every lab follows the same learning contract:
 7. Identify what production would need next.
 
 The examples stay small on purpose. A small example is useful only when the lab also says what is intentionally missing: durable state, policy enforcement, stronger schemas, approval, tracing, evals, deployment, or framework integration. When a native framework slice exists, treat it as the next comparison point, not as a replacement for the deterministic lab.
+
+## Planning Table
+
+Use this table to choose a lab by effort and outcome. Time estimates assume you can already run the repository tests. Each lab page also includes optional per-exercise time blocks so you can split the work across shorter sessions.
+
+Download the reusable worksheet: [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt).
+
+Download the production follow-up worksheet: [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt).
+
+For the high-leverage labs, use the focused worksheets for [Lab 02 planning loops](/capstone-assets/templates/lab-02-planning-loop-guided-exercise.txt), [Lab 03 Agentic RAG](/capstone-assets/templates/lab-03-agentic-rag-guided-exercise.txt), [Lab 06 observability and evals](/capstone-assets/templates/lab-06-observability-evals-guided-exercise.txt), [Lab 07 runtime packaging](/capstone-assets/templates/lab-07-runtime-packaging-guided-exercise.txt), and [Lab 12 state graphs](/capstone-assets/templates/lab-12-state-graph-guided-exercise.txt).
+
+Compare your finished worksheet with the [completed lab evidence examples](/capstone-assets/templates/completed-lab-evidence-examples.txt) before treating the lab as review-ready.
+
+Use the [captured lab and capstone command output examples](/capstone-assets/output-examples/lab-and-capstone-command-output.txt) when you need a concrete model for saved command output, trace snapshots, eval snapshots, and release evidence.
+
+| Lab | Time | Level | Prerequisite | Reusable Artifact |
+| --- | ---: | --- | --- | --- |
+| [Lab 01 - Tool-Using Agent](./lab-01-tool-using-agent.md) | 20-30 min | Beginner | TypeScript basics | Tool boundary and error behavior. |
+| [Lab 02 - Agent Loop and Planning](./lab-02-agent-loop-and-planning.md) | 35-55 min | Beginner | Lab 01 or equivalent tool boundary | Plan/execute split with structured stop-condition evidence. |
+| [Lab 03 - Agentic RAG](./lab-03-agentic-rag.md) | 45-75 min | Intermediate | Retrieval and Python basics | Evidence-grounded answer path plus missing-evidence eval fixture. |
+| [Lab 04 - A2A Communication](./lab-04-a2a-communication.md) | 45-60 min | Intermediate | JSON schema and HTTP/message concepts | Typed agent message envelope. |
+| [Lab 05 - Multi-Agent Supervisor](./lab-05-multi-agent-supervisor.md) | 45-60 min | Intermediate | Delegation and aggregation concepts | Supervisor/worker contract. |
+| [Lab 06 - Observability and Evals](./lab-06-observability-and-evals.md) | 50-85 min | Intermediate | Any earlier lab | Trace contract, negative eval, and CI gate sketch. |
+| [Lab 07 - Mastra Runtime Packaging](./lab-07-mastra-runtime-packaging.md) | 70-105 min | Advanced | TypeScript runtime packaging | Agent, tool, workflow, memory, eval, and rollback slice. |
+| [Lab 08 - CrewAI Flows and Crews](./lab-08-crewai-flows-and-crews.md) | 60-90 min | Advanced | Python and role/task orchestration | Flow, crew, role, and acceptance contract. |
+| [Mini-Framework Track](./from-scratch-mini-framework.md) | 2-4 hr | Advanced | Labs 01, 02, and 06 | Runtime primitives you can compare to frameworks. |
+| [Lab 09 - Minimal Agent Loop](./lab-09-minimal-agent-loop.md) | 45-75 min | Intermediate | Mini-framework setup | Loop state, observations, budgets, and stop reasons. |
+| [Lab 10 - Tool Registry and Policy Gate](./lab-10-tool-registry-and-policy-gate.md) | 45-75 min | Intermediate | Lab 09 | Tool registry with policy decisions. |
+| [Lab 11 - Context, Memory, Trace, and Evals](./lab-11-context-memory-trace-evals.md) | 60-90 min | Advanced | Labs 09 and 10 | Reviewable runtime trace and trajectory eval. |
+| [Lab 12 - LangGraph State Graph](./lab-12-langgraph-state-graph.md) | 70-105 min | Advanced | Graph/state concepts | Checkpointed state graph with interrupt, resume, and replay review. |
+| [Lab 13 - AutoGen Transcript Evals](./lab-13-autogen-transcript-evals.md) | 60-90 min | Advanced | Multi-agent basics | Transcript rubric and regression check. |
+
+## Completion Standard
+
+A lab is complete when you can show four things:
+
+1. The baseline command runs.
+2. The expected output matches the lab's success signal.
+3. One intentional failure path is visible and controlled.
+4. You can name the production gap before using the pattern with real users, data, credentials, or side effects.
+
+Do not count a lab as finished just because the happy path works. The value comes from seeing the boundary: what the model can decide, what software must enforce, what gets traced, and what would block production.
+
+## Lab Evidence Pack
+
+Save a small evidence pack after each lab. It turns the lab from a one-time exercise into material you can reuse in a design review, ADR, eval suite, or capstone.
+
+| Evidence | What To Capture | Why It Matters |
+| --- | --- | --- |
+| Baseline command | Command, exit status, and expected output signal. | Proves the example ran before you changed it. |
+| Source boundary | Files inspected and the contract each file owns. | Shows where the pattern becomes code. |
+| Small change | One input, rule, prompt, tool, schema, or policy change. | Proves you can modify behavior intentionally. |
+| Failure path | Error, refusal, denial, timeout, budget stop, or invalid input. | Shows the boundary fails visibly instead of silently. |
+| Trace or log | Minimal trace, transcript, or structured output. | Gives future evals something concrete to assert. |
+| Production gap | Missing control and the next artifact needed. | Connects the lab to production architecture. |
+
+Keep the pack short. One screen of evidence is better than a folder of unreviewed screenshots.
+
+Use the [completed lab evidence examples](/capstone-assets/templates/completed-lab-evidence-examples.txt) as calibration. A good evidence pack names the command, output, failure path, protected boundary, production gap, and next owner.
+
+Use the [captured command output examples](/capstone-assets/output-examples/lab-and-capstone-command-output.txt) to compare the shape of your saved terminal output. The important signal is not a screenshot. It is a short, reviewable record that shows command, success signal, trace or eval link, and production question.
 
 ## Framework-Agnostic Rule
 
@@ -102,7 +163,7 @@ Use this table as the quick success check before you move to the production exte
 
 | Lab | Expected Output Signal |
 | --- | --- |
-| Lab 01 | `Agent: 4` for the calculator path and a controlled error for invalid input. |
+| Lab 01 | Structured `read_order` and `search_refund_policy` results with trust labels and evidence references. |
 | Lab 02 | `Planning test OK` plus a deterministic plan and result for the CLI path. |
 | Lab 03 | Answer reflects retrieved evidence from the local document set. |
 | Lab 04 | A2A test shows success, refusal, invalid-input error, and cancellation. |

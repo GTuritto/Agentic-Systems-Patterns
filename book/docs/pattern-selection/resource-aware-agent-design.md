@@ -47,6 +47,53 @@ interface AgentBudget {
 
 Budgets should travel with state so routers, tools, evaluators, and fallback logic can make consistent decisions.
 
+## Budget Policy
+
+A budget is useful only if the system knows what to do as it is spent.
+
+```ts
+type BudgetAction =
+  | 'continue'
+  | 'switch_to_cheaper_model'
+  | 'compress_context'
+  | 'skip_optional_review'
+  | 'return_partial_result'
+  | 'escalate'
+  | 'stop';
+
+type BudgetPolicy = {
+  warnAtPct: number;
+  degradeAtPct: number;
+  stopAtPct: number;
+  preferredDegradedAction: BudgetAction;
+};
+```
+
+For example, an interactive support assistant might warn internally at 60 percent of budget, switch to cheaper classification and smaller context at 75 percent, and stop with a partial answer or human escalation at 95 percent. A background research agent might tolerate higher latency but stop earlier on tool quota or source freshness risk.
+
+The budget policy should be part of the route or workflow contract, not an afterthought in logging.
+
+```mermaid
+flowchart TD
+    A[Agent run starts] --> B[Attach budget object]
+    B --> C[Choose initial route and model tier]
+    C --> D[Execute step]
+    D --> E[Measure cost, latency, context, quota, risk]
+    E --> F{Budget policy threshold?}
+    F -->|under warn| G[Continue]
+    F -->|warn| H[Trace warning and keep quality target]
+    F -->|degrade| I[Use cheaper model, smaller context, cache, or partial mode]
+    F -->|stop| J[Stop, escalate, or return bounded result]
+    G --> D
+    H --> D
+    I --> K{Quality still acceptable?}
+    K -->|yes| D
+    K -->|no| J
+    J --> L[Record final cost per completed task]
+```
+
+Use this loop to review implementations. Resource control is not only a meter; it must change execution before cost, latency, context, quota, or risk breaks the run.
+
 ## Optimization Levers
 
 | Lever | Use When | Trade-off |
@@ -103,6 +150,21 @@ Use:
 - resumable state.
 
 For long-running tasks, optimize for resumability before raw speed.
+
+## Degraded Modes
+
+Resource-aware systems should fail smaller before they fail completely.
+
+| Constraint Hit | Degraded Mode | Do Not Do |
+| --- | --- | --- |
+| Token budget | Use references, summaries with citations, or smaller working set. | Drop constraints, approvals, or error history. |
+| Model cost | Route simple steps to cheaper models. | Route high-risk synthesis to a weak model without eval proof. |
+| Latency | Return partial result, background the rest, or ask to continue. | Hide long-running work behind a frozen UI. |
+| Tool quota | Use cached read-only data with freshness labels. | Call write tools without current evidence. |
+| Human attention | Batch low-risk reviews or raise confidence threshold. | Create vague approvals that humans rubber-stamp. |
+| Risk budget | Require approval, sandbox, or stop. | Let the model decide that risk is acceptable. |
+
+Degraded behavior should be visible in traces and user-facing output when it affects quality. A cheaper or partial path is acceptable; pretending it is the same path is not.
 
 ## Failure Modes
 

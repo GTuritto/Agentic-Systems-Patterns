@@ -8,6 +8,8 @@ Agent security starts with a simple question: what can the model cause the syste
 
 So do not start the threat model with "the model might hallucinate." Start it with authority, data, tools, and communication.
 
+Download the reusable worksheet: [agent threat model worksheet](/capstone-assets/templates/agent-threat-model-worksheet.txt).
+
 ![Agent threat model risk path](../public/diagrams/agent-threat-model-risk-path.svg)
 
 ## The Dangerous Combination
@@ -36,6 +38,40 @@ The model can propose; software must decide whether the proposal is allowed. Kee
 | Observability | Records enough trace data for replay, audit, and incident response. |
 
 If the model is also the policy engine, the boundary is weak by construction: the same context that carries the attack also carries the policy instruction meant to stop it.
+
+## Threat Review Flow
+
+Use this flow when a new route, tool, memory type, data source, or communication channel is added. A threat model is useful only if it ends in controls, evals, traces, and a release decision.
+
+```mermaid
+flowchart TD
+    Scope["Name route and authority"] --> Inventory["Inventory data, tools, memory, communication"]
+    Inventory --> Dangerous{"Private data + untrusted content + external action?"}
+    Dangerous -->|Yes| BreakPath["Break or gate the path"]
+    Dangerous -->|No| Map["Map remaining threats"]
+    BreakPath --> Map
+    Map --> Controls["Assign enforced controls"]
+    Controls --> Evals["Create blocking security evals"]
+    Evals --> Trace["Require trace evidence"]
+    Trace --> Decision{"Release decision"}
+    Decision -->|Pass| Pilot["Pilot or production candidate"]
+    Decision -->|Fail| Block["Block and revise"]
+```
+
+## STRIDE Map For Agents
+
+STRIDE is useful only after it is translated into agent-specific boundaries. Use it to ask what the model, runtime, tools, memory, and communication paths can be tricked into doing.
+
+| Threat Class | Agent-Specific Question | Control | Evidence |
+| --- | --- | --- | --- |
+| Spoofing | Can a user, tool, agent, MCP server, webhook, or document pretend to be a trusted actor or instruction source? | Signed identity, audience checks, route-scoped credentials, source labels. | Identity claims in trace, denied wrong-audience request, source trust label. |
+| Tampering | Can untrusted content modify goals, policy, tool arguments, memory, traces, or evaluation fixtures? | Instruction/data separation, schema validation, immutable policy, protected trace store. | Rejected hostile tool result, denied memory write, trace integrity check. |
+| Repudiation | Can a user, agent, tool, or approver deny an action because the system lacks a durable record? | Run IDs, approval records, policy decision logs, tool audit events. | Complete trace from request to stop reason. |
+| Information disclosure | Can private data, secrets, citations, memory, or traces leak through output, tools, logs, browser, or cross-agent messages? | Data minimization, redaction, egress allowlist, destination classification. | Redaction test, blocked egress, private-data exposure eval. |
+| Denial of service | Can loops, retries, retrieval, tools, queues, model calls, or approval waits exhaust cost, latency, quota, or humans? | Budgets, timeouts, concurrency limits, circuit breakers, cancellation. | Budget exhaustion case, queue limit alert, breaker trace. |
+| Elevation of privilege | Can the agent move from read to write, draft to send, one tenant to another, or one tool scope to broader authority? | Least privilege, route-level tool allowlists, approval gates, scoped tokens. | Forbidden tool eval, cross-tenant denial, approval-required trace. |
+
+This map should produce tickets, not just discussion. Every high-risk row needs one owner, one enforced control, one eval, and one trace field.
 
 ## Classify Tool Capabilities
 

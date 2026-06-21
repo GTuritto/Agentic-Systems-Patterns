@@ -1,0 +1,192 @@
+PRE-LAUNCH RELEASE EVIDENCE - 2026-06-21
+
+Book: Agentic Systems Patterns
+Version: 1.0.0
+Review date: 2026-06-21
+Commit checked: c6c1a21
+Release surface: GitHub Pages site, courtesy PDF, courtesy EPUB, source bundles, templates, diagrams, search index.
+
+Status:
+Ready for public deployment verification.
+
+Do not use this record as final public release evidence until the GitHub Pages URLs below are checked after deployment.
+
+Expected public URLs:
+- Site: https://gturitto.github.io/Agentic-Systems-Patterns/
+- PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- EPUB: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
+
+1. Reader Promise
+
+This release turns the repository from a pattern catalog into an online technical book for software engineers building agentic systems. It adds reader paths, logical chapter groups, diagrams, Mermaid/SVG visual coverage, production review artifacts, labs, capstones, Pagefind search, release evidence, and courtesy PDF/EPUB exports.
+
+Primary reader paths affected:
+- First-time path
+- Builder path
+- Lab path
+- Capstone path
+- Reference path
+- Publishing appendix
+
+Readers should be able to:
+- choose an agentic pattern by engineering concern;
+- understand state, policy, tools, approvals, traces, and evals;
+- run deterministic examples;
+- use labs and capstones as review material;
+- inspect release evidence before trusting the published book.
+
+2. Command Evidence
+
+All commands below were run from the repository root unless noted.
+
+[x] npm test
+Result: passed.
+Evidence: root suite passed tools, release command parity, agent loop, approval gate, tool runtime, A2A, planning, CodeAct, observability, Mastra runtime, CrewAI flow, LangGraph state, AutoGen transcript, debate/consensus, skills, mini-runtime, capstones, native example validation, router, and MCP tests.
+Note: Node emitted fs.Stats deprecation warnings during ts-node runs; tests still passed.
+
+[x] npm run release:commands
+Result: passed.
+Evidence: Release command parity OK.
+
+[x] npm run typecheck
+Result: passed.
+Evidence: tsc --noEmit completed successfully.
+
+[x] npm run capstones:evidence
+Result: passed.
+Evidence: Capstone evidence consistency OK.
+
+[x] npm run native-examples:validate
+Result: passed.
+Evidence: native Python examples compile and native TypeScript framework examples compile syntactically.
+
+[x] npm run native-examples:smoke:langgraph
+Result: passed.
+Evidence: Native LangGraph examples smoke checks OK.
+
+[x] npm run book:manifest:test
+Result: passed.
+Evidence: Book manifest OK: 103 chapters.
+
+[x] npm run book:visuals:verify
+Result: passed.
+Evidence: Visual coverage OK: 103/103 manifest chapters plus homepage.
+
+[x] npm run book:quality
+Result: passed.
+Evidence: manifest, diagrams, generated pattern chapters, editorial content, visual coverage, and diagram assets passed.
+
+[x] npm run book:build
+Result: passed.
+Evidence: VitePress authoring build completed. Vite emitted a non-blocking chunk-size warning.
+
+[x] npm run site:build
+Result: passed.
+Evidence: Astro built 120 pages, generated sitemap.xml and robots.txt, and Pagefind indexed 120 pages with 4 filters and 2 sorts. Vite emitted a non-blocking chunk-size warning.
+
+[x] npm run site:parity
+Result: passed.
+Evidence: source excerpts, routes, sitemap, search fallback, pattern catalog, featured chapters, and internal links passed.
+
+[x] npm run book:pdf
+Result: passed.
+Evidence: PDF written to book/releases/Agentic-Systems-Patterns.pdf and deploy copy written to book/docs/public/releases/Agentic-Systems-Patterns.pdf. PDF Mermaid SVG coverage OK: 76 diagrams.
+
+[x] npm run book:epub
+Result: passed.
+Evidence: EPUB written to book/releases/Agentic-Systems-Patterns.epub and deploy copy written to book/docs/public/releases/Agentic-Systems-Patterns.epub.
+
+3. Built Asset Evidence
+
+[x] site/dist exists and contains the generated reader site.
+[x] site/dist contains 120 HTML pages.
+[x] site/dist/releases/Agentic-Systems-Patterns.pdf exists.
+[x] site/dist/releases/Agentic-Systems-Patterns.epub exists.
+[x] site/dist/downloads contains 39 source bundle files.
+[x] site/dist/capstone-assets/templates contains 55 worksheet, checklist, and evidence files after the final site rebuild.
+[x] site/dist/pagefind contains 154 search-index files.
+[x] sitemap.xml exists.
+[x] robots.txt exists.
+
+Artifact sizes:
+- book/releases/Agentic-Systems-Patterns.pdf: 9.4M
+- book/releases/Agentic-Systems-Patterns.epub: 1.7M
+- site/dist/releases/Agentic-Systems-Patterns.pdf: 9.4M
+- site/dist/releases/Agentic-Systems-Patterns.epub: 1.7M
+
+4. Content Evidence
+
+[x] Introduction and early foundation chapters carry the support refund running case.
+[x] Single Agent includes a concrete support-drafting scenario.
+[x] Prompt Chaining and Gates includes a worked refund gate example.
+[x] Evaluator-Optimizer includes a refund recommendation scoring rubric.
+[x] Labs 01-13 include per-exercise time budgets.
+[x] Real Framework Setup Notes includes setup failure evidence guidance.
+[x] Production Evaluation Feedback Loops includes a refund approval bypass incident walkthrough.
+[x] Domain Agent Architectures includes production case cards for support, healthcare, finance, legal operations, and internal operations.
+[x] Release Notes describe the current release value and evidence requirements.
+[x] Release Readiness Checklist defines public deployment checks.
+
+5. Public GitHub Pages Evidence
+
+Public probe result on 2026-06-21:
+
+The public GitHub Pages site is reachable but stale. It appears to serve an older deployment from 2026-06-17. The current Astro book routes, EPUB, Pagefind search assets, and this pre-launch evidence file are not deployed yet.
+
+Observed URL results:
+- https://gturitto.github.io/Agentic-Systems-Patterns/ returned HTTP 200.
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf returned HTTP 200, but the served file is the older 1.8M PDF, not the current 9.4M PDF.
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub returned HTTP 404.
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/ returned HTTP 404.
+- https://gturitto.github.io/Agentic-Systems-Patterns/pagefind/pagefind.js returned HTTP 404.
+- https://gturitto.github.io/Agentic-Systems-Patterns/capstone-assets/templates/prelaunch-release-evidence-2026-06-21.txt returned HTTP 404.
+
+Deployment blocker:
+This local checkout has `origin` push URL set to `DISABLED`, so the updated site cannot be pushed or deployed from this environment without changing the publish path.
+
+[x] Homepage loads, but it is stale.
+[ ] Introduction loads.
+[ ] How To Read This Book loads.
+[ ] Sidebar navigation works.
+[ ] Section pages load.
+[ ] Search opens and returns results.
+[ ] Search filters work.
+[ ] Courtesy PDF downloads.
+[ ] Courtesy EPUB downloads.
+[ ] At least one source bundle downloads.
+[ ] At least one worksheet downloads.
+[ ] At least one diagram renders.
+[ ] At least one capstone trace or eval artifact downloads.
+
+URLs to check after deployment:
+- https://gturitto.github.io/Agentic-Systems-Patterns/
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
+- https://gturitto.github.io/Agentic-Systems-Patterns/book/capstone-projects/support-refund-agent/
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
+
+6. Known Limitations
+
+- Public GitHub Pages URLs have not been checked in this record.
+- The draw.io CLI is not installed locally; committed SVG exports were validated instead.
+- Vite reported chunk-size warnings during book/site builds; builds completed and route/link checks passed.
+- Native framework examples are validation and comparison slices, not full framework tutorials.
+- Live model-provider paths require local credentials and are outside deterministic release verification.
+
+7. Release Decision
+
+[x] Ready for public deployment verification.
+[ ] Ship publicly after GitHub Pages evidence passes.
+[ ] Do not ship.
+
+Reason:
+The local release gate passed, the built site contains current PDF/EPUB deploy copies, and the book has concrete reader paths, labs, capstones, release checks, diagrams, and artifacts. Public deployment is stale and remains the last required evidence before announcement.
+
+Rollback action:
+Revert or redeploy the previous GitHub Pages artifact from the last known-good workflow run. Hold public announcement if any required URL, download, search index, or core reader path fails.
+
+Next editorial fixes:
+- Deploy the current site and add passing public GitHub Pages evidence.
+- Optional: capture fresh framework setup transcripts for launch appendix polish.

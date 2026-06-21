@@ -1,0 +1,65 @@
+Planning and Execution Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Task has meaningful sequencing or dependencies
+[ ] Plan inspection adds value
+[ ] Executor can report structured progress
+[ ] Execution can be validated before side effects
+[ ] Simpler deterministic workflow is insufficient
+
+Plan contract
+[ ] Goal captured
+[ ] Assumptions listed
+[ ] Constraints listed
+[ ] Steps have stable IDs
+[ ] Dependencies declared
+[ ] Required inputs declared
+[ ] Allowed and forbidden tools declared
+[ ] Side-effect level declared
+[ ] Approval rule declared
+[ ] Acceptance criteria declared
+[ ] Failure policy declared
+
+Execution state
+[ ] Run ID and plan ID recorded
+[ ] Plan version recorded
+[ ] Current step recorded
+[ ] Completed steps recorded
+[ ] Failed steps recorded
+[ ] Evidence references recorded
+[ ] Approvals recorded
+[ ] Cost or budget state recorded where relevant
+[ ] Stop reason recorded
+
+Validation and recovery
+[ ] Plan schema is validated
+[ ] Dependency order is validated
+[ ] Tool authority is validated
+[ ] Side effects require approval or idempotency
+[ ] Missing input has a recovery path
+[ ] Tool failure has a recovery path
+[ ] Re-planning keeps prior evidence
+[ ] Budget exhaustion returns a typed partial result
+
+Evaluation
+[ ] Fixture covers single-step task
+[ ] Fixture covers forbidden tool
+[ ] Fixture covers missing dependency
+[ ] Fixture covers retry policy
+[ ] Fixture covers re-plan policy
+[ ] Fixture covers approval-required side effect
+[ ] Fixture covers budget exhaustion
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve validation or recovery
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

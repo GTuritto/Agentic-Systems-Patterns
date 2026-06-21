@@ -27,6 +27,14 @@ ReAct alternates reasoning and acting. The agent reasons about current state, ta
 - You cannot validate actions before they run.
 - The reasoning trace would expose sensitive information to users.
 
+## Architecture
+
+Use this diagram to read ReAct as a system boundary, not only a code shape. The key ownership question is: the loop controller owns progress, budgets, stop conditions, and recovery state.
+
+![ReAct control loop](../public/diagrams/react-control-loop.svg)
+
+Read it as a bounded loop: each reasoning step must pass an action gate, each action must produce an observation, and each observation must update state or stop.
+
 ## System Shape
 
 - **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.

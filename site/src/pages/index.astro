@@ -1,23 +1,61 @@
 ---
 import BookLayout from '../layouts/BookLayout.astro';
-import { chaptersForSection, sectionDescriptions, siteBase, siteChapters, siteSections } from '../lib/book-manifest';
+import { chapterSearchExcerpt, chaptersForSection, featuredChapterIds, sectionDescriptions, siteBase, siteChapters, siteSections } from '../lib/book-manifest';
 
 const firstChapter = siteChapters[0];
 const sectionsWithChapters = siteSections
   .map(section => ({ ...section, chapters: chaptersForSection(section.id) }))
   .filter(section => section.chapters.length > 0);
-const featuredSections = sectionsWithChapters.slice(0, 6);
+const chapterCountLabel = (count: number) => `${count} ${count === 1 ? 'chapter' : 'chapters'}`;
+const chapterById = new Map(siteChapters.map(chapter => [chapter.id, chapter]));
+const featuredChapters = featuredChapterIds
+  .map(id => chapterById.get(id))
+  .filter(chapter => chapter !== undefined);
+
+const readerEntries = [
+  {
+    title: 'Choose an architecture',
+    detail: 'Compare model calls, chains, workflows, agent loops, and multi-agent systems before adding autonomy.',
+    href: `${siteBase}/book/pattern-selection/choosing-the-right-pattern/`
+  },
+  {
+    title: 'Read visually',
+    detail: 'Use the diagram route to understand boundaries, ownership, runtime control, coordination, and production safeguards.',
+    href: `${siteBase}/book/publishing/logical-groups/#visual-architecture-route`
+  },
+  {
+    title: 'Run a focused lab',
+    detail: 'Use small TypeScript and Python examples to inspect tools, state, retrieval, evals, protocols, and framework slices.',
+    href: `${siteBase}/book/hands-on-labs/framework-language-matrix/`
+  },
+  {
+    title: 'Review for production',
+    detail: 'Check state, policy, tools, memory, traces, evals, approvals, rollback, and release evidence before shipping.',
+    href: `${siteBase}/book/publishing/ten-out-of-ten-production-gate/`
+  }
+];
+
+const valueStandards = [
+  'Decision you can defend',
+  'Boundary you can draw',
+  'Failure mode you can test',
+  'Artifact your team can reuse'
+];
 ---
 
-<BookLayout title="Agentic Systems Patterns">
+<BookLayout
+  title="Agentic Systems Patterns"
+  description="A practical online book for designing, evaluating, and operating agentic systems with patterns, labs, capstones, and production gates."
+>
   <section class="hero">
     <p class="eyebrow">Online-first field guide</p>
     <h1>Agentic Systems Patterns</h1>
     <p class="lede">A practical book for designing, evaluating, and operating agentic systems: goals, loops, tools, skills, memory, protocols, multi-agent topologies, and production runtimes.</p>
     <div class="hero-actions">
       <a class="button button-primary" href={`${siteBase}/book/${firstChapter.slug}/`}>Start reading</a>
+      <a class="button button-secondary" href={`${siteBase}/book/publishing/how-to-read/`}>Choose a path</a>
       <a class="button button-secondary" href={`${siteBase}/patterns/`}>Browse patterns</a>
-      <a class="button button-secondary" href="#sections">Browse sections</a>
+      <a class="button button-secondary" href="#courtesy-formats">PDF / EPUB</a>
     </div>
   </section>
 
@@ -36,15 +74,90 @@ const featuredSections = sectionsWithChapters.slice(0, 6);
     </div>
   </section>
 
+  <section class="reader-contract-panel" aria-labelledby="reader-contract-title">
+    <div>
+      <p class="eyebrow">Reader contract</p>
+      <h2 id="reader-contract-title">Every chapter should change an engineering decision.</h2>
+      <p>The book is built for software engineers who need boundaries, contracts, evals, traces, checklists, labs, and production gates they can use at work.</p>
+      <a href={`${siteBase}/book/intro/#reader-contract`}>Read the contract</a>
+    </div>
+    <ul>
+      {valueStandards.map(standard => <li>{standard}</li>)}
+    </ul>
+  </section>
+
+  <section id="courtesy-formats" class="download-panel" aria-labelledby="courtesy-formats-title">
+    <div>
+      <p class="eyebrow">Courtesy formats</p>
+      <h2 id="courtesy-formats-title">Read on GitHub Pages first.</h2>
+      <p>The online reader is the primary edition. PDF and EPUB are provided as convenience copies for offline reading and annotation.</p>
+    </div>
+    <div class="download-actions">
+      <a class="button button-primary" href={`${siteBase}/releases/Agentic-Systems-Patterns.pdf`}>Download PDF</a>
+      <a class="button button-secondary" href={`${siteBase}/releases/Agentic-Systems-Patterns.epub`}>Download EPUB</a>
+    </div>
+  </section>
+
+  <section class="section-grid" aria-labelledby="reader-entry-title">
+    <div class="section-heading">
+      <p class="eyebrow">Use the book</p>
+      <h2 id="reader-entry-title">Start from the engineering decision</h2>
+    </div>
+    <p>Use the book as a progression from orientation to implementation evidence. Start with the reader path, choose a pattern, build a small slice, verify the runtime, then use the release chapters to publish or operate the result.</p>
+    <div class="mermaid" aria-label="Reader route from orientation to release">
+sequenceDiagram
+    participant Reader
+    participant Paths as Reader paths
+    participant Patterns
+    participant Labs
+    participant Gates as Production gates
+
+    Reader->>Paths: Choose role and goal
+    Paths->>Patterns: Select architecture
+    Patterns->>Labs: Run focused slice
+    Labs->>Gates: Verify traces, evals, rollback
+    Gates-->>Reader: Publish or operate with evidence
+    </div>
+    <div class="cards">
+      {readerEntries.map(entry => (
+        <article class="section-card">
+          <span>Entry point</span>
+          <h3>{entry.title}</h3>
+          <p>{entry.detail}</p>
+          <a href={entry.href}>Open guide</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-grid" aria-labelledby="featured-chapters-title">
+    <div class="section-heading">
+      <p class="eyebrow">High-value chapters</p>
+      <h2 id="featured-chapters-title">Start with these decisions</h2>
+    </div>
+    <div class="featured-chapter-grid">
+      {featuredChapters.map(chapter => (
+        <article class="featured-chapter-card">
+          <span>{chapter.type} · {chapter.difficulty}</span>
+          <span>{chapter.effort}</span>
+          <span>{chapter.readerPaths.join(' · ')}</span>
+          <h3>{chapter.title}</h3>
+          <p>{chapterSearchExcerpt(chapter)}</p>
+          <a href={`${siteBase}/book/${chapter.slug}/`}>Read chapter</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
   <section id="sections" class="section-grid">
     <div class="section-heading">
       <p class="eyebrow">Reading paths</p>
       <h2>Browse the book</h2>
     </div>
     <div class="cards">
-      {featuredSections.map(section => (
+      {sectionsWithChapters.map(section => (
         <article class="section-card">
-          <span>{section.chapters.length} chapters</span>
+          <span>{chapterCountLabel(section.chapters.length)}</span>
           <h3>{section.title}</h3>
           <p>{sectionDescriptions.get(section.id)}</p>
           <a href={`${siteBase}/sections/${section.id}/`}>Open section</a>

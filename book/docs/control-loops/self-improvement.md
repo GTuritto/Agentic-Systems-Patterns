@@ -27,6 +27,14 @@ Self-improvement uses feedback from prior runs to improve future runs through re
 - No eval suite exists to catch regressions.
 - The feedback signal is noisy or easy to game.
 
+## Architecture
+
+Use this diagram to read Self-Improvement as a system boundary, not only a code shape. The key ownership question is: the loop controller owns progress, budgets, stop conditions, and recovery state.
+
+![Self-improvement release loop](../public/diagrams/self-improvement-release-loop.svg)
+
+Read it as a release process: feedback can propose changes, but evals, approval, staged rollout, monitoring, and rollback decide what becomes a new version.
+
 ## System Shape
 
 - **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.

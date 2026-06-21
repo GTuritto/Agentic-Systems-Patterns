@@ -6,8 +6,7 @@ import {
   bookChapters,
   bookSections,
   pdfChapters,
-  sidebarGroups,
-  startHereChapterIds
+  sidebarGroups
 } from './book-manifest.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -57,7 +56,6 @@ for (const chapter of bookChapters) {
 }
 
 const canonicalSidebarPaths = sidebarGroups
-  .filter(group => group.id !== 'start-here')
   .flatMap(group => group.items.map(item => item.path));
 const expectedCanonicalSidebarPaths = bookChapters
   .filter(chapter => chapter.sidebar)
@@ -81,15 +79,6 @@ reportPathMismatch(
 );
 reportPathMismatch('PDF paths and PDF-enabled book chapters', expectedPdfPaths, pdfPaths);
 reportPathMismatch('canonical sidebar and PDF chapter order', canonicalSidebarPaths, pdfPaths);
-
-const startHerePaths = startHereChapterIds.map(id => {
-  const chapter = bookChapters.find(candidate => candidate.id === id);
-  if (!chapter) errors.push(`unknown Start Here chapter: ${id}`);
-  return chapter?.path;
-});
-if (duplicateValues(startHerePaths).length > 0) {
-  errors.push('Start Here contains duplicate chapter links');
-}
 
 const generatedPaths = new Set(
   patterns.map(pattern => pattern.chapterPath)

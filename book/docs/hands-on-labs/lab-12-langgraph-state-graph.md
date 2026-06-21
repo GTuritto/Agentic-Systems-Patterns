@@ -4,6 +4,8 @@ title: Lab 12 - Model State Graphs, Checkpoints, and Interrupts
 
 # Lab 12 - Model State Graphs, Checkpoints, and Interrupts
 
+Download the [Lab 12 state graph guided exercise worksheet](/capstone-assets/templates/lab-12-state-graph-guided-exercise.txt), [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt), and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) before you start.
+
 ## Objective
 
 Use a LangGraph-style Python state graph to make state, nodes, edges, checkpoints, interrupts, and resume behavior explicit.
@@ -19,6 +21,18 @@ Use a LangGraph-style Python state graph to make state, nodes, edges, checkpoint
   - `langgraph-state-graph-pattern/python/state_graph.py`
   - `langgraph-state-graph-pattern/python/test_state_graph.py`
 - Download: [langgraph-state-graph.zip](/downloads/langgraph-state-graph.zip)
+
+## Exercise Time Budget
+
+These estimates assume dependencies are already installed.
+
+| Exercise | Time | Output |
+| --- | ---: | --- |
+| Setup and baseline graph run | 10 min | Demo and test output. |
+| Inspect state, nodes, and checkpoints | 20 min | Notes on state schema, node boundaries, and checkpoint placement. |
+| Exercise interrupt and resume | 20 min | Interrupted trace and resumed trace evidence. |
+| Review checkpoint failure and replay safety | 20-25 min | Failing assertion or replay-risk note. |
+| Compare native graph and production bridge | 10-30 min | Mapping to native graph, durable checkpointer, and approval payload. |
 
 ## Setup
 
@@ -50,14 +64,52 @@ The first run should stop at human approval:
 ```text
 stop_reason: human_interrupt
 trace includes checkpoint:review
+trace includes interrupt:approval_required
 ```
 
 The resumed run should start from the review node with approval:
 
 ```text
 stop_reason: success
-trace starts with checkpoint:review
+trace: checkpoint:review -> node:review -> checkpoint:done -> graph:done
 ```
+
+The demo command should print two graph runs. Use these fields as the quick check:
+
+```text
+first.state.stop_reason: human_interrupt
+first.state.interrupted: True
+first.trace: ... checkpoint:review, node:review, interrupt:approval_required
+first.eval.status: pass
+
+resumed.state.stop_reason: success
+resumed.state.approved: True
+resumed.state.draft: Draft a refund response for human review; do not promise payment.
+resumed.trace: checkpoint:review, node:review, checkpoint:done, graph:done
+resumed.eval.status: pass
+```
+
+```mermaid
+sequenceDiagram
+    participant Runner
+    participant Graph
+    participant Checkpoint
+    participant Human
+    participant Eval
+
+    Runner->>Graph: Start with task state
+    Graph->>Checkpoint: Save checkpoint before review
+    Graph-->>Runner: stop_reason human_interrupt
+    Runner->>Human: Request approval with interrupt payload
+    Human-->>Runner: Approval decision
+    Runner->>Graph: Resume from checkpoint:review
+    Graph->>Checkpoint: Save checkpoint:done
+    Graph-->>Runner: stop_reason success
+    Runner->>Eval: Check checkpoints, state, draft, stop reason
+    Eval-->>Runner: pass or fail
+```
+
+Use this flow as the lab's acceptance model. A correct run must prove where it paused, what state survived, which approval resumed it, and why the graph stopped.
 
 Native LangGraph comparison point:
 
@@ -69,6 +121,53 @@ checkpointer: InMemorySaver for local development
 interrupt: finance approval
 eval gate: draft stops before money movement
 ```
+
+## Guided Exercises
+
+Use these exercises to prove that pause, resume, and replay are first-class graph behavior.
+
+| Exercise | Time | What To Do | Evidence To Save |
+| --- | ---: | --- | --- |
+| Interrupted run trace | 10 min | Run `npm run langgraph-state`. | `checkpoint:review`, `interrupt:approval_required`, and `stop_reason: human_interrupt`. |
+| Resumed run trace | 10 min | Inspect the resumed run after approval. | Trace starts at `checkpoint:review` and ends at `graph:done`. |
+| Checkpoint failure | 15 min | Temporarily remove `checkpoint(run, node)` before node execution and rerun the test. | The failing assertion or eval reason. |
+| Replay safety review | 15 min | Decide which nodes would be unsafe to replay in production. | Node name, side effect, idempotency key, and checkpoint requirement. |
+| Native comparison | 20 min | Compare this lab with `native-framework-examples/langgraph-refund/`. | State schema, checkpointer, interrupt, and eval mapping. |
+
+```mermaid
+flowchart TD
+    A["Start task state"] --> B["checkpoint:classify"]
+    B --> C["node:classify"]
+    C --> D["checkpoint:retrieve"]
+    D --> E["node:retrieve"]
+    E --> F["checkpoint:draft"]
+    F --> G["node:draft"]
+    G --> H["checkpoint:review"]
+    H --> I{"Approved?"}
+    I -->|"no"| J["interrupt:approval_required"]
+    I -->|"yes"| K["node:review"]
+    J --> L["Resume from checkpoint:review"]
+    L --> K
+    K --> M["checkpoint:done"]
+    M --> N["graph:done"]
+```
+
+## Checkpoint And Resume Failure Exercise
+
+The lab is not complete until you can explain what fails when checkpoints disappear. Remove the checkpoint call before node execution, run the test, and then restore it:
+
+```sh
+npm run langgraph-state:test
+```
+
+Record the failure in the worksheet:
+
+| Review Question | Expected Answer |
+| --- | --- |
+| Where did the first run pause? | `checkpoint:review` before `interrupt:approval_required`. |
+| What survived resume? | Intent, evidence, draft, approval state, and stop reason context. |
+| What should never replay blindly? | Any node that reads external state, writes state, sends messages, or moves money. |
+| What proves the resumed path? | Trace starts at `checkpoint:review` and reaches `graph:done`. |
 
 ## Inspect The Code
 
@@ -107,6 +206,21 @@ Check that:
 - resume starts from a known node;
 - retrieved evidence and draft state survive resume;
 - evals inspect trajectory and state, not only final text.
+- success without a draft fails evaluation.
+
+## Lab Review Gate
+
+Before moving on, verify the graph boundary:
+
+| Check | Evidence |
+| --- | --- |
+| State is explicit | `GraphState` carries the data each node needs and mutates. |
+| Node boundaries are visible | Each node produces traceable state changes. |
+| Checkpoints prove pause and resume | `checkpoint:review` exists before interrupt and resume. |
+| Interrupt is controlled | Human approval is a structured stop, not a hidden prompt convention. |
+| Eval checks trajectory | The evaluator checks checkpoints, state, and stop reason. |
+
+Record the interrupted run, resumed run, checkpoint, approval payload, and eval result in the lab completion worksheet.
 
 ## Production Extension
 
@@ -119,6 +233,20 @@ Before using a real LangGraph implementation in production, add:
 - interrupt payloads for human approval;
 - replay tests for failed, interrupted, and resumed runs;
 - trace export for node inputs, outputs, errors, and stop reasons.
+
+## Production Bridge
+
+Use this table when adapting the graph to production:
+
+| Lab Concept | Production Version |
+| --- | --- |
+| `GraphState` | Versioned state schema with migration, tenant isolation, and deletion rules. |
+| Node function | Idempotent step with typed input, output, policy check, and trace span. |
+| Checkpoint | Durable checkpointer keyed by thread ID, run ID, tenant, and version set. |
+| Interrupt | Approval request with exact action, reviewer role, expiry, and resume token. |
+| `evaluate_graph` | Release gate over route, checkpoints, state diff, side effects, and stop reason. |
+
+The first production milestone is a graph run that can pause, resume, and prove it did not replay unsafe work.
 
 ## Native Framework Extension
 

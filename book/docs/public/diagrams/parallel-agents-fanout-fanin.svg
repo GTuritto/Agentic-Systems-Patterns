@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760" role="img" aria-labelledby="title desc">
+  <title id="title">Parallel Agents Fan-Out/Fan-In</title>
+  <desc id="desc">A coordinator checks whether work is independent, fans out scoped tasks to parallel agents, fans in outputs and evidence, compares compatibility, resolves conflicts, merges results, and records audit evidence.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .good{stroke:#188038;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .warn{stroke:#f9ab00;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1320" height="760" fill="#ffffff"/>
+  <text x="660" y="46" text-anchor="middle" class="title">Parallel Agents Fan-Out/Fan-In</text>
+  <text x="660" y="74" text-anchor="middle" class="subtitle">Use parallelism only when work is independent and the merge policy can judge the results.</text>
+
+  <rect x="44" y="112" width="1232" height="488" class="boundary"/>
+  <text x="64" y="138" class="small">Parallel boundary: agents run independently; the coordinator owns merge policy, conflict resolution, and final acceptance.</text>
+
+  <g transform="translate(62 208)">
+    <rect class="box" width="190" height="78" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Shared goal and</text>
+    <text x="95" y="53" text-anchor="middle" class="label">acceptance criteria</text>
+  </g>
+
+  <g transform="translate(315 186)">
+    <path class="diamond" d="M105 0 L210 60 L105 120 L0 60 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="53" text-anchor="middle" class="label">Work</text>
+    <text x="105" y="72" text-anchor="middle" class="label">independent?</text>
+  </g>
+
+  <g transform="translate(315 420)">
+    <rect class="box" width="210" height="78" fill="#fce8e6" stroke="#d93025"/>
+    <text x="105" y="32" text-anchor="middle" class="label">Use sequential</text>
+    <text x="105" y="53" text-anchor="middle" class="label">workflow or supervisor</text>
+  </g>
+
+  <g transform="translate(585 208)">
+    <rect class="box" width="170" height="78" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="85" y="32" text-anchor="middle" class="label">Fan out</text>
+    <text x="85" y="53" text-anchor="middle" class="label">scoped tasks</text>
+  </g>
+
+  <g transform="translate(835 128)">
+    <rect class="box" width="140" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="70" y="38" text-anchor="middle" class="label">Agent A</text>
+  </g>
+
+  <g transform="translate(835 218)">
+    <rect class="box" width="140" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="70" y="38" text-anchor="middle" class="label">Agent B</text>
+  </g>
+
+  <g transform="translate(835 308)">
+    <rect class="box" width="140" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="70" y="38" text-anchor="middle" class="label">Agent C</text>
+  </g>
+
+  <g transform="translate(1050 200)">
+    <rect class="box" width="190" height="92" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="95" y="30" text-anchor="middle" class="label">Fan in outputs,</text>
+    <text x="95" y="51" text-anchor="middle" class="label">evidence, cost,</text>
+    <text x="95" y="69" text-anchor="middle" class="small">and latency</text>
+  </g>
+
+  <g transform="translate(760 430)">
+    <path class="diamond" d="M115 0 L230 64 L115 128 L0 64 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="115" y="57" text-anchor="middle" class="label">Results</text>
+    <text x="115" y="76" text-anchor="middle" class="label">compatible?</text>
+  </g>
+
+  <g transform="translate(520 456)">
+    <rect class="box" width="190" height="78" fill="#fce8e6" stroke="#d93025"/>
+    <text x="95" y="31" text-anchor="middle" class="label">Resolve conflict,</text>
+    <text x="95" y="52" text-anchor="middle" class="label">rerun, or escalate</text>
+  </g>
+
+  <g transform="translate(1040 456)">
+    <rect class="box" width="200" height="78" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="100" y="31" text-anchor="middle" class="label">Merge, rank,</text>
+    <text x="100" y="52" text-anchor="middle" class="label">or synthesize</text>
+  </g>
+
+  <g transform="translate(760 610)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Owner</text>
+    <text x="105" y="70" text-anchor="middle" class="label">accepts?</text>
+  </g>
+
+  <g transform="translate(1040 632)">
+    <rect class="box" width="200" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="100" y="34" text-anchor="middle" class="label">Accepted</text>
+    <text x="100" y="54" text-anchor="middle" class="label">result</text>
+  </g>
+
+  <g transform="translate(62 632)">
+    <rect class="box" width="250" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="125" y="34" text-anchor="middle" class="label">Trace per-agent inputs,</text>
+    <text x="125" y="54" text-anchor="middle" class="label">outputs, merge decision</text>
+  </g>
+
+  <path class="edge" d="M252 247 H315"/>
+  <path class="good" d="M525 247 H585"/>
+  <path class="deny" d="M420 306 V420"/>
+  <path class="edge" d="M755 247 C785 165 805 159 835 159"/>
+  <path class="edge" d="M755 247 H835"/>
+  <path class="edge" d="M755 247 C785 330 805 339 835 339"/>
+  <path class="edge" d="M975 159 C1010 185 1030 210 1050 230"/>
+  <path class="edge" d="M975 249 H1050"/>
+  <path class="edge" d="M975 339 C1010 315 1030 285 1050 262"/>
+  <path class="edge" d="M1145 292 C1080 388 1010 426 958 462"/>
+  <path class="good" d="M990 494 H1040"/>
+  <path class="deny" d="M760 494 H710"/>
+  <path class="warn" d="M615 456 C710 375 920 380 1090 456"/>
+  <path class="edge" d="M1140 534 C1080 600 980 616 970 650"/>
+  <path class="good" d="M970 668 H1040"/>
+  <path class="deny" d="M795 692 C660 724 530 670 615 534"/>
+  <path class="edge" d="M1040 668 C810 742 480 730 312 668"/>
+  <path class="edge" d="M420 498 C355 600 300 625 312 650"/>
+  <path class="edge" d="M520 495 C420 570 360 620 312 650"/>
+
+  <text x="545" y="237" class="small">yes</text>
+  <text x="432" y="360" class="small">no</text>
+  <text x="1008" y="484" class="small">yes</text>
+  <text x="722" y="484" class="small">no</text>
+  <text x="995" y="658" class="small">yes</text>
+  <text x="690" y="716" class="small">no</text>
+</svg>

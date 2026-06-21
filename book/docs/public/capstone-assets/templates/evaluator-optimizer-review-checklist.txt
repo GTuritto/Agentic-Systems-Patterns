@@ -1,0 +1,49 @@
+Evaluator-Optimizer Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Task has explicit criteria, examples, tests, policies, or evidence requirements
+[ ] A second pass is worth the cost and latency
+[ ] Evaluator can inspect required evidence
+[ ] Revision loop has a max revision count
+[ ] Escalation path exists for blocked or unsafe outputs
+
+Evaluator contract
+[ ] Status values are explicit: pass, revise, block, escalate
+[ ] Each criterion has pass/fail result
+[ ] Evidence references are required where claims matter
+[ ] Blocking failures are separated from minor issues
+[ ] Revision instructions are targeted
+[ ] Stop reasons are recorded
+[ ] Evaluator prompt, rubric, thresholds, and model route are versioned
+
+Controls
+[ ] Deterministic checks run before model judgment where possible
+[ ] Generator and evaluator prompts are separate
+[ ] Evaluator approval cannot bypass tool policy
+[ ] Evaluator approval cannot bypass approval gates
+[ ] Evaluator approval cannot bypass security controls
+[ ] Kill switch exists for optimizer loop
+
+Evaluation
+[ ] Fixture covers polished but wrong answer
+[ ] Fixture covers correct but awkward answer
+[ ] Fixture covers missing evidence
+[ ] Fixture covers policy failure
+[ ] Fixture covers max revision behavior
+[ ] Fixture covers adversarial candidate
+[ ] Fixture covers deterministic-check disagreement
+[ ] Fixture covers production regression case
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve evaluator evidence, thresholds, or drift monitoring
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

@@ -1,0 +1,23 @@
+{
+  "version": "2026-06-21-skills-reference",
+  "owner": "book-maintainer",
+  "summary": "Adds a source-backed Skills pattern example with activation rules, policy, template, fixture, runner, and tests.",
+  "changes": [
+    "Added a release-notes skill package with SKILL.md, policy reference, template, and fixture.",
+    "Added a deterministic TypeScript runner that validates the package and renders release notes.",
+    "Added tests for valid rendering, missing evidence, and unsafe template content."
+  ],
+  "verification": [
+    "npm run skills:test",
+    "npm run book:quality",
+    "npm run site:parity"
+  ],
+  "artifacts": [
+    "skills-pattern/release-notes-skill/SKILL.md",
+    "skills-pattern/typescript/src/skill_package.ts",
+    "book/docs/tools-skills-protocols/skills.md"
+  ],
+  "knownLimits": [
+    "The demo skill renders release notes only; it does not publish releases or modify files."
+  ]
+}

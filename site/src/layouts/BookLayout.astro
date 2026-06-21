@@ -2,7 +2,58 @@
 import Sidebar from '../components/Sidebar.astro';
 import '../styles/global.css';
 
-const { title = 'Agentic Systems Patterns', currentSlug } = Astro.props;
+const {
+  title = 'Agentic Systems Patterns',
+  description = 'An online book for designing, evaluating, and operating agentic systems.',
+  currentSlug,
+  pagefind = {}
+} = Astro.props;
+
+type PagefindAttribute = {
+  key: string;
+  value?: string | number | Array<string | number | undefined>;
+};
+
+function expandPagefindAttributes(items: PagefindAttribute[] = []) {
+  return items.flatMap(item => {
+    const values = Array.isArray(item.value) ? item.value : [item.value];
+    return values
+      .filter(value => value !== undefined && value !== '')
+      .map(value => ({ key: item.key, value: String(value) }));
+  });
+}
+
+const siteOrigin = 'https://gturitto.github.io';
+const siteBase = '/Agentic-Systems-Patterns';
+const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
+const previewImage = `${siteOrigin}/Agentic-Systems-Patterns/brand/agent-graph-cover.svg`;
+const repositoryUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
+const pagefindMeta = expandPagefindAttributes([
+  { key: 'title', value: pagefind.title ?? title },
+  { key: 'description', value: pagefind.description ?? description },
+  ...(pagefind.meta ?? [])
+]);
+const pagefindFilters = expandPagefindAttributes(pagefind.filters ?? []);
+const pagefindSorts = expandPagefindAttributes(pagefind.sorts ?? []);
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  url: canonicalUrl,
+  image: previewImage,
+  inLanguage: 'en',
+  isPartOf: {
+    '@type': 'Book',
+    name: 'Agentic Systems Patterns',
+    url: `${siteOrigin}${siteBase}/`
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Giuseppe Turitto'
+  },
+  license: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
+};
 ---
 
 <!doctype html>
@@ -11,14 +62,58 @@ const { title = 'Agentic Systems Patterns', currentSlug } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
-    <meta name="description" content="An online book for designing, evaluating, and operating agentic systems." />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:site_name" content="Agentic Systems Patterns" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={previewImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={previewImage} />
+    {pagefindMeta.map(item => <meta data-pagefind-meta={`${item.key}[content]`} content={item.value} />)}
+    {pagefindFilters.map(item => <meta data-pagefind-filter={`${item.key}[content]`} content={item.value} />)}
+    {pagefindSorts.map(item => <meta data-pagefind-sort={`${item.key}[content]`} content={item.value} />)}
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   </head>
   <body>
     <div class="book-shell">
       <Sidebar currentSlug={currentSlug} />
-      <main class="book-content" id="main-content">
+      <main class="book-content" id="main-content" data-pagefind-body>
         <slot />
+        <footer class="site-footer" aria-label="Site license and source">
+          <p>Book content, diagrams, worksheets, and generated publishing artifacts are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Code examples are licensed under <a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a>.</p>
+          <nav aria-label="Footer links">
+            <a href={repositoryUrl}>Source</a>
+            <a href={`${siteBase}/book/publishing/publishing-and-releases/`}>Publishing notes</a>
+            <a href={`${siteBase}/book/publishing/release-readiness-checklist/`}>Release checklist</a>
+          </nav>
+        </footer>
       </main>
     </div>
+    <script>
+      const diagrams = document.querySelectorAll('.mermaid');
+      if (diagrams.length > 0) {
+        const { default: mermaid } = await import('mermaid');
+        mermaid.initialize({
+          startOnLoad: false,
+          securityLevel: 'strict',
+          theme: 'base',
+          themeVariables: {
+            primaryColor: '#f6efe2',
+            primaryTextColor: '#173f4f',
+            primaryBorderColor: '#c7a76a',
+            lineColor: '#527887',
+            secondaryColor: '#e8f0ed',
+            tertiaryColor: '#fffaf0',
+            fontFamily: 'Inter, system-ui, sans-serif'
+          }
+        });
+        mermaid.run({ nodes: Array.from(diagrams) });
+      }
+    </script>
   </body>
 </html>

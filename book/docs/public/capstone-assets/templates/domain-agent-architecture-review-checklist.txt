@@ -1,0 +1,72 @@
+DOMAIN AGENT ARCHITECTURE REVIEW CHECKLIST
+
+Domain:
+System:
+Owner:
+Reviewer:
+Date:
+
+1. Decision Rights
+
+[ ] Agent decisions, recommendations, and forbidden decisions are explicit.
+[ ] Human or professional review requirements are named.
+[ ] Irreversible, regulated, or liability-creating actions require approval.
+[ ] Escalation path is defined for low confidence or conflicting evidence.
+
+Evidence:
+
+2. Evidence Policy
+
+[ ] Authoritative sources are named.
+[ ] Forbidden or insufficient sources are named.
+[ ] Freshness rules are defined.
+[ ] Citation or explanation format is defined.
+[ ] Missing, stale, or conflicting evidence has a safe outcome.
+
+Evidence:
+
+3. Data and Privacy
+
+[ ] Sensitive data classes are named.
+[ ] Tenant, jurisdiction, role, and user boundaries are enforced.
+[ ] Retention, redaction, and deletion rules are defined.
+[ ] Domain-specific records are auditable.
+
+Evidence:
+
+4. Tools and Actions
+
+[ ] Domain tools have typed schemas and risk classes.
+[ ] Tool permissions match role and task.
+[ ] Side effects are idempotent, approved, or compensatable.
+[ ] Domain policy runs outside the prompt.
+
+Evidence:
+
+5. Review Interface
+
+[ ] Reviewers see evidence, extracted fields, policy checks, uncertainty, and proposed action.
+[ ] Reviewer override is captured as data.
+[ ] Review decisions become eval or policy updates when appropriate.
+
+Evidence:
+
+6. Domain Evals
+
+[ ] Evals cover domain terminology and evidence quality.
+[ ] Evals cover missing evidence, policy exceptions, privacy, and escalation.
+[ ] Domain experts review labels where judgment matters.
+[ ] Release gates measure domain correctness, not only prose quality.
+
+Evidence:
+
+7. Final Decision
+
+[ ] Prototype only
+[ ] Internal pilot
+[ ] Human-reviewed production candidate
+[ ] Not ready
+
+Blocking gaps:
+
+Next actions:

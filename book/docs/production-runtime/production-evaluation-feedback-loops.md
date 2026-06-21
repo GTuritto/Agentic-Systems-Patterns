@@ -6,6 +6,8 @@ title: Production Evaluation Feedback Loops
 
 Agent evaluation should not stop at launch. Pre-production evals tell you whether the system is ready to meet users. Production feedback tells you whether the system is still true under real traffic, real tools, real ambiguity, real failures, and real incentives.
 
+Download the [production evaluation feedback loop review checklist](/capstone-assets/templates/production-evaluation-feedback-loops-review-checklist.txt) before using this chapter for an operating review.
+
 The core rule is simple: production failures should become future tests. If an incident only creates a ticket, the system learns nothing. If the same incident becomes a replayable eval, the system gets harder to break the same way again.
 
 ![Incident to eval feedback loop](../public/diagrams/incident-to-eval-feedback-loop.svg)
@@ -31,6 +33,21 @@ A production evaluation loop connects five activities:
 The loop applies to prompts, tools, routes, models, policies, memory rules, retrieval indexes, and agent topology. Any change that can alter behavior should pass through it.
 
 The loop should have one owner. Not necessarily one person, but one accountable team. If product owns quality, platform owns traces, security owns policy, and nobody owns the release decision, the loop will fail at the boundary between teams.
+
+## Feedback Loop Readiness Questions
+
+Use these questions before calling an eval program production-ready:
+
+| Question | Evidence To Produce |
+| --- | --- |
+| Which production signals become evals? | Rules for incidents, near misses, human corrections, overrides, regressions, and high-cost outliers. |
+| Who owns the loop? | Accountable team, release authority, fixture owner, and escalation path. |
+| What blocks release? | Blocking eval list with severity, owner, reason, and affected change types. |
+| What expires or gets deleted? | Fixture expiry rules for temporary incidents, retired tools, old policies, and migrated workflows. |
+| How is recurrence measured? | Metrics for incident-to-eval conversion, eval catch rate, recurrence rate, and time to regression test. |
+| How does rollback connect? | Canary thresholds and rollback targets for prompts, policies, tools, model routes, memory rules, and retrieval indexes. |
+
+The loop is healthy only when production failures change future release behavior.
 
 ## What Production Teaches
 
@@ -81,6 +98,83 @@ A minimal incident-derived eval can be stored as data:
 ```
 
 The fixture encodes the behavior the system must preserve. It does not need the whole production trace.
+
+## Worked Incident Walkthrough: Approval Bypass
+
+Use a worked incident to prove the loop. Suppose a support refund agent drafted a customer message that implied a refund was approved before a support lead approved the money movement.
+
+| Review Step | Evidence | Decision |
+| --- | --- | --- |
+| Incident | Customer-facing draft said "your refund has been approved" for an order above the self-serve threshold. | Severity is blocking because the message creates a financial expectation. |
+| Trace review | Route was `refund_assist`; policy span existed, but approval span was missing before the draft span. | Failure mode is skipped approval, not bad tone. |
+| Minimal fixture | Redacted ticket, order amount above threshold, current refund policy, standard customer status. | Keep only data needed to reproduce the boundary. |
+| Expected trajectory | `read_order`, `retrieve_refund_policy`, `draft_refund_request`, `approval_required`; forbid `issue_refund` and final customer promise. | Eval checks trajectory before prose. |
+| Fix | Move approval gate before customer-message drafting and require approved recommendation ID in the draft step. | Architecture change, not prompt-only repair. |
+| Release gate | Run fixture for prompt, policy, model-route, workflow, and tool-manifest changes. | Blocking until the fixture passes. |
+| Canary | Shadow 5% of refund drafts and alert on missing approval spans. | Roll back route if any above-threshold case lacks approval evidence. |
+
+The incident should produce both a trace assertion and a wording assertion. The trace assertion protects authority. The wording assertion protects the customer-visible promise.
+
+```json
+{
+  "id": "refund-approval-bypass-regression",
+  "required_spans": [
+    "tool:read_order",
+    "retrieval:refund_policy",
+    "policy:refund_threshold",
+    "approval:required"
+  ],
+  "forbidden_spans": [
+    "tool:issue_refund",
+    "message:customer_promise_sent"
+  ],
+  "expected_stop_reason": "needs_human_approval",
+  "output_must_not_contain": [
+    "approved",
+    "processed",
+    "completed"
+  ]
+}
+```
+
+If the fixture fails, do not average it into a quality score. Hold the release. A system that drafts a polished unauthorized promise is still unsafe.
+
+## Signal Triage
+
+Not every production signal should become a blocking eval. Triage signals by risk, recurrence, and architectural meaning.
+
+| Signal | Triage Decision | Eval Action |
+| --- | --- | --- |
+| Safety, privacy, money movement, or authorization incident | Treat as blocking until reviewed. | Create a minimal fixture, add a forbidden trajectory, and require owner approval before release. |
+| Human correction on a customer-visible answer | Review for product quality and grounding. | Add a warning eval unless the correction exposes policy, citation, or tool misuse. |
+| Policy denial that a human overrides | Check whether policy, routing, or UI expectation was wrong. | Add paired allow/deny fixtures when the boundary was ambiguous. |
+| High-cost or high-latency outlier | Check whether the agent loop, retrieval fanout, or tool retry policy drifted. | Add budget and stop-condition checks if the outlier can recur. |
+| Tool error recovered correctly | Keep as trace evidence. | Add an eval only if recovery hides a degraded answer or repeated retry. |
+| Near miss caught by approval | Preserve the approval boundary. | Add a fixture that proves the agent still pauses before the side effect. |
+| One-off user confusion | Improve UX or documentation first. | Add an eval only when the same confusion changes agent behavior. |
+
+The triage decision should happen close to the incident, while the trace, human correction, and business context are still fresh.
+
+### Signal Triage Flow
+
+Use this flow during incident review. It keeps the team from turning every signal into a blocking eval while still protecting the boundaries that matter.
+
+```mermaid
+flowchart LR
+    A[Production signal] --> B{Safety, privacy, money, authorization, or side effect?}
+    B -->|Yes| C[Create blocking eval]
+    B -->|No| D{Recurring, costly, or user-visible?}
+    D -->|Yes| E[Create warning eval or product-quality fixture]
+    D -->|No| F{Recovered correctly with useful trace?}
+    F -->|Yes| G[Keep trace evidence]
+    F -->|No| H[Create exploratory eval]
+
+    C --> I[Assign owner, severity, and release gate]
+    E --> I
+    H --> I
+    G --> J[Monitor for recurrence]
+    I --> K[Run in next relevant release gate]
+```
 
 ## Eval Fixture Contract
 
@@ -220,6 +314,22 @@ Ownership also means deletion. Some evals should expire after a migration, polic
 ## Metrics
 
 Track the feedback loop itself, not only agent quality. The useful signals are the ones that tell you whether the loop is working: incident-to-eval conversion rate, eval catch rate before release, recurrence rate for known incidents, time from incident to regression test, number of blocking evals, flaky eval rate, production trace coverage, policy-denial accuracy, human-override rate, rollback frequency, and mean time to detect an agent regression. The point is not a beautiful dashboard. It is knowing whether the system is learning from failure.
+
+### Dashboard Thresholds
+
+Use thresholds to decide when the loop needs attention. Start simple and tune the numbers after the team has real traffic.
+
+| Metric | Investigate When | Block Or Roll Back When |
+| --- | --- | --- |
+| Incident-to-eval conversion | Serious incidents produce no fixture within two business days. | A repeated incident has no regression eval. |
+| Eval catch rate | Production incidents bypass the suite more than once in a release cycle. | A known incident fixture passes while production repeats the same failure. |
+| Flaky eval rate | More than 5% of release-gate runs require rerun. | A blocking eval is flaky and nobody owns the repair. |
+| Production trace coverage | Fewer than 95% of risky runs have complete route, tool, policy, and stop-reason spans. | A release changes risky behavior without trace coverage. |
+| Policy-denial accuracy | Operators frequently override denials or users report false refusals. | The agent executes a side effect after a policy denial. |
+| Human-override rate | Overrides spike after a prompt, model, retrieval, or policy change. | Overrides expose skipped approval, stale evidence, or wrong tool choice. |
+| Rollback frequency | Rollbacks cluster around the same component. | The same component causes two rollback events without a new gate. |
+
+Dashboard thresholds should name an owner and an action. A red chart without a decision rule is decoration.
 
 ## Anti-Patterns
 

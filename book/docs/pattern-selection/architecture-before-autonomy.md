@@ -29,6 +29,34 @@ Use this division of responsibility as your default:
 
 This does not make the system less agentic. It makes the autonomy legible, which is what lets you operate it.
 
+## Boundary Map
+
+Use this map when reviewing a design. The model can propose judgment-heavy work, but software must own authority, execution, and evidence.
+
+```mermaid
+flowchart LR
+    U[User or event] --> C[Control plane]
+    C --> M[Model judgment]
+    M --> P[Proposed action]
+    P --> C
+
+    C --> S[State store]
+    C --> B[Budget and stop rules]
+    C --> R[Runtime policy]
+    C --> T[Typed tool gateway]
+    C --> O[Trace and audit log]
+
+    R --> A{Allowed now?}
+    B --> A
+    S --> A
+    A -->|No| D[Deny, pause, or ask for approval]
+    A -->|Yes| T
+    T --> E[External system or side effect]
+    E --> O
+    D --> O
+    O --> C
+```
+
 This chapter names the boundary. [Tool Capability Design](../tools-skills-protocols/tool-capability-design) and [Human Approval Gates](../tools-skills-protocols/human-approval-gates) define the concrete tool and approval contracts behind it.
 
 In code, the boundary can be small and explicit:
@@ -64,6 +92,32 @@ Premature autonomy shows up when a team reaches for an agent loop before answeri
 
 When the answer to those is no, adding more agents tends to hide the weakness rather than fix it. Multi-agent systems amplify unclear goals, weak state, and poor observability far more reliably than they cure them.
 
+## A Common Rewrite
+
+A weak design says:
+
+```text
+Give the agent access to order data, refund tools, and the customer conversation.
+Let it investigate the case and issue the refund if appropriate.
+```
+
+That sounds efficient, but the boundary is missing. The model owns too much: policy interpretation, evidence selection, risk classification, approval, tool authority, and stop conditions.
+
+A better design says:
+
+```text
+Workflow receives refund request.
+Software loads order, payment, customer, and policy records.
+Model summarizes evidence and proposes a refund recommendation.
+Software validates required evidence, refund threshold, account status, and policy version.
+Low-risk denial or draft response can proceed.
+High-risk refund creates an approval request.
+Payment tool executes only after approval, with idempotency and audit records.
+Run stops with completed, denied, needs_approval, policy_blocked, or evidence_missing.
+```
+
+The second design still uses model judgment, but the model no longer owns authority. It proposes a recommendation inside a system that can be reviewed, tested, paused, replayed, and operated.
+
 ## The Engineering Test
 
 Before adding autonomy, ask whether an operator could inspect a failed run and answer:
@@ -79,6 +133,22 @@ Before adding autonomy, ask whether an operator could inspect a failed run and a
 9. What changed in the outside world?
 
 If those answers are not available, the next thing to build is not another agent. It is state, policy, evaluation, or observability.
+
+## Autonomy Review Checklist
+
+Use this checklist before approving an agentic design:
+
+| Question | Pass Condition |
+| --- | --- |
+| What runtime decision does the model make? | The decision is named and narrower than "do the task." |
+| What does software own? | Goal, state, policy, tools, budget, stop reasons, and audit records are outside the model. |
+| What side effects can happen? | Every write, send, payment, permission change, or memory write has an owner and idempotency rule. |
+| What requires approval? | Risk thresholds and approver roles are defined before execution. |
+| What is persisted? | State, evidence, proposals, validation decisions, tool results, and stop reason can be inspected. |
+| What is tested? | Evals cover allowed actions, denied actions, missing evidence, failed tools, and budget stops. |
+| What happens on failure? | The system can stop, retry, fall back, escalate, or replay without repeating unsafe side effects. |
+
+If the checklist feels too heavy, the design probably wants less autonomy, not more.
 
 ## Design Rule
 

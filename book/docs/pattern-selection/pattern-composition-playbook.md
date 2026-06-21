@@ -48,6 +48,23 @@ For many production systems, the default composition is:
 
 That sequence is not a framework. It is a responsibility map. A simple system may skip several steps. A high-risk system may need all of them.
 
+## Composition Scorecard
+
+Before accepting a composition, score each added pattern against the responsibility it claims to own.
+
+| Check | Pass Condition |
+| --- | --- |
+| Job | The pattern solves a named workload pressure, not a vague desire for flexibility. |
+| Owner | One component or team owns the pattern's behavior and failure response. |
+| Boundary | The pattern has clear inputs, outputs, authority, and non-responsibilities. |
+| Risk | The pattern's new failure modes are named. |
+| Control | There is a software-owned limit, policy, gate, or fallback for each major risk. |
+| Eval | At least one blocking eval proves the boundary works. |
+| Trace | A production trace can show the pattern's decision and effect. |
+| Removal | The team knows what would break if the pattern were removed. |
+
+If a pattern fails `job`, `owner`, or `boundary`, remove it from the composition. If it fails `eval` or `trace`, keep it out of production until the proof exists.
+
 ## Composition 1: Support Refund Investigation
 
 Use this when the agent investigates a refund but must not directly issue money.

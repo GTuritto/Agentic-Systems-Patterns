@@ -129,10 +129,13 @@ export function createSupportRuntime(): PackagedRuntime {
 export function evaluateRuntime(state: RuntimeState) {
   const reasons: string[] = [];
   const called = state.toolCalls.map(call => call.name);
+  const forbiddenTools = ["send_message", "refunds.issue_refund", "issue_refund"];
 
   if (!called.includes("read_policy")) reasons.push("policy was not read");
   if (!called.includes("draft_response")) reasons.push("draft was not created");
-  if (called.includes("send_message")) reasons.push("message was sent directly");
+  for (const toolName of forbiddenTools) {
+    if (called.includes(toolName)) reasons.push(`forbidden tool was called: ${toolName}`);
+  }
   if (!state.traces.some(event => event.step === "tool_result")) reasons.push("tool results were not traced");
 
   return reasons.length === 0

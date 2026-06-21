@@ -4,6 +4,8 @@ title: Lab 13 - Evaluate Multi-Agent Transcripts
 
 # Lab 13 - Evaluate Multi-Agent Transcripts
 
+Download the [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt) and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) before you start.
+
 ## Objective
 
 Use an AutoGen-style team conversation to make agents, team turns, structured messages, transcript ownership, termination, and transcript evals explicit.
@@ -20,6 +22,18 @@ Use an AutoGen-style team conversation to make agents, team turns, structured me
   - `autogen-transcript-pattern/typescript/src/run_demo.ts`
   - `autogen-transcript-pattern/typescript/test/team_transcript.spec.ts`
 - Download: [autogen-transcript.zip](/downloads/autogen-transcript.zip)
+
+## Exercise Time Budget
+
+These estimates assume dependencies are already installed.
+
+| Exercise | Time | Output |
+| --- | ---: | --- |
+| Setup and baseline transcript run | 10 min | Demo and test output. |
+| Inspect transcript schema and turn order | 15 min | Notes on sender, recipient, type, task ID, turn, and stop reason. |
+| Exercise transcript failure cases | 20 min | Missing-role, wrong-order, or task-ID failure signal. |
+| Compare native team behavior | 10-15 min | Mapping to AutoGen-style agents, team, messages, and termination. |
+| Complete production transcript gate | 10-30 min | Notes for redaction, replay, retention, role permissions, and eval gates. |
 
 ## Setup
 
@@ -61,6 +75,50 @@ The final state should include:
 stopReason: completed
 evaluation: pass
 ```
+
+The demo command should include this four-message transcript shape:
+
+```text
+turn 1: manager -> researcher, type: task
+turn 2: researcher -> reviewer, type: evidence
+turn 3: reviewer -> manager, type: review, accepted: true
+turn 4: manager -> team, type: final
+```
+
+Every message should carry the same task ID:
+
+```text
+taskId: autogen_style_001
+```
+
+```mermaid
+sequenceDiagram
+    participant Manager
+    participant Researcher
+    participant Reviewer
+    participant Eval as Transcript eval
+
+    Manager->>Researcher: turn 1 task
+    Researcher->>Reviewer: turn 2 evidence
+    Reviewer->>Manager: turn 3 review accepted
+    Manager->>Eval: turn 4 final plus stopReason completed
+    Eval->>Eval: Check task ID, roles, turn order, stop reason
+    alt Transcript valid
+        Eval-->>Manager: evaluation pass
+    else Transcript malformed
+        Eval-->>Manager: fail with missing role, order, or task ID reason
+    end
+```
+
+Use this flow as the lab's acceptance model. The final answer is not enough; the transcript must prove evidence, review, final ownership, and the reason the team stopped.
+
+The repository test also checks three malformed transcript cases:
+
+| Case | Expected Failure |
+| --- | --- |
+| researcher evidence removed | `missing role: researcher` and `missing message type: evidence` |
+| final message before review | `review must precede final` |
+| mismatched task ID | `message task IDs do not match team task` |
 
 Native AutoGen comparison point:
 
@@ -108,9 +166,25 @@ Check that:
 - every message has a sender, recipient, type, task ID, and turn number;
 - all required roles appear in the transcript;
 - turn numbers are sequential;
+- task IDs match the team task;
+- evidence precedes review, and review precedes final;
 - final output does not bypass human review;
 - the stop reason is explicit;
 - transcript evals fail on missing roles or malformed message flow.
+
+## Lab Review Gate
+
+Before moving on, verify the transcript boundary:
+
+| Check | Evidence |
+| --- | --- |
+| Messages are structured | Sender, recipient, type, task ID, and turn number are present. |
+| Roles are required | Manager, researcher, and reviewer all appear before final output. |
+| Turn order is enforced | Evidence precedes review, and review precedes final synthesis. |
+| Termination is explicit | The team stops with `completed`, not an ambiguous last message. |
+| Eval protects the transcript | Missing roles or malformed flow fail the transcript eval. |
+
+Record the transcript, stop reason, failed transcript case, and eval result in the lab completion worksheet.
 
 ## Production Extension
 
@@ -123,6 +197,20 @@ Before using a real AutoGen implementation in production, add:
 - transcript replay and regression evals;
 - per-agent role contracts and permission boundaries;
 - migration notes if adopting Microsoft Agent Framework for new projects.
+
+## Production Bridge
+
+Use this table when adapting transcript evals to production:
+
+| Lab Concept | Production Version |
+| --- | --- |
+| `TeamMessage` | Normalized event schema with role, task, turn, tool, approval, and redaction fields. |
+| Agent role | Contract with allowed tools, authority, model route, and output schema. |
+| Fixed team sequence | Termination policy plus max-turn budget and escalation rule. |
+| Transcript eval | Release gate for role order, tool permission, final owner, stop reason, and safety. |
+| Raw conversation | Redacted transcript store with replay, retention, deletion, and incident links. |
+
+The first production milestone is a transcript that can prove who owned the final answer and why the team stopped.
 
 ## Native Framework Extension
 

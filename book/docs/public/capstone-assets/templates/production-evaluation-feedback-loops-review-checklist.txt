@@ -1,0 +1,31 @@
+# Production Evaluation Feedback Loops Review Checklist
+
+Use this checklist when operating evals after launch.
+
+## Feedback Sources
+
+- [ ] Incidents, near misses, human corrections, overrides, high-cost outliers, and regression reports are reviewed for eval value.
+- [ ] Each serious incident produces at least one minimal replayable eval or a written reason why it should not.
+- [ ] Production traces are redacted before becoming fixtures.
+- [ ] Fixtures reproduce the failure mode, not the entire incident archive.
+
+## Fixture Contract
+
+- [ ] Fixtures include ID, incident link, owner, severity, creation date, and expiry date when temporary.
+- [ ] Inputs include redacted request, event, state, evidence, memory, and mocked tool outputs as needed.
+- [ ] Expected trajectory names required tools, forbidden tools, policy decisions, approval state, stop reason, and retry behavior.
+- [ ] Expected result names final status, structured fields, evidence requirements, and user-visible constraints.
+
+## Release Gates
+
+- [ ] Blocking evals protect safety, privacy, policy, and known incidents.
+- [ ] Warning evals cover quality, tone, and non-critical edge cases.
+- [ ] Gates map change type to the relevant eval subset.
+- [ ] Model, prompt, policy, tool, retrieval, memory, and topology changes replay known production failures.
+
+## Ownership And Metrics
+
+- [ ] Each important eval has an owner, reason for existing, severity, maintenance rule, and release decision role.
+- [ ] Stale evals expire after migrations, policy sunsets, tool replacement, or customer-specific incidents.
+- [ ] Metrics track incident-to-eval conversion, eval catch rate, recurrence rate, flaky eval rate, and time to regression test.
+- [ ] Canary thresholds and rollback targets are documented for prompts, policies, tools, model routes, memory rules, and retrieval indexes.

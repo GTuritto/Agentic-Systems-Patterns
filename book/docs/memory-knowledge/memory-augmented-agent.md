@@ -37,20 +37,11 @@ Use this pattern for durable memory policy. For the state of a single run, use [
 
 ## Architecture
 
-```mermaid
-flowchart TD
-  U[User or workflow input] --> C[Context builder]
-  C --> R[Scoped memory retrieval]
-  R --> A[Agent reasoning step]
-  A --> P[Proposed memory write]
-  P --> G[Memory write policy]
-  G -->|allow| M[Memory store]
-  G -->|review| H[Human review]
-  G -->|deny| X[Do not store]
-  M --> C
-  H -->|approved| M
-  H -->|denied| X
-```
+Use this diagram to read Memory-Augmented Agent as a system boundary, not only a code shape. The key ownership question is: the memory or retrieval layer owns long-lived knowledge, while the agent owns task-local working state.
+
+![Memory-augmented agent lifecycle](../public/diagrams/memory-augmented-lifecycle.svg)
+
+Read it as a governed lifecycle: retrieve only scoped memory, inject it as labeled data, and store only approved memory with retention and correction rules.
 
 ## System Shape
 

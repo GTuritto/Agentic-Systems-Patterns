@@ -1,0 +1,95 @@
+LAB 12 STATE GRAPH GUIDED EXERCISE
+
+Use this worksheet to capture checkpoint, interrupt, resume, and replay evidence from Lab 12.
+
+Lab:
+Date:
+Reviewer:
+Repository commit:
+
+1. Interrupted Run Trace
+
+Command:
+
+Observed stop reason:
+
+Checkpoint before interrupt:
+
+Interrupt event:
+
+State saved at pause:
+
+- intent:
+- evidence:
+- draft:
+- approved:
+- interrupted:
+
+2. Resumed Run Trace
+
+Resume input:
+
+Observed stop reason:
+
+Expected resumed trace:
+
+Observed resumed trace:
+
+What state survived resume?
+
+3. Checkpoint Failure
+
+Change made:
+
+Command:
+
+Observed failure:
+
+Why this failure matters:
+
+Restore step completed:
+
+4. Replay Safety Review
+
+Node:
+
+Can it replay safely?
+
+Side effect risk:
+
+Idempotency key or checkpoint needed:
+
+Reviewer:
+
+5. Native LangGraph Comparison
+
+Native example inspected:
+
+State schema mapping:
+
+Checkpointer mapping:
+
+Interrupt mapping:
+
+Eval mapping:
+
+Thread ID strategy:
+
+6. Production Follow-Up
+
+Durable checkpoint store:
+
+Tenant-safe thread ID:
+
+Approval payload fields:
+
+Trace fields:
+
+Release eval:
+
+Final decision:
+
+[ ] Pause and resume behavior is proven
+[ ] Replay risk is understood
+[ ] Needs durable checkpointer
+[ ] Needs production approval design

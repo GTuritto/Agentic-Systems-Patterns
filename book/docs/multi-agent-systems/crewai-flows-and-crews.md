@@ -163,9 +163,9 @@ def build_research_crew() -> Crew:
         },
     )
 
-def run_support_flow(goal: str) -> FlowState:
+def run_support_flow(goal: str, crew: Crew | None = None) -> FlowState:
     state = FlowState(goal=goal)
-    crew = build_research_crew()
+    active_crew = crew or build_research_crew()
 
     state.trace.append("flow:start")
     tasks = [
@@ -173,7 +173,7 @@ def run_support_flow(goal: str) -> FlowState:
         Task(name="draft", agent_role="writer", input="policy evidence"),
     ]
     state.trace.append("flow:crew_kickoff")
-    state.crew_outputs = crew.kickoff(tasks)
+    state.crew_outputs = active_crew.kickoff(tasks)
 
     evidence = state.crew_outputs["evidence"]
     draft = state.crew_outputs["draft"]
@@ -203,7 +203,7 @@ _Excerpt truncated for readability. Download the bundle or open the source file 
 [Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/crewai-flows-and-crews-pattern/python/test_flow_crew.py)
 
 ```py
-from flow_crew import evaluate_flow, run_support_flow
+from flow_crew import Agent, Crew, evaluate_flow, run_support_flow
 
 def assert_true(condition, message):
     if not condition:
@@ -217,6 +217,34 @@ assert_true(state.crew_outputs["evidence"].startswith("policy evidence"), "Expec
 assert_true("do not promise payment" in state.crew_outputs["draft"], "Expected constrained writer output")
 assert_true(state.trace == ["flow:start", "flow:crew_kickoff", "flow:evaluate", "flow:accepted"], "Expected deterministic flow trace")
 assert_true(evaluation["status"] == "pass", "Expected flow evaluation to pass")
+
+bad_crew = Crew(
+    name="unsafe_support_research_crew",
+    agents={
+        "researcher": Agent(
+            role="researcher",
+            goal="Find policy facts relevant to the task.",
+            run=lambda task_input: f"policy evidence for {task_input}: refund window is 30 days",
+        ),
+        "writer": Agent(
+            role="writer",
+            goal="Turn evidence into a concise draft.",
+            run=lambda task_input: f"draft based on {task_input}: promise payment now",
+        ),
+    },
+)
+
+rejected_state = run_support_flow("Prepare a refund response", crew=bad_crew)
+rejected_evaluation = evaluate_flow(rejected_state)
+
+assert_true(not rejected_state.accepted, "Expected flow to reject unsafe writer output")
+assert_true(rejected_state.final == "Crew output rejected by the flow.", "Expected rejected final state")
+assert_true(rejected_state.trace[-1] == "flow:rejected", "Expected rejection trace")
+assert_true(rejected_evaluation["status"] == "fail", "Expected rejected flow evaluation to fail")
+assert_true(
+    "flow did not accept crew output" in rejected_evaluation["reasons"],
+    "Expected rejection reason",
+)
 
 print("CrewAI-style flow and crew tests OK")
 ```

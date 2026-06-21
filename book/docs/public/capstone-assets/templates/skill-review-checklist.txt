@@ -1,0 +1,80 @@
+SKILL REVIEW CHECKLIST
+
+Skill:
+Owner:
+Version:
+Reviewer:
+Date:
+
+1. Activation
+
+[ ] Skill description names a specific task.
+[ ] Skill description is narrow enough to avoid accidental activation.
+[ ] Avoid cases are documented.
+[ ] Similar skills or tools are named.
+
+Evidence:
+
+2. Instruction Shape
+
+[ ] SKILL.md starts with the shortest safe procedure.
+[ ] Deep references are loaded only when needed.
+[ ] Instructions are procedural, not vague advice.
+[ ] The skill tells the agent when to stop or escalate.
+
+Evidence:
+
+3. Assets and Scripts
+
+[ ] Templates and assets are bundled when they reduce fragile generation.
+[ ] Scripts have deterministic inputs and outputs.
+[ ] Scripts can run non-interactively.
+[ ] Dangerous commands require explicit approval or are not present.
+
+Evidence:
+
+4. Security
+
+[ ] No secrets, private tokens, or personal credentials are stored in the skill.
+[ ] Network, filesystem, shell, and credential assumptions are explicit.
+[ ] The skill cannot silently expand authority.
+[ ] Untrusted input is treated as data, not instructions.
+
+Evidence:
+
+5. Versioning
+
+[ ] Owner is named.
+[ ] Version or release date is recorded.
+[ ] Breaking changes are documented.
+[ ] Previous behavior can be restored or pinned.
+
+Evidence:
+
+6. Tests
+
+[ ] Happy-path task is tested.
+[ ] Wrong-task activation is tested.
+[ ] Invalid input is tested.
+[ ] Missing dependency is tested.
+[ ] Unsafe or unauthorized request is tested.
+[ ] Output artifact is inspected.
+
+Evidence:
+
+7. Observability
+
+[ ] Skill use records the chosen skill, version, inputs, outputs, and generated artifacts.
+[ ] Failures produce actionable error messages.
+[ ] The review can reconstruct what the skill changed.
+
+Evidence:
+
+8. Final Decision
+
+[ ] Accept
+[ ] Accept with minor edits
+[ ] Needs revision
+[ ] Reject
+
+Reason:

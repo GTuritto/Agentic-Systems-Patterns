@@ -1,0 +1,139 @@
+Agentic RAG Query Trace Worksheet
+
+Use this worksheet to review one real or simulated Agentic RAG run. Attach the trace, final answer, citations, source metadata, and any evaluator output.
+
+System:
+Owner:
+Reviewer:
+Date:
+Run ID:
+Trace URL or file:
+
+User request
+Question:
+Actor:
+Tenant or workspace:
+Task type:
+Risk class:
+Expected outcome:
+[ ] answer
+[ ] refusal
+[ ] clarification
+[ ] escalation
+[ ] typed tool required
+
+Routing decision
+[ ] Exact operational state was not answered from semantic retrieval
+[ ] Typed tool call was used when current state was required
+[ ] RAG path was justified by evidence or explanation need
+[ ] Unsupported task was refused or escalated
+
+Source policy
+Approved source types:
+Forbidden source types:
+Freshness rule:
+Tenant and role filters:
+Policy version:
+
+Retrieval plan
+Subquery 1:
+Purpose:
+Source types:
+Required freshness:
+Tool needs:
+
+Subquery 2:
+Purpose:
+Source types:
+Required freshness:
+Tool needs:
+
+Retrieved evidence
+Source ID:
+Chunk ID:
+Index:
+Index version:
+Score:
+Freshness:
+Permission decision:
+Selected? yes / no
+Omission reason if not selected:
+
+Source ID:
+Chunk ID:
+Index:
+Index version:
+Score:
+Freshness:
+Permission decision:
+Selected? yes / no
+Omission reason if not selected:
+
+Context packet review
+[ ] Instructions are separated from retrieved evidence
+[ ] Tool results are separated from retrieved evidence
+[ ] Memory is labeled separately
+[ ] Evidence includes source ID, chunk ID, owner, freshness, and permission metadata
+[ ] Omitted sources and reasons are recorded
+[ ] Output budget was reserved
+[ ] Prompt-injection text was treated as untrusted evidence, not instruction
+
+Claim and citation review
+Claim ID:
+Claim:
+Cited source ID:
+Cited chunk ID:
+Verifier status:
+[ ] supported
+[ ] weak
+[ ] contradicted
+[ ] not checked
+Notes:
+
+Claim ID:
+Claim:
+Cited source ID:
+Cited chunk ID:
+Verifier status:
+[ ] supported
+[ ] weak
+[ ] contradicted
+[ ] not checked
+Notes:
+
+Failure case check
+[ ] Correct source never appeared
+[ ] Correct source appeared but was omitted
+[ ] Citation points to nearby but unsupported text
+[ ] Source was stale
+[ ] Source was unauthorized
+[ ] Sources conflicted
+[ ] Prompt injection appeared in retrieved content
+[ ] Context budget removed decisive evidence
+[ ] Agent over-searched adjacent topics
+[ ] System answered when it should have refused
+[ ] System refused when it should have clarified or searched another approved source
+
+Runtime decision
+[ ] Answered with valid citations
+[ ] Refused because evidence was missing or unsafe
+[ ] Asked for clarification
+[ ] Escalated to human or owner
+[ ] Added incident or regression eval
+
+Evaluation follow-up
+New eval fixture:
+Expected retrieval:
+Expected omitted sources:
+Expected citation behavior:
+Expected final decision:
+Blocking threshold:
+
+Release decision
+[ ] Green: trace supports release or continued use
+[ ] Yellow: limited release only; fix listed gaps
+[ ] Red: demo or internal use only
+
+Required changes:
+
+Reviewer notes:

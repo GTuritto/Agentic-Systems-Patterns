@@ -1,0 +1,71 @@
+Working Memory Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Task spans multiple turns, tools, retries, approvals, or workflow steps
+[ ] Goal has observable success criteria
+[ ] Runtime can inspect and replay state
+[ ] State can be stored safely
+[ ] Durable memory promotion is separate from working memory
+
+Goal and state
+[ ] Goal ID recorded
+[ ] Run ID recorded
+[ ] Owner recorded
+[ ] Success criteria recorded
+[ ] Constraints recorded
+[ ] Risk class recorded
+[ ] Current step recorded
+[ ] Completed and pending steps recorded
+[ ] Open questions recorded
+[ ] Evidence references recorded
+[ ] Tool result references recorded
+[ ] Approval references recorded
+[ ] Budget state recorded
+[ ] Stop reason recorded
+
+Events and replay
+[ ] State changes through typed events
+[ ] Events are idempotent
+[ ] Tool results create evidence events
+[ ] Approval, denial, and expiry create events
+[ ] Cancellation creates a terminal event
+[ ] Replay reconstructs current state
+[ ] Resume does not repeat unsafe work
+
+Compression and retention
+[ ] Working memory is smaller than transcript
+[ ] Required fields survive compression
+[ ] Raw payloads are referenced rather than copied when possible
+[ ] Sensitive data is redacted or avoided
+[ ] Stale state loses to fresh evidence
+[ ] Completed run state is disposed, archived, or reviewed by policy
+
+Promotion
+[ ] Promotion to durable memory requires explicit policy
+[ ] Source trust is checked before promotion
+[ ] Consent or tenant policy is checked before promotion
+[ ] Retention, correction, and deletion paths exist
+
+Evaluation
+[ ] Fixture covers multi-step goal creation
+[ ] Fixture covers tool-result state event
+[ ] Fixture covers retry idempotency
+[ ] Fixture covers resume after interruption
+[ ] Fixture covers approval wait
+[ ] Fixture covers budget exhaustion
+[ ] Fixture covers stale state
+[ ] Fixture covers no automatic durable-memory promotion
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve replay, compression, or promotion policy
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

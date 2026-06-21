@@ -99,6 +99,36 @@ An agent adds control flow around the call. It can decide whether more work is n
 
 So be careful with the word. Not every model-backed feature is an agent. Reserve the term for systems that can make at least some runtime decisions about what to do next.
 
+## A Quick Classification Test
+
+When a team says "agent", classify the system before debating the framework.
+
+| Example | Better Name | Why |
+| --- | --- | --- |
+| A button that rewrites a paragraph once. | Model call | There is no loop, tool use, or runtime decision. |
+| A three-step support reply generator: classify, retrieve policy, draft response. | Prompt chain or workflow | The path is known before execution. |
+| A refund flow where code checks policy, the model summarizes evidence, and approval gates the payment. | Workflow with LLM steps | Code owns the path and side effects. |
+| A research assistant that searches, reads results, decides whether more retrieval is needed, and stops when evidence is sufficient. | Agent loop | The next step depends on observations from the run. |
+| A delivery system with planner, dispatcher, driver-communication worker, and escalation policy. | Multi-agent system or workflow with agents | Work is split across roles with separate context and authority. |
+
+The classification is not about prestige. A model call is not worse than an agent. A workflow is not less modern than a loop. The right name tells you what must be tested, traced, secured, and operated.
+
+## Running Example: Refund Support
+
+The support refund assistant used across this book starts as a workflow, not an agent. The known path is clear: classify the request, load the order, retrieve the current refund policy, summarize evidence, validate the recommendation, and request approval when money can move. Code should own that path.
+
+The agentic part appears only when the workflow hits bounded uncertainty. Maybe the order data conflicts with the delivery record. Maybe the customer claims a policy exception. Maybe the evidence is missing and the system must decide whether to search another source, ask a clarifying question, or stop. That narrow investigation can justify a loop.
+
+| Part of the refund system | Better shape | Owner |
+| --- | --- | --- |
+| Intake, account lookup, and policy version selection | Deterministic workflow | Application code |
+| Evidence summary and recommendation draft | Model call or structured-output step | Model proposes, code validates |
+| Missing or conflicting evidence investigation | Agent loop with max steps | Loop runtime |
+| Refund threshold, exception policy, and approval requirement | Policy gate | Software |
+| Payment execution | Tool call after approval | Tool gateway |
+
+This is the discipline behind the word "agent." Do not ask whether the refund assistant sounds autonomous. Ask which runtime decision needs autonomy, which side effects need authority, and which stop reason the system will record.
+
 ## Decision Trees Come Before Autonomy
 
 Many useful agents are mostly decision trees with model calls inside them. That is not a weakness, and it is often the right design:
@@ -147,6 +177,15 @@ But the framework does not change the question you have to answer: what does the
 A good agent is not the one with the most autonomy. It is the one whose autonomy is useful and bounded. In practice that means clear goals, narrow tools, explicit state, typed outputs, visible decisions, bounded loops, evals that actually catch regressions, safe failure modes, and human escalation for the risky cases. Bad agents hide all of this inside a prompt and hope the model behaves.
 
 The design rule follows from everything above: if you cannot draw the loop, the tools, the state, and the stop condition, you do not understand the agent yet, and you are not ready to give it autonomy.
+
+Before calling something an agent, write down four things:
+
+1. The runtime decision it is allowed to make.
+2. The state it reads and writes outside the model context.
+3. The tools or side effects it can request.
+4. The exact stop reasons the system records.
+
+If any of those are missing, you probably have a model-backed feature, chain, or workflow that needs clearer boundaries before it needs more autonomy.
 
 The next question is not how to add more autonomy. It is whether the task needs a loop at all. Continue with [Architecture Before Autonomy](../pattern-selection/architecture-before-autonomy), then return to [Agent Loop](./agent-loop) when runtime decisions are justified.
 

@@ -8,6 +8,16 @@ Context is not a storage system. It is the model's working set for the next deci
 
 ![Context assembly pipeline](../public/diagrams/context-assembly-pipeline.svg)
 
+## What You Should Be Able To Do
+
+After this chapter, you should be able to:
+
+- define the working set for one model call;
+- separate required, relevant, available, and excluded context;
+- write a context manifest that reviewers can inspect;
+- explain why each context item was included or omitted;
+- test context selection directly instead of guessing from the final answer.
+
 ## The Working Set
 
 Borrow the idea from operating systems: the working set is the small set of information needed for the current step. For an agent, that usually means the active goal, the current step, the relevant constraints, compact state, the selected evidence, the tools available for this step, recent observations, any unresolved questions, and the budget and stop rules.
@@ -34,6 +44,34 @@ This is one of the strongest arguments for treating agents as services. Each age
 Every model call has a budget, even when the context window is large. The tokens you spend break down across instructions, state, evidence, tool descriptions, memory, conversation history, the output you reserve room for, and the cost of any compression you run. A large window does not remove the need for selection. It just makes bad selection more expensive and harder to notice.
 
 Match the budget to the decision. A routing call should not carry the full evidence bundle. A tool-selection call should not carry unrelated user history. A final synthesis call should include evidence and constraints, not every failed intermediate thought the agent had on the way there.
+
+## Context Budget Ledger
+
+Track the budget for each call before the prompt is assembled.
+
+```yaml
+context_budget:
+  call_type: refund_policy_synthesis
+  model_window_tokens: 128000
+  reserved_output_tokens: 2000
+  max_input_tokens: 18000
+  allocation:
+    instructions: 1200
+    goal_and_state: 900
+    policy: 3500
+    evidence: 9000
+    tool_results: 1800
+    memory: 400
+    conversation_history: 800
+    safety_margin: 400
+  omitted:
+    - id: old_chat_turns
+      reason: "not relevant to current policy decision"
+    - id: full_order_history
+      reason: "replaced by validated order summary"
+```
+
+The ledger should make one thing obvious: context is allocated, not accumulated. If a source has no budget line or inclusion rule, it should not enter the model call by accident.
 
 ## Context Manifests
 

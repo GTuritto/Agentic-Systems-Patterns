@@ -6,6 +6,8 @@ title: Deployment Walkthrough
 
 This walkthrough turns a lab-derived agent into a production candidate. It is framework-agnostic: the same gates apply whether the implementation uses direct TypeScript, Python, LangGraph, AutoGen, Mastra, CrewAI, or a custom mini-runtime.
 
+Download the [deployment walkthrough review checklist](/capstone-assets/templates/deployment-walkthrough-review-checklist.txt) before using this chapter for a release review.
+
 For complete examples, use the [Capstone Projects](../capstone-projects/) after this chapter.
 
 The goal is not to deploy faster. The goal is to deploy with enough control that the team can inspect, stop, replay, and improve the system after real users arrive.
@@ -15,6 +17,21 @@ The goal is not to deploy faster. The goal is to deploy with enough control that
 Use this walkthrough for systems that can read private data, call tools, write memory, send messages, create drafts, execute workflow steps, or influence business decisions.
 
 For throwaway demos, keep the process lighter. For production, do not skip the gates that match the system's authority.
+
+## Deployment Readiness Questions
+
+Use these questions before promoting a lab, pattern implementation, or capstone into a service:
+
+| Question | Release Evidence |
+| --- | --- |
+| What authority does the agent have? | Read, write, approval, tool, memory, and user-facing action inventory. |
+| What must be durable? | Checkpoints for approvals, retries, side effects, and workflow waits. |
+| What blocks release? | Tests, evals, trace review, policy checks, and security gates. |
+| What can be disabled without deploy? | Model route, prompt version, tool capability, memory writes, workflow, or full agent route. |
+| What can operators inspect? | Runbook, trace dashboard, eval dashboard, config version, and incident log. |
+| What happens during partial failure? | Retry, compensation, degradation, escalation, and stop reason rules. |
+
+The release is not ready when the only proof is “the demo worked.” It is ready when a second engineer can deploy, inspect, stop, and replay it.
 
 ## Release Pipeline
 
@@ -142,6 +159,37 @@ npm run typecheck
 
 Add project-specific eval commands next to the implementation. The gate should fail closed: if the eval dataset cannot load, the release should stop.
 
+### GitHub Actions Gate
+
+A minimal GitHub Actions workflow should separate ordinary tests from release-blocking agent checks.
+
+```yaml
+name: agent-release-gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck --if-present
+      - run: npm run eval:release --if-present
+      - run: npm run trace:contract --if-present
+```
+
+For Python agents, add setup-python, dependency install, unit tests, and eval commands. Keep production secrets out of pull-request jobs. CI should use synthetic fixtures, mock tools, redacted traces, and staging credentials only when explicitly approved.
+
+The release gate should publish a small evidence summary: commit SHA, eval dataset version, passed checks, failed checks, trace contract result, and release owner. A green CI badge is not enough when the agent can call tools or affect users.
+
 ## 6. Rollout
 
 Roll out by capability, not by hope.
@@ -164,6 +212,28 @@ At each stage, record:
 - eval dataset version;
 - trace export status;
 - rollback owner.
+
+### Rollout Decision Flow
+
+Use this flow at each rollout stage. The goal is to make expansion a decision based on evidence, not a default next step.
+
+```mermaid
+flowchart TD
+    A[Start rollout stage] --> B[Run stage-specific tests and evals]
+    B --> C[Review traces, costs, policy decisions, and user-visible outcomes]
+    C --> D{Blocking failure?}
+    D -->|Yes| R[Rollback or disable affected capability]
+    R --> F[Add incident or failure fixture to eval suite]
+    F --> B
+
+    D -->|No| E{Evidence complete?}
+    E -->|No| H[Hold stage and collect missing trace, eval, or operator evidence]
+    H --> C
+    E -->|Yes| G{Risk still within scope?}
+    G -->|No| K[Require approval, narrow capability, or reduce cohort]
+    K --> C
+    G -->|Yes| N[Expand to next stage]
+```
 
 ## 7. Rollback And Kill Switch
 
@@ -239,7 +309,21 @@ side effects: none before policy, approval, and idempotency checks
 
 For queue or workflow deployments, keep the same contract even if transport changes. The request envelope, state record, trace ID, policy decision, and eval result should look the same across HTTP, worker, and scheduled jobs.
 
-## 10. Research RAG Deployment Notes
+## 10. Cloud Deployment Shapes
+
+Different cloud shapes can host the same agent contract. Pick the simplest shape that preserves state, policy, traces, and rollback.
+
+| Shape | Use When | Required Controls |
+| --- | --- | --- |
+| container service | HTTP or worker agent needs long-lived process, local cache, or custom runtime | health check, autoscaling limit, secret manager, trace export, kill switch |
+| serverless function | short stateless step with strict timeout and no approval wait | external state store, idempotency key, timeout budget, cold-start test |
+| queue worker | event-triggered or background work | dead-letter queue, retry policy, backpressure, replay procedure |
+| workflow engine worker | long-running work, approvals, compensation, or resume after failure | checkpoint store, versioned workflow definition, stuck-run dashboard |
+| scheduled job | periodic eval, memory cleanup, ingestion, or report generation | lock, idempotency, last-run record, alert on missed run |
+
+Cloud deployment should not change the agent's authority model. If a local run requires approval before sending email, the cloud worker must require the same approval. If the local trace redacts tool arguments, the cloud trace must redact them too.
+
+## 11. Research RAG Deployment Notes
 
 Research RAG systems need extra deployment controls because retrieval can expose forbidden, stale, or unsupported material.
 

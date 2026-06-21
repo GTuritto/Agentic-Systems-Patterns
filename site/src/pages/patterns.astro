@@ -1,21 +1,69 @@
 ---
 import BookLayout from '../layouts/BookLayout.astro';
-import { sectionDescriptions, sectionUseWhen, siteBase, siteChapters, siteSections } from '../lib/book-manifest';
+import { chapterSearchExcerpt, sectionDescriptions, sectionUseWhen, siteBase, siteChapters, siteSections } from '../lib/book-manifest';
 
-const excludedSections = new Set(['publishing']);
 const sectionTitle = new Map(siteSections.map(section => [section.id, section.title]));
-const catalogChapters = siteChapters.filter(chapter => !excludedSections.has(chapter.sectionId));
+const catalogChapters = siteChapters.filter(chapter => chapter.type === 'Pattern');
 const filterSections = siteSections.filter(section =>
   catalogChapters.some(chapter => chapter.sectionId === section.id)
 );
+const filterLevels = [...new Set(catalogChapters.map(chapter => chapter.difficulty))];
+const filterReaderPaths = [...new Set(catalogChapters.flatMap(chapter => chapter.readerPaths))].sort();
+const filterEfforts = [...new Set(catalogChapters.map(chapter => chapter.effort))];
+const catalogGuide = [
+  {
+    label: 'Select',
+    title: 'Choose an architecture',
+    text: 'Start here when the problem is unclear. Compare autonomy, state, tools, evaluation, and operational risk before picking a pattern.',
+    href: `${siteBase}/book/pattern-selection/choosing-the-right-pattern/`
+  },
+  {
+    label: 'Map',
+    title: 'Read the diagrams',
+    text: 'Use the visual route when a team needs shared language for boundaries, owners, control loops, multi-agent flow, and production risk.',
+    href: `${siteBase}/book/publishing/logical-groups/#visual-architecture-route`
+  },
+  {
+    label: 'Prove',
+    title: 'Find runnable proof',
+    text: 'Use the lab matrix when you need code that proves a pattern boundary: routing, tools, memory, planning, orchestration, or deployment.',
+    href: `${siteBase}/book/hands-on-labs/framework-language-matrix/`
+  },
+  {
+    label: 'Ship',
+    title: 'Check production risk',
+    text: 'Use the 10/10 gate before release. It forces clear evidence for security, observability, evals, rollback, and ownership.',
+    href: `${siteBase}/book/publishing/ten-out-of-ten-production-gate/`
+  }
+];
 
 ---
 
-<BookLayout title="Pattern Catalog | Agentic Systems Patterns">
+<BookLayout
+  title="Pattern Catalog | Agentic Systems Patterns"
+  description="Browse agentic system patterns by engineering concern and jump to pattern chapters with use cases, tradeoffs, failure modes, evals, and production guidance."
+>
   <section class="catalog-hero">
     <p class="eyebrow">Pattern catalog</p>
     <h1>Find the right agentic pattern</h1>
-    <p class="lede">Browse the book as a structured catalog. Filter by engineering concern, then jump directly into the chapter that explains the pattern and its implementation tradeoffs.</p>
+    <p class="lede">Browse the generated pattern chapters as a focused catalog. Filter by engineering concern, then jump directly into the chapter that explains the pattern and its implementation tradeoffs.</p>
+  </section>
+
+  <section class="section-grid" aria-labelledby="catalog-guide-heading">
+    <div class="section-heading">
+      <h2 id="catalog-guide-heading">Use the catalog by decision</h2>
+      <p>Search by the problem you are trying to solve, then read the use cases, avoid cases, failure modes, and production checklist before adopting a pattern.</p>
+    </div>
+    <div class="cards">
+      {catalogGuide.map(item => (
+        <article class="section-card">
+          <span>{item.label}</span>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+          <a href={item.href}>Open guide</a>
+        </article>
+      ))}
+    </div>
   </section>
 
   <section class="catalog-filters" aria-label="Pattern filters">
@@ -23,13 +71,46 @@ const filterSections = siteSections.filter(section =>
       <label for="catalog-search-input">Search catalog</label>
       <input id="catalog-search-input" type="search" placeholder="Search title, category, or use case..." autocomplete="off" />
     </div>
-    <div class="filter-row">
-      <button class="filter-chip is-active" type="button" data-filter="all">All</button>
-      {filterSections.map(section => (
-        <button class="filter-chip" type="button" data-filter={section.id}>{section.title}</button>
-      ))}
+    <div class="filter-group" aria-label="Filter by engineering concern">
+      <p>Concern</p>
+      <div class="filter-row">
+        <button class="filter-chip is-active" type="button" data-filter-group="section" data-filter-value="all" aria-pressed="true">All</button>
+        {filterSections.map(section => (
+          <button class="filter-chip" type="button" data-filter-group="section" data-filter-value={section.id} aria-pressed="false">{section.title}</button>
+        ))}
+      </div>
     </div>
-    <p class="catalog-count" aria-live="polite"><span id="catalog-count">{catalogChapters.length}</span> patterns shown</p>
+    <div class="filter-group" aria-label="Filter by level">
+      <p>Level</p>
+      <div class="filter-row">
+        <button class="filter-chip is-active" type="button" data-filter-group="level" data-filter-value="all" aria-pressed="true">All</button>
+        {filterLevels.map(level => (
+          <button class="filter-chip" type="button" data-filter-group="level" data-filter-value={level} aria-pressed="false">{level}</button>
+        ))}
+      </div>
+    </div>
+    <div class="filter-group" aria-label="Filter by reader path">
+      <p>Reader path</p>
+      <div class="filter-row">
+        <button class="filter-chip is-active" type="button" data-filter-group="reader" data-filter-value="all" aria-pressed="true">All</button>
+        {filterReaderPaths.map(path => (
+          <button class="filter-chip" type="button" data-filter-group="reader" data-filter-value={path} aria-pressed="false">{path}</button>
+        ))}
+      </div>
+    </div>
+    <div class="filter-group" aria-label="Filter by effort">
+      <p>Effort</p>
+      <div class="filter-row">
+        <button class="filter-chip is-active" type="button" data-filter-group="effort" data-filter-value="all" aria-pressed="true">All</button>
+        {filterEfforts.map(effort => (
+          <button class="filter-chip" type="button" data-filter-group="effort" data-filter-value={effort} aria-pressed="false">{effort}</button>
+        ))}
+      </div>
+    </div>
+    <div class="catalog-filter-footer">
+      <p class="catalog-count" aria-live="polite"><span id="catalog-count">{catalogChapters.length}</span> patterns shown</p>
+      <button class="filter-reset" type="button" id="catalog-reset">Reset filters</button>
+    </div>
   </section>
 
   <section class="catalog-grid" aria-label="Pattern cards">
@@ -37,14 +118,23 @@ const filterSections = siteSections.filter(section =>
       <article
         class="pattern-card"
         data-section={chapter.sectionId}
-        data-search={`${chapter.title} ${sectionTitle.get(chapter.sectionId)} ${sectionDescriptions.get(chapter.sectionId)} ${sectionUseWhen.get(chapter.sectionId)}`.toLowerCase()}
+        data-level={chapter.difficulty}
+        data-effort={chapter.effort}
+        data-reader-paths={chapter.readerPaths.join('|')}
+        data-search={`${chapter.title} ${chapter.type} ${chapter.difficulty} ${chapter.effort} ${chapter.readerPaths.join(' ')} ${sectionTitle.get(chapter.sectionId)} ${chapterSearchExcerpt(chapter)} ${sectionUseWhen.get(chapter.sectionId)}`.toLowerCase()}
       >
         <div class="pattern-card__meta">
           <span>{String(index + 1).padStart(2, '0')}</span>
           <span>{sectionTitle.get(chapter.sectionId)}</span>
         </div>
+        <div class="pattern-card__tags" aria-label="Chapter metadata">
+          <span>{chapter.type}</span>
+          <span>{chapter.difficulty}</span>
+          <span>{chapter.effort}</span>
+          {chapter.readerPaths.map(path => <span>{path}</span>)}
+        </div>
         <h2>{chapter.title}</h2>
-        <p>{sectionDescriptions.get(chapter.sectionId)}</p>
+        <p>{chapterSearchExcerpt(chapter)}</p>
         <p class="pattern-card__use">{sectionUseWhen.get(chapter.sectionId)}</p>
         <div class="pattern-card__links">
           <a href={`${siteBase}/book/${chapter.slug}/`}>Read chapter</a>
@@ -61,16 +151,25 @@ const filterSections = siteSections.filter(section =>
     const searchInput = document.querySelector<HTMLInputElement>('#catalog-search-input');
     const count = document.querySelector<HTMLSpanElement>('#catalog-count');
     const empty = document.querySelector<HTMLParagraphElement>('#catalog-empty');
-    let activeFilter = 'all';
+    const resetButton = document.querySelector<HTMLButtonElement>('#catalog-reset');
+    const activeFilters = {
+      section: 'all',
+      level: 'all',
+      reader: 'all',
+      effort: 'all'
+    };
 
     function applyCatalogFilters() {
       const query = searchInput?.value.trim().toLowerCase() ?? '';
       let visibleCount = 0;
 
       cards.forEach(card => {
-        const matchesFilter = activeFilter === 'all' || card.dataset.section === activeFilter;
+        const matchesSection = activeFilters.section === 'all' || card.dataset.section === activeFilters.section;
+        const matchesLevel = activeFilters.level === 'all' || card.dataset.level === activeFilters.level;
+        const matchesReader = activeFilters.reader === 'all' || (card.dataset.readerPaths ?? '').split('|').includes(activeFilters.reader);
+        const matchesEffort = activeFilters.effort === 'all' || card.dataset.effort === activeFilters.effort;
         const matchesQuery = !query || (card.dataset.search ?? '').includes(query);
-        const visible = matchesFilter && matchesQuery;
+        const visible = matchesSection && matchesLevel && matchesReader && matchesEffort && matchesQuery;
         card.hidden = !visible;
         if (visible) visibleCount += 1;
       });
@@ -81,10 +180,33 @@ const filterSections = siteSections.filter(section =>
 
     buttons.forEach(button => {
       button.addEventListener('click', () => {
-        activeFilter = button.dataset.filter ?? 'all';
-        buttons.forEach(item => item.classList.toggle('is-active', item === button));
+        const group = button.dataset.filterGroup as keyof typeof activeFilters | undefined;
+        if (!group) return;
+
+        activeFilters[group] = button.dataset.filterValue ?? 'all';
+        buttons
+          .filter(item => item.dataset.filterGroup === group)
+          .forEach(item => {
+            const active = item === button;
+            item.classList.toggle('is-active', active);
+            item.setAttribute('aria-pressed', active ? 'true' : 'false');
+          });
         applyCatalogFilters();
       });
+    });
+
+    resetButton?.addEventListener('click', () => {
+      searchInput!.value = '';
+      Object.keys(activeFilters).forEach(key => {
+        activeFilters[key as keyof typeof activeFilters] = 'all';
+      });
+      buttons.forEach(button => {
+        const active = button.dataset.filterValue === 'all';
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      applyCatalogFilters();
+      searchInput?.focus();
     });
 
     searchInput?.addEventListener('input', applyCatalogFilters);

@@ -1,0 +1,86 @@
+LAB 06 OBSERVABILITY AND EVALS GUIDED EXERCISE
+
+Use this worksheet to capture trace contract evidence, negative cases, and release-gate decisions from Lab 06.
+
+Lab:
+Date:
+Reviewer:
+Repository commit:
+
+1. Trace Contract Baseline
+
+Command:
+
+Passing output:
+
+Required fields protected by the contract:
+
+- run span:
+- model span:
+- stop reason:
+- correlation IDs:
+- policy decision for tool spans:
+- idempotency key for successful tool spans:
+- evidence refs for retrieval spans:
+- redaction classification for production spans:
+
+2. Missing-Policy Failure
+
+Failing trace:
+
+Failing span:
+
+Exact failure reason:
+
+Why this blocks release:
+
+Owner:
+
+Fix:
+
+3. Negative A2A Case
+
+Task ID:
+
+Malformed input:
+
+Observed outcome:
+
+Expected outcome:
+
+Should this become a regression fixture?
+
+Fixture name:
+
+Severity:
+
+4. CI Gate Sketch
+
+Release command:
+
+Scope:
+
+Blocking threshold:
+
+Owner:
+
+Where the result should be published:
+
+5. Incident-To-Eval Note
+
+Failure observed:
+
+Trace field that exposed it:
+
+Regression fixture to add:
+
+Expected failure message:
+
+How this prevents recurrence:
+
+Final decision:
+
+[ ] Eval boundary is clear
+[ ] Needs more trace fields
+[ ] Needs CI integration
+[ ] Needs owner assignment

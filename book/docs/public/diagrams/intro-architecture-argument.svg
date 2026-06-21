@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="360" viewBox="0 0 1180 360" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture argument flow</title>
+  <desc id="desc">A flow from problem, to least agentic design, to model judgment, boundaries, validation, evidence, and production operation.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#527887"/>
+    </marker>
+    <style>
+      .box { fill: #fffaf0; stroke: #c7a76a; stroke-width: 2; rx: 10; }
+      .decision { fill: #e8f0ed; stroke: #527887; stroke-width: 2; }
+      .line { stroke: #527887; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .label { fill: #173f4f; font: 600 18px Inter, Arial, sans-serif; text-anchor: middle; }
+      .small { fill: #4f5b62; font: 14px Inter, Arial, sans-serif; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect x="20" y="40" width="150" height="82" class="box"/>
+  <text x="95" y="76" class="label">Problem</text>
+  <text x="95" y="100" class="small">and user need</text>
+  <path d="M170 81 H224" class="line"/>
+  <rect x="230" y="40" width="170" height="82" class="box"/>
+  <text x="315" y="73" class="label">Least Agentic</text>
+  <text x="315" y="99" class="small">design that works</text>
+  <path d="M400 81 H468" class="line"/>
+  <path d="M540 28 L620 81 L540 134 L460 81 Z" class="decision"/>
+  <text x="540" y="73" class="label">Judgment</text>
+  <text x="540" y="99" class="small">needed?</text>
+  <path d="M540 134 V190 H214" class="line"/>
+  <text x="455" y="176" class="small">No</text>
+  <rect x="20" y="210" width="260" height="82" class="box"/>
+  <text x="150" y="244" class="label">Ordinary Software</text>
+  <text x="150" y="270" class="small">workflow, rules, or automation</text>
+  <path d="M620 81 H688" class="line"/>
+  <text x="654" y="66" class="small">Yes</text>
+  <rect x="695" y="40" width="180" height="82" class="box"/>
+  <text x="785" y="73" class="label">Draw Boundary</text>
+  <text x="785" y="99" class="small">goal, state, tools, policy</text>
+  <path d="M875 81 H928" class="line"/>
+  <rect x="935" y="40" width="170" height="82" class="box"/>
+  <text x="1020" y="73" class="label">Validate</text>
+  <text x="1020" y="99" class="small">model proposals</text>
+  <path d="M1020 122 V168 H785 V208" class="line"/>
+  <rect x="695" y="218" width="180" height="82" class="box"/>
+  <text x="785" y="250" class="label">Evidence</text>
+  <text x="785" y="276" class="small">trace, eval, replay, budget</text>
+  <path d="M875 259 H928" class="line"/>
+  <rect x="935" y="218" width="170" height="82" class="box"/>
+  <text x="1020" y="250" class="label">Operate</text>
+  <text x="1020" y="276" class="small">as production software</text>
+</svg>

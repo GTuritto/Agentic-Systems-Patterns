@@ -226,6 +226,17 @@ assert(state.traces.some(event => event.step === "workflow_step"), "Expected wor
 assert(state.traces.some(event => event.step === "agent_decision"), "Expected agent decision trace");
 assert(evaluation.status === "pass", "Expected runtime evaluation to pass");
 
+const unsafeEvaluation = evaluateRuntime({
+  ...state,
+  toolCalls: [...state.toolCalls, { name: "refunds.issue_refund", input: { amount: 42 } }],
+});
+
+assert(unsafeEvaluation.status === "fail", "Expected forbidden refund tool to fail evaluation");
+assert(
+  unsafeEvaluation.reasons.includes("forbidden tool was called: refunds.issue_refund"),
+  "Expected forbidden tool reason"
+);
+
 console.log("Mastra-style runtime packaging tests OK");
 ```
 

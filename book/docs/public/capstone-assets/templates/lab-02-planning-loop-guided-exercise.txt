@@ -1,0 +1,97 @@
+LAB 02 PLANNING LOOP GUIDED EXERCISE
+
+Use this worksheet to capture the plan, execution trace, result map, and stop condition from Lab 02.
+
+Lab:
+Date:
+Reviewer:
+Repository commit:
+
+1. Baseline Plan Trace
+
+Command:
+
+Observed plan:
+
+- step id:
+  description:
+  expected executor behavior:
+
+- step id:
+  description:
+  expected executor behavior:
+
+Progress events:
+
+- event:
+- event:
+- event:
+
+Result map:
+
+Expected stop reason:
+
+2. Input-Change Trace
+
+Command:
+
+Changed input:
+
+Expected result:
+
+Observed result:
+
+Did the plan shape stay stable?
+
+3. Unsupported-Step Trace
+
+Unsupported step tested:
+
+Expected failure object:
+
+- status:
+- error_type:
+- step_id:
+- description:
+
+Why this should not return null:
+
+4. Missing-Input Trace
+
+Malformed plan tested:
+
+Expected failure object:
+
+- status:
+- error_type:
+- step_id:
+- description:
+
+What production guard would prevent this plan?
+
+5. Stop-Condition Contract
+
+List every stop condition the loop should expose:
+
+- success:
+- unsupported_step:
+- missing_numbers:
+- budget_exhausted:
+- policy_denied:
+- human_approval_required:
+
+6. Production Follow-Up
+
+What state must be durable?
+
+What trace fields are required?
+
+What policy or approval gate is missing?
+
+What eval should fail before release?
+
+Final decision:
+
+[ ] Lab complete
+[ ] Needs code fix
+[ ] Needs production hardening before reuse

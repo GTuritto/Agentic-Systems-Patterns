@@ -14,6 +14,42 @@ const md = new MarkdownIt({
   typographer: true
 });
 
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/&amp;/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'section';
+}
+
+const defaultHeadingOpen = md.renderer.rules.heading_open ?? ((tokens: any, idx: any, options: any, _env: any, self: any) => {
+  return self.renderToken(tokens, idx, options);
+});
+const defaultFence = md.renderer.rules.fence ?? ((tokens: any, idx: any, options: any, _env: any, self: any) => {
+  return self.renderToken(tokens, idx, options);
+});
+
+md.renderer.rules.heading_open = (tokens: any, idx: any, options: any, env: any, self: any) => {
+  const nextToken = tokens[idx + 1];
+  if (nextToken?.type === 'inline') {
+    env.headingCounts ??= new Map<string, number>();
+    const baseSlug = slugifyHeading(nextToken.content);
+    const count = env.headingCounts.get(baseSlug) ?? 0;
+    env.headingCounts.set(baseSlug, count + 1);
+    tokens[idx].attrSet('id', count === 0 ? baseSlug : `${baseSlug}-${count + 1}`);
+  }
+
+  return defaultHeadingOpen(tokens, idx, options, env, self);
+};
+
+md.renderer.rules.fence = (tokens: any, idx: any, options: any, env: any, self: any) => {
+  if (tokens[idx].info.trim().split(/\s+/)[0] === 'mermaid') {
+    return `<div class="mermaid">${md.utils.escapeHtml(tokens[idx].content)}</div>`;
+  }
+
+  return defaultFence(tokens, idx, options, env, self);
+};
+
 function normalizeMarkdownTarget(target: string, fromChapterPath: string) {
   const [rawPath, hash] = target.split('#');
   const hashSuffix = hash ? `#${hash}` : '';
@@ -50,13 +86,48 @@ function rewriteLinks(markdown: string, fromChapterPath: string) {
   });
 }
 
+function wordCount(markdown: string) {
+  const withoutCode = markdown.replace(/```[\s\S]*?```/g, ' ');
+  const words = withoutCode.match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*/g);
+  return words?.length ?? 0;
+}
+
+function chapterSummary(markdown: string) {
+  const paragraphs = markdown
+    .replace(/```[\s\S]*?```/g, ' ')
+    .split(/\n{2,}/)
+    .map(paragraph => paragraph.trim())
+    .filter(paragraph =>
+      paragraph &&
+      !paragraph.startsWith('#') &&
+      !paragraph.startsWith('|') &&
+      !paragraph.startsWith('>') &&
+      !paragraph.startsWith('![') &&
+      !paragraph.startsWith('- ') &&
+      !/^\d+\./.test(paragraph)
+    );
+
+  const summary = paragraphs[0]
+    ?.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[`*_]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!summary) return 'A chapter from Agentic Systems Patterns.';
+  return summary.length > 180 ? `${summary.slice(0, 177).trim()}...` : summary;
+}
+
 export async function renderChapter(chapter: SiteChapter) {
   const filePath = path.join(docsRoot, chapter.path);
   const raw = await fs.readFile(filePath, 'utf8');
   const parsed = matter(raw);
   const body = rewriteLinks(parsed.content.trim(), chapter.path);
+  const words = wordCount(parsed.content);
   return {
     title: parsed.data.title ?? chapter.title,
-    html: md.render(body)
+    html: md.render(body, { headingCounts: new Map<string, number>() }),
+    summary: chapterSummary(parsed.content),
+    wordCount: words,
+    readingMinutes: Math.max(1, Math.ceil(words / 220))
   };
 }

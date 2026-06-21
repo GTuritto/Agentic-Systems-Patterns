@@ -10,6 +10,23 @@ Do not start with the pattern name. Start with the pressure in the system. Is th
 
 This page is also an alternative table of contents. The sidebar shows where chapters live. This map shows how the ideas connect.
 
+## Use The Map By Pressure
+
+When you are designing a system, start with the pressure that is making the design hard.
+
+| Design Pressure | Start Here | Then Check |
+| --- | --- | --- |
+| The team does not know whether this should be an agent. | [Architecture Before Autonomy](./architecture-before-autonomy) | [Choosing the Right Pattern](./choosing-the-right-pattern) |
+| The task has too many possible next steps. | [Agent Loop](../foundations/agent-loop) | [Goals and State](../foundations/goals-and-state) |
+| The model needs live data or side effects. | [Tool Capability Design](../tools-skills-protocols/tool-capability-design) | [Human Approval Gates](../tools-skills-protocols/human-approval-gates) |
+| The model sees too much, too little, or stale context. | [Context Budgets and Working Sets](../foundations/context-budgets-and-working-sets) | [Semantic Recall and RAG](../memory-knowledge/semantic-recall-rag) |
+| The answer quality is inconsistent. | [Evaluator-Optimizer](../control-loops/evaluator-optimizer) | [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development) |
+| The system needs multiple roles or parallel work. | [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology) | [Supervisor / Worker](../multi-agent-systems/supervisor-worker) |
+| The design must survive production failures. | [Production Runtime Overview](../production-runtime/overview) | [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay) |
+| The design touches private data, money, infrastructure, or customer-visible actions. | [Agent Threat Model](../agent-engineering-practice/agent-threat-model) | [Policy Enforcement](../production-runtime/policy-enforcement) |
+
+This turns the map into a diagnostic tool. You are not looking for the most impressive pattern. You are finding the weakest boundary in the current design.
+
 ## Linked Alternative TOC
 
 Use this map when you know the design problem but not the chapter name. The order is intentional: start with the loop, add control, add context and memory, expose tools safely, compose agents only when needed, then operate, secure, evaluate, and apply the system.

@@ -1,0 +1,67 @@
+Self-Improvement Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Run logs, eval failures, reviewer notes, or incidents exist
+[ ] The feedback signal has evidence
+[ ] The improvement can be tested before production
+[ ] The affected artifact is versioned
+[ ] The owner for the artifact is known
+[ ] Rollback is possible
+
+Proposal contract
+[ ] Source of feedback declared
+[ ] Affected artifact named
+[ ] Current and proposed versions named
+[ ] Problem summary written
+[ ] Evidence references attached
+[ ] Recurrence count or severity recorded
+[ ] Proposed change described
+[ ] Expected benefit stated
+[ ] Risks listed
+[ ] Eval changes listed
+[ ] Rollout plan declared
+[ ] Rollback command or path declared
+[ ] Required approvals listed
+
+Governance
+[ ] Prompt changes have prompt/eval owner approval
+[ ] Tool changes have tool/security owner approval
+[ ] Policy changes have domain/policy owner approval
+[ ] Retrieval changes have data/eval owner approval
+[ ] Memory changes have privacy/product owner approval
+[ ] Model route changes have eval/cost owner approval
+[ ] High-risk side effects require human approval
+
+Evaluation
+[ ] Fixture covers noisy feedback with no evidence
+[ ] Fixture covers repeated eval failure
+[ ] Fixture covers tool-authority expansion
+[ ] Fixture covers restricted retrieval source
+[ ] Fixture covers memory retention change
+[ ] Fixture covers approved low-risk change
+[ ] Fixture covers bad rollout metric and rollback
+
+Release and operations
+[ ] Change is released behind a version or flag
+[ ] Rollout cohort is recorded
+[ ] Owner and timestamp are recorded
+[ ] False approvals are monitored
+[ ] False rejections are monitored
+[ ] Override rate is monitored
+[ ] Incident rate is monitored
+[ ] Cost and latency are monitored
+[ ] Rejected proposals are retained with reasons
+
+Release decision
+[ ] Green: ready for controlled rollout
+[ ] Yellow: limited rollout; improve evidence, evals, or approval path
+[ ] Red: proposal only
+
+Required changes:
+
+Reviewer notes:

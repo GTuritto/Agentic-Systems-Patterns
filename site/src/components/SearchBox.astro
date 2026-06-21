@@ -1,10 +1,19 @@
 ---
-import { sectionDescriptions, siteBase, siteChapters } from '../lib/book-manifest.ts';
+import { chapterSearchExcerpt, siteBase, siteChapters, siteSections } from '../lib/book-manifest.ts';
 
+const sectionTitle = new Map(siteSections.map(section => [section.id, section.title]));
+const levelFilters = [...new Set(siteChapters.map(chapter => chapter.difficulty))];
+const typeFilters = [...new Set(siteChapters.map(chapter => chapter.type))];
 const fallbackSearchItems = siteChapters.map(chapter => ({
   title: chapter.title,
   url: `${siteBase}/book/${chapter.slug}/`,
-  excerpt: sectionDescriptions.get(chapter.sectionId) ?? 'Open this chapter from the search results.'
+  excerpt: chapterSearchExcerpt(chapter),
+  section: sectionTitle.get(chapter.sectionId) ?? chapter.sectionId,
+  type: chapter.type,
+  level: chapter.difficulty,
+  effort: chapter.effort,
+  readerPaths: chapter.readerPaths,
+  searchText: `${chapter.title} ${chapter.type} ${chapter.difficulty} ${chapter.effort} ${chapter.readerPaths.join(' ')} ${chapterSearchExcerpt(chapter)}`
 }));
 ---
 
@@ -18,6 +27,22 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     aria-controls="search-results"
     aria-expanded="false"
   />
+  <div class="search-filter-row" aria-label="Search filters">
+    <label for="search-level-filter">
+      <span>Level</span>
+      <select id="search-level-filter">
+        <option value="">All levels</option>
+        {levelFilters.map(level => <option value={level}>{level}</option>)}
+      </select>
+    </label>
+    <label for="search-type-filter">
+      <span>Type</span>
+      <select id="search-type-filter">
+        <option value="">All types</option>
+        {typeFilters.map(type => <option value={type}>{type}</option>)}
+      </select>
+    </label>
+  </div>
   <div id="search-status" aria-live="polite"></div>
   <div id="search-results" role="listbox" aria-label="Search results"></div>
 </div>
@@ -26,10 +51,16 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
 <script>
   const input = document.querySelector<HTMLInputElement>('#search-input');
+  const levelFilter = document.querySelector<HTMLSelectElement>('#search-level-filter');
+  const typeFilter = document.querySelector<HTMLSelectElement>('#search-type-filter');
   const results = document.querySelector<HTMLDivElement>('#search-results');
   const status = document.querySelector<HTMLDivElement>('#search-status');
   const pagefindPath = '/Agentic-Systems-Patterns/pagefind/pagefind.js';
   let activeIndex = -1;
+  type SearchFilters = {
+    level?: string;
+    type?: string;
+  };
 
   async function loadPagefind() {
     const pagefind = await import(/* @vite-ignore */ pagefindPath);
@@ -80,32 +111,55 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     return `/Agentic-Systems-Patterns/${url}`;
   }
 
-  function fallbackSearch(q: string) {
+  function activeFilters(): SearchFilters {
+    return {
+      level: levelFilter?.value || undefined,
+      type: typeFilter?.value || undefined
+    };
+  }
+
+  function pagefindSearchOptions(filters: SearchFilters) {
+    const pagefindFilters: SearchFilters = {};
+    if (filters.level) pagefindFilters.level = filters.level;
+    if (filters.type) pagefindFilters.type = filters.type;
+    return Object.keys(pagefindFilters).length > 0 ? { filters: pagefindFilters } : undefined;
+  }
+
+  function fallbackSearch(q: string, filters: SearchFilters) {
     const data = document.querySelector<HTMLScriptElement>('#search-fallback-data');
     const items = data?.textContent ? JSON.parse(data.textContent) : [];
     const normalizedQuery = q.toLowerCase();
     return items
-      .filter((item: { title: string; excerpt: string }) => {
-        return `${item.title} ${item.excerpt}`.toLowerCase().includes(normalizedQuery);
+      .filter((item: { title: string; excerpt: string; searchText?: string; level?: string; type?: string }) => {
+        const matchesQuery = (item.searchText ?? `${item.title} ${item.excerpt}`).toLowerCase().includes(normalizedQuery);
+        const matchesLevel = !filters.level || item.level === filters.level;
+        const matchesType = !filters.type || item.type === filters.type;
+        return matchesQuery && matchesLevel && matchesType;
       })
       .slice(0, 6);
   }
 
-  function renderItems(items: Array<{ title: string; excerpt?: string; url: string }>) {
+  function renderItems(items: Array<{ title: string; excerpt?: string; url: string; section?: string; type?: string; level?: string }>) {
     results!.innerHTML = items.map((item, index) => {
       const title = escapeHtml(item.title ?? 'Untitled chapter');
       const excerpt = item.excerpt ? escapeHtml(item.excerpt.replace(/<[^>]+>/g, '')) : 'Open this chapter from the search results.';
+      const tags = [item.section, item.type, item.level]
+        .filter((tag): tag is string => Boolean(tag))
+        .map(tag => `<span>${escapeHtml(tag)}</span>`)
+        .join('');
       return `
         <a class="search-result" href="${normalizeUrl(item.url)}" role="option" aria-selected="false" tabindex="${index === 0 ? '0' : '-1'}">
           <span class="search-result-title">${title}</span>
+          ${tags ? `<span class="search-result-tags">${tags}</span>` : ''}
           <span class="search-result-excerpt">${excerpt}</span>
         </a>
       `;
     }).join('');
   }
 
-  input?.addEventListener('input', async () => {
-    const q = input.value.trim();
+  async function runSearch() {
+    const q = input?.value.trim() ?? '';
+    const filters = activeFilters();
     if (!results) return;
     if (!q) {
       clearResults();
@@ -120,11 +174,11 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     try {
       pagefindPromise ??= loadPagefind();
       const pagefind = await pagefindPromise;
-      const search = await pagefind.search(q);
+      const search = await pagefind.search(q, pagefindSearchOptions(filters));
       if (run !== searchRun) return;
 
       if (search.results.length === 0) {
-        results.innerHTML = '<div class="search-message">No matches. Try a broader term.</div>';
+        results.innerHTML = '<div class="search-message">No matches. Try a broader term or filter.</div>';
         setStatus('No search results found.');
         return;
       }
@@ -134,22 +188,29 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
       renderItems(items.map(item => ({
         title: item.meta?.title ?? 'Untitled chapter',
-        excerpt: item.excerpt,
-        url: item.url
+        excerpt: item.meta?.description ?? item.excerpt,
+        url: item.url,
+        section: item.meta?.section,
+        type: item.meta?.type,
+        level: item.meta?.level
       })));
       setStatus(`${items.length} search results shown.`);
     } catch {
-      const items = fallbackSearch(q);
+      const items = fallbackSearch(q, filters);
       if (run !== searchRun) return;
       if (items.length === 0) {
-        results.innerHTML = '<div class="search-message">No matches. Try a broader term.</div>';
+        results.innerHTML = '<div class="search-message">No matches. Try a broader term or filter.</div>';
         setStatus('No search results found.');
         return;
       }
       renderItems(items);
       setStatus(`${items.length} fallback search results shown.`);
     }
-  });
+  }
+
+  input?.addEventListener('input', runSearch);
+  levelFilter?.addEventListener('change', runSearch);
+  typeFilter?.addEventListener('change', runSearch);
 
   input?.addEventListener('keydown', event => {
     if (event.key === 'ArrowDown') {
@@ -207,6 +268,41 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     width: 100%;
   }
 
+  .search-filter-row {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 9px;
+  }
+
+  .search-filter-row label {
+    display: grid;
+    gap: 5px;
+    margin: 0;
+  }
+
+  .search-filter-row span {
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: 0.62rem;
+    font-weight: 820;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .search-filter-row select {
+    appearance: none;
+    background: #fffaf0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--nav);
+    font: 0.78rem var(--font-ui);
+    max-width: 100%;
+    min-width: 0;
+    padding: 8px 9px;
+    width: 100%;
+  }
+
   #search-results {
     display: grid;
     gap: 7px;
@@ -244,6 +340,23 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   #search-results :global(.search-result-title) {
     font-weight: 850;
     line-height: 1.25;
+  }
+
+  #search-results :global(.search-result-tags) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  #search-results :global(.search-result-tags span) {
+    background: rgb(255 255 255 / 0.66);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--nav);
+    font-size: 0.62rem;
+    font-weight: 820;
+    line-height: 1;
+    padding: 4px 6px;
   }
 
   #search-results :global(.search-result-excerpt) {

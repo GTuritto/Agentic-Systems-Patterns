@@ -19,4 +19,10 @@ assert_true(resumed.state["draft"].startswith("Draft a refund response"), "Expec
 assert_true(resumed.trace == ["checkpoint:review", "node:review", "checkpoint:done", "graph:done"], "Expected resume from review node")
 assert_true(evaluate_graph(resumed)["status"] == "pass", "Expected resumed graph eval to pass")
 
+broken_success = run_graph("Prepare a refund response", approved=True, resume_from=first.state)
+broken_success.state["draft"] = ""
+broken_eval = evaluate_graph(broken_success)
+assert_true(broken_eval["status"] == "fail", "Expected success without draft to fail eval")
+assert_true("success without draft" in broken_eval["reasons"], "Expected missing draft reason")
+
 print("LangGraph-style state graph tests OK")

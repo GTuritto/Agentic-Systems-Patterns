@@ -1,0 +1,18 @@
+flowchart LR
+  Request["Domain request"] --> Rights{"Decision right"}
+  Rights -->|"Classify, extract, summarize"| Evidence["Evidence packet"]
+  Rights -->|"Recommend or draft"| Evidence
+  Rights -->|"Execute, deny, approve, diagnose, decide"| Review["Required reviewer or policy owner"]
+  Evidence --> Sources{"Evidence sufficient?"}
+  Sources -->|"No, stale, conflicting"| Escalate["Ask, escalate, or block"]
+  Sources -->|"Yes"| Policy["Domain policy check"]
+  Policy --> Gate{"Allowed status"}
+  Gate -->|"Allow draft"| Agent["Domain agent produces draft or recommendation"]
+  Gate -->|"Review required"| Review
+  Gate -->|"Deny"| Escalate
+  Agent --> Human{"Human review needed?"}
+  Human -->|"No"| Output["Auditable output"]
+  Human -->|"Yes"| Review
+  Review --> Decision["Reviewer accepts, edits, rejects, or escalates"]
+  Decision --> Audit["Audit record and regression eval"]
+  Output --> Audit

@@ -1,0 +1,180 @@
+CAPSTONE REVIEW SCORECARD
+
+Capstone:
+Reviewer:
+Date:
+Target release:
+
+Primary risk boundary:
+[ ] Side-effect authority
+[ ] Private or approved data
+[ ] Multi-agent coordination
+[ ] Long-running workflow state
+[ ] Tool or protocol integration
+[ ] User trust and human control
+
+Capstone being adapted:
+[ ] Support Refund Agent
+[ ] Research RAG Agent
+[ ] Multi-Agent Delivery Workflow
+[ ] Custom adaptation
+
+Scoring:
+0 = missing
+1 = described but not implemented or not reviewable
+2 = implemented, tested, documented, and owned
+
+1. Problem and Scope
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Is the user workflow concrete?
+- Are non-goals explicit?
+- Is the authority level clear?
+
+2. Pattern Composition
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Does every pattern earn its place?
+- Is there a reason for each loop, tool, memory, or agent?
+- Are rejected alternatives named?
+
+3. Architecture Boundary
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Does the design separate model judgment from deterministic control?
+- Are state, policy, tools, memory, approval, and observability owned?
+- Can another engineer review the boundary without reading all code?
+
+4. Tool and Policy Control
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Are tools typed, scoped, authorized, timed out, and audited?
+- Does policy run before authority?
+- Are high-risk actions denied, approved, or escalated outside the prompt?
+
+5. State, Memory, and Context
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Is run state inspectable and replayable?
+- Are memory rules explicit?
+- Does context carry source, trust, freshness, and budget?
+
+6. Evaluation Evidence
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Do evals cover happy paths, edge cases, regressions, and unsafe paths?
+- Is there a blocking threshold?
+- Does the eval inspect trajectory, not only final text?
+
+7. Observability and Traceability
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Can one successful and one failed run be reconstructed?
+- Are trace fields sufficient for incident review?
+- Are sensitive fields redacted?
+
+8. Production Operation
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Is there a runbook?
+- Are rollback and kill-switch paths documented?
+- Are owners and incident triggers named?
+
+9. Framework Portability
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Is product policy outside framework-only code?
+- Can the design be mapped to at least one alternate runtime?
+- Are framework-owned and application-owned responsibilities clear?
+
+10. Reader Reuse
+
+Score: 0 1 2
+
+Evidence:
+
+Review questions:
+- Can a reader reuse the ADR, trace, eval, runbook, or checklist shape?
+- Does the capstone teach a transferable decision rule?
+- Is the example specific enough to adapt without guessing?
+
+11. Adaptation Plan
+
+What workflow replaces the example workflow?
+
+Which patterns will be kept?
+
+Which patterns will be removed because they do not earn their place?
+
+What is the highest-risk failure?
+
+Which blocking eval catches it?
+
+What artifact is missing next?
+[ ] ADR
+[ ] Trace example
+[ ] Eval fixture
+[ ] Runbook
+[ ] Rollback plan
+[ ] Approval flow
+[ ] Tool manifest
+[ ] State schema
+
+Total score:
+
+Interpretation:
+0-9 = example sketch
+10-14 = useful design note
+15-17 = strong capstone
+18-20 = production-grade teaching example
+
+Hard fails:
+[ ] High-risk tool can run without policy or approval.
+[ ] No replayable trace exists.
+[ ] No blocking eval exists for unsafe behavior.
+[ ] State or memory ownership is unclear.
+[ ] Rollback is not documented.
+
+Final decision:
+[ ] Accept as A++ capstone
+[ ] Accept with minor edits
+[ ] Needs revision
+[ ] Not ready
+
+Reviewer notes:

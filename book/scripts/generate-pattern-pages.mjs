@@ -46,13 +46,18 @@ const sourceBundles = [
 
 const sectionAliases = {
   intent: ['Intent'],
+  scenario: ['Scenario', 'Worked Scenario'],
   useWhen: ['Use When'],
   avoidWhen: ['Avoid When'],
   architecture: ['Architecture', 'Core Flow', 'What A2A Adds'],
+  decisionRules: ['Decision Rules', 'Decision Rule'],
   systemShape: ['System Shape'],
+  contract: ['Contract', 'Pattern Contract'],
   coreProtocol: ['Core Protocol', 'Core Loop'],
+  workflowTransitionMap: ['Workflow Transition Map'],
   implementationNotes: ['Implementation Notes'],
   failureModes: ['Failure Modes'],
+  reviewChecklist: ['Review Checklist'],
   evaluationStrategy: ['Evaluation Strategy', 'Evaluation'],
   productionChecklist: ['Production Checklist', 'Production Readiness Checklist'],
   relatedPatterns: ['Related Patterns']
@@ -228,13 +233,61 @@ const architectureDiagrams = {
     alt: 'RAG evidence pipeline',
     file: 'rag-evidence-pipeline.svg'
   },
+  'memory-augmented-agent': {
+    alt: 'Memory-augmented agent lifecycle',
+    file: 'memory-augmented-lifecycle.svg',
+    note:
+      'Read it as a governed lifecycle: retrieve only scoped memory, inject it as labeled data, and store only approved memory with retention and correction rules.'
+  },
+  'long-term-episodic-memory': {
+    alt: 'Episodic memory event lifecycle',
+    file: 'episodic-memory-event-lifecycle.svg',
+    note:
+      'Read it as an event lifecycle: store only policy-approved episodes, retrieve them by scope and freshness, and keep correction, deletion, expiry, and audit paths visible.'
+  },
   'evaluator-optimizer': {
     alt: 'Evaluator-optimizer loop architecture',
     file: 'evaluator-optimizer-loop.svg'
   },
+  'planning-and-execution': {
+    alt: 'Planning and execution control flow',
+    file: 'planning-execution-control-flow.svg',
+    note:
+      'Read it as a controlled handoff: the planner proposes steps, the controller validates the plan, and the executor runs only validated steps with observable progress.'
+  },
+  react: {
+    alt: 'ReAct control loop',
+    file: 'react-control-loop.svg',
+    note:
+      'Read it as a bounded loop: each reasoning step must pass an action gate, each action must produce an observation, and each observation must update state or stop.'
+  },
+  reflection: {
+    alt: 'Reflection improvement loop',
+    file: 'reflection-improvement-loop.svg',
+    note:
+      'Read it as a bounded improvement pass: critique must identify concrete defects, revision must be validated, and budget or risk must stop the loop.'
+  },
+  'self-improvement': {
+    alt: 'Self-improvement release loop',
+    file: 'self-improvement-release-loop.svg',
+    note:
+      'Read it as a release process: feedback can propose changes, but evals, approval, staged rollout, monitoring, and rollback decide what becomes a new version.'
+  },
+  'self-healing-workflows': {
+    alt: 'Self-healing workflow recovery loop',
+    file: 'self-healing-recovery-loop.svg',
+    note:
+      'Read it as a recovery state machine: every retry, fallback, re-plan, compensation, escalation, and stop reason must be explicit and traceable.'
+  },
   'a2a-agent-interoperability': {
     alt: 'A2A agent interoperability architecture',
     file: 'a2a-agent-interoperability.svg'
+  },
+  'secure-agent-communication': {
+    alt: 'Secure agent communication boundary',
+    file: 'secure-agent-communication-boundary.svg',
+    note:
+      'Read it as a sequence of authority gates. The remote agent or tool receives capability only after transport, identity, envelope, scope, policy, and approval checks pass.'
   },
   'human-approval-gates': {
     alt: 'Human approval gate',
@@ -260,6 +313,24 @@ const architectureDiagrams = {
     alt: 'Supervisor worker architecture',
     file: 'supervisor-worker.svg'
   },
+  'task-delegation': {
+    alt: 'Task delegation contract flow',
+    file: 'task-delegation-contract-flow.svg',
+    note:
+      'Read it as an ownership contract: the coordinator owns decomposition, worker scope, merge policy, final acceptance, and escalation.'
+  },
+  'parallel-agents': {
+    alt: 'Parallel agents fan-out and fan-in',
+    file: 'parallel-agents-fanout-fanin.svg',
+    note:
+      'Read it as a fan-out/fan-in boundary: parallelism is useful only when workers are independent and the coordinator can compare, merge, or reject their outputs.'
+  },
+  'debate-and-consensus': {
+    alt: 'Debate and consensus decision flow',
+    file: 'debate-consensus-decision-flow.svg',
+    note:
+      'Read it as an evidence-backed decision process: independent agents propose answers, critique each other, and an accountable owner resolves agreement, dissent, or escalation.'
+  },
   'crewai-flows-and-crews': {
     alt: 'CrewAI flows and crews architecture',
     file: 'crewai-flows-crews.svg'
@@ -271,6 +342,12 @@ const architectureDiagrams = {
   'observability-and-evals': {
     alt: 'Observability and evals architecture',
     file: 'observability-evals.svg'
+  },
+  'event-triggered-agents': {
+    alt: 'Event-triggered agent runtime',
+    file: 'event-triggered-agent-runtime.svg',
+    note:
+      'Read it as an unattended runtime boundary: event identity, idempotency, policy, checkpoints, retries, dead letters, and replay evidence protect every side effect.'
   },
   'mastra-runtime': {
     alt: 'Mastra runtime architecture',
@@ -374,10 +451,13 @@ function pageLink(pattern) {
 
 function generatedSystemShape(pattern) {
   const profile = profileFor(pattern);
+  const artifactDescription =
+    pattern.artifactDescription ??
+    `\`${pattern.sourceFolder}/\` contains the runnable reference implementation and examples.`;
   const lines = [
     `**Pattern boundary:** ${profile.boundary}.`,
     `**State owner:** ${profile.stateOwner}.`,
-    `**Primary artifact:** \`${pattern.sourceFolder}/\` contains the runnable reference implementation and examples.`,
+    `**Primary artifact:** ${artifactDescription}`,
     `**Operational promise:** ${pattern.summary}`
   ];
 
@@ -395,7 +475,8 @@ function diagramArchitecture(pattern) {
   return [
     `Use this diagram to read ${pattern.title} as a system boundary, not only a code shape. The key ownership question is: ${profile.stateOwner}.`,
     '',
-    `![${diagram.alt}](../public/diagrams/${diagram.file})`
+    `![${diagram.alt}](../public/diagrams/${diagram.file})`,
+    diagram.note ? `\n${diagram.note}` : ''
   ].join('\n');
 }
 
@@ -597,11 +678,15 @@ async function renderPattern(pattern) {
   };
 
   const intent = fromReadme(sectionAliases.intent) || pattern.summary;
+  const scenario = fromReadme(sectionAliases.scenario) || pattern.scenario;
   const useWhen = fromReadme(sectionAliases.useWhen) || listMarkdown(pattern.useWhen ?? []);
   const avoidWhen = fromReadme(sectionAliases.avoidWhen) || listMarkdown(pattern.avoidWhen ?? []);
   const architecture = diagramArchitecture(pattern) || fromReadme(sectionAliases.architecture);
+  const decisionRules = fromReadme(sectionAliases.decisionRules) || pattern.decisionRules;
   const systemShape = fromReadme(sectionAliases.systemShape) || generatedSystemShape(pattern);
+  const contract = fromReadme(sectionAliases.contract) || pattern.contract;
   const coreProtocol = fromReadme(sectionAliases.coreProtocol) || generatedCoreProtocol(pattern);
+  const workflowTransitionMap = fromReadme(sectionAliases.workflowTransitionMap);
   const implementationNotes =
     fromReadme(sectionAliases.implementationNotes) ||
     listMarkdown([
@@ -616,6 +701,7 @@ async function renderPattern(pattern) {
       'State, tool calls, or model decisions are not observable enough to debug.',
       'The system lacks clear stop, retry, or escalation behavior.'
     ]);
+  const reviewChecklist = fromReadme(sectionAliases.reviewChecklist) || pattern.reviewChecklist;
   const evaluationStrategy =
     fromReadme(sectionAliases.evaluationStrategy) || generatedEvaluationStrategy(pattern);
   const productionChecklist =
@@ -630,13 +716,18 @@ async function renderPattern(pattern) {
     quickLinks(pattern),
     '',
     sectionBlock('Intent', intent),
+    sectionBlock('Scenario', scenario),
     sectionBlock('Use When', useWhen),
     sectionBlock('Avoid When', avoidWhen),
     sectionBlock('Architecture', architecture),
+    sectionBlock('Decision Rules', decisionRules),
     sectionBlock('System Shape', systemShape),
+    sectionBlock('Contract', contract),
     sectionBlock('Core Protocol', coreProtocol),
+    sectionBlock('Workflow Transition Map', workflowTransitionMap),
     sectionBlock('Implementation Notes', implementationNotes),
     sectionBlock('Failure Modes', failureModes),
+    sectionBlock('Review Checklist', reviewChecklist),
     sectionBlock('Evaluation Strategy', evaluationStrategy),
     sectionBlock('Production Checklist', productionChecklist),
     commandBlock(pattern.commands),

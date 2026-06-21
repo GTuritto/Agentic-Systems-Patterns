@@ -1,0 +1,63 @@
+# Lab Production Readiness Worksheet
+
+Use this after completing a lab and before turning the pattern into production work.
+
+Lab:
+Reviewer:
+Date:
+Target product slice:
+
+## 1. Lab Evidence
+
+Baseline command:
+Expected output:
+Observed output:
+Source files inspected:
+Intentional failure path tested:
+
+## 2. What The Lab Proved
+
+[ ] The baseline command runs.
+[ ] The success signal matches the lab.
+[ ] One failure path is visible and controlled.
+[ ] The main architecture boundary can be explained.
+
+Notes:
+
+## 3. What Production Would Add
+
+[ ] Durable state or explicit stateless design.
+[ ] Actor, tenant, resource, and tool authorization.
+[ ] Typed tool schemas and side-effect labels.
+[ ] Idempotency keys for externally visible writes.
+[ ] Policy checks before tool calls, memory writes, and final answers.
+[ ] Trace IDs, model/tool events, policy decisions, cost, latency, and stop reasons.
+[ ] Eval gates for happy path, negative path, and trajectory behavior.
+[ ] Deployment config, secret handling, rollback, and kill switch.
+[ ] Human approval, escalation, cancellation, reviewer identity, and expiry.
+
+Evidence:
+
+## 4. Production Risk
+
+What real data would this touch?
+What real side effects could it cause?
+What failure must fail closed?
+What would require human approval?
+What would block release?
+
+## 5. Next Artifact
+
+[ ] Framework selection ADR.
+[ ] Tool capability review.
+[ ] Policy enforcement checklist.
+[ ] Observability and evals checklist.
+[ ] Deployment walkthrough checklist.
+[ ] Runbook.
+[ ] Rollback plan.
+[ ] Incident-derived eval fixture.
+
+Owner:
+Due date:
+Blocking gaps:
+Next action:

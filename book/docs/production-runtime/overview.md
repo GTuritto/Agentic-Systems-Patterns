@@ -16,6 +16,8 @@ Read this after [Agent Harnesses](../agent-engineering-practice/agent-harnesses)
 
 For a step-by-step path from lab to release, use [Deployment Walkthrough](./deployment-walkthrough). For framework setup and decision templates, use [Real Framework Setup Notes](../agent-engineering-practice/real-framework-setup-notes) and [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets).
 
+Download the operating worksheet: [runtime SLO and incident review worksheet](/capstone-assets/templates/runtime-slo-and-incident-review-worksheet.txt).
+
 Use this diagram as a control-plane map. Each box names a runtime responsibility that should have an owner, a trace record, and a rollback path before production traffic.
 
 ![Production runtime control plane](../public/diagrams/production-runtime-overview.svg)
@@ -133,6 +135,24 @@ Read the production runtime section as one operating model:
 
 The chapters are separate because each boundary deserves attention. In a real system, they should work together.
 
+## Launch Evidence Map
+
+Before launch, each runtime concern should produce evidence that another engineer can inspect. A green build is useful, but it does not prove the agent can be operated.
+
+| Concern | Evidence Artifact | Release Question |
+| --- | --- | --- |
+| Admission | Route table with task class, risk class, tenant scope, and refusal path. | Which requests can start, wait, route elsewhere, or refuse? |
+| State | Run-state schema, checkpoint example, and deletion rule. | Can the team reconstruct what the agent believed and where it stopped? |
+| Policy | Decision matrix, reason codes, and approval rules. | Can software stop an unsafe proposal before it executes? |
+| Budget | Per-route budget policy and exhaustion behavior. | What happens when the task is no longer worth more spend? |
+| Tools | Tool manifest with schemas, permissions, timeouts, and side-effect class. | Can a tool call be validated without trusting model prose? |
+| Memory and retrieval | Source policy, freshness rule, citation rule, and memory retention class. | Can the agent explain what evidence it used and why it was allowed? |
+| Observability | Trace contract and dashboard links. | Can an operator move from symptom, to trace, to owner? |
+| Evaluation | Blocking eval list, incident fixtures, and release-gate output. | Which known failures would block this release? |
+| Recovery | Runbook with retry, fallback, compensation, and rollback actions. | What can operators disable or restore without a full redeploy? |
+
+The evidence does not need to be elaborate. It needs to be real, current, and linked from the release record.
+
 ## Minimal Runtime Contract
 
 Every production run should be able to produce a contract like this:
@@ -172,6 +192,57 @@ type RuntimeRun = {
 This is not enough to implement a full platform, but it is enough to make the hidden parts visible. If a run does not have actor, tenant, route, trace ID, risk class, autonomy level, execution mode, version set, budget policy, policy version, allowed tools, status, and stop reason, it will be hard to operate.
 
 For high-risk work, this contract should be stored before the first model call. The run may change state, but the runtime should never be guessing who started it, what authority it has, what version is active, or why it stopped.
+
+## Operating Dashboard View
+
+The runtime dashboard should show control, not just activity.
+
+| Panel | Shows | Operator Action |
+| --- | --- | --- |
+| Active runs | route, tenant, risk class, status, workflow step, age, and owner. | Cancel, pause, or escalate stuck work. |
+| Budget pressure | token spend, tool spend, retry spend, and runs near exhaustion. | Lower concurrency, require approval, or stop low-priority work. |
+| Policy decisions | denies, approvals, escalations, false allows, and override rate. | Tighten rules, review exceptions, or add eval fixtures. |
+| Tool health | timeout rate, retry rate, side-effect failures, and idempotency conflicts. | Disable a tool, drain a queue, or switch fallback path. |
+| Trace quality | missing spans, missing stop reasons, redaction failures, and replay gaps. | Block release until evidence is complete. |
+| Release versions | active model, prompt, policy, retriever, workflow, and tool schema versions. | Pin, roll back, or canary a component. |
+| Eval status | blocking failures, flaky cases, incident fixture failures, and gate history. | Stop rollout or assign fixture repair. |
+
+If the dashboard cannot answer "what should an operator do now?", it is a reporting page, not a runtime control surface.
+
+## Runtime SLO And Incident Loop
+
+Service-level objectives (SLOs) make runtime quality explicit. Do not define them only for uptime. Agentic systems also need SLOs for trace coverage, policy-decision coverage, approval latency, eval-gate health, cost, and stop-reason completeness.
+
+```mermaid
+flowchart TD
+    Route["Route SLOs"] --> Monitor["Runtime dashboard"]
+    Monitor --> Alert{"Threshold breached?"}
+    Alert -->|No| Review["Scheduled operating review"]
+    Alert -->|Yes| Incident["Incident triage"]
+    Incident --> Stabilize["Disable route, tool, model, prompt, policy, or queue"]
+    Stabilize --> Trace["Trace review"]
+    Trace --> Eval{"Regression fixture needed?"}
+    Eval -->|Yes| Fixture["Create eval fixture"]
+    Eval -->|No| Evidence["Keep trace evidence"]
+    Fixture --> Gate["Add to release gate"]
+    Gate --> Rollout["Canary or rollback decision"]
+    Evidence --> Review
+    Review --> Route
+    Rollout --> Route
+```
+
+Use this loop after launch and during canaries. A good operating review can answer which SLO moved, which route changed, which trace proves the failure, which component can be disabled, and which eval now prevents recurrence.
+
+| Runtime SLO | Example Target | Investigate When | Roll Back Or Pause When |
+| --- | --- | --- | --- |
+| Trace coverage | 99% of high-risk runs have complete run, route, policy, tool, approval, and stop-reason spans. | Any high-risk trace lacks policy or stop reason. | A release changes risky behavior without trace coverage. |
+| Policy-decision coverage | 100% of write, send, memory, and external-action paths record a policy decision. | Policy span is missing or detached from tool span. | A side effect executes without policy evidence. |
+| Approval latency | 95% of approval waits resolve or expire inside the business SLA. | Approval waits age without owner or expiry. | Stale approvals can resume changed actions. |
+| Cost budget | Route stays within agreed per-run or per-completed-task budget. | Cost per completed task spikes after model, prompt, or retrieval change. | Budget exhaustion does not stop or degrade safely. |
+| Eval-gate health | Blocking evals pass before prompt, model, policy, tool, memory, or workflow changes. | Warning eval failures cluster around one boundary. | A known incident fixture fails or becomes flaky without owner. |
+| Stop-reason completeness | Every terminal run records completed, refused, failed, cancelled, timed out, blocked, or needs approval. | Terminal states contain generic `done` or missing reason. | Operators cannot distinguish success, refusal, failure, or partial side effect. |
+
+The numbers will vary by product. The important part is that each SLO names an owner and an action. A threshold without an operator decision is only a chart.
 
 ## Runtime Checklist
 

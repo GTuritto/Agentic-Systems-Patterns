@@ -27,6 +27,23 @@ The eval loop is:
 
 The key word is architecture. If an eval fails because the agent lacks state, a prompt edit is the wrong fix. If it fails because the tool is unsafe, a better instruction is not enough. Evals should be allowed to change the design.
 
+```mermaid
+flowchart TB
+    A[Product tasks] --> B[Failure mode inventory]
+    B --> C[Eval cases and fixtures]
+    C --> D[Baseline current system]
+    D --> E[Change prompt, tool, state, policy, or architecture]
+    E --> F[Run trajectory and output evals]
+    F --> G{Release gate passes?}
+    G -->|no| H[Inspect regressions and add cases]
+    H --> B
+    G -->|yes| I[Ship with trace and monitor]
+    I --> J[Production incident or correction]
+    J --> B
+```
+
+Use the loop as a forcing function. Every meaningful change should name the failure it targets, the eval that proves improvement, and the release gate it must not break.
+
 ## What To Evaluate
 
 Evaluate the full trajectory, not only the final answer.

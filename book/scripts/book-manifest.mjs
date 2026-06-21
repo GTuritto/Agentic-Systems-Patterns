@@ -7,11 +7,13 @@ function deepFreeze(value) {
 }
 
 export const bookSections = deepFreeze([
-  { id: 'front-matter', title: 'Start Here and Pattern Selection' },
-  { id: 'foundations', title: 'Foundations' },
-  { id: 'agent-engineering-practice', title: 'Agent Engineering Practice' },
+  { id: 'front-matter', title: 'Start Here' },
+  { id: 'pattern-selection', title: 'Pattern Selection and Composition' },
+  { id: 'foundations', title: 'Agent Runtime Foundations' },
+  { id: 'agent-engineering-practice', title: 'Engineering Practice and Frameworks' },
+  { id: 'evaluation-security-trust', title: 'Evaluation, Security, and Trust' },
   { id: 'control-loops', title: 'Control Loops' },
-  { id: 'memory-knowledge', title: 'Memory and Knowledge' },
+  { id: 'memory-knowledge', title: 'Context, Memory, and Knowledge' },
   { id: 'tools-skills-protocols', title: 'Tools, Skills, and Protocols' },
   { id: 'multi-agent-systems', title: 'Multi-Agent Systems' },
   { id: 'systems-architecture', title: 'Systems Architecture' },
@@ -37,26 +39,28 @@ function chapter(id, title, path, sectionId, ownership = 'authored') {
 export const bookChapters = deepFreeze([
   chapter('introduction', 'Introduction', 'intro.md', 'front-matter'),
   chapter('how-to-read', 'How To Read This Book', 'publishing/how-to-read.md', 'front-matter'),
+  chapter('logical-groups', 'Logical Groups', 'publishing/logical-groups.md', 'front-matter'),
   chapter('what-is-an-agent', 'What Is An Agent?', 'foundations/what-is-an-agent.md', 'front-matter'),
-  chapter('architecture-before-autonomy', 'Architecture Before Autonomy', 'pattern-selection/architecture-before-autonomy.md', 'front-matter'),
-  chapter('choosing-the-right-pattern', 'Choosing the Right Pattern', 'pattern-selection/choosing-the-right-pattern.md', 'front-matter'),
-  chapter('pattern-evaluation-checklist', 'Pattern Evaluation Checklist', 'pattern-selection/pattern-evaluation-checklist.md', 'front-matter'),
-  chapter('pattern-classification-mind-map', 'Linked Pattern Mind Map', 'pattern-selection/pattern-classification-mind-map.md', 'front-matter'),
-  chapter('from-patterns-to-systems', 'From Patterns To Systems', 'pattern-selection/from-patterns-to-systems.md', 'front-matter'),
-  chapter('pattern-composition-playbook', 'Pattern Composition Playbook', 'pattern-selection/pattern-composition-playbook.md', 'front-matter'),
-  chapter('prompt-chaining-and-gates', 'Prompt Chaining and Gates', 'pattern-selection/prompt-chaining-and-gates.md', 'front-matter'),
-  chapter('routing-and-handoffs', 'Routing and Handoffs', 'pattern-selection/routing-and-handoffs.md', 'front-matter'),
-  chapter('resource-aware-agent-design', 'Resource-Aware Agent Design', 'pattern-selection/resource-aware-agent-design.md', 'front-matter'),
-  chapter('circuit-breakers-fallbacks-replay', 'Circuit Breakers, Fallbacks, and Replay', 'pattern-selection/circuit-breakers-fallbacks-replay.md', 'front-matter'),
-  chapter('source-map', 'Source Map', 'pattern-selection/source-map.md', 'front-matter'),
+  chapter('glossary', 'Glossary and Acronyms', 'publishing/glossary.md', 'front-matter'),
+  chapter('ten-out-of-ten-production-gate', '10/10 Production Gate', 'publishing/ten-out-of-ten-production-gate.md', 'front-matter'),
+
+  chapter('architecture-before-autonomy', 'Architecture Before Autonomy', 'pattern-selection/architecture-before-autonomy.md', 'pattern-selection'),
+  chapter('choosing-the-right-pattern', 'Choosing the Right Pattern', 'pattern-selection/choosing-the-right-pattern.md', 'pattern-selection'),
+  chapter('pattern-evaluation-checklist', 'Pattern Evaluation Checklist', 'pattern-selection/pattern-evaluation-checklist.md', 'pattern-selection'),
+  chapter('pattern-classification-mind-map', 'Linked Pattern Mind Map', 'pattern-selection/pattern-classification-mind-map.md', 'pattern-selection'),
+  chapter('from-patterns-to-systems', 'From Patterns To Systems', 'pattern-selection/from-patterns-to-systems.md', 'pattern-selection'),
+  chapter('pattern-composition-playbook', 'Pattern Composition Playbook', 'pattern-selection/pattern-composition-playbook.md', 'pattern-selection'),
+  chapter('prompt-chaining-and-gates', 'Prompt Chaining and Gates', 'pattern-selection/prompt-chaining-and-gates.md', 'pattern-selection'),
+  chapter('routing-and-handoffs', 'Routing and Handoffs', 'pattern-selection/routing-and-handoffs.md', 'pattern-selection'),
+  chapter('resource-aware-agent-design', 'Resource-Aware Agent Design', 'pattern-selection/resource-aware-agent-design.md', 'pattern-selection'),
+  chapter('circuit-breakers-fallbacks-replay', 'Circuit Breakers, Fallbacks, and Replay', 'pattern-selection/circuit-breakers-fallbacks-replay.md', 'pattern-selection'),
+  chapter('source-map', 'Source Map', 'pattern-selection/source-map.md', 'pattern-selection'),
 
   chapter('single-agent', 'Single Agent', 'foundations/single-agent.md', 'foundations', 'generated'),
   chapter('agent-loop', 'Agent Loop', 'foundations/agent-loop.md', 'foundations', 'generated'),
   chapter('goals-and-state', 'Goals and State', 'foundations/goals-and-state.md', 'foundations', 'generated'),
   chapter('tool-use', 'Tool Use', 'foundations/tool-use.md', 'foundations', 'generated'),
   chapter('structured-output', 'Structured Output', 'foundations/structured-output.md', 'foundations', 'generated'),
-  chapter('context-budgets-and-working-sets', 'Context Budgets and Working Sets', 'foundations/context-budgets-and-working-sets.md', 'foundations'),
-  chapter('context-engineering', 'Context Engineering', 'foundations/context-engineering.md', 'foundations', 'generated'),
 
   chapter('agent-development-lifecycle', 'Agent Development Lifecycle', 'agent-engineering-practice/agent-development-lifecycle.md', 'agent-engineering-practice'),
   chapter('agent-harnesses', 'Agent Harnesses', 'agent-engineering-practice/agent-harnesses.md', 'agent-engineering-practice'),
@@ -66,10 +70,11 @@ export const bookChapters = deepFreeze([
   chapter('cross-framework-decision-matrix', 'Cross-Framework Decision Matrix', 'agent-engineering-practice/cross-framework-decision-matrix.md', 'agent-engineering-practice'),
   chapter('real-framework-setup-notes', 'Real Framework Setup Notes', 'agent-engineering-practice/real-framework-setup-notes.md', 'agent-engineering-practice'),
   chapter('templates-and-worksheets', 'Templates and Worksheets', 'agent-engineering-practice/templates-and-worksheets.md', 'agent-engineering-practice'),
-  chapter('evaluation-driven-agent-development', 'Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md', 'agent-engineering-practice'),
-  chapter('agent-threat-model', 'Agent Threat Model', 'agent-engineering-practice/agent-threat-model.md', 'agent-engineering-practice'),
-  chapter('agent-security-and-sandboxing', 'Agent Security and Sandboxing', 'agent-engineering-practice/agent-security-and-sandboxing.md', 'agent-engineering-practice'),
-  chapter('agent-ux-and-human-trust', 'Agent UX and Human Trust', 'agent-engineering-practice/agent-ux-and-human-trust.md', 'agent-engineering-practice'),
+
+  chapter('evaluation-driven-agent-development', 'Evaluation-Driven Agent Development', 'agent-engineering-practice/evaluation-driven-agent-development.md', 'evaluation-security-trust'),
+  chapter('agent-threat-model', 'Agent Threat Model', 'agent-engineering-practice/agent-threat-model.md', 'evaluation-security-trust'),
+  chapter('agent-security-and-sandboxing', 'Agent Security and Sandboxing', 'agent-engineering-practice/agent-security-and-sandboxing.md', 'evaluation-security-trust'),
+  chapter('agent-ux-and-human-trust', 'Agent UX and Human Trust', 'agent-engineering-practice/agent-ux-and-human-trust.md', 'evaluation-security-trust'),
 
   chapter('planning-and-execution', 'Planning and Execution', 'control-loops/planning-and-execution.md', 'control-loops', 'generated'),
   chapter('react', 'ReAct', 'control-loops/react.md', 'control-loops', 'generated'),
@@ -78,6 +83,8 @@ export const bookChapters = deepFreeze([
   chapter('self-improvement', 'Self-Improvement', 'control-loops/self-improvement.md', 'control-loops', 'generated'),
   chapter('self-healing-workflows', 'Self-Healing Workflows', 'control-loops/self-healing-workflows.md', 'control-loops', 'generated'),
 
+  chapter('context-budgets-and-working-sets', 'Context Budgets and Working Sets', 'foundations/context-budgets-and-working-sets.md', 'memory-knowledge'),
+  chapter('context-engineering', 'Context Engineering', 'foundations/context-engineering.md', 'memory-knowledge', 'generated'),
   chapter('memory-augmented-agent', 'Memory-Augmented Agent', 'memory-knowledge/memory-augmented-agent.md', 'memory-knowledge', 'generated'),
   chapter('long-term-episodic-memory', 'Long-Term Episodic Memory', 'memory-knowledge/long-term-episodic-memory.md', 'memory-knowledge', 'generated'),
   chapter('semantic-recall-rag', 'Semantic Recall and RAG', 'memory-knowledge/semantic-recall-rag.md', 'memory-knowledge', 'generated'),
@@ -148,18 +155,6 @@ export const bookChapters = deepFreeze([
   chapter('release-notes', 'Release Notes', 'publishing/release-notes.md', 'publishing')
 ]);
 
-export const startHereChapterIds = deepFreeze([
-  'introduction',
-  'how-to-read',
-  'what-is-an-agent',
-  'architecture-before-autonomy',
-  'choosing-the-right-pattern',
-  'pattern-evaluation-checklist',
-  'pattern-classification-mind-map',
-  'from-patterns-to-systems',
-  'pattern-composition-playbook'
-]);
-
 function siteLink(chapterPath) {
   if (chapterPath === 'hands-on-labs/index.md') return '/hands-on-labs/';
   return `/${chapterPath.replace(/\.md$/, '')}`;
@@ -169,20 +164,7 @@ function sidebarItem(chapter) {
   return { text: chapter.title, link: siteLink(chapter.path), path: chapter.path };
 }
 
-function chapterById(id, context) {
-  const matchedChapter = bookChapters.find(chapter => chapter.id === id);
-  if (!matchedChapter) throw new Error(`unknown ${context} chapter: ${id}`);
-  return matchedChapter;
-}
-
 export const sidebarGroups = deepFreeze([
-  {
-    id: 'start-here',
-    text: 'Start Here',
-    items: startHereChapterIds.map(id =>
-      sidebarItem(chapterById(id, 'Start Here'))
-    )
-  },
   ...bookSections.map(section => ({
     id: section.id,
     text: section.title,

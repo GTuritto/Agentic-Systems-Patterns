@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="460" viewBox="0 0 1180 460" role="img" aria-labelledby="title desc">
+  <title id="title">Logical group design pipeline</title>
+  <desc id="desc">A design pipeline showing how the book moves from orientation and pattern selection through runtime, risk, architecture, production, labs, and capstones.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#527887"/>
+    </marker>
+    <style>
+      .box { fill: #fffaf0; stroke: #c7a76a; stroke-width: 2; rx: 10; }
+      .risk { fill: #e8f0ed; stroke: #527887; stroke-width: 2; rx: 10; }
+      .prod { fill: #f7fafb; stroke: #d9e2e6; stroke-width: 2; rx: 10; }
+      .line { stroke: #527887; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .label { fill: #173f4f; font: 700 16px Inter, Arial, sans-serif; text-anchor: middle; }
+      .small { fill: #4f5b62; font: 12.5px Inter, Arial, sans-serif; text-anchor: middle; }
+    </style>
+  </defs>
+  <g>
+    <rect x="30" y="40" width="150" height="68" class="box"/><text x="105" y="68" class="label">Start Here</text><text x="105" y="91" class="small">orientation</text>
+    <rect x="235" y="40" width="150" height="68" class="box"/><text x="310" y="68" class="label">Pattern</text><text x="310" y="91" class="small">selection</text>
+    <rect x="440" y="40" width="150" height="68" class="box"/><text x="515" y="68" class="label">Runtime</text><text x="515" y="91" class="small">foundations</text>
+    <rect x="645" y="40" width="150" height="68" class="box"/><text x="720" y="68" class="label">Engineering</text><text x="720" y="91" class="small">practice</text>
+    <rect x="850" y="40" width="150" height="68" class="risk"/><text x="925" y="68" class="label">Evaluation</text><text x="925" y="91" class="small">security and trust</text>
+  </g>
+  <path d="M180 74 H225" class="line"/><path d="M385 74 H430" class="line"/><path d="M590 74 H635" class="line"/><path d="M795 74 H840" class="line"/>
+  <path d="M1000 74 H1080 V158" class="line"/>
+  <g>
+    <rect x="850" y="168" width="150" height="68" class="risk"/><text x="925" y="196" class="label">Control</text><text x="925" y="219" class="small">loops</text>
+    <rect x="645" y="168" width="150" height="68" class="risk"/><text x="720" y="196" class="label">Context</text><text x="720" y="219" class="small">memory and knowledge</text>
+    <rect x="440" y="168" width="150" height="68" class="risk"/><text x="515" y="196" class="label">Tools</text><text x="515" y="219" class="small">skills and protocols</text>
+    <rect x="235" y="168" width="150" height="68" class="risk"/><text x="310" y="196" class="label">Multi-Agent</text><text x="310" y="219" class="small">systems</text>
+    <rect x="30" y="168" width="150" height="68" class="prod"/><text x="105" y="196" class="label">Systems</text><text x="105" y="219" class="small">architecture</text>
+  </g>
+  <path d="M850 202 H805" class="line"/><path d="M645 202 H600" class="line"/><path d="M440 202 H395" class="line"/><path d="M235 202 H190" class="line"/>
+  <path d="M105 236 V300" class="line"/>
+  <g>
+    <rect x="30" y="310" width="150" height="68" class="prod"/><text x="105" y="338" class="label">Production</text><text x="105" y="361" class="small">runtime</text>
+    <rect x="235" y="310" width="150" height="68" class="prod"/><text x="310" y="338" class="label">Hands-On</text><text x="310" y="361" class="small">labs</text>
+    <rect x="440" y="310" width="150" height="68" class="prod"/><text x="515" y="338" class="label">Capstones</text><text x="515" y="361" class="small">complete examples</text>
+  </g>
+  <path d="M180 344 H225" class="line"/><path d="M385 344 H430" class="line"/>
+  <text x="820" y="342" class="small">Move forward when the current group produces evidence.</text>
+  <text x="820" y="367" class="small">Jump backward when autonomy, state, evals, policy, or rollback are unclear.</text>
+</svg>

@@ -246,6 +246,10 @@ export const patterns = [
       'Every failure requires human judgment.',
       'Retries can duplicate side effects.',
       'The system would call a model again without new information.'
+    ],
+    codeFiles: [
+      'self-healing-workflow-agent-pattern/autogen_typescript_example/self_healing_workflow.ts',
+      'self-healing-workflow-agent-pattern/langgraph_python_example/self_healing_workflow.py'
     ]
   },
   {
@@ -347,8 +351,15 @@ export const patterns = [
     chapterPath: 'tools-skills-protocols/skills.md',
     sourceFolder: 'skills-pattern',
     bundleName: 'skills',
+    artifactDescription:
+      '`skills-pattern/` contains a reviewable release-notes skill package with activation instructions, policy reference, template, fixture, TypeScript runner, and tests.',
     summary:
-      'Skills package procedural knowledge as discoverable folders of instructions, references, scripts, templates, and assets.',
+      'Skills package procedural knowledge as discoverable, versioned folders of instructions, references, scripts, templates, assets, and tests.',
+    scenario: `A platform team wants coding agents to prepare release notes, update a changelog, and collect verification evidence. A tool schema can describe "write release notes", but it cannot carry the team's release rubric, examples, required commands, template, source-link policy, and final checklist.
+
+A skill is the better boundary. \`SKILL.md\` gives the activation rule and the short procedure. Reference files hold the release policy and examples. Scripts collect version, diff, and test evidence. Templates keep the output format stable. The agent loads the deeper files only when the release task appears, so normal coding work does not pay the context cost.
+
+The important decision is not "can the agent read a folder?" The decision is whether the folder contains a repeatable procedure another engineer can review, run, version, and test.`,
     useWhen: [
       'The agent needs a repeatable procedure, not just a tool call.',
       'A task benefits from references, scripts, templates, or assets.',
@@ -358,7 +369,41 @@ export const patterns = [
       'A single typed tool is enough.',
       'The skill would hide broad permissions or vague instructions.',
       'The procedure cannot be tested or reviewed.'
-    ]
+    ],
+    commands: ['npm run skills:demo', 'npm run skills:test'],
+    codeFiles: [
+      'skills-pattern/release-notes-skill/SKILL.md',
+      'skills-pattern/typescript/src/skill_package.ts',
+      'skills-pattern/typescript/test/skill_package.spec.ts'
+    ],
+    decisionRules: `Use a skill when the model needs procedural judgment around a capability. Use a tool when the model only needs to call a typed operation.
+
+| Need | Prefer | Reason |
+| --- | --- | --- |
+| Call a stable API with typed input and output. | Tool | The schema and authorization rule carry the whole contract. |
+| Follow a multi-step team procedure. | Skill | The agent needs instructions, examples, templates, and checks. |
+| Produce a repeated artifact such as a PR note, ADR, report, or release packet. | Skill | Templates and examples reduce drift. |
+| Execute a dangerous action. | Tool behind policy, not skill alone | Skills may explain the procedure, but permissions must live outside prose. |
+| Share capability across agents or teams. | Skill plus tested scripts | Humans and agents need the same runnable contract. |`,
+    contract: `A production skill should have a small, reviewable anatomy.
+
+| Part | Owns | A++ Test |
+| --- | --- | --- |
+| \`SKILL.md\` | Activation rule, short procedure, and routing to deeper material. | A new agent can decide when to use the skill without loading every reference. |
+| \`references/\` | Domain policy, examples, rubrics, and edge cases. | References are scoped, current, and cited by the skill. |
+| \`scripts/\` | Repeatable collection, validation, generation, or formatting. | A human can run the scripts outside the agent loop. |
+| \`templates/\` | Stable output shape for common artifacts. | Outputs stay consistent across runs and agents. |
+| \`tests/\` or fixtures | Positive and negative cases. | Bad activation, missing inputs, unsafe outputs, and malformed artifacts fail. |
+| Manifest or metadata | Version, owner, dependencies, permissions, and environment. | Reviewers can audit supply-chain and permission risk. |`,
+    reviewChecklist: `Before adding a skill to an agent environment, check:
+
+- The description is narrow enough that the skill activates only for the right tasks.
+- The first screen of instructions tells the agent what to do, what not to do, and which files to load next.
+- Any script is deterministic, non-interactive by default, and safe to run with least privilege.
+- Secrets come from platform stores or environment bindings, never from copied prose.
+- The skill has at least one success example and one refusal or misuse example.
+- The skill records enough evidence that a reviewer can reproduce the result.
+- The skill can be disabled, versioned, or rolled back independently of the agent prompt.`
   },
   {
     title: 'MCP-first Tool Use',
@@ -507,8 +552,13 @@ export const patterns = [
     chapterPath: 'multi-agent-systems/debate-and-consensus.md',
     sourceFolder: 'consensus-seeking-multi-agent-system-pattern',
     bundleName: 'debate-and-consensus',
+    artifactDescription:
+      '`consensus-seeking-multi-agent-system-pattern/` contains deterministic TypeScript and Python reference implementations plus tests for proposal, critique, dissent, and final-owner behavior.',
     summary:
       'Debate and consensus use multiple independent proposals, critiques, votes, or rankings before producing a final answer.',
+    scenario: `A team is reviewing whether an agent-generated incident summary is good enough for an executive update. One agent drafts the summary from traces. A second agent checks chronology against the incident timeline. A third agent checks customer impact and omitted evidence. A judge then accepts, rejects, or asks for a revised summary.
+
+This is useful only if the agents see meaningfully different evidence or apply different rubrics. Three agents with the same prompt, same context, and same blind spot create a louder single-agent failure. Consensus is not evidence by itself; it is a way to expose disagreement before one accountable owner makes the final call.`,
     useWhen: [
       'Diversity of reasoning improves quality.',
       'Aggregation rules are clear before agents start.',
@@ -518,7 +568,44 @@ export const patterns = [
       'Agents are not independent and will repeat the same failure.',
       'Voting replaces evidence or tests.',
       'The final decision has no accountable owner.'
-    ]
+    ],
+    commands: ['npm run debate-consensus', 'npm run debate-consensus:test'],
+    codeFiles: [
+      'consensus-seeking-multi-agent-system-pattern/typescript/src/consensus.ts',
+      'consensus-seeking-multi-agent-system-pattern/typescript/test/consensus.spec.ts',
+      'consensus-seeking-multi-agent-system-pattern/python/consensus.py'
+    ],
+    decisionRules: `Use debate only when independence is real and the merge rule is known before execution.
+
+| Question | Good Answer | Bad Answer |
+| --- | --- | --- |
+| What differs between agents? | Evidence source, rubric, role, model, or tool access. | Only the name of the role prompt. |
+| Who owns the final decision? | A coordinator, deterministic reducer, or human reviewer. | The majority vote by itself. |
+| What can overturn consensus? | Missing evidence, safety violation, failed test, or owner rejection. | Nothing; agreement is treated as truth. |
+| What is the cost limit? | Fixed number of agents, turns, tokens, and retries. | Debate continues until outputs look confident. |
+| How is dissent handled? | Recorded, classified, and escalated when material. | Smoothed away during synthesis. |`,
+    contract: `A debate run should produce a transcript that another engineer can inspect.
+
+| Field | Purpose |
+| --- | --- |
+| \`runId\` | Correlates all proposals, critiques, votes, and final decision. |
+| \`goal\` | Defines the exact question being debated. |
+| \`agents[]\` | Records role, evidence scope, model, tools, and permission limits. |
+| \`proposal\` | Captures each agent's answer with citations or evidence references. |
+| \`critique\` | Names specific defects, missing evidence, or risks. |
+| \`vote\` or \`score\` | Applies a predeclared rubric, not an improvised preference. |
+| \`dissent\` | Preserves material disagreement for the owner. |
+| \`finalOwner\` | Names the coordinator, reducer, or human accountable for acceptance. |
+| \`stopReason\` | Explains accepted, rejected, escalated, budget_exhausted, or inconclusive. |`,
+    reviewChecklist: `Before using debate or consensus in production, check:
+
+- A single-agent baseline exists and debate beats it on measured tasks.
+- Agents receive different evidence, roles, rubrics, models, or tools for a reason.
+- The merge policy is written before the run starts.
+- Dissent is preserved in the trace instead of erased by synthesis.
+- The coordinator can refuse, escalate, or ask for more evidence.
+- Cost and latency budgets cap agents, turns, retries, and judge passes.
+- Evals include correlated failure, false agreement, bad majority vote, and judge error.`
   },
   {
     title: 'Parallel Agents',

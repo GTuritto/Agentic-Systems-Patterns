@@ -56,9 +56,9 @@ def build_research_crew() -> Crew:
     )
 
 
-def run_support_flow(goal: str) -> FlowState:
+def run_support_flow(goal: str, crew: Crew | None = None) -> FlowState:
     state = FlowState(goal=goal)
-    crew = build_research_crew()
+    active_crew = crew or build_research_crew()
 
     state.trace.append("flow:start")
     tasks = [
@@ -66,7 +66,7 @@ def run_support_flow(goal: str) -> FlowState:
         Task(name="draft", agent_role="writer", input="policy evidence"),
     ]
     state.trace.append("flow:crew_kickoff")
-    state.crew_outputs = crew.kickoff(tasks)
+    state.crew_outputs = active_crew.kickoff(tasks)
 
     evidence = state.crew_outputs["evidence"]
     draft = state.crew_outputs["draft"]

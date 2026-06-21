@@ -54,6 +54,32 @@ Request
 
 The handoff should include only the state the downstream path needs. Avoid dumping the full conversation into every specialist.
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant Router
+    participant Policy
+    participant Owner as Selected owner
+    participant Trace
+
+    User->>Router: Request
+    Router->>Router: Normalize and classify intent, risk, domain
+    Router->>Policy: Check policy, budget, confidence
+    alt Low confidence or unsafe
+        Policy-->>Router: Clarify or safe fallback
+        Router->>Trace: Record fallback reason
+        Router-->>User: Clarification or safe result
+    else Safe route
+        Policy-->>Router: Approved route
+        Router->>Owner: Typed handoff state
+        Owner-->>Router: Result or bounded escalation
+        Router->>Trace: Record owner, authority, result
+        Router-->>User: Final response
+    end
+```
+
+Use this diagram to test the design. A route is not ready if it cannot name the owner, authority, handoff state, confidence threshold, fallback, and trace fields.
+
 ## Router Outputs
 
 A router output should be structured:
@@ -101,6 +127,36 @@ Exclude:
 - tools the recipient cannot use;
 - hidden policy text that should remain system-owned;
 - raw sensitive data when a reference or redacted field is enough.
+
+## Route Decision Record
+
+Record the routing decision as data. This makes routing reviewable instead of anecdotal.
+
+```json
+{
+  "route_id": "route_2026_06_21_001",
+  "input_ref": "ticket_4921",
+  "selected_route": "billing_workflow",
+  "confidence": 0.84,
+  "reason": "Customer asks about duplicate charge on order receipt.",
+  "risk": "medium",
+  "policy_checks": [
+    { "name": "tenant_access", "decision": "allow" },
+    { "name": "payment_write", "decision": "deny_without_approval" }
+  ],
+  "handoff": {
+    "owner": "billing_workflow",
+    "allowed_tools": ["orders.read", "payments.read", "refunds.draft_request"],
+    "forbidden_tools": ["refunds.issue_refund"],
+    "state_refs": ["order:ord_123", "payment:pay_456"],
+    "expected_output": "billing_resolution_draft"
+  },
+  "fallback": "human_review",
+  "max_handoffs": 2
+}
+```
+
+The record should show three things: why the route was chosen, what authority moved with the handoff, and where the work goes if the route fails.
 
 ## Router Types
 

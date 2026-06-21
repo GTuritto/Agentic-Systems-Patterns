@@ -10,10 +10,14 @@ const bookRoot = path.resolve(__dirname, '..');
 const docsRoot = path.join(bookRoot, 'docs');
 const releasesRoot = path.join(bookRoot, 'releases');
 const publicReleasesRoot = path.join(docsRoot, 'public', 'releases');
+const diagramsRoot = path.join(docsRoot, 'public', 'diagrams');
+const generatedMermaidRoot = path.join(diagramsRoot, 'generated-mermaid');
 const pdfName = 'Agentic-Systems-Patterns.pdf';
+const epubName = 'Agentic-Systems-Patterns.epub';
 const edition = '2026-06-16';
 const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
 const pdfUrl = `${siteUrl}releases/${pdfName}`;
+const epubUrl = `${siteUrl}releases/${epubName}`;
 const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 
 const sectionsById = new Map(bookSections.map(section => [section.id, section]));
@@ -35,8 +39,110 @@ const md = new MarkdownIt({
   typographer: true
 });
 
+const pdfMermaidDiagrams = new Map([
+  ['intro.md:0', {
+    alt: 'Architecture argument flow',
+    file: 'intro-architecture-argument.svg'
+  }],
+  ['publishing/how-to-read.md:0', {
+    alt: 'Reading path decision flow',
+    file: 'reading-path-decision-flow.svg'
+  }],
+  ['publishing/logical-groups.md:0', {
+    alt: 'Logical group design pipeline',
+    file: 'logical-group-design-pipeline.svg'
+  }]
+]);
+
+const generatedMermaidAltText = new Map([
+  ['hands-on-labs/vertical-slice-examples.md:0', 'Support refund runtime flow'],
+  ['hands-on-labs/vertical-slice-examples.md:1', 'Safe coding agent runtime flow'],
+  ['hands-on-labs/vertical-slice-examples.md:2', 'Research to brief runtime flow'],
+  ['capstone-projects/support-refund-agent.md:0', 'Support refund authority boundary'],
+  ['capstone-projects/support-refund-agent.md:1', 'Support refund native framework mapping'],
+  ['capstone-projects/research-rag-agent.md:0', 'Research RAG capstone flow'],
+  ['capstone-projects/multi-agent-delivery-workflow.md:0', 'Multi-agent delivery capstone flow']
+]);
+
+function slugifyFileName(value) {
+  return value
+    .toLowerCase()
+    .replace(/\.md$/, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'diagram';
+}
+
 function stripFrontmatter(markdown) {
   return markdown.replace(/^---\n[\s\S]*?\n---\n?/, '');
+}
+
+async function createMermaidSvgRenderer() {
+  await fs.mkdir(generatedMermaidRoot, { recursive: true });
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto('about:blank');
+  await page.addScriptTag({ path: path.join(bookRoot, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js') });
+  await page.evaluate(() => {
+    window.mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#f6efe2',
+        primaryTextColor: '#173f4f',
+        primaryBorderColor: '#c7a76a',
+        lineColor: '#527887',
+        secondaryColor: '#e8f0ed',
+        tertiaryColor: '#fffaf0',
+        fontFamily: 'Inter, system-ui, sans-serif'
+      }
+    });
+  });
+
+  let renderCount = 0;
+  return {
+    async render(code, outputFileName) {
+      renderCount += 1;
+      const diagramId = `pdf_mermaid_${renderCount}`;
+      const svg = await page.evaluate(async ({ code, diagramId }) => {
+        const result = await window.mermaid.render(diagramId, code);
+        return result.svg;
+      }, { code, diagramId });
+      const outputPath = path.join(generatedMermaidRoot, outputFileName);
+      await fs.writeFile(outputPath, svg, 'utf8');
+    },
+    async close() {
+      await browser.close();
+    }
+  };
+}
+
+async function replaceMermaidForPdf(markdown, relativePath, renderer) {
+  let diagramIndex = 0;
+  let output = '';
+  let cursor = 0;
+  const mermaidFencePattern = /```mermaid\n([\s\S]*?)\n```/g;
+
+  for (const match of markdown.matchAll(mermaidFencePattern)) {
+    const diagram = pdfMermaidDiagrams.get(`${relativePath}:${diagramIndex}`);
+    const diagramCode = match[1].trim();
+    diagramIndex += 1;
+    output += markdown.slice(cursor, match.index);
+
+    if (diagram) {
+      await fs.access(path.join(diagramsRoot, diagram.file));
+      output += `![${diagram.alt}](../docs/public/diagrams/${diagram.file})`;
+    } else {
+      const file = `${slugifyFileName(relativePath)}-${diagramIndex}.svg`;
+      const alt = generatedMermaidAltText.get(`${relativePath}:${diagramIndex - 1}`) ?? 'Mermaid diagram';
+      await renderer.render(diagramCode, file);
+      output += `![${alt}](../docs/public/diagrams/generated-mermaid/${file})`;
+    }
+
+    cursor = match.index + match[0].length;
+  }
+
+  return output + markdown.slice(cursor);
 }
 
 function rewriteLinks(markdown) {
@@ -53,12 +159,12 @@ function chapterId(index) {
   return `chapter-${index + 1}`;
 }
 
-async function renderChapters() {
+async function renderChapters(renderer) {
   const rendered = [];
   for (const [index, [fallbackTitle, relativePath]] of chapters.entries()) {
     const fullPath = path.join(docsRoot, relativePath);
     const raw = await fs.readFile(fullPath, 'utf8');
-    const markdown = rewriteLinks(stripFrontmatter(raw).trim());
+    const markdown = rewriteLinks(await replaceMermaidForPdf(stripFrontmatter(raw).trim(), relativePath, renderer));
     const title = markdown.match(/^#\s+(.+)$/m)?.[1] ?? fallbackTitle;
     rendered.push(`
       <section class="chapter" id="${chapterId(index)}">
@@ -301,10 +407,11 @@ function htmlDocument(body) {
     <div class="cover-meta">
       <div>Edition: ${edition}</div>
       <div>Site: ${siteUrl}</div>
-      <div>PDF: ${pdfUrl}</div>
+      <div>Courtesy PDF: ${pdfUrl}</div>
+      <div>Courtesy EPUB: ${epubUrl}</div>
       <div>Repository: ${repoUrl}</div>
     </div>
-    <div class="license">Licensed under Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).</div>
+    <div class="license">Content licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). Code examples licensed under MIT.</div>
   </section>
   ${renderTableOfContents()}
   ${body}
@@ -313,7 +420,14 @@ function htmlDocument(body) {
 }
 
 async function main() {
-  const body = await renderChapters();
+  const mermaidRenderer = await createMermaidSvgRenderer();
+  let body;
+  try {
+    body = await renderChapters(mermaidRenderer);
+  } finally {
+    await mermaidRenderer.close();
+  }
+
   const html = htmlDocument(body);
   const htmlPath = path.join(releasesRoot, 'Agentic-Systems-Patterns.html');
   const pdfPath = path.join(releasesRoot, pdfName);

@@ -1,0 +1,72 @@
+COMPUTER-USE AGENT REVIEW CHECKLIST
+
+System:
+Target application:
+Owner:
+Reviewer:
+Date:
+
+1. Fit Check
+
+[ ] No stable API, database, workflow tool, or MCP/tool integration can solve the task better.
+[ ] UI automation is scoped to a bounded workflow.
+[ ] Human baseline and expected failure rate are understood.
+[ ] High-risk actions require approval.
+
+Evidence:
+
+2. Interface Representation
+
+[ ] Preferred representation is named: DOM, accessibility tree, screenshot, OCR, terminal buffer, or instrumentation.
+[ ] The representation is stable enough to test.
+[ ] Sensitive screen content is redacted from traces when needed.
+[ ] UI observations are stored with timestamps and application state.
+
+Evidence:
+
+3. Action Space
+
+[ ] Allowed actions are enumerated.
+[ ] Forbidden actions are enumerated.
+[ ] Action schema includes selector, target, value, precondition, timeout, and risk.
+[ ] Free-form desktop control is blocked unless environment is disposable.
+
+Evidence:
+
+4. Sandbox
+
+[ ] Browser profile, container, VM, or remote desktop is isolated.
+[ ] Downloads and uploads are restricted to sandbox paths.
+[ ] Network egress is allowlisted.
+[ ] Local secrets and private files are inaccessible.
+[ ] Sessions are cleared or rotated after runs.
+
+Evidence:
+
+5. Recovery
+
+[ ] Checkpoints capture URL/app state, last action, visible errors, files, side effects, and retry count.
+[ ] UI drift stops the run instead of guessing.
+[ ] Modal, timeout, validation error, and session expiry paths are tested.
+[ ] Failed runs produce a useful user/operator report.
+
+Evidence:
+
+6. Observability and Evals
+
+[ ] Trace links goal, observation, proposed action, policy decision, executed action, result, and stop reason.
+[ ] Evals cover happy path, UI drift, denied action, stale selector, slow page, and unexpected modal.
+[ ] Screenshots or DOM snapshots are retained only under approved privacy rules.
+
+Evidence:
+
+7. Final Decision
+
+[ ] Prototype only
+[ ] Internal pilot
+[ ] Production candidate
+[ ] Prefer API/tool integration instead
+
+Blocking gaps:
+
+Next actions:

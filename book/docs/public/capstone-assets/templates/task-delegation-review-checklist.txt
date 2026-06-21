@@ -1,0 +1,58 @@
+Task Delegation Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] The task benefits from decomposition
+[ ] Specialized workers add clear value
+[ ] The manager can evaluate returned work
+[ ] The merge policy is known before dispatch
+[ ] Coordination cost is lower than quality gain
+
+Delegation contract
+[ ] Parent goal captured
+[ ] Worker roles named
+[ ] In-scope work listed
+[ ] Out-of-scope work listed
+[ ] Required inputs listed
+[ ] Allowed tools listed
+[ ] Output schema declared
+[ ] Acceptance criteria declared
+[ ] Evidence requirement declared
+[ ] Timeout and failure policy declared
+
+Manager behavior
+[ ] Manager preserves original goal
+[ ] Manager rejects overlapping subtasks
+[ ] Manager scopes context per worker
+[ ] Manager scopes tool authority per worker
+[ ] Manager stores worker inputs and outputs
+[ ] Manager checks each result before merge
+[ ] Manager owns final acceptance or escalation
+
+Merge and safety
+[ ] Merge type declared
+[ ] Contradictions are surfaced
+[ ] Partial results are labeled
+[ ] Unsafe worker requests are denied or escalated
+[ ] Side effects stay behind policy, approval, or manager control
+
+Evaluation
+[ ] Fixture covers no useful decomposition
+[ ] Fixture covers overlapping subtasks
+[ ] Fixture covers worker failure
+[ ] Fixture covers worker disagreement
+[ ] Fixture covers missing evidence
+[ ] Fixture covers unsafe tool request
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve evals or merge policy
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

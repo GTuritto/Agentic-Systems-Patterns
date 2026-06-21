@@ -4,6 +4,8 @@ title: Lab 08 - Model Flows, Crews, Roles, and Task Contracts
 
 # Lab 08 - Model Flows, Crews, Roles, and Task Contracts
 
+Download the [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt) and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) before you start.
+
 ## Objective
 
 Use a CrewAI-style Python shape to separate flow ownership from crew collaboration. The flow owns state, sequence, evaluation, and final acceptance. The crew owns bounded specialist work.
@@ -17,6 +19,18 @@ Use a CrewAI-style Python shape to separate flow ownership from crew collaborati
 - Source files:
   - `crewai-flows-and-crews-pattern/python/flow_crew.py`
   - `crewai-flows-and-crews-pattern/python/test_flow_crew.py`
+
+## Exercise Time Budget
+
+These estimates assume dependencies are already installed.
+
+| Exercise | Time | Output |
+| --- | ---: | --- |
+| Setup and baseline flow run | 10 min | Flow demo and test output. |
+| Inspect flow and role boundaries | 15 min | Notes on state ownership, role output, and acceptance. |
+| Change one role or acceptance case | 20 min | A visible accepted or rejected state. |
+| Verify and troubleshoot | 10-15 min | Passing test or recorded failure cause. |
+| Complete production mapping | 10-20 min | Notes for checkpoints, permissions, validators, and fallback path. |
 
 ## Setup
 
@@ -50,6 +64,38 @@ The run should also prove these behavior signals:
 - the flow rejects output that fails the acceptance rule;
 - the final state has one accountable owner.
 
+The demo command should include this accepted-flow shape:
+
+```text
+FlowState(goal='Prepare a refund response', accepted=True, crew_outputs={'evidence': 'policy evidence for Prepare a refund response: refund window is 30 days', 'draft': 'draft based on policy evidence: offer review, do not promise payment'}, trace=['flow:start', 'flow:crew_kickoff', 'flow:evaluate', 'flow:accepted'], final='Crew output accepted by the flow.')
+{'status': 'pass'}
+```
+
+```mermaid
+sequenceDiagram
+    participant Flow
+    participant Researcher
+    participant Writer
+    participant Eval as Flow evaluator
+    participant Trace
+
+    Flow->>Trace: flow:start
+    Flow->>Researcher: Task: gather policy evidence
+    Researcher-->>Flow: evidence output
+    Flow->>Writer: Task: draft bounded response
+    Writer-->>Flow: draft output
+    Flow->>Eval: Check evidence, draft, safety rule
+    alt Output accepted
+        Eval-->>Flow: accepted true
+        Flow->>Trace: flow:accepted
+    else Output rejected
+        Eval-->>Flow: rejection reasons
+        Flow->>Trace: flow:rejected
+    end
+```
+
+Use this flow as the lab's acceptance model. The crew performs specialist work, but the flow owns state, evaluation, final acceptance, and trace evidence.
+
 Native CrewAI comparison point:
 
 ```text
@@ -80,8 +126,11 @@ Change the writer output so it omits `do not promise payment`.
 Expected rejection:
 
 ```text
-flow rejected by evaluation
+Crew output rejected by the flow.
+{'status': 'fail', 'reasons': ['flow did not accept crew output']}
 ```
+
+The repository test now runs that rejection path with an injected unsafe crew. That keeps the lab deterministic while proving that the flow, not the crew, owns final acceptance.
 
 Then restore the writer output and rerun:
 
@@ -93,6 +142,20 @@ npm run crewai-flow:test
 
 Compare the output with the expected result above before moving to the production extension.
 
+## Lab Review Gate
+
+Before moving on, verify the flow and crew boundary:
+
+| Check | Evidence |
+| --- | --- |
+| Flow owns state | `FlowState` records request, role outputs, trace, acceptance, and stop reason. |
+| Roles are distinct | Researcher and writer outputs differ by responsibility. |
+| Crew output is validated | `evaluate_flow` rejects output that violates the acceptance rule. |
+| Acceptance has one owner | The flow, not the crew, sets final acceptance. |
+| Rejection is observable | A bad writer output produces a rejected state and reason. |
+
+Record the accepted run, rejected run, role outputs, and flow trace in the lab completion worksheet.
+
 ## Production Extension
 
 Before a real CrewAI implementation ships, add:
@@ -103,6 +166,20 @@ Before a real CrewAI implementation ships, add:
 - flow checkpoints and resumability;
 - trace records per agent, task, crew, and flow step;
 - evaluator cases for disagreement, missing evidence, duplicate work, and bad synthesis.
+
+## Production Bridge
+
+Use this table when adapting the lab to a real CrewAI implementation:
+
+| Lab Concept | Production Version |
+| --- | --- |
+| `FlowState` | Durable flow state with tenant, actor, trace ID, checkpoint, and rollback data. |
+| `Agent` role | Role contract with permissions, tools, model route, and expected output schema. |
+| `Task` | Typed assignment with input contract, acceptance criteria, timeout, and owner. |
+| `Crew` | Bounded collaboration unit with trace spans and cost budget. |
+| `evaluate_flow` | Flow-level release gate for evidence, role coverage, synthesis, and safety. |
+
+The first production milestone is not a more elaborate crew. It is a flow that can reject weak collaboration and explain why.
 
 ## Native Framework Extension
 

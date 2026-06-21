@@ -61,6 +61,29 @@ const approvalRequired = await runAgent({
 assert(approvalRequired.state.stopReason === "blocked", "Write tools should require approval");
 assert(!approvalRequired.state.toolsCalled.includes("send_message"), "Approval-required tool must not execute");
 
+const errorTools = {
+  ...demoTools,
+  flaky_lookup: {
+    name: "flaky_lookup",
+    description: "A read tool that fails deterministically.",
+    sideEffect: "read" as const,
+    execute: async () => ({ status: "error" as const, reason: "upstream_timeout" }),
+  },
+};
+const toolError = await runAgent({
+  goal: "Handle tool failure",
+  maxSteps: 3,
+  tools: errorTools,
+  decide: scripted([{ kind: "tool", name: "flaky_lookup", input: { query: "policy" } }]),
+  authorize: defaultAuthorize,
+});
+assert(toolError.state.stopReason === "tool_failure", "Tool error should stop as tool_failure");
+assert(toolError.state.toolsCalled.includes("flaky_lookup"), "Failing tool call should be recorded");
+assert(
+  toolError.trace.some(event => event.type === "stop" && JSON.stringify(event.data).includes("upstream_timeout")),
+  "Trace should include tool failure reason",
+);
+
 const readThenAnswer = await runAgent({
   goal: "Read policy then answer",
   maxSteps: 4,
@@ -80,6 +103,10 @@ assert(readThenAnswer.state.stopReason === "success", "Read then answer should s
 assert(readThenAnswer.state.toolsCalled.includes("lookup_policy"), "Expected lookup_policy call");
 assert(readThenAnswer.trace.some(event => event.type === "policy_decision"), "Trace should include policy");
 assert(readThenAnswer.trace.some(event => event.type === "tool_result"), "Trace should include tool result");
+const firstContext = readThenAnswer.trace.find(event => event.type === "context_built");
+assert(firstContext, "Trace should include context packet");
+assert(JSON.stringify(firstContext.data).includes('"memoryRefs":["mem_1","mem_2"]'), "Context should include scoped memory refs");
+assert(JSON.stringify(firstContext.data).includes('"ref":"mem_3","reason":"out_of_scope"'), "Context should record omitted memory");
 
 const permissiveAuthorize = (_tool: ToolDefinition): PolicyDecision => ({ status: "allow" });
 const unsafe = await runAgent({
@@ -102,5 +129,9 @@ const unsafeEval = evaluateTrajectory(unsafe, {
 });
 assert(unsafe.state.stopReason === "success", "Unsafe run should look successful by final answer");
 assert(unsafeEval.status === "fail", "Trajectory eval should catch forbidden write tool");
+assert(
+  unsafeEval.reasons.includes("forbidden tool was called: send_message"),
+  "Trajectory eval should explain forbidden write tool",
+);
 
 console.log("Minimal agent runtime tests OK");

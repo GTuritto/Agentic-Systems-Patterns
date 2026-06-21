@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="740" viewBox="0 0 1320 740" role="img" aria-labelledby="title desc">
+  <title id="title">Self-Improvement Release Loop</title>
+  <desc id="desc">Feedback from runs, eval failures, and reviewers becomes proposed versioned changes. Regression evals, approval gates, staged rollout, monitoring, rollback, promotion, and audit evidence govern improvement.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .good{stroke:#188038;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .warn{stroke:#f9ab00;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .loop{stroke:#3367d6;stroke-width:2.4;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1320" height="740" fill="#ffffff"/>
+  <text x="660" y="46" text-anchor="middle" class="title">Self-Improvement Release Loop</text>
+  <text x="660" y="74" text-anchor="middle" class="subtitle">The system improves through reviewed, tested, versioned changes, not silent production self-editing.</text>
+
+  <rect x="48" y="112" width="1224" height="450" class="boundary"/>
+  <text x="68" y="138" class="small">Improvement boundary: feedback can suggest changes, but gates decide what ships.</text>
+
+  <g transform="translate(70 208)">
+    <rect class="box" width="210" height="84" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="105" y="31" text-anchor="middle" class="label">Run logs, eval</text>
+    <text x="105" y="52" text-anchor="middle" class="label">failures, reviewer</text>
+    <text x="105" y="69" text-anchor="middle" class="small">feedback</text>
+  </g>
+
+  <g transform="translate(335 208)">
+    <rect class="box" width="190" height="84" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Mine improvement</text>
+    <text x="95" y="53" text-anchor="middle" class="label">candidates</text>
+  </g>
+
+  <g transform="translate(585 208)">
+    <rect class="box" width="190" height="84" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Propose</text>
+    <text x="95" y="53" text-anchor="middle" class="label">versioned change</text>
+  </g>
+
+  <g transform="translate(835 198)">
+    <rect class="box" width="210" height="104" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="30" text-anchor="middle" class="label">Target artifact</text>
+    <text x="105" y="52" text-anchor="middle" class="small">prompt, tool, retrieval,</text>
+    <text x="105" y="69" text-anchor="middle" class="small">policy, test, or skill</text>
+  </g>
+
+  <g transform="translate(1080 186)">
+    <path class="diamond" d="M105 0 L210 60 L105 120 L0 60 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="53" text-anchor="middle" class="label">Regression</text>
+    <text x="105" y="72" text-anchor="middle" class="label">evals pass?</text>
+  </g>
+
+  <g transform="translate(835 400)">
+    <rect class="box" width="190" height="78" fill="#fce8e6" stroke="#d93025"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Reject</text>
+    <text x="95" y="53" text-anchor="middle" class="label">or revise</text>
+  </g>
+
+  <g transform="translate(585 378)">
+    <path class="diamond" d="M105 0 L210 60 L105 120 L0 60 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="53" text-anchor="middle" class="label">Approval</text>
+    <text x="105" y="72" text-anchor="middle" class="label">gate</text>
+  </g>
+
+  <g transform="translate(335 400)">
+    <rect class="box" width="190" height="78" fill="#e6f4ea" stroke="#188038"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Canary or</text>
+    <text x="95" y="53" text-anchor="middle" class="label">staged rollout</text>
+  </g>
+
+  <g transform="translate(70 378)">
+    <path class="diamond" d="M105 0 L210 60 L105 120 L0 60 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="53" text-anchor="middle" class="label">Metrics</text>
+    <text x="105" y="72" text-anchor="middle" class="label">safe?</text>
+  </g>
+
+  <g transform="translate(335 600)">
+    <rect class="box" width="210" height="78" fill="#fce8e6" stroke="#d93025"/>
+    <text x="105" y="32" text-anchor="middle" class="label">Rollback and add</text>
+    <text x="105" y="53" text-anchor="middle" class="label">regression case</text>
+  </g>
+
+  <g transform="translate(70 600)">
+    <rect class="box" width="190" height="78" fill="#e6f4ea" stroke="#188038"/>
+    <text x="95" y="32" text-anchor="middle" class="label">Promote</text>
+    <text x="95" y="53" text-anchor="middle" class="label">new version</text>
+  </g>
+
+  <g transform="translate(835 600)">
+    <rect class="box" width="250" height="78" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="125" y="32" text-anchor="middle" class="label">Version history, rationale,</text>
+    <text x="125" y="53" text-anchor="middle" class="label">and eval evidence</text>
+  </g>
+
+  <path class="edge" d="M280 250 H335"/>
+  <path class="edge" d="M525 250 H585"/>
+  <path class="edge" d="M775 250 H835"/>
+  <path class="edge" d="M1045 250 H1080"/>
+  <path class="deny" d="M1080 246 C1045 340 990 382 970 400"/>
+  <path class="good" d="M1185 306 C1110 390 850 430 795 438"/>
+  <path class="deny" d="M835 438 H795"/>
+  <path class="good" d="M585 438 H525"/>
+  <path class="edge" d="M335 438 H280"/>
+  <path class="good" d="M175 498 V600"/>
+  <path class="deny" d="M280 438 C340 520 410 560 440 600"/>
+  <path class="loop" d="M440 600 C390 545 345 520 335 292"/>
+  <path class="edge" d="M260 639 C480 705 705 700 835 639"/>
+  <path class="edge" d="M1025 438 C1080 510 1070 565 1015 600"/>
+
+  <text x="1055" y="330" class="small">no</text>
+  <text x="1005" y="360" class="small">yes</text>
+  <text x="805" y="428" class="small">denied</text>
+  <text x="540" y="428" class="small">approved</text>
+  <text x="190" y="555" class="small">yes</text>
+  <text x="300" y="515" class="small">no</text>
+</svg>

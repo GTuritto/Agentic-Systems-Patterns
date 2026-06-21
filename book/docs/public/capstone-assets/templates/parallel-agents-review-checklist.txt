@@ -1,0 +1,57 @@
+Parallel Agents Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Work can run independently
+[ ] Parallelism improves latency, coverage, or candidate quality
+[ ] Partial failure is acceptable or isolated
+[ ] Shared mutable state is avoided
+[ ] Rate limits and tool quotas can tolerate fan-out
+
+Fan-out contract
+[ ] Parent goal captured
+[ ] Worker assignments differ by role, source, hypothesis, candidate, or tool
+[ ] Worker output schema declared
+[ ] Worker evidence requirement declared
+[ ] Worker side effects disabled by default
+[ ] Per-worker timeout declared
+[ ] Parent-run timeout declared
+[ ] Max worker count declared
+[ ] Cost, token, and tool-call budgets declared
+
+Fan-in reducer
+[ ] Merge policy declared
+[ ] Tie-break rule declared
+[ ] Conflict policy declared
+[ ] Unsupported claims are rejected or marked low confidence
+[ ] Dissent is preserved when material
+[ ] Human review is used when stakes or conflicts require it
+
+Operations
+[ ] Every worker has a trace span
+[ ] Timeout, refusal, and empty result are first-class outcomes
+[ ] Shared tools are rate-limited
+[ ] Partial outputs are stored
+[ ] Early cancellation is allowed only when risk permits
+[ ] Side effects require coordinator control, policy, or approval
+
+Evaluation
+[ ] Fixture covers duplicated worker scopes
+[ ] Fixture covers worker timeout
+[ ] Fixture covers conflicting evidence
+[ ] Fixture covers unsupported claim
+[ ] Fixture covers shared API rate limit
+[ ] Fixture covers early passing result
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve reducer or budgets
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

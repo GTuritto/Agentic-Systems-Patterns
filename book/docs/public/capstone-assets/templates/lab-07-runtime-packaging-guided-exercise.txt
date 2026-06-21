@@ -1,0 +1,82 @@
+LAB 07 RUNTIME PACKAGING GUIDED EXERCISE
+
+Use this worksheet to capture runtime boundaries, tool order, forbidden side effects, and rollback evidence from Lab 07.
+
+Lab:
+Date:
+Reviewer:
+Repository commit:
+
+1. Runtime Package Map
+
+Agent owns:
+
+Tool owns:
+
+WorkflowStep owns:
+
+RuntimeState owns:
+
+evaluateRuntime owns:
+
+What does the application still own outside the framework?
+
+2. Tool-Order Trace
+
+Command:
+
+Observed tool calls:
+
+1.
+2.
+
+Why policy must run before draft creation:
+
+Trace events that prove the order:
+
+3. Forbidden-Tool Eval
+
+Forbidden tool tested:
+
+Observed eval status:
+
+Failure reason:
+
+Which side effect would this prevent?
+
+Who owns the policy?
+
+4. Deployment And Rollback
+
+Highest-risk capability:
+
+Rollback action:
+
+Feature flag, route flag, or deployment rollback:
+
+How to verify rollback worked:
+
+What trace or eval proves rollback:
+
+5. Native Mastra Comparison
+
+Native example inspected:
+
+Agent mapping:
+
+Workflow mapping:
+
+Tool mapping:
+
+Trace mapping:
+
+Eval mapping:
+
+Gap before production:
+
+Final decision:
+
+[ ] Runtime package is understandable
+[ ] Tool authority is constrained
+[ ] Rollback is documented
+[ ] Needs native framework follow-up

@@ -1,0 +1,80 @@
+EVENT-TRIGGERED AGENT REVIEW CHECKLIST
+
+System:
+Event source:
+Owner:
+Reviewer:
+Date:
+
+1. Event Contract
+
+[ ] Event type is stable and versioned.
+[ ] Event ID is globally unique or scoped with source and tenant.
+[ ] Event time, received time, actor, tenant, and correlation ID are recorded.
+[ ] Payload schema is validated before agent work starts.
+[ ] Required context is either present or fetched through authorized tools.
+
+Evidence:
+
+2. Admission and Routing
+
+[ ] Runtime can accept, delay, refuse, or dead-letter the event.
+[ ] Event route maps to one bounded task class.
+[ ] Risk class and autonomy level are assigned before the first model call.
+[ ] Unsupported event versions fail safely.
+
+Evidence:
+
+3. Deduplication and Idempotency
+
+[ ] Duplicate event delivery is tested.
+[ ] Idempotency key is recorded before side effects.
+[ ] External writes are idempotent or compensatable.
+[ ] Replayed events cannot repeat irreversible actions.
+
+Evidence:
+
+4. Ordering and Concurrency
+
+[ ] Ordering requirements are explicit: none, per entity, per tenant, or global.
+[ ] Concurrent events for the same resource are locked, versioned, or merged safely.
+[ ] Late events and out-of-order events have defined outcomes.
+
+Evidence:
+
+5. Retry and Dead Letter
+
+[ ] Retryable and fatal errors are classified.
+[ ] Retry budget and backoff policy are defined.
+[ ] Dead-letter queue or failure store has owner and review cadence.
+[ ] Dead-letter replay requires policy and version awareness.
+
+Evidence:
+
+6. Backpressure and Event Storms
+
+[ ] Queue depth, processing latency, retry rate, and model/tool spend are monitored.
+[ ] Runtime can pause, shed, sample, or route events to deterministic fallback.
+[ ] Per-tenant and per-route concurrency limits are configured.
+[ ] Storm response is documented.
+
+Evidence:
+
+7. Observability and Evals
+
+[ ] Trace links event ID, run ID, idempotency key, policy decision, tool calls, and stop reason.
+[ ] Evals cover duplicate, late, missing-context, unauthorized, retry, and storm cases.
+[ ] Incidents become replay fixtures.
+
+Evidence:
+
+8. Final Decision
+
+[ ] Prototype only
+[ ] Internal pilot
+[ ] Production candidate
+[ ] Production-ready
+
+Blocking gaps:
+
+Next actions:

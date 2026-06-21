@@ -27,6 +27,9 @@ features:
   - title: Reader Paths
     details: Start with a guided path for first-time readers, builders, lab users, or reference lookup.
     link: /publishing/how-to-read
+  - title: Visual Architecture Route
+    details: Use diagrams to understand boundaries, ownership, runtime control, multi-agent coordination, and production safeguards.
+    link: /publishing/logical-groups#visual-architecture-route
   - title: Pattern Catalog
     details: A structured map of active agentic system patterns with deprecated material archived separately.
     link: /pattern-selection/source-map
@@ -55,4 +58,4 @@ features:
 
 ## License
 
-This book/reference and its examples are licensed under [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).
+Source code and runnable examples are licensed under the MIT License. Book/reference content, diagrams, worksheets, and generated publishing artifacts are licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/) (`CC-BY-NC-SA-4.0`).

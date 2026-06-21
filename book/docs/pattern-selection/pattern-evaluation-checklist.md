@@ -8,6 +8,8 @@ A pattern is not ready because it sounds right. It is ready when the team can ex
 
 This checklist is the shared review lens for the book. Use it before choosing a pattern, before composing several patterns, and before promoting an agentic workflow into production.
 
+Download the reusable worksheet: [pattern evaluation scorecard](/capstone-assets/templates/pattern-evaluation-scorecard.txt).
+
 For the engineering loop behind this checklist, see [Evaluation-Driven Agent Development](../agent-engineering-practice/evaluation-driven-agent-development). Use the checklist to review a pattern. Use the development chapter to turn the review into datasets, fixtures, release gates, and production feedback.
 
 ![Pattern evaluation flow](../public/diagrams/pattern-evaluation-flow.svg)
@@ -41,6 +43,46 @@ Use this table as the default review template.
 | Evaluation | What failure must be caught before release? | Golden tasks, negative cases, trajectory evals, mocked tools, and regression fixtures. |
 | Observability | Can a failed run be explained later? | Trace ID, model spans, tool spans, decisions, policy denials, costs, and stop reason. |
 | Operations | Can the pattern be rolled back or disabled? | Versioned prompts, tool manifests, model routes, feature flags, and circuit breakers. |
+
+## Review Score
+
+Use a simple score when the pattern is going into a design review or release gate.
+
+| Score | Meaning | Decision |
+| --- | --- | --- |
+| 0 | Missing or only prompt-level. | Block. The control is not real. |
+| 1 | Described but not implemented or tested. | Do not release. Convert the description into code, config, or tests. |
+| 2 | Implemented but weakly tested or hard to inspect. | Release only for low-risk internal use. |
+| 3 | Implemented, tested, traceable, and owned. | Accept for the stated risk level. |
+
+Score these areas: goal, boundary, autonomy split, tools, state, context, security, evaluation, observability, and operations. A production pattern should not have any `0` scores. A pattern that touches money, private data, infrastructure, customer communication, or durable memory should not have any `1` scores.
+
+The point is not to create bureaucracy. The score prevents a common design-review failure: everyone agrees the idea is good, but nobody proves the boundary exists.
+
+Use the downloadable [pattern evaluation scorecard](/capstone-assets/templates/pattern-evaluation-scorecard.txt) when the review must leave an auditable record. It captures the score, owner, evidence, release mode, blocking gaps, accepted risks, and next evidence for each area.
+
+## Score Decision Path
+
+Use this path during review. It turns the score into a release decision without hiding high-risk gaps behind a good average.
+
+```mermaid
+flowchart TD
+    A[Score goal, boundary, autonomy, tools, state, context, security, evaluation, observability, and operations] --> B{Any score is 0?}
+    B -->|Yes| X[Block release]
+    B -->|No| C{Security, tools, approvals, or side effects score 1?}
+    C -->|Yes| Y[Block production release]
+    C -->|No| D{Average score}
+
+    D -->|Below 2| P[Prototype only]
+    D -->|2 to 2.5| I[Internal or low-risk pilot]
+    D -->|Above 2.5| S[Staged production rollout]
+
+    P --> E[Name missing evidence]
+    I --> E
+    S --> F{Incident or drift found?}
+    F -->|Yes| R[Add regression eval before expanding rollout]
+    F -->|No| G[Keep monitoring traces and score drift]
+```
 
 ## Minimum Bar By Pattern Type
 
@@ -92,9 +134,34 @@ operations:
     - tool_calls
     - policy_denials
     - stop_reason
+review_score:
+  goal: 3
+  boundary: 3
+  autonomy_split: 2
+  tools: 3
+  state: 2
+  context: 2
+  security: 3
+  evaluation: 2
+  observability: 3
+  operations: 2
+release_decision: "internal pilot only until trajectory evals and replay are stronger"
 ```
 
 The contract is intentionally plain. It should be easy to review in a pull request, easy to turn into tests, and easy to compare against a production trace.
+
+## Release Decision Rules
+
+Use these rules after scoring:
+
+- Any `0`: block release.
+- Any `1` on security, tools, approvals, or side effects: block production release.
+- Average below 2: keep it as a prototype.
+- Average 2-2.5: allow internal or low-risk pilot only.
+- Average above 2.5 with no high-risk gaps: allow staged production rollout.
+- Any incident involving the pattern: add a regression eval before expanding rollout.
+
+If the team disagrees about a score, record the disagreement. A disagreement usually means the ownership boundary, evidence, or risk tolerance is still unclear.
 
 ## Common Failure Smells
 

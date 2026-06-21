@@ -1,0 +1,14 @@
+flowchart LR
+  Goal["Goal, constraints, budget"] --> State["Current state"]
+  State --> Reason["Reason about next step"]
+  Reason --> Gate{"Action allowed?"}
+  Gate -->|"No"| Refuse["Refuse, re-plan, or escalate"]
+  Gate -->|"Yes"| Act["Act through validated tool"]
+  Act --> Observe["Observe result"]
+  Observe --> Update["Update state and trace"]
+  Update --> Stop{"Stop condition met?"}
+  Stop -->|"No"| Reason
+  Stop -->|"Success"| Answer["Final answer or completed action"]
+  Stop -->|"Failure, budget, or risk"| Refuse
+  Answer --> Audit["Trace decision, action, observation, stop reason"]
+  Refuse --> Audit

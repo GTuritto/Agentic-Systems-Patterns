@@ -37,19 +37,11 @@ The practical rule is simple: every cross-boundary agent message needs a transpo
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  A[Calling agent] -->|TLS or mTLS| G[Agent gateway]
-  G --> I[Verify identity]
-  I --> O[Check OAuth scopes]
-  O --> P[Policy and budget]
-  P -->|allow| R[Remote agent or tool]
-  P -->|deny| D[Refuse]
-  P -->|approval| H[Human approval]
-  R --> T[Trace and audit]
-  D --> T
-  H --> T
-```
+Use this diagram to read Secure Agent Communication as a system boundary, not only a code shape. The key ownership question is: the protocol or capability boundary owns schemas, permissions, invocation records, and response validation.
+
+![Secure agent communication boundary](../public/diagrams/secure-agent-communication-boundary.svg)
+
+Read it as a sequence of authority gates. The remote agent or tool receives capability only after transport, identity, envelope, scope, policy, and approval checks pass.
 
 ## System Shape
 

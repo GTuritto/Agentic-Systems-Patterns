@@ -8,6 +8,8 @@ Tools are where agentic systems become real. Before tools, the model can only pr
 
 A strong agent does not need a large tool list. It needs the right tools, with clear contracts, narrow authority, useful errors, and observable results.
 
+Download the [tool capability design review checklist](/capstone-assets/templates/tool-capability-design-review-checklist.txt) when reviewing a new tool surface, MCP server, or agent capability set.
+
 ![MCP-first tool use architecture](../public/diagrams/mcp-first-tool-use.svg)
 
 ## The Tool Surface Is A Control Plane

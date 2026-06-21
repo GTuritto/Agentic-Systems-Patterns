@@ -12,8 +12,10 @@ const { currentSlug } = Astro.props;
   </a>
   <SearchBox />
   <div class="utility-links" aria-label="Book shortcuts">
+    <a href={`${siteBase}/book/publishing/how-to-read/`}>Reading paths</a>
+    <a href={`${siteBase}/book/publishing/glossary/`}>Glossary</a>
     <a href={`${siteBase}/patterns/`}>Pattern catalog</a>
-    <a href={`${siteBase}/sections/front-matter/`}>Section guides</a>
+    <a href={`${siteBase}/#sections`}>Logical groups</a>
   </div>
   <nav class="book-nav">
     {siteSidebarGroups.map(group => (

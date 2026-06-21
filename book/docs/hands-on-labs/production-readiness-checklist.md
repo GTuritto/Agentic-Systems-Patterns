@@ -6,7 +6,11 @@ title: Lab Production Readiness Checklist
 
 The labs are teaching implementations. This checklist defines what must be added before a lab pattern becomes production work.
 
-Use this after completing a lab. The goal is to identify the next engineering boundary: persistence, authorization, retries, idempotency, observability, eval gates, deployment, and rollback. For the full production path, continue with [Deployment Walkthrough](../production-runtime/deployment-walkthrough) and [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets).
+Use this after completing a lab. The goal is to identify the next engineering boundary: persistence, authorization, retries, idempotency, observability, eval gates, deployment, and rollback. For the full production path, continue with [Deployment Walkthrough](../production-runtime/deployment-walkthrough), [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets), and the [10/10 Production Gate](../publishing/ten-out-of-ten-production-gate).
+
+Download the reusable production review artifact: [10/10 production gate scorecard](/capstone-assets/templates/ten-out-of-ten-production-gate-scorecard.txt).
+
+Download the lab-specific worksheet: [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt).
 
 ## Universal Production Gate
 
@@ -22,6 +26,60 @@ Every lab needs these controls before real users, real data, or real side effect
 | Eval gates | Golden tasks, negative cases, trajectory checks, safety checks, and release-blocking thresholds. |
 | Deployment | Runtime owner, environment config, secrets, scaling limits, rollback, kill switch, and incident path. |
 | Human control | Approval UI/API, escalation rules, cancellation, reviewer identity, and expiry. |
+
+```mermaid
+sequenceDiagram
+    participant Lab
+    participant Reviewer
+    participant Gate as Production gate
+    participant Runtime
+    participant Operators
+
+    Lab->>Reviewer: Baseline command, output, source files
+    Reviewer->>Gate: Check state, auth, tools, memory, traces, evals
+    alt Gate incomplete
+        Gate-->>Reviewer: Keep as lab evidence
+    else Gate complete
+        Reviewer->>Runtime: Name added authority and rollout stage
+        alt No real users, data, or side effects
+            Runtime-->>Reviewer: Prototype with synthetic data
+        else Real authority involved
+            Runtime->>Gate: ADR, policy boundary, trace contract, eval fixtures
+            Gate->>Operators: Dashboard, incident path, rollback, kill switch
+            Operators-->>Reviewer: Can disable, replay, and explain
+        end
+    end
+```
+
+Use this flow before changing access, data, or authority. A lab can move forward only when the next stage has reviewable evidence, not because the example command ran once.
+
+## Lab Review Questions
+
+Use these questions before a lab-derived system becomes a product slice:
+
+| Question | Required Evidence |
+| --- | --- |
+| What did the lab prove? | Baseline command, expected output, source files, and success signal. |
+| What did the lab not prove? | Missing persistence, policy, observability, evals, deployment, rollback, or human control. |
+| What authority will production add? | Read data, write tools, memory, messages, approvals, money movement, or workflow execution. |
+| What must fail closed? | Missing config, missing policy context, unsafe tool input, stale evidence, and failed evals. |
+| What is the next production artifact? | ADR, trace contract, eval fixture, runbook, checklist, dashboard, or rollback plan. |
+
+The lab is a learning artifact until these answers exist in reviewable engineering documents.
+
+## Promotion Ladder
+
+Use this ladder to decide what the lab output is ready for.
+
+| Stage | Allowed Use | Required Evidence | Stop Condition |
+| --- | --- | --- | --- |
+| Lab evidence | Learning, comparison, and design discussion. | Baseline command, success signal, inspected source files, and one known failure path. | Do not connect real users, private data, credentials, or side effects. |
+| Prototype | Internal demo with synthetic data. | Lab evidence plus basic schemas, deterministic test, and named production gaps. | Stop if the demo requires real credentials or broad tool access. |
+| Product slice | Limited internal workflow with controlled data. | ADR, policy boundary, trace contract, eval fixtures, owner, and rollback note. | Stop if policy, trace, or rollback is missing. |
+| Pilot | Small real-user or real-data rollout. | Production gate scorecard, approval rules, incident path, dashboard, and release gate. | Stop or roll back on failed blocking evals, missing trace spans, or unsafe side effects. |
+| Production candidate | Controlled production release. | Deployment walkthrough evidence, runbook, kill switch, rollback path, and current eval report. | Stop if operators cannot disable, replay, or explain the run. |
+
+Do not skip stages because a framework example runs successfully. A passing command proves execution; it does not prove authority, observability, recovery, or release safety.
 
 ## Per-Lab Readiness Matrix
 
@@ -74,6 +132,7 @@ If any line is unknown, the system is still a demo.
 - [Framework Selection](../agent-engineering-practice/framework-selection)
 - [Real Framework Setup Notes](../agent-engineering-practice/real-framework-setup-notes)
 - [Templates and Worksheets](../agent-engineering-practice/templates-and-worksheets)
+- [10/10 Production Gate](../publishing/ten-out-of-ten-production-gate)
 - [Production Runtime Overview](../production-runtime/overview)
 - [Deployment Walkthrough](../production-runtime/deployment-walkthrough)
 - [Policy Enforcement](../production-runtime/policy-enforcement)

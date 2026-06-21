@@ -1,0 +1,142 @@
+10/10 PRODUCTION GATE SCORECARD
+
+System:
+Owner:
+Reviewer:
+Date:
+Release candidate:
+
+Use this worksheet before calling an agentic system production-ready.
+Score each gate from 0 to 2.
+
+0 = Missing or only described in prose.
+1 = Partly implemented but not tested or not reviewable.
+2 = Implemented, tested, documented, and tied to an owner.
+
+Use this gate before implementation, before pilot, and before production.
+Score evidence, not intent. If another engineer cannot inspect the evidence,
+do not score the item as 2.
+
+SCORING SUMMARY
+
+Goal and non-goals are explicit: __ / 2
+Architecture boundary is reviewable: __ / 2
+State ownership is documented: __ / 2
+Tool contracts and permissions are tested: __ / 2
+Context packet is inspectable: __ / 2
+Eval gate blocks unsafe releases: __ / 2
+Threat model has mitigations: __ / 2
+Human control exists for risky actions: __ / 2
+Runtime can retry, resume, degrade, and roll back: __ / 2
+Observability explains incidents: __ / 2
+
+Total: __ / 20
+
+Interpretation:
+- 0-7: prototype
+- 8-13: internal pilot
+- 14-17: controlled production candidate
+- 18-20: production-ready
+
+Required for systems that touch money, credentials, private data, infrastructure, or customer-visible actions:
+- Security = 2
+- Human control = 2
+- Observability = 2
+
+RELEASE MODE
+
+[ ] Prototype
+Allowed scope: local demos, fake data, no real side effects.
+Required evidence: clear label that it is not production.
+
+[ ] Internal pilot
+Allowed scope: internal users, limited data, read-only or tightly bounded actions.
+Required evidence: owner, logs, basic evals, rollback, and known limits.
+
+[ ] Controlled production candidate
+Allowed scope: real users or data with limited rollout and active monitoring.
+Required evidence: full scorecard, approval for risky actions, traces, eval gate, runbook.
+
+[ ] Production-ready
+Allowed scope: normal operation for the intended scope.
+Required evidence: 18-20 score, no hard fails, tested rollback, incident-to-eval loop.
+
+SCORING EVIDENCE CHECK
+
+[ ] Evals cover expected and unsafe paths, run in CI, and block release.
+[ ] Operators can inspect successful, failed, refused, escalated, and timed-out runs.
+[ ] Approvals bind one exact action, policy version, expiry, approver, and trace ID.
+[ ] Rollback can disable model, prompt, policy, tool, workflow, or agent behavior independently.
+
+HARD FAIL CHECK
+
+Any "yes" blocks production.
+
+[ ] Yes [ ] No - The agent can call high-risk tools without policy or approval.
+[ ] Yes [ ] No - Credentials are inherited broadly from the host process.
+[ ] Yes [ ] No - The team cannot replay a failed run.
+[ ] Yes [ ] No - Evals measure only final answer quality.
+[ ] Yes [ ] No - Context sources have no provenance or freshness rule.
+[ ] Yes [ ] No - There is no rollback plan for prompt, policy, model, or tool changes.
+
+EVIDENCE BUNDLE
+
+Attach links or file paths.
+
+Architecture diagram:
+ADR:
+Tool manifest:
+Context packet example:
+Successful trace:
+Failed trace:
+Eval dataset:
+CI eval gate output:
+Threat model:
+Approval or escalation flow:
+Runbook:
+Rollback plan:
+Cost, latency, and budget thresholds:
+
+REVIEW QUESTIONS
+
+1. What exact action can the system take without a human?
+Answer:
+
+2. What state changes if the model is wrong?
+Answer:
+
+3. Which tool call would be most expensive, risky, or irreversible?
+Answer:
+
+4. What evidence would prove the answer or action is grounded?
+Answer:
+
+5. What happens when retrieval returns stale or hostile content?
+Answer:
+
+6. What happens when a tool times out after the external side effect succeeded?
+Answer:
+
+7. Which eval would fail if the system regressed tomorrow?
+Answer:
+
+8. Who receives the alert, and what can they roll back?
+Answer:
+
+9. What does the user see when the agent is uncertain?
+Answer:
+
+10. What would make the team shut the agent off?
+Answer:
+
+DECISION
+
+[ ] Blocked
+[ ] Approved for internal pilot
+[ ] Approved for controlled production
+[ ] Approved for production
+
+Required follow-up before launch:
+
+Approver:
+Approval date:

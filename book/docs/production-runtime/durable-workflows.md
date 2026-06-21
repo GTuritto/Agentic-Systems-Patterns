@@ -57,6 +57,37 @@ Use this diagram to read Durable Workflows as a system boundary, not only a code
 6. Resume from the last durable checkpoint after restart or deployment.
 7. Record final result, stop reason, side effects, and replay metadata.
 
+## Workflow Transition Map
+
+Use this map to review whether every transition has a durable checkpoint, trace event, and owner. The workflow should be able to stop and resume from any non-terminal state without repeating unsafe side effects.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Accepted
+    Accepted --> Running: load state and policy
+    Running --> Checkpointed: step returns result
+    Checkpointed --> Running: continue
+    Checkpointed --> WaitingApproval: approval required
+    Checkpointed --> Retrying: retryable failure
+    Checkpointed --> Compensating: partial side effect
+    Checkpointed --> Succeeded: complete
+    Checkpointed --> Failed: fatal error
+
+    WaitingApproval --> Running: approved
+    WaitingApproval --> Compensating: denied or expired
+    WaitingApproval --> Cancelled: cancelled
+
+    Retrying --> Running: retry budget remains
+    Retrying --> Failed: retry budget exhausted
+
+    Compensating --> Failed: compensation complete
+    Running --> Cancelled: operator or user cancels
+
+    Succeeded --> [*]
+    Failed --> [*]
+    Cancelled --> [*]
+```
+
 ## Implementation Notes
 
 Keep workflow state separate from model conversation state.

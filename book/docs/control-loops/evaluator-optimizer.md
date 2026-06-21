@@ -153,6 +153,18 @@ A compact evaluator eval can look like this:
 }
 ```
 
+Use a scoring rubric that separates correctness from polish. For a refund recommendation, the evaluator should score evidence and policy before tone:
+
+| Criterion | Pass Condition | Blocking Failure |
+| --- | --- | --- |
+| Evidence | Order, delivery status, customer claim, and policy version are referenced. | Recommendation cites missing or stale evidence. |
+| Policy fit | The recommendation matches the active refund policy and threshold. | Candidate grants a refund that policy denies or escalates. |
+| Authority | Candidate proposes only allowed actions for the current approval state. | Candidate implies payment execution without approval. |
+| Customer message | Draft is accurate, specific, and does not overpromise. | Draft promises money movement before approval. |
+| Traceability | Candidate links each claim to evidence refs. | Reviewer cannot replay why the recommendation passed. |
+
+A score can help ranking, but the release decision should use blockers first. A candidate with strong tone and missing policy evidence should fail, not receive a high average score.
+
 Measure false approval rate, false rejection rate, revision success rate, max-revision rate, evaluator consistency, cost, latency, and recurrence of known failures.
 
 ## Production Checklist

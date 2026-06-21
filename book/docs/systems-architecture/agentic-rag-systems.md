@@ -10,6 +10,8 @@ This chapter is architectural. The existing [Semantic Recall and RAG](../memory-
 
 The important distinction is that Agentic RAG is not a smarter prompt around a vector database. It is a production system for evidence-grounded work. That system has source ownership, ingestion, indexing, retrieval, context assembly, generation, verification, evaluation, observability, and refresh.
 
+Use the [Agentic RAG query trace worksheet](/capstone-assets/templates/agentic-rag-query-trace-worksheet.txt) during architecture reviews. It forces the team to record the question, sources, filters, omitted evidence, citation checks, and final runtime decision.
+
 ## Basic RAG vs Agentic RAG
 
 Basic RAG is a pipeline:
@@ -45,6 +47,33 @@ Use RAG for evidence and explanation. Use tools for current operational truth. M
 Use this diagram to check whether the system can move backward when evidence is weak. The important path is not only query-to-answer; it is the loop from retrieval to verification, refinement, refusal, or escalation.
 
 ![Agentic RAG system](../public/diagrams/agentic-rag-system.svg)
+
+## Query Trace Flow
+
+This flow is the reader's debugging map. Every arrow should produce trace evidence that a reviewer can inspect after a wrong answer, refusal, or escalation.
+
+```mermaid
+flowchart TD
+    Q[User question] --> R{Exact state needed?}
+    R -->|yes| T[Call typed tool]
+    R -->|no| P[Plan retrieval tasks]
+    T --> C[Build context packet]
+    P --> S[Select approved sources]
+    S --> A[Apply access and freshness filters]
+    A --> G[Retrieve candidates]
+    G --> K[Rank and keep evidence]
+    K --> C
+    C --> D[Draft answer with claim IDs]
+    D --> V{Claims supported?}
+    V -->|yes| X[Citation verifier]
+    X --> O{Citations valid?}
+    O -->|yes| F[Answer with sources]
+    O -->|no| K
+    V -->|weak evidence| P
+    V -->|missing or unsafe| E[Refuse, clarify, or escalate]
+    F --> L[Store trace and eval signals]
+    E --> L
+```
 
 ## System Components
 
@@ -163,6 +192,43 @@ type RagTrace = {
 ```
 
 This trace lets the team debug the real failure: bad planning, wrong source, missing filter, stale index, poor rerank, weak context assembly, citation mismatch, or verifier miss.
+
+## End-To-End Query Trace
+
+Use a concrete trace in design reviews. A trace should show the path from user question to final answer, not only the final citations.
+
+| Step | Trace Evidence | Failure It Exposes |
+| --- | --- | --- |
+| User asks | actor, tenant, question, task type, risk class | wrong tenant, unsupported task, or exact-state question routed to RAG |
+| Planner decomposes | subqueries, source types, required freshness, tool needs | missing source class or over-broad query |
+| Access filter runs | allowed sources, denied sources, policy version | unauthorized source entering retrieval |
+| Retriever searches | query text, filters, index version, scores, source IDs | stale index, wrong metadata, low recall |
+| Ranker trims | selected chunks, omitted chunks, reason for omission | best evidence dropped under context budget |
+| Context builder assembles | instructions, evidence, tool results, memory, exclusions | policy or citation requirement missing from context |
+| Synthesizer drafts | claim IDs, answer sections, cited chunks | unsupported claim or citation laundering |
+| Verifier checks | support status per claim, conflicts, missing evidence | weak evidence accepted as grounded |
+| Runtime decides | answered, refused, clarification, or escalation | forced answer when evidence was insufficient |
+
+The trace should make omissions visible. A reviewer should see not only what the system used, but also what it rejected, why it was rejected, and whether rejection was safe.
+
+## Retrieval Failure Playbook
+
+Most RAG incidents are not model failures. They are source, filter, ranking, context, or verification failures. Triage them separately.
+
+| Symptom | Likely Cause | First Fix |
+| --- | --- | --- |
+| Correct source never appears. | Source missing, stale ingestion, wrong index, or access filter too strict. | Check source registry, ingestion log, index version, and filters. |
+| Correct source appears but is not selected. | Reranker, dedupe, or budget trimming removed it. | Inspect selected and omitted chunks with scores and reasons. |
+| Answer cites a nearby but wrong claim. | Chunk too broad, citation verifier too weak, or synthesis overreaches. | Add claim-level citation checks and smaller citation units. |
+| Answer uses old policy. | Freshness metadata missing or refresh SLA violated. | Add effective dates, stale-source rejection, and source owner alerts. |
+| Answer leaks unauthorized content. | Access filter applied after retrieval or metadata missing. | Enforce permissions before retrieval and test tenant-boundary attempts. |
+| Answer refuses too often. | Evidence threshold too high or query planner too narrow. | Add clarification path and source-specific fallback searches. |
+| Agent keeps searching adjacent topics. | Planner lacks stop conditions or verifier gives vague feedback. | Add max rounds, query purpose, and verifier failure reason. |
+| Prompt injection changes the answer style or policy. | Retrieved content was treated as instruction instead of evidence. | Label source text as untrusted evidence and add injection fixtures. |
+| Conflicting sources are collapsed into one answer. | Ranker or synthesizer hid disagreement. | Preserve source dates and require conflict disclosure or escalation. |
+| Answer depends on an omitted source. | Context budget removed decisive evidence without a review signal. | Record omitted chunks with reasons and test budget-pressure cases. |
+
+The playbook keeps teams from tuning prompts when the real defect is retrieval plumbing.
 
 ## Evaluation Guidance
 

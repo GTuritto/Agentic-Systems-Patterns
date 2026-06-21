@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760" role="img" aria-labelledby="title desc">
+  <title id="title">Secure Agent Communication Boundary</title>
+  <desc id="desc">A calling agent message crosses transport, identity, envelope, authorization, approval, capability, response validation, and audit boundaries.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.1;fill:none;marker-end:url(#arrow)}
+      .approve{stroke:#188038;stroke-width:2.1;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1320" height="760" fill="#ffffff"/>
+  <text x="660" y="46" text-anchor="middle" class="title">Secure Agent Communication Boundary</text>
+  <text x="660" y="74" text-anchor="middle" class="subtitle">Authority is granted only after transport, identity, envelope, scope, policy, and approval checks pass.</text>
+
+  <rect x="44" y="106" width="1232" height="468" class="boundary"/>
+  <text x="64" y="132" class="small">Trust boundary: every cross-agent message is validated before a remote capability runs.</text>
+
+  <g transform="translate(58 194)">
+    <rect class="box" width="150" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="75" y="34" text-anchor="middle" class="label">Calling</text>
+    <text x="75" y="54" text-anchor="middle" class="label">agent</text>
+  </g>
+
+  <g transform="translate(258 194)">
+    <rect class="box" width="160" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="80" y="34" text-anchor="middle" class="label">TLS or mTLS</text>
+    <text x="80" y="54" text-anchor="middle" class="label">transport</text>
+  </g>
+
+  <g transform="translate(478 172)">
+    <path class="diamond" d="M100 0 L200 58 L100 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="100" y="51" text-anchor="middle" class="label">Identity</text>
+    <text x="100" y="70" text-anchor="middle" class="label">valid?</text>
+  </g>
+
+  <g transform="translate(738 172)">
+    <path class="diamond" d="M110 0 L220 58 L110 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="51" text-anchor="middle" class="label">Envelope</text>
+    <text x="110" y="70" text-anchor="middle" class="label">valid?</text>
+  </g>
+
+  <g transform="translate(1038 172)">
+    <path class="diamond" d="M110 0 L220 58 L110 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="50" text-anchor="middle" class="label">Scope and</text>
+    <text x="110" y="69" text-anchor="middle" class="label">policy allow?</text>
+  </g>
+
+  <g transform="translate(738 364)">
+    <rect class="box" width="220" height="82" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="110" y="35" text-anchor="middle" class="label">Human approval</text>
+    <text x="110" y="57" text-anchor="middle" class="small">required for risky</text>
+    <text x="110" y="73" text-anchor="middle" class="small">side effects</text>
+  </g>
+
+  <g transform="translate(1038 374)">
+    <rect class="box" width="190" height="72" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="95" y="35" text-anchor="middle" class="label">Bounded remote</text>
+    <text x="95" y="55" text-anchor="middle" class="label">capability</text>
+  </g>
+
+  <g transform="translate(738 548)">
+    <path class="diamond" d="M110 0 L220 58 L110 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="50" text-anchor="middle" class="label">Response</text>
+    <text x="110" y="69" text-anchor="middle" class="label">valid?</text>
+  </g>
+
+  <g transform="translate(1038 570)">
+    <rect class="box" width="190" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="95" y="35" text-anchor="middle" class="label">Redacted</text>
+    <text x="95" y="55" text-anchor="middle" class="label">response</text>
+  </g>
+
+  <g transform="translate(478 570)">
+    <rect class="box" width="190" height="72" fill="#fce8e6" stroke="#d93025"/>
+    <text x="95" y="35" text-anchor="middle" class="label">Refuse</text>
+    <text x="95" y="55" text-anchor="middle" class="label">and trace</text>
+  </g>
+
+  <g transform="translate(78 570)">
+    <rect class="box" width="220" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="110" y="35" text-anchor="middle" class="label">Audit record and</text>
+    <text x="110" y="55" text-anchor="middle" class="label">regression eval</text>
+  </g>
+
+  <path class="edge" d="M208 230 H258"/>
+  <path class="edge" d="M418 230 H478"/>
+  <path class="edge" d="M678 230 H738"/>
+  <path class="edge" d="M958 230 H1038"/>
+  <path class="approve" d="M1148 288 V374"/>
+  <path class="edge" d="M1133 446 C1133 516 916 505 869 552"/>
+  <path class="approve" d="M958 606 H1038"/>
+  <path class="edge" d="M1038 410 H958"/>
+  <path class="edge" d="M848 446 V548"/>
+  <path class="deny" d="M568 288 V570"/>
+  <path class="deny" d="M848 288 V364"/>
+  <path class="deny" d="M1148 288 C1148 336 1000 338 958 380"/>
+  <path class="deny" d="M738 606 H668"/>
+  <path class="deny" d="M848 446 C848 508 670 506 620 570"/>
+  <path class="edge" d="M478 606 H298"/>
+  <path class="edge" d="M1038 606 C850 700 430 700 298 626"/>
+
+  <text x="704" y="222" text-anchor="middle" class="small">yes</text>
+  <text x="984" y="222" text-anchor="middle" class="small">yes</text>
+  <text x="1170" y="338" class="small">allow</text>
+  <text x="983" y="354" class="small">approval</text>
+  <text x="710" y="392" class="small">denied or expired</text>
+  <text x="678" y="382" class="small">no</text>
+  <text x="970" y="592" class="small">yes</text>
+  <text x="692" y="592" class="small">no</text>
+</svg>

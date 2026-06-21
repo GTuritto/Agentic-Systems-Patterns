@@ -1,0 +1,224 @@
+# Completed Agent ADR Examples
+
+Use these examples as models, not templates to copy blindly. Replace every workflow, owner, tool, policy, eval, trace, and rollback field with your system's real evidence.
+
+---
+
+# ADR-014: Support refund agent may draft refunds but not issue money
+
+## Status
+
+Accepted
+
+## Context
+
+Support agents spend time gathering order details, reading refund policy, and drafting refund recommendations. The team wants an agent to reduce investigation time without giving the model direct financial authority.
+
+## Decision
+
+The support refund agent may investigate orders, retrieve refund policy, summarize evidence, and create a refund draft. It may not issue money, modify payment state, or message the customer directly.
+
+## Scope
+
+Applies to the support_refund_investigation workflow for consumer orders in the support platform. Business accounts, fraud cases, and chargebacks are out of scope.
+
+## Autonomy Level
+
+Executes read-only investigation autonomously. Creates refund drafts autonomously. Refund issuance requires finance approval and a deterministic payment workflow.
+
+## Tool Authority
+
+Allowed:
+
+- orders.lookup_order
+- payments.get_payment_summary
+- refund_policy.retrieve
+- refunds.create_draft
+
+Forbidden:
+
+- refunds.issue_refund
+- email.send_customer_message
+- broad SQL, browser, shell, or arbitrary HTTP tools
+
+## Data And Memory Boundaries
+
+The agent may read order and payment summaries for the current tenant and ticket only. It may not store payment details in long-term memory. It may write an episodic event that a refund draft was created, with source references and retention.
+
+## Human Approval
+
+Finance approval is required before issuing money. Approval must bind to exact refund amount, order ID, draft ID, approver, policy version, trace ID, and expiry.
+
+## Evaluation Gate
+
+Blocking evals:
+
+- refuses refund issuance without approval;
+- cites current refund policy;
+- does not email customers;
+- does not write sensitive payment details to memory;
+- routes fraud and chargeback cases to escalation.
+
+## Observability
+
+Trace order lookup, policy retrieval, draft creation, policy decision, approval request, memory write decision, and final recommendation. Redact payment identifiers from logs.
+
+## Rollback
+
+Disable refunds.create_draft in the tool registry and route all refund cases back to human support. Existing drafts remain review-only.
+
+## Consequences
+
+The agent reduces investigation time and keeps financial authority outside the model. The workflow adds approval latency for edge cases and requires eval maintenance when refund policy changes.
+
+## Verification
+
+Review weekly traces for unauthorized tool attempts, approval misses, citation failures, and human override rate. Add every serious miss to the regression eval suite.
+
+---
+
+# ADR-015: Research RAG agent must answer only from approved sources
+
+## Status
+
+Accepted
+
+## Context
+
+The research assistant helps analysts summarize internal knowledge and approved public sources. The risk is not tool authority; the risk is unsupported claims, stale sources, and mixing private records with public citations.
+
+## Decision
+
+The research RAG agent may retrieve from approved indexes and draft source-grounded answers. It must refuse, ask for clarification, or escalate when evidence is missing, stale, unauthorized, or contradictory.
+
+## Scope
+
+Applies to research_rag_answering for internal analyst use. It does not cover legal, medical, financial, hiring, or customer-facing publication decisions.
+
+## Autonomy Level
+
+Advisory. The agent drafts answers and cites sources. Humans decide whether to use the answer in external work.
+
+## Tool Authority
+
+Allowed:
+
+- sources.search_approved_index
+- sources.fetch_document_excerpt
+- citations.validate
+- answer_quality.check_grounding
+
+Forbidden:
+
+- open web browsing without source review;
+- private customer-record retrieval;
+- publication, email, ticket update, or external posting tools.
+
+## Data And Memory Boundaries
+
+The agent may read approved documents whose access policy matches the analyst's tenant and role. It may not write long-term memory from retrieved content. It may store anonymized query and citation-quality metrics for evaluation.
+
+## Human Approval
+
+No human approval is required for internal drafts. Human review is required before external publication or policy decisions.
+
+## Evaluation Gate
+
+Blocking evals:
+
+- refuses when no approved source supports the answer;
+- excludes unauthorized sources;
+- flags stale documents;
+- cites every material claim;
+- handles conflicting sources by summarizing disagreement instead of choosing unsupported certainty.
+
+## Observability
+
+Trace query, retrieved source IDs, access decisions, freshness labels, citation validation, refusal reason, and final answer status. Store enough source metadata for replay without logging full sensitive content.
+
+## Rollback
+
+Disable the RAG route or pin the approved source index version. Fall back to human-only search while source policy or citation evals are repaired.
+
+## Consequences
+
+The system becomes more trustworthy for internal research, but it will answer fewer questions when evidence is weak. That refusal behavior is intended.
+
+## Verification
+
+Sample traces weekly for unsupported claims, stale source use, and missing citations. Add failed or corrected answers to the citation regression set.
+
+---
+
+# ADR-016: Delivery workflow uses parallel specialists with one accountable owner
+
+## Status
+
+Accepted
+
+## Context
+
+The delivery workflow needs planning, implementation review, test review, and release notes. Running one broad agent produced shallow reviews and unclear ownership. The team wants specialist agents without creating a consensus system that can hide responsibility.
+
+## Decision
+
+Use parallel specialist agents for bounded analysis tasks, then merge results through one workflow owner. The workflow owner owns final acceptance, conflict resolution, escalation, and release recommendation.
+
+## Scope
+
+Applies to internal delivery_workflow_review for repository changes. It does not authorize production deployment, credential changes, or bypassing human code review.
+
+## Autonomy Level
+
+Specialists operate autonomously on read-only repository context. The workflow owner may draft a release recommendation. Human maintainers approve merge and deploy decisions.
+
+## Tool Authority
+
+Allowed:
+
+- repo.read_files
+- tests.read_results
+- git.diff_readonly
+- release_notes.draft
+
+Forbidden:
+
+- git.push
+- package.publish
+- deploy.production
+- secret.read
+- shell commands with write access
+
+## Data And Memory Boundaries
+
+Agents may read repository files, diffs, test output, and prior release notes. They may not write durable memory except a trace-linked summary of findings and accepted follow-up tasks.
+
+## Human Approval
+
+Maintainer approval is required before merge, deploy, package publication, or user-visible release note publication.
+
+## Evaluation Gate
+
+Blocking evals:
+
+- each specialist reports scope, evidence, and uncertainty;
+- conflicting findings are surfaced to the workflow owner;
+- the merge step records accepted, rejected, and unresolved findings;
+- no specialist can approve its own high-risk recommendation;
+- final status is accepted, needs revision, blocked, or escalated.
+
+## Observability
+
+Trace specialist prompts, inputs, outputs, merge decision, conflict list, rejected claims, final status, and human handoff. Retain transcript snippets needed for review and redact secrets.
+
+## Rollback
+
+Disable parallel specialist execution and fall back to the single deterministic review checklist. Keep human code review mandatory.
+
+## Consequences
+
+Specialists improve coverage and speed, but the system spends more tokens and requires a stronger merge policy. The workflow owner exists to prevent "the agents agreed" from becoming authority.
+
+## Verification
+
+Review transcripts for missed conflicts, unsupported findings, and overconfident recommendations. Add delivery incidents or reviewer corrections to transcript evals.

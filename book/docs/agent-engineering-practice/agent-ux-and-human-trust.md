@@ -10,6 +10,8 @@ Use this chapter when humans assign goals, review outputs, approve actions, or r
 
 The core contract is simple: the user should understand what the agent is trying to do, what it has seen, what it has changed, what it is about to do, and how to interrupt or correct it. Trust is not a feeling the UI creates with friendly copy. Trust is the result of bounded autonomy, visible state, and usable control.
 
+Download the reusable worksheet: [agent UX review worksheet](/capstone-assets/templates/agent-ux-review-worksheet.txt).
+
 ## UX Goals
 
 An agent experience should help users answer:
@@ -38,6 +40,61 @@ An agent interface should make five things visible enough for the risk of the ta
 | How do I intervene? | Provide cancel, pause, approve, deny, edit, retry, escalate, and correction paths. |
 
 This does not mean exposing every internal detail. It means exposing the operational facts a reasonable user needs to supervise the agent.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UX
+    participant Runtime
+    participant Tools
+    participant Trace
+
+    Runtime->>UX: Current goal, state, evidence, next action
+    UX->>User: Show progress, risk, controls
+    alt Needs approval
+        User->>UX: Approve, deny, edit, or escalate
+        UX->>Runtime: Action-specific decision
+    else Safe to continue
+        UX->>Runtime: Continue within policy scope
+    end
+    Runtime->>Tools: Execute bounded tool call
+    Tools-->>Runtime: Result or failure
+    Runtime->>Trace: Record evidence, action, state, stop reason
+    Trace-->>UX: Inspectable run history
+    User->>UX: Correct, retry, cancel, or forget
+    UX->>Runtime: Structured correction event
+```
+
+Use this loop as a UX test. If the interface cannot show the state, expose the decision, bind approval to one action, and record the correction, the user is supervising a black box.
+
+## Supervision State Model
+
+The interface should expose the same state model the runtime uses. The words can change for the product, but the state transitions should not be hidden behind one spinner.
+
+```mermaid
+flowchart TD
+    Start["User assigns goal"] --> Planning["Planning"]
+    Planning --> Retrieving["Retrieving evidence"]
+    Retrieving --> Tool["Using tool"]
+    Tool --> Approve{"Approval required?"}
+    Approve -->|Yes| Waiting["Waiting for approval"]
+    Waiting -->|Approve| Tool
+    Waiting -->|Edit| Planning
+    Waiting -->|Deny| Escalate["Escalate or stop"]
+    Approve -->|No| Verify["Verify output"]
+    Verify --> Complete["Completed"]
+    Verify --> Clarify["Ask clarification"]
+    Clarify --> Planning
+    Tool --> Failed["Failed"]
+    Failed --> Retry{"Retry safe?"}
+    Retry -->|Yes| Planning
+    Retry -->|No| Blocked["Blocked"]
+    Planning --> Cancelled["Cancelled"]
+    Retrieving --> Cancelled
+    Tool --> Cancelled
+```
+
+Use the model as a UI checklist. Each state needs visible evidence, available controls, stop rules, and trace events. A state that cannot be shown cannot be supervised.
 
 ## Interaction Modes
 
@@ -214,6 +271,55 @@ Never ask for broad approval such as "continue with all actions" when the agent 
 Approvals should be attached to exact actions. If the proposed recipient, amount, file, command, permission, memory, or payload changes, the approval should no longer apply.
 
 For the underlying approval contract, see [Human Approval Gates](../tools-skills-protocols/human-approval-gates). This chapter focuses on what the user must be able to see and decide.
+
+### Approval Panel Mock
+
+Use this panel model when reviewing high-risk actions. The layout can change, but the evidence, action, risk, and decision controls should not disappear.
+
+```mermaid
+flowchart TD
+    subgraph Header["Approval request header"]
+        H1["Action: refunds.issue_refund"]
+        H2["Risk: high"]
+        H3["Expires: 15 minutes"]
+        H4["Trace: tr_refund_1042"]
+    end
+
+    subgraph Context["Context and evidence"]
+        C1["Order: ord_4317"]
+        C2["Customer: cust_123"]
+        C3["Policy: refund-v1"]
+        C4["Evidence: order, payment, policy"]
+    end
+
+    subgraph Payload["Exact payload"]
+        P1["Tool version: 2026-06-17"]
+        P2["Amount: 125.00 USD"]
+        P3["Args hash: sha256:7c4b"]
+        P4["Idempotency: refund_ord_4317_v1"]
+    end
+
+    subgraph Decision["Reviewer controls"]
+        D1["Approve exact action"]
+        D2["Deny"]
+        D3["Request changes"]
+        D4["Escalate"]
+    end
+
+    Header --> Context
+    Context --> Payload
+    Payload --> Decision
+```
+
+An approval panel should make the risky action boringly explicit. The reviewer should see the same action ID, arguments hash, policy version, resource IDs, and trace ID that the runtime will validate before resuming.
+
+| Panel Area | Required Fields |
+| --- | --- |
+| Header | approval ID, trace ID, requester, risk class, expiry. |
+| Action | tool name, tool version, side-effect class, exact resource. |
+| Evidence | source IDs, policy references, diff or payload, missing evidence. |
+| Runtime Safety | idempotency key, rollback note, whether the action is reversible. |
+| Decision | approve exact action, deny, request changes, escalate, cancel. |
 
 ## Failure UX
 

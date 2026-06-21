@@ -1,0 +1,66 @@
+CrewAI Flows and Crews Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Python-first automation is acceptable
+[ ] Flow state and Crew-local context are distinct
+[ ] The workflow needs state, branching, checkpoints, retries, or approvals
+[ ] The Crew performs bounded collaboration inside one Flow step
+[ ] A deterministic Flow step would not be enough by itself
+
+Flow ownership
+[ ] Flow owns durable state
+[ ] Flow owns execution order
+[ ] Flow owns branching
+[ ] Flow owns retries and timeouts
+[ ] Flow owns approvals
+[ ] Flow owns final acceptance
+[ ] Flow owns user-visible side effects
+[ ] Flow owns rollback or fallback
+
+Crew ownership
+[ ] Crew task has a clear objective
+[ ] Crew roles differ by responsibility
+[ ] Each role has scoped inputs
+[ ] Each role has scoped tools
+[ ] Each role has an expected output schema
+[ ] Crew output is treated as a proposal
+[ ] Crew conversation is not the only source of workflow state
+
+Acceptance gate
+[ ] Output schema is validated
+[ ] Evidence is required where claims matter
+[ ] Low-confidence output is rejected or escalated
+[ ] Role disagreement is surfaced
+[ ] Approval is required before high-risk side effects
+[ ] Rejection reasons are stored
+
+Evaluation
+[ ] Fixture covers valid crew output
+[ ] Fixture covers missing evidence
+[ ] Fixture covers role disagreement
+[ ] Fixture covers tool timeout
+[ ] Fixture covers approval-required pause
+[ ] Fixture covers duplicate event
+[ ] Fixture covers malformed output
+
+Operations
+[ ] Flow trace includes start, crew kickoff, role output, validation, policy decision, and final acceptance
+[ ] Idempotency keys protect user-visible side effects
+[ ] Feature flag can disable one role
+[ ] Feature flag can disable one Flow path
+[ ] Feature flag can bypass Crew execution
+[ ] Rejected Crew outputs become eval fixtures
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve state, acceptance, or evals
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

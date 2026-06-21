@@ -13,7 +13,7 @@ export default defineConfig({
     ],
     sidebar: vitepressSidebar,
     footer: {
-      message: 'Licensed under CC BY-SA 4.0.',
+      message: 'Book content licensed under CC BY-NC-SA 4.0. Code examples licensed under MIT.',
       copyright: 'Copyright (c) 2025-2026 Giuseppe Turitto'
     },
     search: {

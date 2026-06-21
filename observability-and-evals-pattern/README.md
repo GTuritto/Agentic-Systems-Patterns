@@ -81,6 +81,24 @@ The operational loop should be explicit:
 
 ## Implementation Notes
 
+Use this loop to connect runtime evidence to release decisions. The important step is the handoff from a production trace to a named eval fixture that can block the next risky change.
+
+```mermaid
+flowchart LR
+    A[Production trace] --> B[Operator review]
+    B --> C{Failure, drift, or near miss?}
+    C -->|No| D[Monitor trend]
+    C -->|Yes| E[Create eval fixture]
+    E --> F[Add owner and threshold]
+    F --> G[Run targeted release gate]
+    G --> H{Gate passes?}
+    H -->|No| I[Block or roll back change]
+    H -->|Yes| J[Ship or expand rollout]
+    I --> E
+    J --> A
+    D --> A
+```
+
 - Trace at the level of run, loop iteration, model call, tool call, workflow step, and evaluator result.
 - Store enough input/output detail to reproduce failures, with redaction for sensitive data.
 - Maintain golden datasets for routing, structured outputs, tool plans, and final answers.
@@ -91,6 +109,39 @@ The operational loop should be explicit:
 - Separate product analytics from agent observability. Product analytics says what users did. Agent observability says what the system did on their behalf.
 - Store identifiers for prompts, models, tools, policies, retrievers, memory stores, and harness versions. Without versions, a trace explains what happened but not what changed.
 - Treat "no trace" as a production defect. An untraced agent run cannot be debugged, replayed, or defended in an incident review.
+
+### Eval Dashboard Review Model
+
+An eval dashboard should help an engineer decide whether to ship, roll back, or inspect a specific run. Do not build a wall of charts that cannot answer which trace failed and who owns the fix.
+
+```mermaid
+flowchart TD
+    A["Release candidate"] --> B["Eval summary"]
+    B --> C{"Blocking failures?"}
+    C -->|"yes"| D["Open failed cases"]
+    C -->|"no"| E["Check production guardrails"]
+    D --> F["Trace drilldown"]
+    F --> G["Failed span"]
+    G --> H["Owner and fix"]
+    H --> I["Rerun targeted gate"]
+    E --> J{"Cost, latency, policy, approval stable?"}
+    J -->|"yes"| K["Ship or expand rollout"]
+    J -->|"no"| D
+    I --> C
+```
+
+Use this as the minimum dashboard layout:
+
+| Panel | Shows | Release Question |
+| --- | --- | --- |
+| Release Gate | eval suite, changed component, pass/fail, blocking count, owner. | Can this change ship? |
+| Failure Table | case ID, severity, expected behavior, actual behavior, protected boundary. | Which failures matter? |
+| Trace Drilldown | run, model, retrieval, tool, policy, approval, evaluator spans. | Where did the path break? |
+| Guardrails | stop reasons, policy denials, approval waits, tool errors, retries. | Did autonomy stay inside its boundary? |
+| Cost And Latency | p50/p95 latency, cost, token count, tool count by route. | Did the change create an operating regression? |
+| Incident Conversion | production issue, source trace, new fixture, owner, due date. | Will this failure be caught next time? |
+
+A useful dashboard starts from a release decision and drills into trace evidence. If a failed eval cannot open the source trace, the dashboard is reporting quality without explaining behavior.
 
 ### Minimum Trace Contract
 

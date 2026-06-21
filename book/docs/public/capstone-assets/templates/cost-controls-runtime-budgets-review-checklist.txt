@@ -1,0 +1,40 @@
+# Cost Controls And Runtime Budgets Review Checklist
+
+Use this checklist before launching loops, retries, retrieval, delegation, write tools, or multi-agent work.
+
+## Budget Policy
+
+- [ ] Every run starts with task class, risk class, user tier, and budget policy version.
+- [ ] Budgets cover cost, model calls, tool calls, write tool calls, retrieval, delegation, retries, wall-clock time, and approval.
+- [ ] Budget policy differs by task value and risk instead of using one global limit.
+- [ ] Budget changes are versioned and reviewable.
+
+## Enforcement
+
+- [ ] Budgets are checked before model, tool, retrieval, memory, delegation, and approval actions.
+- [ ] Projected cost is checked before the next action, not only after spend occurs.
+- [ ] Runtime-owned counters are the source of truth.
+- [ ] Tool wrappers cannot bypass budget enforcement.
+
+## Degraded Modes
+
+- [ ] Low-token behavior preserves evidence references and summarizes state.
+- [ ] Low-model-call behavior stops revision loops and returns the best validated result.
+- [ ] Low-tool-call behavior moves from action to draft or read-only analysis.
+- [ ] Low-wall-clock behavior returns partial results or queues background work.
+- [ ] Low-retry behavior stops retrying and exposes the blocker.
+- [ ] Low-delegation behavior assigns one owner or stops.
+
+## Observability And Evals
+
+- [ ] Traces record starting budget, remaining budget, budget decisions, degraded mode, and stop reason.
+- [ ] Operators can explain cost for a single run.
+- [ ] Evals cover exhausted model calls, write-tool limits, approval thresholds, delegation limits, wall-clock limits, and low-value expensive routes.
+- [ ] Final answers fail eval when they exceed budget without approval.
+
+## Operations
+
+- [ ] High-risk runs can request approval for more budget.
+- [ ] Low-risk runs can stop without human review.
+- [ ] Budget policy can be rolled back.
+- [ ] Incidents caused by budget policy can be replayed against old and new policy versions.

@@ -1,0 +1,19 @@
+flowchart LR
+  Goal["Shared goal"] --> Decompose["Decompose into bounded subtasks"]
+  Decompose --> Contracts["Worker contracts: role, context, output, limits"]
+  Contracts --> Dispatch["Dispatch with scoped permissions"]
+  Dispatch --> W1["Worker A"]
+  Dispatch --> W2["Worker B"]
+  Dispatch --> W3["Worker C"]
+  W1 --> Collect["Collect outputs, refusals, errors, evidence"]
+  W2 --> Collect
+  W3 --> Collect
+  Collect --> Check{"Meets acceptance criteria?"}
+  Check -->|"No"| Repair["Repair, reassign, or escalate"]
+  Check -->|"Yes"| Merge["Merge by reducer, judge, or supervisor"]
+  Repair --> Collect
+  Merge --> Final{"Final owner accepts?"}
+  Final -->|"No"| Repair
+  Final -->|"Yes"| Output["Accepted result"]
+  Output --> Audit["Trace assignments, worker outputs, merge decision"]
+  Repair --> Audit

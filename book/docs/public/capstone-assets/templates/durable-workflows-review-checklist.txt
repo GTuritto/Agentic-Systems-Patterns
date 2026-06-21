@@ -1,0 +1,64 @@
+Durable Workflows Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Work spans minutes, hours, external systems, or human approvals
+[ ] State must survive restart, deployment, timeout, or outage
+[ ] Side effects require idempotency, compensation, audit, or approval
+[ ] Operators need replay, cancellation, rollback, or incident diagnosis
+[ ] Short stateless response is insufficient
+
+Workflow state
+[ ] Stable workflow ID recorded
+[ ] Trace ID recorded
+[ ] Idempotency key recorded
+[ ] Current step recorded
+[ ] Completed steps recorded
+[ ] Pending approval recorded where relevant
+[ ] Side effects recorded
+[ ] Stop reason recorded
+[ ] Workflow definition version recorded
+[ ] Prompt, policy, model route, and tool manifest versions recorded
+
+Transitions
+[ ] Continue transition defined
+[ ] Wait-for-approval transition defined
+[ ] Retry transition defined
+[ ] Compensate transition defined
+[ ] Cancel transition defined
+[ ] Complete transition defined
+[ ] Fail transition defined
+[ ] Approval denial and timeout are handled
+
+Side effects and recovery
+[ ] External side effects have idempotency keys
+[ ] Checkpoint occurs after every side effect
+[ ] Compensation path exists where needed
+[ ] Retry policy distinguishes retryable and fatal failures
+[ ] Cancellation stops underlying workers or tools
+[ ] Resume after restart is tested
+[ ] Resume after deployment is tested
+[ ] Replay does not repeat unsafe work
+
+Evaluation
+[ ] Fixture covers restart from checkpoint
+[ ] Fixture covers duplicate event delivery
+[ ] Fixture covers retryable tool failure
+[ ] Fixture covers fatal tool failure
+[ ] Fixture covers approval wait, denial, timeout, and resume
+[ ] Fixture covers deployment during workflow
+[ ] Fixture covers cancellation and compensation
+[ ] Fixture covers production trace replay
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve checkpointing, compensation, or ownership
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

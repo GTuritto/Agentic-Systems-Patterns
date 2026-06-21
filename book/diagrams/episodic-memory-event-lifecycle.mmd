@@ -1,0 +1,18 @@
+flowchart LR
+  Event["Interaction, tool result, workflow event"] --> Classify["Classify event type, actor, scope, evidence"]
+  Classify --> Policy{"Write policy"}
+  Policy -->|"Deny"| Drop["Do not store"]
+  Policy -->|"Review"| Review["Human or product review"]
+  Policy -->|"Allow"| Store["Episodic timeline store"]
+  Review -->|"Approved"| Store
+  Review -->|"Denied"| Drop
+  Store --> Index["Index by actor, tenant, project, event type, recency"]
+  Task["New task"] --> Retrieve["Scoped event retrieval"]
+  Index --> Retrieve
+  Retrieve --> Eligible{"Eligible and fresh?"}
+  Eligible -->|"No"| Exclude["Exclude, expire, or ask"]
+  Eligible -->|"Yes"| Context["Inject as timestamped evidence"]
+  Context --> Agent["Agent step"]
+  Exclude --> Agent
+  Store --> Govern["Correction, deletion, expiry, audit"]
+  Agent --> Govern

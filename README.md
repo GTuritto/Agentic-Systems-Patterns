@@ -6,7 +6,8 @@ The project covers patterns for goals, loops, tools, skills, memory, structured 
 
 - Read the book: https://gturitto.github.io/Agentic-Systems-Patterns/
 - How to read it: https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/
-- Download the PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- Courtesy PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
+- Courtesy EPUB: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
 - Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
 - Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
 
@@ -15,7 +16,7 @@ The project covers patterns for goals, loops, tools, skills, memory, structured 
 This repository has several related parts:
 
 - `site/`: Astro online reader deployed to GitHub Pages.
-- `book/docs/`: canonical Markdown source for the book, VitePress preview, and PDF pipeline.
+- `book/docs/`: canonical Markdown source for the book, VitePress preview, and courtesy PDF/EPUB pipeline.
 - `book/docs/hands-on-labs/`: guided labs that use the runnable examples as a learning path.
 - `book/docs/publishing/`: reader paths, publishing commands, release artifact guidance, and license notes.
 - Pattern folders such as `agent-loop-pattern/`, `skills-pattern/`, and `modern-tool-use-pattern/`: source material and runnable examples.
@@ -118,6 +119,9 @@ npm run book:content
 # Validate or export draw.io diagrams
 npm run book:diagrams
 
+# Run the book quality gates
+npm run book:quality
+
 # Build the Astro site
 npm run site:build
 
@@ -127,15 +131,18 @@ npm run site:parity
 # Build the VitePress authoring site
 npm run book:build
 
-# Generate the offline PDF
+# Generate courtesy offline formats
 npm run book:pdf
+npm run book:epub
 ```
 
-Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the PDF, builds the VitePress authoring output, builds the Astro online site, runs Astro parity checks, uploads the Pages artifact from `site/dist`, and deploys it.
+Deployment runs from [.github/workflows/publish-book.yml](./.github/workflows/publish-book.yml) on each push to `main`. The workflow builds the courtesy PDF and EPUB, builds the VitePress authoring output, builds the Astro online site, runs Astro parity checks, uploads the Pages artifact from `site/dist`, and deploys it.
 
-The checked-in PDF lives at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf). The deployed PDF is published under `/releases/Agentic-Systems-Patterns.pdf` on GitHub Pages.
+`npm run book:quality` verifies the manifest, generated content, editorial consistency, diagram assets, diagram alt text, and Mermaid-to-SVG coverage before release.
 
-Each `Publish Book` workflow run also uploads the generated PDF as a GitHub Actions artifact for run-specific inspection.
+The checked-in courtesy formats live at [book/releases/Agentic-Systems-Patterns.pdf](./book/releases/Agentic-Systems-Patterns.pdf) and `book/releases/Agentic-Systems-Patterns.epub`. The deployed copies are published under `/releases/` on GitHub Pages.
+
+Each `Publish Book` workflow run also uploads the generated courtesy formats as a GitHub Actions artifact for run-specific inspection.
 
 Pattern chapters and source download bundles are generated from [book/scripts/pattern-manifest.mjs](./book/scripts/pattern-manifest.mjs) and `book/scripts/generate-pattern-pages.mjs`. Each active pattern page embeds representative code excerpts and links to a downloadable bundle under `/downloads/<pattern>.zip`. Native framework bundles such as `/downloads/native-langgraph-refund.zip` are generated the same way from `native-framework-examples/`. Generated ZIP files live under `book/docs/public/downloads/` and are ignored by Git; commit the source folders and generator changes, not the ZIP outputs. Architecture chapters under `book/docs/systems-architecture/` are hand-written because they describe cross-pattern composition rather than one source folder.
 
@@ -148,8 +155,8 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 ├── Agentic_Patterns.md              # Full active/deprecated pattern index
 ├── book/
 │   ├── docs/                        # Canonical book Markdown and public assets
-│   ├── releases/                    # Checked-in offline PDF artifact
-│   └── scripts/                     # Book page, download, and PDF generation
+│   ├── releases/                    # Checked-in courtesy PDF and EPUB artifacts
+│   └── scripts/                     # Book page, download, PDF, and EPUB generation
 ├── site/                            # Astro online reader and Pagefind search
 ├── deprecated/                      # Archived patterns kept for history
 ├── *-pattern/                       # Pattern chapters and examples
@@ -166,11 +173,13 @@ Architecture diagrams are maintained as editable diagrams.net files under `book/
 - When adding or changing active pattern chapters, update `book/scripts/pattern-manifest.mjs` so generated pages, code excerpts, and download bundles stay aligned.
 - When adding cross-pattern architecture chapters, place them under `book/docs/systems-architecture/` and register them in `book/scripts/book-manifest.mjs`.
 - When adding architecture diagrams, edit `book/diagrams/*.drawio`, export or commit the matching SVG under `book/docs/public/diagrams/`, and run `npm run book:diagrams`.
-- Run `npm test`, `npm run typecheck`, `npm run book:build`, `npm run site:build`, `npm run site:parity`, and `npm run book:pdf` before publishing larger changes.
+- Run `npm test`, `npm run typecheck`, `npm run book:build`, `npm run site:build`, `npm run site:parity`, `npm run book:pdf`, and `npm run book:epub` before publishing larger changes.
 - When changing native LangGraph examples, run `npm run native-examples:smoke:langgraph` to install their optional dependencies in a temporary virtual environment and execute the examples end to end.
 
 ## License
 
-This book/reference and its examples are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (`CC-BY-SA-4.0`).
+Source code and runnable examples are licensed under the [MIT License](./LICENSE).
+
+Book/reference content, diagrams, worksheets, and generated publishing artifacts are licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/) (`CC-BY-NC-SA-4.0`); see [LICENSE-CONTENT.md](./LICENSE-CONTENT.md).
 
 Last reviewed: 2026-06-21.

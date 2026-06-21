@@ -1,0 +1,298 @@
+COMPLETED LAB EVIDENCE EXAMPLES
+
+Use these examples as calibration. They show the level of evidence a reviewer should expect after a lab: command, trace, failure path, protected boundary, production gap, and next action.
+
+Do not copy these answers into your worksheet. Replace commands, outputs, owners, trace IDs, risks, and release decisions with your own evidence.
+
+---
+
+COMPLETED EXAMPLE: LAB 02 PLANNING LOOP
+
+Lab:
+Lab 02 - Build an Agent Loop with Planning
+
+Reviewer:
+agent-platform reviewer
+
+Baseline command:
+npm run plan:test
+
+Passing output:
+Planning test OK
+
+CLI command:
+npm run plan:run -- "Compute average of [1,2,3,4]"
+
+Observed plan:
+- s1: Load numbers [1,2,3,4]
+- s2: Compute average
+
+Observed progress:
+- Progress 0 s1
+- Progress 50 s2
+- Progress 100 done
+
+Observed result:
+{ s1: [1, 2, 3, 4], s2: 2.5 }
+
+Changed input:
+npm run plan:run -- "Compute average of [10,20,30]"
+
+Changed result:
+{ s1: [10, 20, 30], s2: 20 }
+
+Failure path tested:
+executePlan([{ id: "s9", description: "Send refund directly" }])
+
+Expected failure:
+{
+  "s9": {
+    "status": "failed",
+    "error_type": "unsupported_step",
+    "step_id": "s9",
+    "description": "Send refund directly"
+  }
+}
+
+Protected boundary:
+The planner can propose steps, but the executor only runs supported operations and returns structured failures for the rest.
+
+Production gap:
+The loop still needs durable state, per-step timeout, budget stop, policy denial, retry limits, and trace IDs.
+
+Release decision:
+Demo only. The control boundary is clear, but the loop needs durable trace and policy controls before product use.
+
+---
+
+COMPLETED EXAMPLE: LAB 03 AGENTIC RAG
+
+Lab:
+Lab 03 - Build Agentic RAG
+
+Reviewer:
+knowledge-system reviewer
+
+Baseline command:
+python3 context-engineering-pattern/langgraph_python_example/rag_example.py
+
+Passing output:
+Answer: Local fallback answer from retrieved context: Agentic systems are autonomous AI systems.
+
+Prompt engineering improves LLM outputs.
+
+Grounding evidence:
+- The answer cites only local retrieved context.
+- The answer does not invent a refund policy when the approved source set lacks one.
+
+Missing-evidence query:
+What is the refund policy?
+
+Expected behavior:
+Refuse, clarify, or retrieve an approved refund-policy source. Do not answer from unsupported memory.
+
+Failure fixture:
+failure_type: missing_approved_evidence
+
+Source contract:
+- source_id
+- source_version
+- access_decision
+- freshness_label
+- retrieved_excerpt
+- citation_check
+
+Native comparison:
+The native LangGraph RAG slice should expose graph state, retrieval node, answer node, source IDs, and an eval gate for missing evidence.
+
+Protected boundary:
+The model may draft only from retrieved approved evidence. Missing evidence is a controlled stop, not an invitation to guess.
+
+Production gap:
+Add source freshness policy, citation validation, index version pinning, access-control traces, and refusal regression tests.
+
+Release decision:
+Internal demo only until missing-evidence and stale-source evals block release.
+
+---
+
+COMPLETED EXAMPLE: LAB 06 OBSERVABILITY AND EVALS
+
+Lab:
+Lab 06 - Add Observability and Evals
+
+Reviewer:
+eval owner
+
+Baseline command:
+npm run observability:test
+
+Passing output:
+Trace contract test OK
+
+Trace fields protected:
+- run span
+- model span
+- stop reason
+- correlation IDs
+- policy decision for tool spans
+- idempotency key for successful tool spans
+- evidence refs for retrieval spans
+- redaction classification for production spans
+
+Failing trace:
+missingPolicyTrace
+
+Failing span:
+span_tool_missing_policy
+
+Exact failure:
+policy decision for tool span span_tool_missing_policy
+
+Why this blocks release:
+A successful tool span without a policy decision hides whether authority was allowed, denied, escalated, or required approval.
+
+Negative case:
+Malformed A2A sum request with null numeric input.
+
+Expected outcome:
+error outcome, not success.
+
+CI gate:
+npm test blocks release for the current repository. A production system should also run scoped evals for changed prompts, policies, tools, memory, and workflows.
+
+Incident-to-eval conversion:
+If a tool span succeeds without a policy decision, add a regression fixture named tool_span_requires_policy_decision.
+
+Protected boundary:
+The final answer is not enough. Release evidence must include the trajectory, policy decision, stop reason, and failure review.
+
+Production gap:
+Publish eval reports with trace links, severity, owner, threshold, and release-blocking status.
+
+Release decision:
+Ready as a local eval contract. Not enough by itself for production observability.
+
+---
+
+COMPLETED EXAMPLE: LAB 07 RUNTIME PACKAGING
+
+Lab:
+Lab 07 - Package Agents, Tools, Workflows, Memory, and Evals
+
+Reviewer:
+runtime owner
+
+Baseline commands:
+npm run mastra-runtime:demo
+npm run mastra-runtime:test
+
+Passing output:
+Mastra-style runtime packaging tests OK
+
+Observed tool order:
+1. read_policy
+2. draft_response
+
+Observed result:
+Policy checked and draft created for human review.
+
+Observed eval:
+{ "status": "pass" }
+
+Forbidden-tool test:
+Add refunds.issue_refund to toolCalls.
+
+Expected eval:
+{
+  "status": "fail",
+  "reasons": ["forbidden tool was called: refunds.issue_refund"]
+}
+
+Runtime boundary map:
+- Agent owns instructions and next decision.
+- Tool owns typed capability execution.
+- WorkflowStep owns deterministic sequence.
+- RuntimeState owns memory, trace, tool calls, and result.
+- evaluateRuntime owns release trajectory checks.
+
+Rollback action:
+Disable draft_response in the tool registry and route refund cases back to human support. Keep read_policy available.
+
+Native comparison:
+The native Mastra slice should preserve the same tool order, draft-only behavior, trace events, and eval gate.
+
+Protected boundary:
+Framework registration is not authorization. The application decides whether a tool can run and whether the trajectory can release.
+
+Production gap:
+Add provider configuration, secrets handling, workflow retries, approval records, trace export, and a feature flag for draft creation.
+
+Release decision:
+Good runtime slice. Needs deployment and rollback proof before real support traffic.
+
+---
+
+COMPLETED EXAMPLE: LAB 12 STATE GRAPH
+
+Lab:
+Lab 12 - Model State Graphs, Checkpoints, and Interrupts
+
+Reviewer:
+workflow reliability reviewer
+
+Baseline commands:
+npm run langgraph-state
+npm run langgraph-state:test
+
+Passing output:
+LangGraph-style state graph tests OK
+
+Interrupted run:
+- stop_reason: human_interrupt
+- trace includes checkpoint:review
+- trace includes interrupt:approval_required
+- eval status: pass
+
+Resumed run:
+- stop_reason: success
+- approved: True
+- trace: checkpoint:review -> node:review -> checkpoint:done -> graph:done
+- eval status: pass
+
+Checkpoint failure exercise:
+Remove checkpoint(run, node) before node execution and rerun npm run langgraph-state:test.
+
+Expected failure:
+The run can no longer prove where it paused and resumed.
+
+Replay-safety review:
+- classify: safe to replay
+- retrieve: safe only if source version is pinned
+- draft: safe if it has no external side effect
+- review: safe only when approval payload is exact and replay does not reissue side effects
+
+Protected boundary:
+Resume must continue from a known checkpoint. The graph should not replay earlier work blindly after human approval.
+
+Production gap:
+Add durable checkpointer storage, tenant-safe thread IDs, idempotency keys, typed interrupt payloads, state migrations, and trace export.
+
+Release decision:
+Good checkpoint/resume model. Needs durable state and tenant isolation before production.
+
+---
+
+EVIDENCE QUALITY CHECK
+
+A completed lab evidence pack is strong when it can answer these questions without asking the original author:
+
+- What command ran?
+- What output proved the happy path?
+- What failure path was tested?
+- Which boundary did the failure protect?
+- What trace, eval, or state field would catch a regression?
+- What is still missing before production?
+- Who owns the next action?
+
+If any answer is vague, the lab is still educational, but the evidence is not review-ready.

@@ -27,6 +27,14 @@ Planning separates deciding what to do from doing it. The planner creates steps;
 - The executor cannot report structured progress or failure.
 - The model is allowed to execute unvalidated plans directly.
 
+## Architecture
+
+Use this diagram to read Planning and Execution as a system boundary, not only a code shape. The key ownership question is: the loop controller owns progress, budgets, stop conditions, and recovery state.
+
+![Planning and execution control flow](../public/diagrams/planning-execution-control-flow.svg)
+
+Read it as a controlled handoff: the planner proposes steps, the controller validates the plan, and the executor runs only validated steps with observable progress.
+
 ## System Shape
 
 - **Pattern boundary:** a controller repeatedly chooses the next step, executes it, observes the result, and decides whether to continue.
@@ -100,11 +108,24 @@ const MISTRAL_API = 'https://api.mistral.ai/v1/chat/completions';
 export interface PlanStep { id: string; description: string }
 export interface Plan { steps: PlanStep[]; rationale: string }
 
+function extractNumbers(goal: string): number[] {
+  const bracketed = goal.match(/\[([^\]]+)\]/)?.[1];
+  if (!bracketed) return [1, 2, 3, 4];
+
+  const numbers = bracketed
+    .split(',')
+    .map(value => Number(value.trim()))
+    .filter(Number.isFinite);
+
+  return numbers.length > 0 ? numbers : [1, 2, 3, 4];
+}
+
 export async function planTask(goal: string, apiKey?: string): Promise<Plan> {
   if (!apiKey) {
+    const numbers = extractNumbers(goal);
     // deterministic fallback plan (no network) for tests
     return { steps: [
-      { id: 's1', description: 'Load numbers [1,2,3,4]' },
+      { id: 's1', description: `Load numbers [${numbers.join(',')}]` },
       { id: 's2', description: 'Compute average' }
     ], rationale: 'synthetic' };
   }
@@ -126,17 +147,45 @@ export async function planTask(goal: string, apiKey?: string): Promise<Plan> {
 [Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/planning-pattern/typescript/src/executor.ts)
 
 ```ts
-export async function executePlan(steps: { id: string; description: string }[], onProgress?: (pct: number, stage: string) => void) {
-  const results: Record<string, any> = {};
+export type ExecutionFailure = {
+  status: "failed";
+  error_type: "unsupported_step" | "missing_numbers";
+  step_id: string;
+  description: string;
+};
+
+export type ExecutionValue = number[] | number | ExecutionFailure;
+export type ExecutionResults = Record<string, ExecutionValue>;
+
+export async function executePlan(steps: { id: string; description: string }[], onProgress?: (pct: number, stage: string) => void): Promise<ExecutionResults> {
+  const results: ExecutionResults = {};
   for (let i = 0; i < steps.length; i++) {
     const s = steps[i];
     onProgress?.(Math.round((i / steps.length) * 100), s.id);
     // trivial synthetic execution
-    if (s.description.includes('Load numbers')) results[s.id] = [1,2,3,4];
+    if (s.description.includes('Load numbers')) {
+      const raw = s.description.match(/\[([^\]]+)\]/)?.[1] ?? '';
+      results[s.id] = raw
+        .split(',')
+        .map(value => Number(value.trim()))
+        .filter(Number.isFinite);
+    }
     else if (s.description.includes('Compute average')) {
-      const arr = results['s1'] || [];
-      results[s.id] = arr.reduce((a:number,b:number)=>a+b,0)/arr.length;
-    } else results[s.id] = null;
+      const arr = Array.isArray(results['s1']) ? results['s1'] : [];
+      results[s.id] = arr.length > 0
+        ? arr.reduce((a:number,b:number)=>a+b,0)/arr.length
+        : {
+          status: "failed",
+          error_type: "missing_numbers",
+          step_id: s.id,
+          description: s.description
+        };
+    } else results[s.id] = {
+      status: "failed",
+      error_type: "unsupported_step",
+      step_id: s.id,
+      description: s.description
+    };
   }
   onProgress?.(100, 'done');
   return results;
@@ -148,8 +197,8 @@ export async function executePlan(steps: { id: string; description: string }[], 
 [Open full source](https://github.com/GTuritto/Agentic-Systems-Patterns/blob/main/planning-pattern/typescript/src/run.ts)
 
 ```ts
-import { planTask } from './planner.js';
-import { executePlan } from './executor.js';
+import { planTask } from './planner.ts';
+import { executePlan } from './executor.ts';
 
 async function main() {
   const goal = process.argv.slice(2).join(' ') || 'Compute average of [1,2,3,4]';

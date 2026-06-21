@@ -13,17 +13,57 @@ function walk(dir) {
   });
 }
 
-function targetExists(urlPath) {
-  const withoutHash = urlPath.split('#')[0].split('?')[0];
+function splitUrl(urlPath) {
+  const [withoutHash, rawHash] = urlPath.split('#');
+  return {
+    path: withoutHash.split('?')[0],
+    hash: rawHash ? decodeURIComponent(rawHash) : ''
+  };
+}
+
+function htmlHasAnchor(htmlFile, hash) {
+  if (!hash) return true;
+  const html = fs.readFileSync(htmlFile, 'utf8');
+  const escaped = hash.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`\\b(?:id|name)="${escaped}"`).test(html);
+}
+
+function targetHtmlFile(urlPath, currentHtmlFile) {
+  const { path: withoutHash } = splitUrl(urlPath);
   if (!withoutHash || withoutHash === siteBase || withoutHash === `${siteBase}/`) {
-    return fs.existsSync(path.join(distRoot, 'index.html'));
+    return path.join(distRoot, 'index.html');
+  }
+
+  if (!withoutHash.startsWith(siteBase)) return null;
+
+  const relative = withoutHash.slice(siteBase.length).replace(/^\//, '');
+  const target = path.join(distRoot, relative);
+  if (fs.existsSync(target) && fs.statSync(target).isFile() && target.endsWith('.html')) return target;
+  if (fs.existsSync(path.join(target, 'index.html'))) return path.join(target, 'index.html');
+  if (currentHtmlFile && !withoutHash) return currentHtmlFile;
+  return null;
+}
+
+function targetExists(urlPath, currentHtmlFile) {
+  const { path: withoutHash, hash } = splitUrl(urlPath);
+
+  if (!withoutHash && hash) return htmlHasAnchor(currentHtmlFile, hash);
+
+  if (!withoutHash || withoutHash === siteBase || withoutHash === `${siteBase}/`) {
+    const htmlFile = path.join(distRoot, 'index.html');
+    return fs.existsSync(htmlFile) && htmlHasAnchor(htmlFile, hash);
   }
 
   if (!withoutHash.startsWith(siteBase)) return false;
 
   const relative = withoutHash.slice(siteBase.length).replace(/^\//, '');
   const target = path.join(distRoot, relative);
-  return fs.existsSync(target) || fs.existsSync(path.join(target, 'index.html'));
+  if (fs.existsSync(target) || fs.existsSync(path.join(target, 'index.html'))) {
+    const htmlFile = targetHtmlFile(urlPath, currentHtmlFile);
+    return !hash || (htmlFile && htmlHasAnchor(htmlFile, hash));
+  }
+
+  return false;
 }
 
 const failures = [];
@@ -38,14 +78,18 @@ for (const htmlFile of htmlFiles) {
       value.startsWith('http://') ||
       value.startsWith('https://') ||
       value.startsWith('mailto:') ||
-      value.startsWith('#') ||
       value.includes('${')
     ) {
       continue;
     }
 
+    if (value.startsWith('#')) {
+      if (!targetExists(value, htmlFile)) failures.push(`${path.relative(distRoot, htmlFile)} -> ${value}`);
+      continue;
+    }
+
     if (value.startsWith('/')) {
-      if (!targetExists(value)) failures.push(`${path.relative(distRoot, htmlFile)} -> ${value}`);
+      if (!targetExists(value, htmlFile)) failures.push(`${path.relative(distRoot, htmlFile)} -> ${value}`);
       continue;
     }
 

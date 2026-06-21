@@ -1,0 +1,140 @@
+AGENT THREAT MODEL WORKSHEET
+
+Use this worksheet before an agent can read private data, ingest untrusted content, call tools, write memory, communicate externally, or run without close human supervision.
+
+1. System scope
+
+System:
+Owner:
+Reviewer:
+Date:
+Release or design version:
+
+Supported goals:
+Out of scope:
+
+2. Authority inventory
+
+What can the agent cause the system to do?
+
+[ ] Read private, tenant, customer, employee, financial, security, or internal data
+[ ] Retrieve untrusted content from web pages, emails, tickets, documents, comments, logs, or uploads
+[ ] Call read tools
+[ ] Call draft tools
+[ ] Call write tools
+[ ] Send messages or data outside the system
+[ ] Write durable memory
+[ ] Execute code, browser actions, shell commands, or file writes
+[ ] Delegate to other agents or remote services
+
+Highest-risk action:
+
+3. Dangerous path check
+
+Does one route combine all three?
+
+[ ] Private or trusted data access
+[ ] Untrusted content exposure
+[ ] External communication or side effect
+
+If yes, which enforced control breaks the path?
+
+[ ] Remove private data from route
+[ ] Remove untrusted content from route
+[ ] Remove external communication from route
+[ ] Policy-gated tool proxy
+[ ] Human approval
+[ ] Egress allowlist
+[ ] Redaction or data minimization
+[ ] Route split or role split
+
+Evidence:
+
+4. STRIDE-style agent threat map
+
+Spoofing:
+- Possible identity or agent impersonation:
+- Control:
+- Evidence:
+
+Tampering:
+- Possible prompt, tool-result, memory, policy, or trace tampering:
+- Control:
+- Evidence:
+
+Repudiation:
+- Possible missing audit or disputed action:
+- Control:
+- Evidence:
+
+Information disclosure:
+- Possible data, secret, source, trace, or memory leakage:
+- Control:
+- Evidence:
+
+Denial of service:
+- Possible loop, tool, queue, cost, or approval exhaustion:
+- Control:
+- Evidence:
+
+Elevation of privilege:
+- Possible route, tool, credential, memory, or delegation escalation:
+- Control:
+- Evidence:
+
+5. Tool capability classification
+
+Tool:
+Reads private data: yes | no
+Reads untrusted content: yes | no
+Communicates externally: yes | no
+Side effect: none | draft | write | execute
+Credential scope:
+Approval required:
+Timeout:
+Idempotency key required:
+Trace fields:
+
+Repeat for each tool.
+
+6. Required evals
+
+[ ] Prompt injection in retrieved source
+[ ] Tool result contains hostile instructions
+[ ] Private data available but not needed
+[ ] Forbidden external communication
+[ ] Missing approval for high-risk tool
+[ ] Sensitive memory write attempt
+[ ] Cross-tenant or wrong-scope data request
+[ ] Egress to unapproved destination
+[ ] Retry or duplicate side effect
+[ ] Trace redaction and reconstruction
+
+Blocking eval command or location:
+
+7. Runtime evidence
+
+Trace must record:
+[ ] actor or event identity
+[ ] tenant or scope
+[ ] route and risk class
+[ ] tools proposed
+[ ] tools allowed or denied
+[ ] policy version
+[ ] approval record
+[ ] egress destination
+[ ] memory write decision
+[ ] redaction result
+[ ] stop reason
+
+8. Release decision
+
+[ ] Prototype only
+[ ] Internal pilot
+[ ] Production candidate
+[ ] Blocked
+
+Blocking gaps:
+Accepted residual risks:
+Rollback or disable path:
+Next review trigger:

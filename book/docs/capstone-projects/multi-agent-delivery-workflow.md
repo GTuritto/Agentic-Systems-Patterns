@@ -68,8 +68,28 @@ Downloadable evidence:
 
 - [Sample trace JSON](/capstone-assets/traces/multi-agent-delivery-workflow.trace.json)
 - [Sample eval report](/capstone-assets/eval-reports/multi-agent-delivery-workflow-eval-report.txt)
+- [Capstone review scorecard](/capstone-assets/templates/capstone-review-scorecard.txt)
 - [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
 - [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
+
+Expected runtime signal:
+
+```text
+multi-agent-delivery-workflow: pass
+  stop: accepted_after_review
+  trace events: 4
+```
+
+The test suite treats these as release evidence:
+
+| Evidence | Runtime Check |
+| --- | --- |
+| Planner output exists | `planner_present` |
+| Risk review exists | `risk_review_present` |
+| Test plan exists | `test_plan_present` |
+| Turns are ordered | `turns_sequential` |
+| Workflow owner accepts last | `final_owner_accepts_last` |
+| Release gate emits one final decision | `delivery_workflow_release_gate` |
 
 ## Role Contracts
 
@@ -81,6 +101,34 @@ Downloadable evidence:
 | Workflow owner | all outputs | final accepted package | ignore failed evals |
 
 Every role needs a reason to exist. If a role does not change the output or risk profile, remove it.
+
+## Capstone Review Gate
+
+Before treating this capstone as production-grade, verify the accountability boundary:
+
+| Check | Evidence |
+| --- | --- |
+| One owner accepts final output | Workflow owner, not a worker agent, sets final acceptance. |
+| Roles are distinct | Planner, reviewer, and tester have different inputs, outputs, and limits. |
+| Transcript is normalized | Messages include role, turn, type, task, stop reason, and eval result. |
+| Missing review blocks release | Risk review and test plan are required before acceptance. |
+| Delegation can be disabled | Rollback routes work to a single-owner checklist workflow. |
+
+Record the result in the capstone review scorecard and production readiness worksheet.
+
+## Production Bridge
+
+Use this table when turning the capstone into a service:
+
+| Capstone Artifact | Production Version |
+| --- | --- |
+| Role contracts | Versioned role schemas with permissions, tool scopes, timeouts, and expected outputs. |
+| Workflow owner | Durable acceptance step with final owner, stop reason, and rollback control. |
+| Transcript example | Redacted transcript store with replay, retention, and incident links. |
+| Transcript evals | Blocking gates for role coverage, turn order, final owner, and ignored blockers. |
+| Runbook | Kill switch for delegation plus fallback checklist path. |
+
+The first production milestone is a delivery workflow that can reject incomplete collaboration and prove who accepted the final package.
 
 ## Native Framework Mapping
 
@@ -113,9 +161,11 @@ Start with the deterministic TypeScript capstone, then compare the native slices
     { "turn": 7, "from": "workflow", "to": "team", "type": "accepted_package" }
   ],
   "evals": [
-    { "case_id": "required_roles_present", "status": "pass" },
-    { "case_id": "risk_review_before_acceptance", "status": "pass" },
-    { "case_id": "test_plan_before_acceptance", "status": "pass" }
+    { "case_id": "planner_present", "status": "pass" },
+    { "case_id": "risk_review_present", "status": "pass" },
+    { "case_id": "test_plan_present", "status": "pass" },
+    { "case_id": "turns_sequential", "status": "pass" },
+    { "case_id": "final_owner_accepts_last", "status": "pass" }
   ]
 }
 ```
@@ -124,11 +174,13 @@ Start with the deterministic TypeScript capstone, then compare the native slices
 
 | Case | Expected | Result |
 | --- | --- | --- |
-| all roles present | planner, reviewer, tester, workflow owner | pass |
-| reviewer finds blocker | workflow stops or escalates | pass |
-| tester missing | final acceptance blocked | pass |
-| role output duplicated | merge rejects duplicate work | pass |
-| final owner missing | release gate fails | blocking |
+| `planner_present` | Planner returns an implementation plan. | pass |
+| `risk_review_present` | Risk reviewer returns review output before acceptance. | pass |
+| `test_plan_present` | Test planner returns test gates before acceptance. | pass |
+| `turns_sequential` | Transcript turns are 1 through 7 with no gaps. | pass |
+| `final_owner_accepts_last` | The workflow owner sends `accepted_package` last. | pass |
+| reviewer finds blocker | Workflow stops or escalates. | blocking |
+| tester missing | Final acceptance is blocked. | blocking |
 
 Blocking threshold:
 

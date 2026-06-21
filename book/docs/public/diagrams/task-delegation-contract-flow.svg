@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760" role="img" aria-labelledby="title desc">
+  <title id="title">Task Delegation Contract Flow</title>
+  <desc id="desc">A coordinator decomposes a shared goal into worker contracts, dispatches scoped subtasks, collects worker outputs and evidence, checks acceptance criteria, merges results, and records audit evidence.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .good{stroke:#188038;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .warn{stroke:#f9ab00;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1320" height="760" fill="#ffffff"/>
+  <text x="660" y="46" text-anchor="middle" class="title">Task Delegation Contract Flow</text>
+  <text x="660" y="74" text-anchor="middle" class="subtitle">The coordinator owns decomposition, contracts, merge policy, final acceptance, and escalation.</text>
+
+  <rect x="48" y="112" width="1224" height="480" class="boundary"/>
+  <text x="68" y="138" class="small">Delegation boundary: workers receive narrow tasks, scoped context, explicit outputs, and limited permissions.</text>
+
+  <g transform="translate(70 205)">
+    <rect class="box" width="150" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="75" y="35" text-anchor="middle" class="label">Shared</text>
+    <text x="75" y="55" text-anchor="middle" class="label">goal</text>
+  </g>
+
+  <g transform="translate(270 205)">
+    <rect class="box" width="190" height="72" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="95" y="33" text-anchor="middle" class="label">Decompose into</text>
+    <text x="95" y="54" text-anchor="middle" class="label">bounded subtasks</text>
+  </g>
+
+  <g transform="translate(520 195)">
+    <rect class="box" width="220" height="92" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="110" y="30" text-anchor="middle" class="label">Worker contracts</text>
+    <text x="110" y="52" text-anchor="middle" class="small">role, context, output,</text>
+    <text x="110" y="69" text-anchor="middle" class="small">limits, evidence</text>
+  </g>
+
+  <g transform="translate(800 205)">
+    <rect class="box" width="190" height="72" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="95" y="33" text-anchor="middle" class="label">Dispatch scoped</text>
+    <text x="95" y="54" text-anchor="middle" class="label">permissions</text>
+  </g>
+
+  <g transform="translate(1080 130)">
+    <rect class="box" width="145" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="72.5" y="38" text-anchor="middle" class="label">Worker A</text>
+  </g>
+
+  <g transform="translate(1080 218)">
+    <rect class="box" width="145" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="72.5" y="38" text-anchor="middle" class="label">Worker B</text>
+  </g>
+
+  <g transform="translate(1080 306)">
+    <rect class="box" width="145" height="62" fill="#e6f4ea" stroke="#188038"/>
+    <text x="72.5" y="38" text-anchor="middle" class="label">Worker C</text>
+  </g>
+
+  <g transform="translate(800 420)">
+    <rect class="box" width="220" height="82" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="110" y="30" text-anchor="middle" class="label">Collect outputs,</text>
+    <text x="110" y="51" text-anchor="middle" class="label">refusals, errors,</text>
+    <text x="110" y="68" text-anchor="middle" class="small">and evidence</text>
+  </g>
+
+  <g transform="translate(520 394)">
+    <path class="diamond" d="M110 0 L220 64 L110 128 L0 64 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="57" text-anchor="middle" class="label">Meets acceptance</text>
+    <text x="110" y="76" text-anchor="middle" class="label">criteria?</text>
+  </g>
+
+  <g transform="translate(270 420)">
+    <rect class="box" width="190" height="82" fill="#fce8e6" stroke="#d93025"/>
+    <text x="95" y="30" text-anchor="middle" class="label">Repair, reassign,</text>
+    <text x="95" y="51" text-anchor="middle" class="label">or escalate</text>
+  </g>
+
+  <g transform="translate(520 580)">
+    <rect class="box" width="220" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="110" y="34" text-anchor="middle" class="label">Merge by reducer,</text>
+    <text x="110" y="54" text-anchor="middle" class="label">judge, or supervisor</text>
+  </g>
+
+  <g transform="translate(800 558)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Final owner</text>
+    <text x="105" y="70" text-anchor="middle" class="label">accepts?</text>
+  </g>
+
+  <g transform="translate(1080 580)">
+    <rect class="box" width="145" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="72.5" y="34" text-anchor="middle" class="label">Accepted</text>
+    <text x="72.5" y="54" text-anchor="middle" class="label">result</text>
+  </g>
+
+  <g transform="translate(70 610)">
+    <rect class="box" width="220" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="110" y="34" text-anchor="middle" class="label">Trace assignments,</text>
+    <text x="110" y="54" text-anchor="middle" class="label">outputs, merge decision</text>
+  </g>
+
+  <path class="edge" d="M220 241 H270"/>
+  <path class="edge" d="M460 241 H520"/>
+  <path class="edge" d="M740 241 H800"/>
+  <path class="edge" d="M990 241 C1030 170 1045 161 1080 161"/>
+  <path class="edge" d="M990 241 H1080"/>
+  <path class="edge" d="M990 241 C1030 320 1045 337 1080 337"/>
+  <path class="edge" d="M1080 161 C1010 200 960 320 930 420"/>
+  <path class="edge" d="M1080 249 C1015 285 970 355 930 420"/>
+  <path class="edge" d="M1080 337 C1030 370 990 398 970 420"/>
+  <path class="edge" d="M800 461 H740"/>
+  <path class="good" d="M630 522 V580"/>
+  <path class="deny" d="M520 458 H460"/>
+  <path class="warn" d="M365 420 C450 350 695 350 840 420"/>
+  <path class="edge" d="M740 616 H800"/>
+  <path class="good" d="M1010 616 H1080"/>
+  <path class="deny" d="M835 642 C690 712 430 705 355 502"/>
+  <path class="edge" d="M1152 652 C950 735 470 725 290 650"/>
+  <path class="edge" d="M270 461 C205 500 170 560 165 610"/>
+
+  <text x="644" y="556" class="small">yes</text>
+  <text x="478" y="448" class="small">no</text>
+  <text x="1030" y="606" class="small">yes</text>
+  <text x="705" y="690" class="small">no</text>
+</svg>

@@ -31,6 +31,40 @@ Many useful agentic systems follow roughly this shape:
 
 Not every system needs every step. What stays constant is the ownership. Code owns flow, state, policy, and persistence; the model owns bounded judgment inside those constraints.
 
+```mermaid
+flowchart TB
+    subgraph A[Workload shape]
+        direction LR
+        A1[Request or event] --> A2[Route task and risk]
+        A2 --> A3[Workflow owns state]
+    end
+
+    subgraph B[Judgment boundary]
+        direction LR
+        B1[Deterministic step] --> B2{Uncertainty remains?}
+        B2 -->|yes| B3[Retrieval plus bounded agent loop]
+        B2 -->|no| B4[Continue in code]
+    end
+
+    subgraph C[Release boundary]
+        direction LR
+        C1{Side effect?} -->|yes| C2[Policy and approval]
+        C1 -->|no| C3[Produce result]
+        C2 --> C3
+    end
+
+    subgraph D[Learning loop]
+        direction LR
+        D1[Trace, evals, cost, stop reason] --> D2[Incidents become eval cases]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+```
+
+Use this diagram as a composition test. If a proposed pattern cannot be placed on the map with an owner, input, output, and failure mode, it is probably not ready to enter the system.
+
 ## Composition Rules
 
 Run through these rules before adding another pattern.
@@ -46,6 +80,42 @@ Run through these rules before adding another pattern.
 | Traces connect decisions to effects. | Without traces, failures cannot become better tests. |
 
 These rules matter more than the framework. A framework can help you implement them; it cannot decide them for you.
+
+## System Composition Record
+
+For any non-trivial agentic system, write a short composition record before implementation. It should fit in a pull request or architecture decision record.
+
+```yaml
+system: support_refund_assistant
+user_goal: "Resolve refund eligibility with policy-backed evidence."
+primary_flow_owner: refund_workflow
+patterns:
+  routing:
+    job: "classify request type and risk"
+    owner: intake_service
+  retrieval:
+    job: "load current refund policy and order evidence"
+    owner: evidence_service
+  agent_loop:
+    job: "investigate missing or conflicting evidence"
+    owner: refund_investigation_agent
+    max_steps: 6
+  policy_enforcement:
+    job: "validate recommendation against refund policy"
+    owner: policy_gate
+  human_approval:
+    job: "approve exceptions and high-value refunds"
+    owner: approval_workflow
+  observability:
+    job: "record trace, decisions, evidence, costs, and stop reason"
+    owner: runtime
+release_blockers:
+  - "missing evidence can stop the run"
+  - "refund tool cannot execute without approval"
+  - "trace can replay proposal, validation, approval, and side effect"
+```
+
+The record forces every pattern to justify itself. If a pattern has no job, no owner, or no release blocker, remove it or keep it out of the first version.
 
 ## Bad Composition
 

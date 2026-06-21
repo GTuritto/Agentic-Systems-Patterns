@@ -1,0 +1,140 @@
+AGENT UX REVIEW WORKSHEET
+
+Use this worksheet when a user assigns goals, reviews outputs, approves actions, corrects memory, or recovers a failed agent run.
+
+1. Product surface
+
+Agent or workflow:
+Primary user:
+Reviewer:
+Date:
+Release or design version:
+
+User goal:
+Highest-risk action:
+Expected autonomy level:
+
+2. State visibility
+
+Can the user see the current runtime state?
+
+[ ] Planning
+[ ] Retrieving evidence
+[ ] Using a tool
+[ ] Waiting for approval
+[ ] Asking for clarification
+[ ] Blocked
+[ ] Escalating
+[ ] Completed
+[ ] Failed
+[ ] Cancelled
+
+Missing visible states:
+
+3. Trust contract
+
+[ ] Active goal is visible.
+[ ] Success criteria or done condition is visible.
+[ ] Evidence, citations, or source gaps are visible.
+[ ] Tool calls and target systems are visible when risk requires it.
+[ ] Memory use is visible and correctable.
+[ ] Pending side effects are visible before execution.
+[ ] Policy denial, approval requirement, or escalation reason is visible.
+[ ] Trace ID or support reference is visible for review.
+
+Evidence:
+
+4. User controls
+
+Which controls does the user need?
+
+[ ] Cancel
+[ ] Pause
+[ ] Approve
+[ ] Deny
+[ ] Edit
+[ ] Retry
+[ ] Inspect
+[ ] Forget memory
+[ ] Escalate
+[ ] Download or export evidence
+
+Which controls must be disabled or hidden in some states?
+
+5. Approval UX
+
+For every approval request, the user can see:
+
+[ ] Proposed action
+[ ] Target system or resource
+[ ] Affected user, tenant, file, amount, permission, or payload
+[ ] Evidence used
+[ ] Risk level
+[ ] Policy result
+[ ] Reversible or irreversible status
+[ ] Expiry
+[ ] Approve, deny, edit, and escalate options
+
+Approval cannot apply if the action changes:
+[ ] yes
+[ ] no
+
+6. Correction path
+
+Which corrections are supported?
+
+[ ] Edit final answer
+[ ] Correct extracted field
+[ ] Change route
+[ ] Add missing context
+[ ] Reject or delete memory write
+[ ] Retry with a different tool
+[ ] Escalate to human
+[ ] Cancel and roll back
+
+Correction event records:
+[ ] who corrected it
+[ ] affected run
+[ ] affected artifact
+[ ] memory impact
+[ ] eval case needed
+
+7. Failure UX
+
+A failed run shows:
+
+[ ] What completed
+[ ] What failed
+[ ] Why it stopped
+[ ] Whether anything changed externally
+[ ] What can be retried
+[ ] What needs human help
+[ ] Trace or support ID
+
+8. UX evals
+
+Required UX evals:
+
+[ ] User can identify active goal and state.
+[ ] User can distinguish draft, approved, executed, failed, and cancelled.
+[ ] Approval request exposes exact action and side effects.
+[ ] Cancel prevents future side effects.
+[ ] Correction updates the right artifact.
+[ ] Memory use is visible and correctable.
+[ ] Failure message explains external changes.
+[ ] Trust language matches evidence strength.
+[ ] Multi-agent ownership is visible.
+
+Eval location or command:
+
+9. Release decision
+
+[ ] Ready for prototype
+[ ] Ready for pilot
+[ ] Ready for production candidate
+[ ] Blocked
+
+Blocking gaps:
+Accepted residual risks:
+Next evidence needed:
+Review owner:

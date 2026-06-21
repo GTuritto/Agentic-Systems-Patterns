@@ -1,5 +1,5 @@
-import { planTask } from './planner.js';
-import { executePlan } from './executor.js';
+import { planTask } from './planner.ts';
+import { executePlan } from './executor.ts';
 
 async function main() {
   const goal = process.argv.slice(2).join(' ') || 'Compute average of [1,2,3,4]';

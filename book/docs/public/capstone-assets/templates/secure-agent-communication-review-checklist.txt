@@ -1,0 +1,67 @@
+Secure Agent Communication Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Agents, tools, skills, or runtimes cross process, service, tenant, or network boundaries
+[ ] Messages may carry private data, business state, delegated tasks, or side-effect instructions
+[ ] Caller, tenant, audience, capability, and trace ID can be identified
+[ ] Authorization can run before remote action execution
+[ ] Team can operate token and certificate lifecycle
+
+Transport and identity
+[ ] TLS enforced
+[ ] mTLS used where service identity requires it
+[ ] Token issuer validated
+[ ] Token audience validated
+[ ] Token expiry validated
+[ ] Subject recorded
+[ ] Tenant recorded
+[ ] Service identity recorded
+[ ] Credential rotation tested
+[ ] Credential revocation tested
+
+Authorization and replay
+[ ] Scope checked against capability
+[ ] Policy context built from trusted runtime data
+[ ] Message schema validated
+[ ] Trace ID required
+[ ] Message ID required
+[ ] Idempotency key required
+[ ] Timestamp or nonce checked
+[ ] Replay detection tested
+[ ] Approval required before high-risk side effects
+
+Data and observability
+[ ] Sensitive payload handling defined
+[ ] Tokens never logged
+[ ] Secrets never logged
+[ ] Private data redacted from traces
+[ ] Denied calls are traced
+[ ] Policy decisions are traced
+[ ] Response schema is validated
+[ ] Operators can investigate without seeing secrets
+[ ] Emergency disable exists for caller, scope, tenant, capability, or remote agent
+
+Evaluation
+[ ] Fixture covers valid message
+[ ] Fixture covers wrong audience
+[ ] Fixture covers missing scope
+[ ] Fixture covers expired token
+[ ] Fixture covers wrong tenant
+[ ] Fixture covers repeated idempotency key
+[ ] Fixture covers replay attempt
+[ ] Fixture covers trace redaction
+[ ] Fixture covers fallback path not bypassing auth
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve identity, replay, redaction, or observability
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

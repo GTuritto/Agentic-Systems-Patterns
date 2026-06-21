@@ -1,0 +1,153 @@
+RUNTIME SLO AND INCIDENT REVIEW WORKSHEET
+
+Use this worksheet before a production agent handles real users, private data, external tools, money movement, infrastructure, durable memory, or unattended events.
+
+1. Runtime scope
+
+Agent or workflow:
+Route:
+Owner:
+On-call owner:
+Reviewer:
+Date:
+Release or design version:
+
+Autonomy level:
+Risk class:
+Execution mode:
+[ ] synchronous request
+[ ] async job
+[ ] durable workflow
+[ ] event-triggered run
+[ ] human-gated run
+
+Highest-risk action:
+Rollback or disable path:
+
+2. Service-level objectives
+
+Define SLOs for the route. Use real numbers before launch, even if they are conservative.
+
+Availability target:
+Latency target:
+Cost target:
+Trace coverage target:
+Policy-decision coverage target:
+Approval-latency target:
+Eval-gate pass target:
+Incident-response target:
+
+3. Error budget and burn rules
+
+What consumes the error budget?
+
+[ ] failed runs
+[ ] missing stop reason
+[ ] missing trace
+[ ] policy decision missing before risky action
+[ ] approval missing before high-risk side effect
+[ ] cost budget exceeded
+[ ] latency budget exceeded
+[ ] duplicate side effect
+[ ] unsupported final answer
+[ ] memory write policy violation
+
+Investigate when:
+Pause rollout when:
+Roll back when:
+
+4. Runtime dashboard
+
+Dashboard or query links:
+
+[ ] active runs by route, tenant, risk, state, age, and owner
+[ ] stop reasons
+[ ] failed runs
+[ ] waiting approvals
+[ ] policy denials
+[ ] tool errors
+[ ] retry count
+[ ] cost per route
+[ ] latency by step
+[ ] trace completeness
+[ ] eval-gate status
+[ ] rollback and kill-switch status
+
+Missing dashboard panels:
+
+5. Incident triage
+
+Incident ID:
+Detected by:
+Detected at:
+Severity:
+Affected route:
+Affected tenants or users:
+Active version set:
+User-visible impact:
+External side effects:
+
+First action:
+[ ] disable route
+[ ] disable tool
+[ ] force human approval
+[ ] pin model or prompt
+[ ] tighten policy
+[ ] drain queue
+[ ] cancel active runs
+[ ] roll back workflow
+[ ] escalate to incident owner
+
+6. Trace review
+
+Can the team reconstruct the failed run?
+
+[ ] actor or event source
+[ ] tenant or scope
+[ ] goal
+[ ] route
+[ ] risk class
+[ ] model version
+[ ] prompt version
+[ ] policy version
+[ ] tool schema version
+[ ] retriever or memory version
+[ ] context packet
+[ ] model proposal
+[ ] policy decision
+[ ] approval state
+[ ] tool call
+[ ] side-effect record
+[ ] stop reason
+[ ] rollback action
+
+Trace gaps:
+
+7. Incident-to-eval conversion
+
+Should this become a regression fixture?
+
+[ ] yes, blocking eval
+[ ] yes, warning eval
+[ ] yes, exploratory eval
+[ ] no, trace evidence is enough
+
+Fixture owner:
+Fixture location:
+Expected behavior:
+Forbidden behavior:
+Required trace spans:
+Change types this fixture should gate:
+
+8. Follow-up decision
+
+[ ] keep running
+[ ] keep running with reduced authority
+[ ] force approval
+[ ] pause rollout
+[ ] roll back
+[ ] deprecate route
+
+Blocking gaps:
+Accepted residual risks:
+Next review date:

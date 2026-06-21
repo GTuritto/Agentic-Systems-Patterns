@@ -10,11 +10,32 @@ Use ADRs when a decision affects safety, cost, reliability, user trust, or the a
 
 An ADR is not bureaucracy. It is a way to keep autonomy from becoming folklore. If the system can read private data, call tools, write memory, send messages, delegate to other agents, or run without a human watching, the team should be able to point to the decision record that explains why that is allowed.
 
+Download completed examples: [agent ADR example pack](/capstone-assets/templates/completed-agent-adr-examples.txt).
+
 ## ADR Lifecycle
 
 Use this diagram to decide when an agent decision needs a record and when an existing record must be superseded. Authority changes, memory changes, tool changes, eval changes, and rollback changes should leave evidence.
 
 ![ADR lifecycle for agents](../public/diagrams/adr-lifecycle.svg)
+
+Use this evidence flow after the ADR is accepted. A decision record should produce runtime checks, not just documentation.
+
+```mermaid
+flowchart TD
+    ADR["Accepted ADR"] --> Contract["System contract"]
+    Contract --> Evals["Blocking evals"]
+    Contract --> Trace["Trace fields"]
+    Contract --> Policy["Policy and approval rules"]
+    Evals --> Gate["Release gate"]
+    Trace --> Review["Operational review"]
+    Policy --> Runtime["Runtime enforcement"]
+    Runtime --> Incident{"Incident or repeated override?"}
+    Review --> Incident
+    Gate --> Rollout["Pilot or production rollout"]
+    Incident -->|Yes| Supersede["Supersede ADR"]
+    Incident -->|No| ReviewDate["Scheduled review"]
+    ReviewDate --> ADR
+```
 
 ## What to Record
 
@@ -136,7 +157,17 @@ Small prompt wording changes do not always need ADRs. Authority changes do.
 - Run coding agents in disposable worktrees and require `npm test` before commit.
 - Keep self-improvement as reviewed skill changes, not silent prompt mutation.
 
-## Example ADR
+## Completed ADR Examples
+
+Use the [agent ADR example pack](/capstone-assets/templates/completed-agent-adr-examples.txt) when you want completed records for:
+
+- support refund authority, where the agent may draft but not issue money;
+- research RAG source policy, where the agent may answer only from approved sources;
+- multi-agent delivery review, where specialists work in parallel but one owner accepts the result.
+
+The first example is included below because it shows the most important pattern: separate model recommendation from business authority.
+
+## Example ADR: Support Refund Authority
 
 ```md
 # ADR-014: Support refund agent may draft refunds but not issue money

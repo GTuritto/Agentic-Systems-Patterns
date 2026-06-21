@@ -1,0 +1,55 @@
+Reflection Pattern Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] The task has explicit acceptance criteria
+[ ] One critique pass can materially improve the result
+[ ] The task does not require deterministic validation instead
+[ ] The reflection step cannot approve irreversible side effects
+[ ] The budget allows the extra model call
+
+Reflection contract
+[ ] Original goal captured
+[ ] Original artifact stored
+[ ] Acceptance criteria listed
+[ ] Constraints listed
+[ ] Evidence or sources attached where relevant
+[ ] Allowed changes declared
+[ ] Maximum reflection passes declared
+[ ] Stop reasons declared
+
+Critique quality
+[ ] Critique names concrete issues
+[ ] Each issue maps to an acceptance criterion
+[ ] Each issue has severity
+[ ] Each issue has a proposed fix
+[ ] The revised artifact preserves valid evidence
+[ ] The revised artifact changes only failing parts
+[ ] Already-good artifacts can pass without rewriting
+
+Safety and escalation
+[ ] Unsafe or high-risk actions escalate
+[ ] Missing evidence escalates or triggers retrieval
+[ ] Policy decisions are not delegated to reflection alone
+[ ] Human approval remains separate from critique
+
+Evaluation
+[ ] Fixture covers correct but verbose output
+[ ] Fixture covers plausible false claim
+[ ] Fixture covers missing acceptance criterion
+[ ] Fixture covers unsafe proposed action
+[ ] Fixture covers stale or weak evidence
+[ ] Fixture covers already-good artifact
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; stronger evals needed
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

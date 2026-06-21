@@ -97,6 +97,64 @@ Good isolation gives you:
 - simpler conflict handling;
 - clean handoff to humans.
 
+## Branch, Worktree, Session, And CI Lifecycle
+
+A production coding agent should make its lifecycle explicit. The task record, session state, workspace, branch, PR, and CI run are different artifacts with different owners.
+
+| Stage | Artifact | Owner | Required Evidence |
+| --- | --- | --- | --- |
+| task intake | issue, prompt, failing test, security finding, or migration request | human or scheduler | acceptance criteria, allowed scope, forbidden scope |
+| session start | agent session record | agent runtime | model, tools, repo instructions, working set, permission profile |
+| workspace allocation | branch, worktree, container, or cloud checkout | workspace manager | clean base ref, isolation ID, dependency cache policy |
+| context gathering | inspected files and commands | agent | files read, symbols searched, assumptions, skipped areas |
+| patching | diff on isolated branch | agent | changed files, rationale, generated files, dependency changes |
+| local verification | test, build, typecheck, lint, or screenshot output | agent and test runner | command, exit code, relevant failure summary |
+| PR handoff | draft PR, patch, or review artifact | agent | summary, verification, risks, open questions, rollback note |
+| CI evaluation | CI run tied to branch or PR | CI system | jobs, logs, failures, artifacts, retry count |
+| review decision | human review, policy gate, or maintainer merge | maintainer | approvals, requested changes, merge or rejection reason |
+| cleanup | archived session and disposed workspace | workspace manager | branch state, worktree removal, retained traces |
+
+Do not collapse these artifacts into a chat transcript. A later engineer should be able to answer: what did the agent try, where did it try it, what changed, what verified it, and who accepted it?
+
+## Coding Agent Trace Contract
+
+Keep a compact trace for each coding task.
+
+```ts
+type CodingAgentRun = {
+  runId: string;
+  repo: string;
+  baseRef: string;
+  branch: string;
+  workspaceId: string;
+  task: {
+    source: "issue" | "pr_review" | "failing_test" | "security_finding" | "user_request";
+    acceptanceCriteria: string[];
+    allowedPaths: string[];
+    forbiddenPaths: string[];
+  };
+  session: {
+    instructionsLoaded: string[];
+    toolsAllowed: string[];
+    approvalRequiredFor: string[];
+  };
+  activity: Array<{
+    kind: "read" | "search" | "edit" | "command" | "test" | "ci" | "handoff";
+    target: string;
+    result: "success" | "failed" | "blocked" | "skipped";
+  }>;
+  verification: Array<{
+    command: string;
+    exitCode: number;
+    summary: string;
+  }>;
+  finalStatus: "ready_for_review" | "needs_human" | "blocked" | "abandoned";
+  risks: string[];
+};
+```
+
+This trace is not extra bureaucracy. It is the minimum record needed to review a coding agent the same way a team reviews any other contributor.
+
 ## Repository Context
 
 Coding agents fail when they see either too little code or too much code.

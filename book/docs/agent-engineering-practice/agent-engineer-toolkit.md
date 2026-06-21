@@ -31,6 +31,20 @@ Think of the toolkit as a capability map. Some capabilities can come from a fram
 
 The layers can come from one framework, several libraries, or direct code. The important part is that each layer has an owner.
 
+```mermaid
+flowchart TB
+    A[Product workflow owns goal and state] --> B[Model gateway owns model routing and budgets]
+    B --> C[Context and retrieval own evidence assembly]
+    C --> D[Agent loop owns bounded model judgment]
+    D --> E[Tool layer exposes typed capabilities]
+    E --> F[Policy layer gates authority and approvals]
+    F --> G[Runtime records traces, evals, cost, and stop reasons]
+    G --> H[Deployment owns rollout, rollback, and kill switches]
+    G --> I[UX exposes progress, evidence, and controls]
+```
+
+Use the map as an ownership check. If a toolkit hides one of these boundaries, the team still owns the missing decision; it has only moved out of sight.
+
 ## Build, Buy, Or Compose
 
 Do not ask "which framework should we use?" first. Ask which toolkit capabilities must be product-owned.

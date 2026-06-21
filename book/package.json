@@ -5,15 +5,21 @@
   "scripts": {
     "start": "vitepress dev docs",
     "manifest:test": "node scripts/book-manifest.spec.mjs",
+    "content:verify": "node scripts/verify-editorial-content.mjs",
+    "diagrams:verify": "node scripts/verify-diagram-assets.mjs",
+    "visuals:verify": "node scripts/verify-visual-coverage.mjs",
     "diagrams": "node scripts/generate-diagrams.mjs",
     "content": "node scripts/generate-pattern-pages.mjs",
-    "build": "npm run manifest:test && npm run diagrams && npm run content && vitepress build docs",
+    "quality": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && npm run diagrams:verify",
+    "build": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && npm run diagrams:verify && vitepress build docs",
     "serve": "vitepress preview docs",
     "clear": "rm -rf docs/.vitepress/cache docs/.vitepress/dist",
-    "pdf": "npm run manifest:test && npm run diagrams && npm run content && node scripts/generate-pdf.mjs"
+    "pdf": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && node scripts/generate-pdf.mjs && node scripts/verify-pdf-diagrams.mjs && npm run diagrams:verify",
+    "epub": "npm run manifest:test && npm run diagrams && npm run content && npm run content:verify && npm run visuals:verify && node scripts/generate-epub.mjs"
   },
   "devDependencies": {
     "markdown-it": "^14.1.0",
+    "mermaid": "^10.9.6",
     "playwright": "^1.57.0",
     "vitepress": "^1.6.4"
   },

@@ -67,8 +67,26 @@ Downloadable evidence:
 
 - [Sample trace JSON](/capstone-assets/traces/research-rag-agent.trace.json)
 - [Sample eval report](/capstone-assets/eval-reports/research-rag-agent-eval-report.txt)
+- [Capstone review scorecard](/capstone-assets/templates/capstone-review-scorecard.txt)
 - [Framework selection ADR template](/capstone-assets/templates/framework-selection-adr-template.txt)
 - [Production readiness worksheet](/capstone-assets/templates/production-readiness-worksheet.txt)
+
+Expected runtime signal:
+
+```text
+research-rag-agent: pass
+  stop: answered_with_citation
+  trace events: 6
+```
+
+The test suite treats these as release evidence:
+
+| Evidence | Runtime Check |
+| --- | --- |
+| The context packet includes the current approved source | `current_source_used` |
+| The context packet excludes the stale source | `stale_source_rejected` |
+| The context packet excludes the forbidden source | `forbidden_source_omitted` |
+| The answer cites the source it used | `citation_faithfulness` |
 
 Native example:
 
@@ -85,6 +103,34 @@ Native example:
 | `memory` | Include user or project memory only when policy allows it. |
 | `instructions` | Separate system instructions from retrieved content. |
 | `omissions` | Record sources omitted because of access, freshness, or relevance. |
+
+## Capstone Review Gate
+
+Before treating this capstone as production-grade, verify the evidence boundary:
+
+| Check | Evidence |
+| --- | --- |
+| Source access runs before context assembly | Forbidden sources are omitted before answer synthesis. |
+| Freshness is enforced | Stale sources cannot override current approved sources. |
+| Citations are faithful | Every cited claim maps to evidence in the context packet. |
+| Missing evidence fails closed | The agent refuses or escalates instead of guessing. |
+| Memory writes are governed | Durable memory requires source IDs, confidence, retention, and correction path. |
+
+Record the result in the capstone review scorecard and production readiness worksheet.
+
+## Production Bridge
+
+Use this table when turning the capstone into a service:
+
+| Capstone Artifact | Production Version |
+| --- | --- |
+| Context packet | Versioned evidence contract with ACLs, freshness, omitted-source notes, and token budget. |
+| Source filter | Access-control service with audit trail and policy version. |
+| Citation eval | Blocking release gate for unsupported, stale, forbidden, or missing evidence. |
+| Memory rule | Governed write path with retention, deletion, correction, consent, and tenant scope. |
+| Runbook | Fallback that disables synthesis and returns approved source lists only. |
+
+The first production milestone is an answer path that can explain what it cited, what it omitted, and why.
 
 ## Native Framework Mapping
 
@@ -105,10 +151,10 @@ Native example:
   "events": [
     { "span": "policy", "decision": "allow", "scope": "support_docs" },
     { "span": "retrieval", "query": "support refund agent issue money", "top_k": 5 },
-    { "span": "source_filter", "allowed": 3, "stale": 1, "forbidden": 1 },
-    { "span": "context_packet", "evidence_refs": ["refund-policy-v4#p3", "adr-021#decision"] },
+    { "span": "source_filter", "allowed": 1, "stale": 1, "forbidden": 1 },
+    { "span": "context_packet", "evidence_refs": ["refund-policy-v4"] },
     { "span": "model", "prompt": "research-answer-v1", "status": "succeeded" },
-    { "span": "eval", "case_id": "citation_faithfulness", "status": "pass" }
+    { "span": "eval", "case_id": "research_rag_release_gate", "status": "pass" }
   ]
 }
 ```
@@ -117,10 +163,11 @@ Native example:
 
 | Eval | What It Checks | Blocking Rule |
 | --- | --- | --- |
-| citation faithfulness | cited sources support the answer | no unsupported citation |
+| `current_source_used` | `refund-policy-v4` reaches the context packet | no answer without current approved evidence |
+| `stale_source_rejected` | `refund-policy-v2` stays out of the context packet | no stale policy answer |
+| `forbidden_source_omitted` | `finance-private-notes` stays out of the context packet | no forbidden source in context |
+| `citation_faithfulness` | cited sources support the answer | no unsupported citation |
 | missing evidence refusal | agent refuses when approved evidence is absent | no fabricated answer |
-| stale source handling | stale docs do not override current docs | no stale policy answer |
-| source access | forbidden docs are omitted | no forbidden source in context |
 | memory write | memory writes follow retention rules | no sensitive memory write |
 
 Example fixture:

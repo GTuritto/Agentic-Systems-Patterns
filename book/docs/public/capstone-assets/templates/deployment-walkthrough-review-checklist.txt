@@ -1,0 +1,40 @@
+# Deployment Walkthrough Review Checklist
+
+Use this checklist when moving a lab, pattern implementation, or capstone toward production.
+
+## Local Evidence
+
+- [ ] A clean checkout can install dependencies.
+- [ ] One command runs the vertical slice.
+- [ ] Unit, trajectory, and policy tests pass.
+- [ ] At least one release-blocking eval runs locally.
+- [ ] Local runs emit structured trace events.
+- [ ] Local state and temporary data can be cleaned up.
+
+## Configuration And State
+
+- [ ] `.env.example` documents required non-secret configuration.
+- [ ] Secrets live in the deployment platform secret manager.
+- [ ] Startup fails closed when required configuration is missing.
+- [ ] Persistence matches the system authority.
+- [ ] Checkpoints cover approvals, retries, tool attempts, side effects, final responses, and eval results.
+
+## Observability And Evals
+
+- [ ] Trace export includes run, model, tool, retrieval, memory, policy, approval, and eval events where relevant.
+- [ ] Redaction prevents raw secrets, credentials, and unnecessary private content from entering traces.
+- [ ] CI blocks release when eval fixtures cannot load.
+- [ ] Eval subsets match the changed surface: prompt, model, tool, retrieval, memory, workflow, or policy.
+
+## Rollout And Rollback
+
+- [ ] Rollout stages are defined from local fixtures through full release.
+- [ ] Release version, model version, prompt version, tool schema version, policy version, and eval dataset version are recorded.
+- [ ] Model, prompt, tool, memory, workflow, policy, and full agent kill switches are documented.
+- [ ] Common rollback actions do not require a code deploy.
+
+## Runbook
+
+- [ ] Owner, on-call, runtime, framework, dashboards, stores, and known failure modes are named.
+- [ ] Rollback command, kill switch, incident channel, and post-incident eval process are documented.
+- [ ] A second engineer can deploy, inspect, stop, and replay a run from the runbook.

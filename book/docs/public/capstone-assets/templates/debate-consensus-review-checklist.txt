@@ -1,0 +1,69 @@
+DEBATE AND CONSENSUS REVIEW CHECKLIST
+
+System:
+Decision:
+Owner:
+Reviewer:
+Date:
+
+1. Fit Check
+
+[ ] A simpler single-agent, deterministic workflow, or human review baseline was considered.
+[ ] The decision benefits from independent critique or comparison.
+[ ] The task is not a factual lookup that should be solved by retrieval or tools.
+[ ] The final decision has one accountable owner.
+
+Evidence:
+
+2. Independence
+
+[ ] Participants have different prompts, evidence, roles, models, or review angles.
+[ ] Participants do not all share the same unverified context.
+[ ] Participants cannot see each other's answer before the independent round.
+[ ] Shared blind spots are named.
+
+Evidence:
+
+3. Protocol
+
+[ ] Protocol is declared before execution: propose-critique-revise, blind vote, ranked choice, red-team review, or judge/reducer.
+[ ] Inputs, outputs, vote format, and stop conditions are typed.
+[ ] Tie, abstention, refusal, and uncertainty outcomes are defined.
+[ ] Cost and latency budget are defined.
+
+Evidence:
+
+4. Evidence
+
+[ ] Each proposal carries evidence, assumptions, and known gaps.
+[ ] Votes or rankings cannot replace evidence.
+[ ] Unsupported claims are rejected or escalated.
+
+Evidence:
+
+5. Judge and Merge
+
+[ ] Judge rubric is explicit.
+[ ] Judge records why one answer won or why the system escalated.
+[ ] Disagreement is preserved in the final trace.
+[ ] Final answer does not hide minority safety concerns.
+
+Evidence:
+
+6. Evaluation
+
+[ ] Single-agent baseline is measured.
+[ ] Consensus quality lift is measured against cost and latency.
+[ ] Evals include correlated failure, false consensus, bad majority, and judge error.
+[ ] Human escalation is tested for unresolved disagreement.
+
+Evidence:
+
+7. Final Decision
+
+[ ] Use debate/consensus.
+[ ] Use simpler baseline.
+[ ] Use retrieval/tool verification instead.
+[ ] Use human review.
+
+Reason:

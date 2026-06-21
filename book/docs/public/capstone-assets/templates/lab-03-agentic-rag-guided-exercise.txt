@@ -1,0 +1,102 @@
+LAB 03 AGENTIC RAG GUIDED EXERCISE
+
+Use this worksheet while completing Lab 03. Keep the evidence short enough to paste into an ADR, eval fixture, or capstone review.
+
+Lab:
+Owner:
+Date:
+Run environment:
+
+1. Baseline Retrieval Trace
+
+Command:
+
+Query:
+
+Retrieved context:
+
+Answer:
+
+What text entered generation?
+
+2. Grounding Change
+
+Document added:
+
+Query changed to:
+
+New retrieved context:
+
+New answer:
+
+Which answer sentence changed because the evidence changed?
+
+3. Missing-Evidence Check
+
+Unsupported question:
+
+Observed behavior:
+
+Unsupported or weak claim:
+
+Production behavior:
+[ ] refuse
+[ ] clarify
+[ ] retrieve from another approved source
+[ ] escalate
+
+Blocking control needed:
+[ ] source ID
+[ ] ACL or tenant filter
+[ ] freshness rule
+[ ] citation requirement
+[ ] prompt-injection filter
+[ ] missing-evidence refusal
+[ ] citation eval
+
+4. Source Contract Sketch
+
+source_id:
+title:
+owner:
+freshness:
+allowed:
+retention:
+citation_label:
+ingestion_version:
+
+5. Native Graph Comparison
+
+Native file inspected:
+
+Access policy node:
+Retrieval node:
+Source filtering node:
+Answer synthesis node:
+Escalation node:
+Evaluation node:
+
+What does the native graph make clearer than the toy script?
+
+6. Eval Fixture To Keep
+
+Fixture name:
+Question:
+Approved sources expected:
+Forbidden or stale sources expected:
+Expected final decision:
+[ ] answer
+[ ] refusal
+[ ] clarification
+[ ] escalation
+
+Failure that should block release:
+
+7. Completion Decision
+
+[ ] Complete for learning
+[ ] Needs another local pass
+[ ] Ready to compare with native LangGraph slice
+[ ] Ready to map to a product slice
+
+Reason:

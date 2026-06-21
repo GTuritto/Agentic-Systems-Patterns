@@ -68,6 +68,29 @@ Use this diagram to read Knowledge-Bound Agents as a system boundary, not only a
 
 ## Implementation Notes
 
+Use this decision flow when reviewing where policy runs. Every branch should produce a trace event with the policy version, reason, actor, resource, capability, and execution effect.
+
+```mermaid
+flowchart LR
+    A[Proposal] --> B[Trusted policy context]
+    B --> C{Context complete?}
+    C -->|No| X[Deny or escalate]
+    C -->|Yes| D{Actor, tenant, capability, resource allowed?}
+    D -->|No| Y[Deny]
+    D -->|Yes| E{Required evidence approved and current?}
+    E -->|No| Z[Refuse or escalate]
+    E -->|Yes| F{Approval required by risk or budget?}
+    F -->|Yes| H[Pause for exact-action approval]
+    H -->|approved| I[Allow]
+    H -->|expired or denied| Z
+    F -->|No| I
+    I --> K[Execute or answer]
+    X --> L[Audit decision]
+    Y --> L
+    Z --> L
+    K --> L
+```
+
 A policy decision should be a typed runtime object.
 
 ```ts

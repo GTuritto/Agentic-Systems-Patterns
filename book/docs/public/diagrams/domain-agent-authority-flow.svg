@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="760" viewBox="0 0 1260 760" role="img" aria-labelledby="title desc">
+  <title id="title">Domain Agent Authority and Evidence Flow</title>
+  <desc id="desc">A domain request flows through decision-rights classification, evidence sufficiency, policy checks, agent drafting, reviewer decisions, and audit or regression evidence.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:13px}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .note{font-size:12px;fill:#5f6368}
+    </style>
+  </defs>
+  <rect width="1260" height="760" fill="#ffffff"/>
+  <text x="630" y="48" text-anchor="middle" class="title">Domain Agent Authority and Evidence Flow</text>
+  <text x="630" y="76" text-anchor="middle" class="note">The agent prepares evidence and recommendations. Domain policy and authorized reviewers own governed decisions.</text>
+
+  <g transform="translate(55 142)">
+    <rect class="box" width="170" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="85" y="36" text-anchor="middle" class="label">Domain</text>
+    <text x="85" y="56" text-anchor="middle" class="label">request</text>
+  </g>
+
+  <g transform="translate(285 126)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Decision</text>
+    <text x="105" y="69" text-anchor="middle" class="label">right</text>
+  </g>
+
+  <g transform="translate(560 142)">
+    <rect class="box" width="190" height="72" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="95" y="36" text-anchor="middle" class="label">Evidence</text>
+    <text x="95" y="56" text-anchor="middle" class="label">packet</text>
+  </g>
+
+  <g transform="translate(825 126)">
+    <path class="diamond" d="M110 0 L220 58 L110 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="50" text-anchor="middle" class="label">Evidence</text>
+    <text x="110" y="70" text-anchor="middle" class="label">sufficient?</text>
+  </g>
+
+  <g transform="translate(1065 142)">
+    <rect class="box" width="150" height="72" fill="#fce8e6" stroke="#d93025"/>
+    <text x="75" y="34" text-anchor="middle" class="label">Ask, escalate,</text>
+    <text x="75" y="54" text-anchor="middle" class="label">or block</text>
+  </g>
+
+  <g transform="translate(560 320)">
+    <rect class="box" width="190" height="72" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="95" y="36" text-anchor="middle" class="label">Domain policy</text>
+    <text x="95" y="56" text-anchor="middle" class="label">check</text>
+  </g>
+
+  <g transform="translate(830 302)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Allowed</text>
+    <text x="105" y="69" text-anchor="middle" class="label">status</text>
+  </g>
+
+  <g transform="translate(1060 320)">
+    <rect class="box" width="170" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="85" y="35" text-anchor="middle" class="label">Domain agent</text>
+    <text x="85" y="55" text-anchor="middle" class="label">drafts</text>
+  </g>
+
+  <g transform="translate(560 520)">
+    <rect class="box" width="190" height="84" fill="#fce8e6" stroke="#d93025"/>
+    <text x="95" y="34" text-anchor="middle" class="label">Required</text>
+    <text x="95" y="54" text-anchor="middle" class="label">reviewer or</text>
+    <text x="95" y="74" text-anchor="middle" class="label">policy owner</text>
+  </g>
+
+  <g transform="translate(825 510)">
+    <path class="diamond" d="M110 0 L220 58 L110 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="110" y="51" text-anchor="middle" class="label">Human review</text>
+    <text x="110" y="69" text-anchor="middle" class="label">needed?</text>
+  </g>
+
+  <g transform="translate(1065 526)">
+    <rect class="box" width="150" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="75" y="34" text-anchor="middle" class="label">Auditable</text>
+    <text x="75" y="54" text-anchor="middle" class="label">output</text>
+  </g>
+
+  <g transform="translate(285 522)">
+    <rect class="box" width="190" height="80" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="95" y="33" text-anchor="middle" class="label">Reviewer</text>
+    <text x="95" y="53" text-anchor="middle" class="label">decision</text>
+    <text x="95" y="70" text-anchor="middle" class="small">accept, edit, reject</text>
+  </g>
+
+  <g transform="translate(55 526)">
+    <rect class="box" width="170" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="85" y="34" text-anchor="middle" class="label">Audit record</text>
+    <text x="85" y="54" text-anchor="middle" class="label">and eval</text>
+  </g>
+
+  <path class="edge" d="M225 178 L285 184"/>
+  <path class="edge" d="M495 184 L560 178"/>
+  <path class="edge" d="M750 178 L825 184"/>
+  <path class="edge" d="M1045 184 L1065 178"/>
+  <path class="edge" d="M935 242 C895 300 780 335 750 356"/>
+  <path class="edge" d="M750 356 L830 360"/>
+  <path class="edge" d="M1040 360 L1060 356"/>
+  <path class="edge" d="M935 418 C860 500 775 535 750 562"/>
+  <path class="edge" d="M1145 392 C1105 460 1050 505 1010 540"/>
+  <path class="edge" d="M1045 568 L1065 562"/>
+  <path class="edge" d="M825 568 L750 562"/>
+  <path class="edge" d="M560 562 L475 562"/>
+  <path class="edge" d="M285 562 L225 562"/>
+  <path class="edge" d="M1140 598 C970 690 420 690 225 590"/>
+  <path class="edge" d="M390 242 C430 400 500 500 560 548"/>
+
+  <text x="514" y="158" class="note">classify, extract, draft</text>
+  <text x="415" y="316" class="note">governed decision</text>
+  <text x="1047" y="166" class="note">no</text>
+  <text x="786" y="335" class="note">yes</text>
+  <text x="1044" y="342" class="note">allow draft</text>
+  <text x="774" y="520" class="note">review required</text>
+  <text x="1045" y="548" class="note">no</text>
+</svg>

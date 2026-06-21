@@ -1,6 +1,7 @@
 ---
 import BookLayout from '../../layouts/BookLayout.astro';
 import {
+  chapterSearchExcerpt,
   chaptersForSection,
   sectionDescriptions,
   sectionUseWhen,
@@ -23,9 +24,47 @@ export function getStaticPaths() {
 }
 
 const { section } = Astro.props;
+const description = `${section.title}: ${sectionDescriptions.get(section.id) ?? 'A curated section from Agentic Systems Patterns.'}`;
+const firstChapter = section.chapters[0];
+const lastChapter = section.chapters[section.chapters.length - 1];
+const chapterCountLabel = (count: number) => `${count} ${count === 1 ? 'chapter' : 'chapters'}`;
+const sectionOutcomes = new Map([
+  ['front-matter', 'Leave with the book thesis, reader path, vocabulary, and production quality bar.'],
+  ['pattern-selection', 'Leave with a defensible pattern choice and the controls that choice requires.'],
+  ['foundations', 'Leave able to describe the loop, state, tool, and output contracts behind an agent.'],
+  ['agent-engineering-practice', 'Leave with implementation planning artifacts: lifecycle, harness, framework choice, and worksheets.'],
+  ['evaluation-security-trust', 'Leave with eval, threat model, sandbox, and trust controls that can block release.'],
+  ['control-loops', 'Leave knowing when planning, reflection, optimization, or healing earns its cost.'],
+  ['memory-knowledge', 'Leave with a clear boundary for context, memory, retrieval, citations, and source trust.'],
+  ['tools-skills-protocols', 'Leave able to expose capabilities through typed, authorized, reviewable contracts.'],
+  ['multi-agent-systems', 'Leave able to choose a topology and preserve ownership when work splits across agents.'],
+  ['systems-architecture', 'Leave with deployable system boundaries for services, domains, RAG, coding, and reference architectures.'],
+  ['production-runtime', 'Leave with the runtime controls needed for durability, observability, policy, cost, events, and rollback.'],
+  ['hands-on-labs', 'Leave with runnable examples and a production gap list for each pattern you try.'],
+  ['capstone-projects', 'Leave with reusable design review packets for product-shaped agentic systems.'],
+  ['deprecated', 'Leave able to translate older agent terms into current, clearer architecture language.'],
+  ['publishing', 'Leave with the checks needed to publish, verify, and maintain the online book.']
+]);
+const sectionArtifacts = new Map([
+  ['front-matter', 'A chosen reading path and a shared definition of agentic system.'],
+  ['pattern-selection', 'A pattern decision with rejected alternatives, acceptance criteria, and known risks.'],
+  ['foundations', 'A runtime contract for goals, state, tools, outputs, context, and stop conditions.'],
+  ['agent-engineering-practice', 'A development plan with harness, framework choice, worksheets, and review evidence.'],
+  ['evaluation-security-trust', 'An eval set, threat model, sandbox boundary, and release-blocking trust controls.'],
+  ['control-loops', 'A loop policy with budget, evaluator, failure states, recovery path, and stop rule.'],
+  ['memory-knowledge', 'A context and memory policy covering sources, freshness, retrieval, storage, and correction.'],
+  ['tools-skills-protocols', 'A capability contract with permissions, approval points, protocol envelope, and audit record.'],
+  ['multi-agent-systems', 'A topology map with role contracts, merge policy, transcript, and escalation path.'],
+  ['systems-architecture', 'A service boundary with ADRs, data/control flow, owners, and reference architecture.'],
+  ['production-runtime', 'A runbook covering durability, traces, eval feedback, budgets, rollout, and rollback.'],
+  ['hands-on-labs', 'A runnable slice with test evidence and a missing-production-controls list.'],
+  ['capstone-projects', 'A gap analysis against traces, evals, ADRs, runbooks, rollout, and ownership.'],
+  ['deprecated', 'A translation note from historical terminology to current architecture language.'],
+  ['publishing', 'A release checklist with manifest, link, build, PDF, EPUB, and deployment evidence.']
+]);
 ---
 
-<BookLayout title={`${section.title} | Agentic Systems Patterns`}>
+<BookLayout title={`${section.title} | Agentic Systems Patterns`} description={description}>
   <section class="section-landing">
     <p class="eyebrow">Section guide</p>
     <h1>{section.title}</h1>
@@ -33,17 +72,42 @@ const { section } = Astro.props;
     <p class="section-use">{sectionUseWhen.get(section.id)}</p>
   </section>
 
+  <section class="section-guide-panel" aria-label="How to use this section">
+    <div>
+      <span>Start with</span>
+      <a href={`${siteBase}/book/${firstChapter.slug}/`}>{firstChapter.title}</a>
+    </div>
+    <div>
+      <span>Finish with</span>
+      <a href={`${siteBase}/book/${lastChapter.slug}/`}>{lastChapter.title}</a>
+    </div>
+    <div>
+      <span>Reader outcome</span>
+      <p>{sectionOutcomes.get(section.id) ?? 'Leave with a clearer engineering decision and a next chapter to read.'}</p>
+    </div>
+    <div>
+      <span>Reusable artifact</span>
+      <p>{sectionArtifacts.get(section.id) ?? 'A decision record your team can review and reuse.'}</p>
+    </div>
+  </section>
+
   <section class="section-toc" aria-labelledby="section-toc-title">
     <div class="section-toc-header">
       <h2 id="section-toc-title">Reading order</h2>
-      <span>{section.chapters.length} chapters</span>
+      <span>{chapterCountLabel(section.chapters.length)}</span>
     </div>
     <ol class="section-chapter-list">
       {section.chapters.map((chapter, index) => (
         <li>
           <a href={`${siteBase}/book/${chapter.slug}/`}>
             <span>{String(index + 1).padStart(2, '0')}</span>
-            <strong>{chapter.title}</strong>
+            <div>
+              <strong>{chapter.title}</strong>
+              <small>{chapter.type} · {chapter.difficulty}</small>
+              <small>{chapter.effort}</small>
+              <small>{chapter.readerPaths.join(' · ')}</small>
+              <p>{chapterSearchExcerpt(chapter)}</p>
+            </div>
           </a>
         </li>
       ))}

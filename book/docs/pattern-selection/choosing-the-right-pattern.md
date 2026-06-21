@@ -47,6 +47,53 @@ Ask these questions before selecting a pattern:
 
 If the answers are unclear, start with a deterministic workflow and add agentic behavior only where the workflow needs model judgment.
 
+## Selection Outputs
+
+Do not leave pattern selection as a conversation. Write down the decision in a form another engineer can review.
+
+```text
+Workload:
+Primary pattern:
+Why this is the least agentic sufficient design:
+Model decisions allowed:
+Software-owned controls:
+Tools and side effects:
+State that must be persisted:
+Approval requirements:
+Eval cases required before release:
+Fallback or rollback path:
+```
+
+The most important line is "why this is the least agentic sufficient design." If the answer is "because agents are flexible," the design is not ready. Name the actual uncertainty the model must handle: ambiguous intent, unknown next step, incomplete evidence, variable tool choice, or open-ended investigation.
+
+## Decision Record Map
+
+Use this map to turn the selection output into an engineering review artifact. A pattern choice is ready when the workload evidence, autonomy boundary, controls, and release evidence can be reviewed separately.
+
+```mermaid
+flowchart LR
+    W[Workload evidence] --> S{Least agentic sufficient design?}
+    S -->|Yes| P[Primary pattern]
+    S -->|No| R[Reduce autonomy or split the workload]
+    R --> W
+
+    P --> A[Allowed model decisions]
+    P --> C[Software-owned controls]
+    P --> E[Release evidence]
+
+    A --> B[Tool choice, investigation, generation, or review]
+    C --> G[State, policy, approvals, budgets, and stop conditions]
+    E --> V[Evals, traces, rollback, and visual QA]
+
+    B --> Q{Risk acceptable?}
+    G --> Q
+    V --> Q
+
+    Q -->|Yes| D[Record the decision]
+    Q -->|No| H[Add gates, narrow tools, or lower the autonomy level]
+    H --> P
+```
+
 ## Selection Matrix
 
 | Workload Signal | Prefer | Avoid |
@@ -64,6 +111,20 @@ If the answers are unclear, start with a deterministic workflow and add agentic 
 | Debugging matters | Observability and Evals | Final-answer-only logs |
 
 The same product may combine several rows. For example, a support refund workflow may use routing to classify the request, deterministic workflow steps for account lookup, RAG for policy evidence, human approval for exceptions, and an agent loop only for open-ended investigation.
+
+## Example Choices
+
+| Workload | Start With | Add Autonomy Only If |
+| --- | --- | --- |
+| Rewrite or summarize user-provided text | One model call with structured output | The system must fetch missing context or revise against external evidence. |
+| Generate support replies from known policies | Workflow with retrieval and validation | The request requires investigation across tools with unknown next steps. |
+| Triage tickets by product area | Routing and handoffs | The router needs to ask follow-up questions or inspect live systems. |
+| Research a technical question | Agentic RAG or agent loop with retrieval tools | The system must decide whether evidence is sufficient or continue searching. |
+| Issue refunds | Deterministic workflow with model-assisted evidence summary | The policy has ambiguous exceptions that require bounded investigation. |
+| Coordinate delivery operations | Workflow plus explicit roles | Separate agents need distinct context, tools, permissions, or audit trails. |
+| Maintain a long-running background task | Durable workflow | Runtime decisions depend on future events, partial progress, or recovery. |
+
+These examples are intentionally conservative. Start with the boring pattern, then promote only the part of the system that has earned dynamic behavior.
 
 ## Workflows vs Agents
 
@@ -93,6 +154,16 @@ A practical evolution path looks like this:
 8. Add multi-agent coordination when separate roles need separate context, tools, or permissions.
 
 Each step should improve a measured outcome. If a pattern does not improve accuracy, reliability, latency, cost, safety, or maintainability, remove it.
+
+## Common Selection Mistakes
+
+- Choosing multi-agent coordination when the real need is routing.
+- Using an agent loop because the workflow was not written down.
+- Giving the model broad tools when a narrow workflow step would work.
+- Adding reflection when the system needs a better evaluator or test set.
+- Adding memory before defining what state must be durable, correctable, and deletable.
+- Treating framework examples as production architecture.
+- Optimizing for autonomy before measuring task completion, cost, latency, or risk.
 
 ## Minimum Production Bar
 

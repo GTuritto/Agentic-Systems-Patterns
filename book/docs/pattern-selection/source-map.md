@@ -8,6 +8,68 @@ This page maps external references to this book's chapters. Use it as a reading 
 
 The sources repeat several core ideas: start simple, separate workflows from agents, use tools through typed contracts, add memory deliberately, evaluate behavior, and reserve multi-agent systems for cases where specialization justifies orchestration cost.
 
+## How To Use This Map
+
+Use this page when you need to answer one of three questions:
+
+| Question | Use This Section | Output |
+| --- | --- | --- |
+| Where did this book's pattern language come from? | Primary References and Local PDF References Reviewed. | A short source trail for a chapter, decision, or term. |
+| Does the book cover a pattern I saw elsewhere? | Pattern Coverage Map and Local Pattern Repository Coverage. | A chapter link, or a candidate gap for future expansion. |
+| Which sources should I trust first? | Evidence Tiers. | A priority order for reading, citing, and revising. |
+
+For normal reading, do not start here. Start with [How To Read This Book](../publishing/how-to-read), then return to this map when you want source context or coverage checks.
+
+```mermaid
+sequenceDiagram
+    participant Source
+    participant Editor
+    participant Chapter
+    participant Release
+
+    Source->>Editor: Pattern, claim, or failure mode
+    Editor->>Editor: Check access and evidence tier
+    alt Weak or inaccessible source
+        Editor-->>Source: Keep as discovery only
+    else Strong source
+        Editor->>Chapter: Map to claim or coverage gap
+        alt Changes design advice
+            Chapter->>Chapter: Update prose, diagram, lab, or checklist
+            Chapter->>Release: Verify links, site parity, and PDF
+        else No design change
+            Chapter-->>Editor: Keep as reference context
+        end
+    end
+```
+
+Read the map as an editorial filter. A source earns space in the book when it changes a reader's design decision, exposes a missing failure mode, or gives stronger evidence for a chapter claim.
+
+## Source-Backed Decision Shortcuts
+
+Use these shortcuts when a source names a pattern but the engineering decision is still unclear.
+
+| Decision You Need To Make | Start With | Use The Sources To Check |
+| --- | --- | --- |
+| Is this a workflow, an agent, or a multi-agent system? | [Choosing the Right Pattern](./choosing-the-right-pattern) | Whether the source separates deterministic control from model-chosen steps. |
+| Should we add routing, handoffs, or specialist agents? | [Routing and Handoffs](./routing-and-handoffs) and [Choosing Multi-Agent Topology](../multi-agent-systems/choosing-multi-agent-topology) | Whether separate context, tools, permissions, or latency justify coordination cost. |
+| Does this need memory, retrieval, or a knowledge boundary? | [Context Engineering](../foundations/context-engineering), [Working Memory](../memory-knowledge/working-memory), and [Agentic RAG Systems](../systems-architecture/agentic-rag-systems) | Whether the source distinguishes transient context, durable memory, and cited evidence. |
+| Are tools safe enough for model-mediated use? | [Tool Capability Design](../tools-skills-protocols/tool-capability-design), [MCP-first Tool Use](../tools-skills-protocols/mcp-first-tool-use), and [Human Approval Gates](../tools-skills-protocols/human-approval-gates) | Whether tool authority, schema, errors, policy, and approval are explicit. |
+| Can the pattern survive production failure? | [Circuit Breakers, Fallbacks, and Replay](./circuit-breakers-fallbacks-replay), [Observability and Evals](../production-runtime/observability-and-evals), and [Production Evaluation Feedback Loops](../production-runtime/production-evaluation-feedback-loops) | Whether traces, replay, evals, rollback, and incident feedback are part of the design. |
+| Is a source adding a useful pattern or just a new name? | [Pattern Composition Playbook](./pattern-composition-playbook) | Whether the pattern changes ownership, state, tools, risk, evals, or operations. |
+
+## Evidence Tiers
+
+Not every source has the same editorial weight. Use this order when sources disagree:
+
+| Tier | Source Type | Editorial Use |
+| --- | --- | --- |
+| 1 | Vendor engineering guides, framework docs, and primary implementation docs. | Use for current terminology, operational guidance, and framework-specific behavior. |
+| 2 | Technical books and long-form practitioner material. | Use for durable concepts, teaching order, and examples that need deeper explanation. |
+| 3 | Curated catalogs, pattern lists, and diagrams. | Use for coverage discovery and cross-linking, not as final authority. |
+| 4 | Videos, gated articles, and lightly reviewed posts. | Use as discovery material only until claims are checked against stronger sources. |
+
+This prevents the online book from drifting toward whatever source has the longest pattern list. The book should privilege engineering evidence over novelty.
+
 ## Primary References
 
 | Source | Useful Ideas | Book Mapping |
@@ -100,6 +162,20 @@ The following PDFs were reviewed or intake-scanned locally as source-of-knowledg
 | Coding agent | [Coding Agents](../systems-architecture/coding-agents) |
 | Computer-use agent | [Computer-Use Agents](../systems-architecture/computer-use-agents) |
 | Domain-specific agent | [Domain Agent Architectures](../systems-architecture/domain-agent-architectures) |
+
+## Maintenance Checklist
+
+Update this page when a source changes the book's structure, not every time a new link appears.
+
+Before adding a source, check:
+
+- Does it introduce a pattern, failure mode, runtime concern, or implementation technique not already covered?
+- Is it stronger than an existing source for the same claim?
+- Does it map to at least one chapter where a reader can act on the idea?
+- Is it public enough for an online GitHub Pages reader to inspect?
+- Does it create a concrete editorial task, such as a missing example, checklist, diagram, lab, or cross-link?
+
+If the answer is mostly no, leave the source out. A shorter map with clear editorial purpose is more useful than a large reference pile.
 
 ## Editorial Rule
 

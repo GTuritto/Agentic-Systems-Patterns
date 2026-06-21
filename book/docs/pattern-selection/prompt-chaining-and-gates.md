@@ -54,6 +54,37 @@ Input
 
 Gates should be deterministic whenever possible. A gate can use a model as an evaluator, but the gate still needs explicit criteria and a clear pass/fail output.
 
+```mermaid
+sequenceDiagram
+    participant Code as Workflow code
+    participant Model
+    participant Gate
+    participant Review as Human or policy review
+    participant Trace
+
+    Code->>Model: Step 1: classify or extract
+    Model-->>Code: Typed output
+    Code->>Gate: Validate schema, confidence, policy
+    alt Gate passes
+        Code->>Model: Step 2: transform or retrieve
+        Model-->>Code: Typed output
+        Code->>Gate: Validate evidence and consistency
+    else Gate fails
+        Code->>Trace: Record stop, repair, or clarification
+    end
+    alt Final gate passes
+        Code->>Model: Step 3: generate final output
+        Model-->>Code: Draft result
+        Code->>Gate: Final eval and format check
+        Code->>Trace: Record accepted chain
+    else Escalation required
+        Code->>Review: Send state and failure reason
+        Review-->>Code: Approve, reject, or revise
+    end
+```
+
+Use the diagram as a design test. Every arrow should map to a typed state transition, a named gate decision, and a bounded retry or escalation rule.
+
 ## Gate Types
 
 | Gate | Checks | Failure Behavior |
@@ -67,6 +98,70 @@ Gates should be deterministic whenever possible. A gate can use a model as an ev
 | Human gate | subjective or high-impact decision | Pause until approval. |
 
 The strongest chains mix several gate types. A support workflow may use schema gates for extracted fields, policy gates for refunds, and human gates for exceptions.
+
+## Gate Contract
+
+Every gate should produce a machine-readable decision. Do not hide gate behavior inside prose.
+
+```ts
+type GateDecision =
+  | { status: 'pass' }
+  | {
+      status: 'repair';
+      reason: string;
+      maxRetries: number;
+      repairInstructions: string;
+    }
+  | {
+      status: 'stop';
+      reason: string;
+      userVisibleMessage?: string;
+    }
+  | {
+      status: 'escalate';
+      reason: string;
+      requiredRole: 'support_lead' | 'security_reviewer' | 'domain_expert';
+    };
+```
+
+The chain should record the gate decision, not just the final output. A production trace should show which step ran, which gate accepted or rejected it, and what happened next.
+
+Use explicit failure reasons:
+
+| Failure Reason | Meaning | Next Action |
+| --- | --- | --- |
+| `schema_invalid` | Output cannot be parsed or required fields are missing. | Repair once or twice, then stop. |
+| `evidence_missing` | The step made a claim without enough source support. | Retrieve more evidence or escalate. |
+| `policy_denied` | The next step would violate permission or business policy. | Stop or request approval. |
+| `ambiguous_input` | The chain cannot choose a safe interpretation. | Ask the user or route to review. |
+| `budget_exhausted` | Retry, token, latency, or tool budget is spent. | Return partial result or stop. |
+
+## Worked Gate Example: Refund Draft
+
+A refund support chain should stop before it drafts a customer promise if required evidence is missing. The model can classify, extract, and summarize, but gates decide whether the next step may run.
+
+| Chain Step | Model Output | Gate | Pass Condition | Failure Behavior |
+| --- | --- | --- | --- | --- |
+| Classify request | `refund_request` with confidence `0.91` | confidence gate | Confidence >= `0.72` and type is not `unknown`. | Ask a clarifying question. |
+| Extract fields | `order_id`, `customer_id`, `issue`, `requested_outcome` | schema gate | Required fields exist and IDs match expected format. | Repair once, then stop with `schema_invalid`. |
+| Retrieve policy | source IDs and policy version | evidence gate | Current refund policy and order evidence are present. | Stop with `evidence_missing` or retrieve again. |
+| Draft recommendation | proposed refund or denial | policy gate | Recommendation matches threshold, account status, and policy version. | Stop with `policy_denied` or request approval. |
+| Draft customer reply | customer-facing text | final gate | Text matches approved recommendation and does not promise unapproved payment. | Block and send to support lead. |
+
+The important boundary is the fourth row. If the model proposes "full refund approved" but the policy gate returns `approval_required`, the chain must not continue to a customer-facing promise. It should pause with the exact evidence, proposed amount, policy version, and reviewer role.
+
+```json
+{
+  "step": "policy_gate",
+  "status": "escalate",
+  "reason": "approval_required",
+  "required_role": "support_lead",
+  "evidence_refs": ["order:O-104", "policy:refunds:v2026-06"],
+  "blocked_next_step": "draft_customer_reply"
+}
+```
+
+This is the difference between a chain and a loose sequence of prompts. The chain carries typed state and stops before unsafe language or side effects escape.
 
 ## Implementation Notes
 

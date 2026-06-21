@@ -6,9 +6,37 @@ title: Vertical Slice Examples
 
 Patterns become useful when they are composed into a working system. A vertical slice is a small end-to-end design that shows the goal, agent loop, tools, state, policy, observability, evals, and runtime behavior together.
 
+Download the [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt) and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) when turning a slice into an implementation plan.
+
 The examples in this chapter are not full products. They are slices. Each one should be small enough to review in one sitting and concrete enough to expose architecture decisions.
 
 Read this after [Pattern Composition Playbook](../pattern-selection/pattern-composition-playbook), [Production Runtime Overview](../production-runtime/overview), and [Observability and Evals](../production-runtime/observability-and-evals). Those chapters explain the boundaries; this chapter shows what those boundaries look like when several patterns work together for one task.
+
+Run the deterministic capstone runtime when you want executable evidence for the same shapes:
+
+```sh
+npm run capstones:demo
+npm run capstones:test
+```
+
+Expected output:
+
+```text
+support-refund-agent: pass
+  stop: draft_ready
+  trace events: 7
+research-rag-agent: pass
+  stop: answered_with_citation
+  trace events: 6
+multi-agent-delivery-workflow: pass
+  stop: accepted_after_review
+  trace events: 4
+Capstone project tests OK
+```
+
+The code lives in `capstone-projects-runtime/typescript/src/capstones.ts`. Treat it as the runnable evidence layer for these slices: each run returns state, trace events, eval results, and rollback actions.
+
+Download the [captured lab and capstone command output examples](/capstone-assets/output-examples/lab-and-capstone-command-output.txt) when you need a compact model for saving capstone terminal output, trace snapshots, eval snapshots, and production questions.
 
 ## How To Read A Slice
 
@@ -24,6 +52,20 @@ Use the same checklist for every example:
 8. What failure mode would make this unsafe in production?
 
 If a slice cannot answer those questions, it is still a demo.
+
+## Slice Review Gate
+
+Use this gate before turning any slice into a capstone or product backlog:
+
+| Check | Evidence |
+| --- | --- |
+| Goal is bounded | One user or system goal starts the run. |
+| Pattern composition is explicit | Each major concern maps to a named pattern chapter. |
+| Authority is constrained | Tools, data, memory, approvals, and side effects have owners and scopes. |
+| State is recoverable | The slice names what must persist, replay, resume, or be deleted. |
+| Evals protect the risky path | Regression cases cover the failure mode that would make the slice unsafe. |
+
+Record the goal, composed patterns, state, tools, approval points, trace events, and evals in the lab production readiness worksheet.
 
 ## Slice 1: Support Refund Assistant
 
@@ -80,6 +122,15 @@ Good eval cases:
 - stale policy retrieved;
 - model attempts `refunds.issue` without approval;
 - duplicate approval message replayed.
+
+Runnable evidence:
+
+| Signal | Repository Evidence |
+| --- | --- |
+| Safe stop | `stopReason: draft_ready` |
+| Policy citation | `draft_contains_policy_citation` eval passes. |
+| Money does not move | `no_money_movement` eval passes and trace records `agent_cannot_issue_refund`. |
+| Rollback | Disable `refunds.create_draft` or route to the human support queue. |
 
 ### Minimal Code
 
@@ -236,6 +287,15 @@ Good eval cases:
 - model tries to store an unsupported memory;
 - brief should refuse because evidence is missing.
 
+Runnable evidence:
+
+| Signal | Repository Evidence |
+| --- | --- |
+| Safe stop | `stopReason: answered_with_citation` |
+| Current source | `current_source_used` eval passes for `refund-policy-v4`. |
+| Stale source rejected | `stale_source_rejected` eval passes for `refund-policy-v2`. |
+| Forbidden source omitted | `forbidden_source_omitted` eval passes for `finance-private-notes`. |
+
 ### Minimal Code
 
 ```ts
@@ -267,11 +327,46 @@ The default should be task-local memory. Durable memory is a controlled write, n
 
 ## Comparison
 
-| Slice | Main risk | Primary control | Best regression eval |
-| --- | --- | --- | --- |
-| Support refund assistant | Money moves without authority. | Approval-bound tool execution. | Refund tool cannot execute without policy and approval trace. |
-| Safe coding agent | The agent changes more than it should. | Workspace, diff, tests, and approval. | Unrelated file edits or failed checks block completion. |
-| Research to brief agent | Unsupported claims look authoritative. | Evidence packets and citation checks. | Claims must be supported by cited source IDs. |
+| Slice | Main risk | Primary control | Best regression eval | Runnable Stop Signal |
+| --- | --- | --- | --- | --- |
+| Support refund assistant | Money moves without authority. | Approval-bound tool execution. | Refund tool cannot execute without policy and approval trace. | `draft_ready` |
+| Safe coding agent | The agent changes more than it should. | Workspace, diff, tests, and approval. | Unrelated file edits or failed checks block completion. | Not included in capstone runtime yet. |
+| Research to brief agent | Unsupported claims look authoritative. | Evidence packets and citation checks. | Claims must be supported by cited source IDs. | `answered_with_citation` |
+| Multi-agent delivery workflow | Delegation hides accountability. | Workflow-owned merge and final acceptance. | Required role outputs and sequential turns must pass before acceptance. | `accepted_after_review` |
+
+## Slice 4: Multi-Agent Delivery Workflow
+
+### Goal
+
+A workflow owner coordinates planner, risk reviewer, and test planner roles. The workflow accepts the package only after every role contributes in order.
+
+### Pattern Composition
+
+| Concern | Pattern |
+| --- | --- |
+| Delegation | [Task Delegation](/multi-agent-systems/task-delegation) |
+| Supervisor | [Supervisor / Worker](/multi-agent-systems/supervisor-worker) |
+| Transcript | [Evaluate Multi-Agent Transcripts](./lab-13-autogen-transcript-evals.md) |
+| Flow control | [CrewAI Flows and Crews](/multi-agent-systems/crewai-flows-and-crews) |
+| Evals | [Observability and Evals](/production-runtime/observability-and-evals) |
+
+### Runnable Evidence
+
+| Signal | Repository Evidence |
+| --- | --- |
+| Planner present | `planner_present` eval passes. |
+| Risk review present | `risk_review_present` eval passes. |
+| Test plan present | `test_plan_present` eval passes. |
+| Turn order valid | `turns_sequential` eval passes. |
+| Final owner accepts last | `final_owner_accepts_last` eval passes and `finalOwner` is `workflow`. |
+
+### Failure Modes
+
+- A specialist role is skipped but the final answer still sounds complete.
+- Acceptance happens before risk review or test planning.
+- Turn order is broken, making the trace hard to replay.
+- No single owner accepts the final package.
+- Delegation cannot be disabled during an incident.
 
 ## Design Rule
 

@@ -1,0 +1,73 @@
+Long-Term Episodic Memory Review Checklist
+
+System or chapter:
+Owner:
+Reviewer:
+Date:
+
+Fit check
+[ ] Product needs continuity across sessions
+[ ] Past events can affect future decisions or personalization
+[ ] Event records can be inspected, corrected, deleted, and expired
+[ ] Tenant and user isolation can be enforced
+[ ] Routine chatter will not be stored by default
+
+Event record
+[ ] Event type declared
+[ ] occurredAt recorded
+[ ] recordedAt recorded
+[ ] Actor ID recorded
+[ ] Tenant ID recorded
+[ ] Project or resource references recorded where relevant
+[ ] Summary recorded
+[ ] Source references recorded
+[ ] Source trust recorded
+[ ] Confidence recorded
+[ ] Privacy class recorded
+[ ] Retention rule recorded
+[ ] Correction path recorded
+[ ] Policy version recorded
+
+Write policy
+[ ] Allowed event types defined
+[ ] Forbidden event types defined
+[ ] Sensitive events require expiry or denial
+[ ] Untrusted-source events require review
+[ ] Human approval events require approval ID or resource reference
+[ ] Model-proposed event writes are checked by runtime policy
+
+Retrieval and use
+[ ] Retrieval filters by tenant before semantic ranking
+[ ] Retrieval filters by actor, project, permissions, event type, recency, and retention where relevant
+[ ] Retrieved episodes are framed as past events, not current instructions
+[ ] Fresh tool evidence can override stale memory
+[ ] Conflicting episodes are surfaced or escalated
+[ ] Expired or deleted events are removed from indexes
+
+Correction and deletion
+[ ] Corrections supersede older events
+[ ] Deletion path is tested
+[ ] Expiry path is tested
+[ ] Audit trail records reads, writes, denials, reviews, corrections, and deletions
+[ ] Kill switch can disable episodic writes
+[ ] Kill switch can disable episodic reads
+
+Evaluation
+[ ] Fixture covers meaningful event write
+[ ] Fixture covers routine chatter not stored
+[ ] Fixture covers stale event suppression
+[ ] Fixture covers correction and supersession
+[ ] Fixture covers deletion and expiry
+[ ] Fixture covers cross-tenant isolation
+[ ] Fixture covers wrong attribution
+[ ] Fixture covers untrusted-source review
+[ ] Fixture covers memory not overriding current instructions
+
+Release decision
+[ ] Green: ready for controlled use
+[ ] Yellow: limited use; improve policy, deletion, or isolation
+[ ] Red: demo only
+
+Required changes:
+
+Reviewer notes:

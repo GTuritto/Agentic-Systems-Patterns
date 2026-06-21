@@ -4,6 +4,8 @@ title: Lab 11 - Add Context, Memory, Trace, and Evals
 
 # Lab 11 - Add Context, Memory, Trace, and Evals
 
+Download the [lab completion worksheet](/capstone-assets/templates/lab-completion-worksheet.txt) and [lab production readiness worksheet](/capstone-assets/templates/lab-production-readiness-worksheet.txt) before you start.
+
 ## Objective
 
 Make the mini-runtime inspectable. Add context packets, scoped memory reads, trace events, and a trajectory eval that can fail even when the final answer looks plausible.
@@ -15,6 +17,18 @@ Make the mini-runtime inspectable. Add context packets, scoped memory reads, tra
 - Framework-agnostic lesson: runtime behavior must be observable and testable, not only runnable.
 - Pattern chapters: [Context Engineering](/foundations/context-engineering), [Working Memory](/memory-knowledge/working-memory), [Observability and Evals](/production-runtime/observability-and-evals)
 - Previous labs: [Lab 09](./lab-09-minimal-agent-loop.md), [Lab 10](./lab-10-tool-registry-and-policy-gate.md)
+
+## Exercise Time Budget
+
+These estimates assume the Lab 10 runtime is already available.
+
+| Exercise | Time | Output |
+| --- | ---: | --- |
+| Run the baseline demo and test | 10 min | Passing runtime command output. |
+| Add context and scoped memory | 20 min | Context packet with included and omitted memory references. |
+| Add trace events and trajectory evals | 20 min | Trace path plus eval result for risky behavior. |
+| Exercise one failure case | 10-15 min | Failed eval or unsafe trajectory signal. |
+| Complete production review | 10-25 min | Notes for memory governance, trace redaction, and incident replay. |
 
 ## Setup
 
@@ -103,6 +117,18 @@ Run a case where the agent calls a read tool and then answers. The reference dem
 
 ## Expected Result
 
+The demo command should show the scoped context packet. The first `context_built` event should include:
+
+```json
+{
+  "toolsDisclosed": ["draft_message", "lookup_policy", "send_message"],
+  "memoryRefs": ["mem_1", "mem_2"],
+  "omittedRefs": [
+    { "ref": "mem_3", "reason": "out_of_scope" }
+  ]
+}
+```
+
 The read-tool path should include a trace like this:
 
 ```text
@@ -120,10 +146,37 @@ The exact order can vary if your loop stops immediately after a tool, but the tr
 The unsafe trajectory case should produce:
 
 ```text
-final answer: plausible
+final answer: done
+stopReason: success
 trajectory eval: fail
-reason: forbidden tool was called
+reason: forbidden tool was called: send_message
 ```
+
+```mermaid
+sequenceDiagram
+    participant Runtime
+    participant Memory
+    participant Context
+    participant Model
+    participant Trace
+    participant Eval
+
+    Runtime->>Memory: Read scoped memory refs
+    Memory-->>Runtime: Included refs and omitted refs
+    Runtime->>Context: Build context packet
+    Context-->>Trace: context_built
+    Runtime->>Model: Ask for typed decision
+    Model-->>Runtime: Decision proposal
+    Runtime->>Trace: decision, policy_decision, tool_result, stop
+    Runtime->>Eval: Submit final answer plus trajectory
+    alt Trajectory allowed
+        Eval-->>Runtime: pass
+    else Forbidden path
+        Eval-->>Runtime: fail with trace-backed reason
+    end
+```
+
+Use this flow as the lab's acceptance model. A plausible final answer is not enough; context omissions, memory scope, trace events, and forbidden trajectories must be inspectable.
 
 ## Failure Case
 
@@ -143,6 +196,20 @@ Check these assertions manually or with `npm run mini-runtime:test`:
 
 The reference test includes an intentionally unsafe run where the final answer is `done`, but the trajectory eval fails because a forbidden write tool was called.
 
+## Lab Review Gate
+
+Before moving on, verify the inspectability boundary:
+
+| Check | Evidence |
+| --- | --- |
+| Context is deliberate | The context packet lists goal, state summary, observations, tools, memory refs, and omissions. |
+| Memory is scoped | Included and omitted memory references are both visible. |
+| Trace reconstructs the path | Context, decision, policy, tool, and stop events are recorded. |
+| Evals inspect trajectory | Forbidden tool use fails even when final text looks acceptable. |
+| Release risk is visible | The lab can name which trace or eval gaps would block production. |
+
+Record the context packet, trace sequence, unsafe trajectory, and eval result in the lab completion worksheet.
+
 ## Production Extension
 
 Before production, add:
@@ -153,6 +220,20 @@ Before production, add:
 - incident-to-eval workflow;
 - dashboards for stop reasons, tool errors, policy denials, cost, and latency;
 - release gates that block risky changes when trajectory evals fail.
+
+## Production Bridge
+
+Use this table when adapting inspectability to production:
+
+| Lab Concept | Production Version |
+| --- | --- |
+| `ContextPacket` | Versioned context contract with evidence refs, memory policy, omissions, and token budget. |
+| Memory fixture | Governed memory store with retention, deletion, correction, consent, and tenant scope. |
+| `TraceEvent` | Correlated trace span with run ID, span ID, parent span, status, cost, latency, and redaction. |
+| `EvalCase` | Release fixture with owner, severity, threshold, version set, and incident link. |
+| Forbidden trajectory | Blocking gate for policy, tool, memory, retrieval, and autonomy regressions. |
+
+The first production milestone is a run that a second engineer can replay, evaluate, and explain without trusting the final answer alone.
 
 ## Cross-Framework Mapping
 

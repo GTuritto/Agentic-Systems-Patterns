@@ -1,0 +1,82 @@
+LAB COMPLETION WORKSHEET
+
+Lab:
+Date:
+Owner:
+Target product slice:
+
+1. Baseline Run
+
+Command:
+
+Expected output:
+
+Actual output:
+
+Status:
+[ ] Pass
+[ ] Fail
+
+2. Design Boundary
+
+What can the model decide?
+
+What does software validate?
+
+What owns state?
+
+What tools are exposed?
+
+What policy runs outside the prompt?
+
+Why does the run stop?
+
+3. Intentional Failure Path
+
+Failure tested:
+
+Observed behavior:
+
+Was the failure controlled?
+[ ] Yes
+[ ] No
+
+If no, what must change?
+
+4. Production Gap
+
+Before real users, data, credentials, or side effects, this lab would need:
+
+[ ] Durable state or explicit stateless decision
+[ ] Tool authorization
+[ ] Stronger schemas
+[ ] Human approval
+[ ] Idempotency
+[ ] Trace schema
+[ ] Redaction
+[ ] Eval cases
+[ ] CI gate
+[ ] Rollback path
+[ ] Runbook
+[ ] Owner
+
+5. Evidence
+
+Test output:
+
+Eval output:
+
+Trace or log:
+
+Related chapter:
+
+Related capstone:
+
+6. Completion Decision
+
+[ ] Complete for learning
+[ ] Needs another local pass
+[ ] Ready to map to a product slice
+[ ] Not safe for product work yet
+
+Reason:

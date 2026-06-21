@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="760" viewBox="0 0 1320 760" role="img" aria-labelledby="title desc">
+  <title id="title">Memory-Augmented Agent Lifecycle</title>
+  <desc id="desc">A memory-augmented agent classifies memory need, scopes retrieval, validates safe injection, reasons with labeled memory, applies write policy, stores approved memory, and records audit evidence.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#5f6368"/>
+    </marker>
+    <style>
+      text{font-family:Inter,Arial,sans-serif;fill:#202124}
+      .title{font-size:30px;font-weight:700}
+      .subtitle{font-size:13px;fill:#5f6368}
+      .label{font-size:15px;font-weight:700}
+      .small{font-size:12px;fill:#5f6368}
+      .box{rx:12;ry:12;stroke-width:2.2}
+      .diamond{stroke-width:2.2}
+      .edge{stroke:#5f6368;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .good{stroke:#188038;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .warn{stroke:#f9ab00;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .deny{stroke:#d93025;stroke-width:2.2;fill:none;marker-end:url(#arrow)}
+      .boundary{fill:none;stroke:#dadce0;stroke-width:2;stroke-dasharray:8 8}
+    </style>
+  </defs>
+  <rect width="1320" height="760" fill="#ffffff"/>
+  <text x="660" y="46" text-anchor="middle" class="title">Memory-Augmented Agent Lifecycle</text>
+  <text x="660" y="74" text-anchor="middle" class="subtitle">Memory is retrieved and stored as governed data, not as hidden model authority.</text>
+
+  <rect x="44" y="110" width="1232" height="500" class="boundary"/>
+  <text x="64" y="136" class="small">Durable trust boundary: every read, write, correction, and deletion must be scoped and auditable.</text>
+
+  <g transform="translate(58 194)">
+    <rect class="box" width="160" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="80" y="34" text-anchor="middle" class="label">User or workflow</text>
+    <text x="80" y="54" text-anchor="middle" class="label">input</text>
+  </g>
+
+  <g transform="translate(268 194)">
+    <rect class="box" width="180" height="72" fill="#eaf5ff" stroke="#007b83"/>
+    <text x="90" y="34" text-anchor="middle" class="label">Classify memory</text>
+    <text x="90" y="54" text-anchor="middle" class="label">need</text>
+  </g>
+
+  <g transform="translate(505 172)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Retrieve</text>
+    <text x="105" y="70" text-anchor="middle" class="label">memory?</text>
+  </g>
+
+  <g transform="translate(785 194)">
+    <rect class="box" width="210" height="86" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="105" y="31" text-anchor="middle" class="label">Scope retrieval</text>
+    <text x="105" y="53" text-anchor="middle" class="small">actor, tenant, task,</text>
+    <text x="105" y="70" text-anchor="middle" class="small">permission, freshness</text>
+  </g>
+
+  <g transform="translate(1050 172)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Safe to</text>
+    <text x="105" y="70" text-anchor="middle" class="label">inject?</text>
+  </g>
+
+  <g transform="translate(785 365)">
+    <rect class="box" width="210" height="72" fill="#fce8e6" stroke="#d93025"/>
+    <text x="105" y="34" text-anchor="middle" class="label">Exclude, redact,</text>
+    <text x="105" y="54" text-anchor="middle" class="label">or ask</text>
+  </g>
+
+  <g transform="translate(505 380)">
+    <rect class="box" width="210" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="105" y="34" text-anchor="middle" class="label">Build task</text>
+    <text x="105" y="54" text-anchor="middle" class="label">context</text>
+  </g>
+
+  <g transform="translate(230 380)">
+    <rect class="box" width="190" height="72" fill="#e8f0fe" stroke="#3367d6"/>
+    <text x="95" y="34" text-anchor="middle" class="label">Agent reasons</text>
+    <text x="95" y="54" text-anchor="middle" class="label">with labels</text>
+  </g>
+
+  <g transform="translate(58 358)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="50" text-anchor="middle" class="label">Propose</text>
+    <text x="105" y="69" text-anchor="middle" class="label">memory write?</text>
+  </g>
+
+  <g transform="translate(268 548)">
+    <rect class="box" width="230" height="86" fill="#f3e8fd" stroke="#9334e6"/>
+    <text x="115" y="29" text-anchor="middle" class="label">Write policy</text>
+    <text x="115" y="51" text-anchor="middle" class="small">consent, privacy, retention,</text>
+    <text x="115" y="68" text-anchor="middle" class="small">source, correction</text>
+  </g>
+
+  <g transform="translate(565 532)">
+    <path class="diamond" d="M105 0 L210 58 L105 116 L0 58 Z" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="105" y="51" text-anchor="middle" class="label">Write</text>
+    <text x="105" y="70" text-anchor="middle" class="label">decision</text>
+  </g>
+
+  <g transform="translate(840 548)">
+    <rect class="box" width="180" height="72" fill="#fff4e5" stroke="#f9ab00"/>
+    <text x="90" y="34" text-anchor="middle" class="label">Human or</text>
+    <text x="90" y="54" text-anchor="middle" class="label">product review</text>
+  </g>
+
+  <g transform="translate(1080 548)">
+    <rect class="box" width="160" height="72" fill="#e6f4ea" stroke="#188038"/>
+    <text x="80" y="35" text-anchor="middle" class="label">Memory</text>
+    <text x="80" y="55" text-anchor="middle" class="label">store</text>
+  </g>
+
+  <g transform="translate(58 548)">
+    <rect class="box" width="160" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="80" y="35" text-anchor="middle" class="label">Answer</text>
+    <text x="80" y="55" text-anchor="middle" class="label">or action</text>
+  </g>
+
+  <g transform="translate(1030 660)">
+    <rect class="box" width="230" height="72" fill="#f1f3f4" stroke="#5f6368"/>
+    <text x="115" y="35" text-anchor="middle" class="label">Trace reads, writes,</text>
+    <text x="115" y="55" text-anchor="middle" class="label">updates, deletion path</text>
+  </g>
+
+  <path class="edge" d="M218 230 H268"/>
+  <path class="edge" d="M448 230 H505"/>
+  <path class="good" d="M715 230 H785"/>
+  <path class="good" d="M995 230 H1050"/>
+  <path class="good" d="M1155 288 C1155 378 800 365 715 400"/>
+  <path class="deny" d="M1155 288 C1155 345 1035 350 995 386"/>
+  <path class="edge" d="M785 401 H715"/>
+  <path class="edge" d="M505 416 H420"/>
+  <path class="edge" d="M230 416 H268"/>
+  <path class="good" d="M610 288 V380"/>
+  <path class="edge" d="M230 416 H268"/>
+  <path class="edge" d="M325 452 C265 490 190 505 138 548"/>
+  <path class="good" d="M163 474 C190 515 230 548 268 584"/>
+  <path class="edge" d="M138 474 V548"/>
+  <path class="edge" d="M498 591 H565"/>
+  <path class="good" d="M775 591 H1080"/>
+  <path class="warn" d="M670 648 C720 690 820 690 890 620"/>
+  <path class="good" d="M1020 584 H1080"/>
+  <path class="deny" d="M840 584 C650 655 335 655 218 596"/>
+  <path class="edge" d="M1160 620 V660"/>
+  <path class="edge" d="M218 584 C450 735 820 730 1030 696"/>
+
+  <text x="743" y="220" class="small">yes</text>
+  <text x="1021" y="220" class="small">yes</text>
+  <text x="1166" y="336" class="small">no</text>
+  <text x="623" y="338" class="small">no</text>
+  <text x="180" y="510" class="small">yes</text>
+  <text x="115" y="506" class="small">no</text>
+  <text x="790" y="581" class="small">allow</text>
+  <text x="742" y="674" class="small">review</text>
+  <text x="1018" y="574" class="small">approved</text>
+</svg>

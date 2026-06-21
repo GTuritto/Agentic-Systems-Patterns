@@ -1,0 +1,12 @@
+flowchart LR
+  Draft["Draft answer, plan, or action"] --> Criteria["Quality criteria and constraints"]
+  Criteria --> Critique["Reflect: find concrete defects"]
+  Critique --> Decision{"Actionable issue?"}
+  Decision -->|"No"| Accept["Accept current result"]
+  Decision -->|"Yes"| Revise["Revise output or state"]
+  Revise --> Validate{"Meets criteria?"}
+  Validate -->|"No, within budget"| Critique
+  Validate -->|"No, budget or risk hit"| Escalate["Escalate, refuse, or stop"]
+  Validate -->|"Yes"| Accept
+  Accept --> Audit["Trace critique, revision, stop reason"]
+  Escalate --> Audit
