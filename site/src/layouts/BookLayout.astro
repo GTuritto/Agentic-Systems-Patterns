@@ -77,6 +77,19 @@ const structuredData = {
     {pagefindMeta.map(item => <meta data-pagefind-meta={`${item.key}[content]`} content={item.value} />)}
     {pagefindFilters.map(item => <meta data-pagefind-filter={`${item.key}[content]`} content={item.value} />)}
     {pagefindSorts.map(item => <meta data-pagefind-sort={`${item.key}[content]`} content={item.value} />)}
+    <script is:inline>
+      (() => {
+        let storedTheme = null;
+        try {
+          storedTheme = localStorage.getItem('asp-theme');
+        } catch {
+          storedTheme = null;
+        }
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = storedTheme === 'dark' || storedTheme === 'light' ? storedTheme : systemTheme;
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
   </head>
   <body>
@@ -95,6 +108,32 @@ const structuredData = {
       </main>
     </div>
     <script>
+      const themeButtons = document.querySelectorAll<HTMLButtonElement>('[data-theme-option]');
+      const themeLabel = document.querySelector<HTMLElement>('[data-theme-label]');
+
+      function applyTheme(theme, persist = true) {
+        document.documentElement.dataset.theme = theme;
+        if (persist) {
+          try {
+            localStorage.setItem('asp-theme', theme);
+          } catch {
+            // Theme still applies for the current page when storage is unavailable.
+          }
+        }
+        themeButtons.forEach(button => {
+          button.setAttribute('aria-pressed', String(button.dataset.themeOption === theme));
+        });
+        if (themeLabel) {
+          themeLabel.textContent = theme === 'dark' ? 'Dark' : 'Light';
+        }
+      }
+
+      const initialTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+      applyTheme(initialTheme, false);
+      themeButtons.forEach(button => {
+        button.addEventListener('click', () => applyTheme(button.dataset.themeOption === 'dark' ? 'dark' : 'light'));
+      });
+
       const diagrams = document.querySelectorAll('.mermaid');
       if (diagrams.length > 0) {
         const { default: mermaid } = await import('mermaid');

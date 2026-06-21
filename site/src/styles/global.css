@@ -4,18 +4,61 @@
   --bg-ink: #ebe2d2;
   --panel: #fffaf0;
   --panel-deep: #f7eddd;
+  --panel-glass: rgb(255 250 240 / 0.72);
+  --panel-glass-strong: rgb(255 250 240 / 0.88);
   --text: #1b2527;
   --muted: #6d655c;
   --border: #dccfbb;
+  --border-glass: rgb(220 207 187 / 0.72);
   --accent: #b85c38;
   --accent-dark: #7f321c;
   --nav: #153d43;
+  --on-nav: #ffffff;
   --sidebar-link: #344548;
   --sidebar-hover: #f0e3cf;
   --code: #ede4d4;
+  --input-bg: #fffaf0;
+  --image-bg: #fff;
+  --mermaid-bg: #fffdf7;
+  --lede: #3c4647;
+  --body-grid: rgb(21 61 67 / 0.045);
+  --body-glow: rgb(184 92 56 / 0.13);
+  --shadow-soft: rgb(67 54 33 / 0.08);
+  --sidebar-shadow: rgb(67 54 33 / 0.06);
+  --tag-bg: rgb(255 255 255 / 0.66);
   --font-display: ui-serif, Georgia, Cambria, "Times New Roman", serif;
   --font-body: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   --font-ui: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #101514;
+  --bg-ink: #18211f;
+  --panel: #151d1b;
+  --panel-deep: #1e2926;
+  --panel-glass: rgb(21 29 27 / 0.78);
+  --panel-glass-strong: rgb(25 35 32 / 0.9);
+  --text: #e8eee9;
+  --muted: #aebcb3;
+  --border: #34433c;
+  --border-glass: rgb(74 91 82 / 0.72);
+  --accent: #e59a68;
+  --accent-dark: #ffbb88;
+  --nav: #a8e1d1;
+  --on-nav: #10201d;
+  --sidebar-link: #d3ded7;
+  --sidebar-hover: #24322e;
+  --code: #0d1413;
+  --input-bg: #101816;
+  --image-bg: #eef4ed;
+  --mermaid-bg: #eef4ed;
+  --lede: #c2cec7;
+  --body-grid: rgb(168 225 209 / 0.055);
+  --body-glow: rgb(229 154 104 / 0.12);
+  --shadow-soft: rgb(0 0 0 / 0.34);
+  --sidebar-shadow: rgb(0 0 0 / 0.28);
+  --tag-bg: rgb(255 255 255 / 0.08);
 }
 
 * {
@@ -28,8 +71,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 20% 0%, rgb(184 92 56 / 0.13), transparent 30rem),
-    linear-gradient(90deg, rgb(21 61 67 / 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 20% 0%, var(--body-glow), transparent 30rem),
+    linear-gradient(90deg, var(--body-grid) 1px, transparent 1px),
     var(--bg);
   background-size: auto, 48px 48px, auto;
   color: var(--text);
@@ -56,9 +99,9 @@ select:focus-visible {
 }
 
 .book-sidebar {
-  background: linear-gradient(180deg, var(--panel), #f8efdf);
+  background: linear-gradient(180deg, var(--panel), var(--panel-deep));
   border-right: 1px solid var(--border);
-  box-shadow: 18px 0 50px rgb(67 54 33 / 0.06);
+  box-shadow: 18px 0 50px var(--sidebar-shadow);
   height: 100vh;
   overflow: auto;
   padding: 26px 22px;
@@ -74,9 +117,9 @@ select:focus-visible {
 }
 
 .book-content article {
-  background: rgb(255 250 240 / 0.72);
-  border: 1px solid rgb(220 207 187 / 0.72);
-  box-shadow: 0 24px 70px rgb(67 54 33 / 0.08);
+  background: var(--panel-glass);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 24px 70px var(--shadow-soft);
   padding: clamp(28px, 5vw, 64px);
 }
 
@@ -141,7 +184,7 @@ select:focus-visible {
 }
 
 .book-content img {
-  background: #fff;
+  background: var(--image-bg);
   border: 1px solid var(--border);
   border-radius: 14px;
   display: block;
@@ -152,7 +195,7 @@ select:focus-visible {
 }
 
 .book-content .mermaid {
-  background: #fffdf7;
+  background: var(--mermaid-bg);
   border: 1px solid var(--border);
   border-radius: 14px;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7);
@@ -205,7 +248,7 @@ select:focus-visible {
 }
 
 .lede {
-  color: #3c4647;
+  color: var(--lede);
   font-size: clamp(1.25rem, 2.5vw, 1.58rem);
   line-height: 1.55;
   max-width: 760px;
@@ -230,7 +273,7 @@ select:focus-visible {
 
 .button-primary {
   background: var(--nav);
-  color: #fff;
+  color: var(--on-nav);
 }
 
 .button-secondary {
@@ -247,7 +290,7 @@ select:focus-visible {
 }
 
 .stats-panel div {
-  background: rgb(255 250 240 / 0.62);
+  background: var(--panel-glass);
   padding: 22px;
 }
 
@@ -272,7 +315,7 @@ select:focus-visible {
 }
 
 .reader-contract-panel {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   display: grid;
   gap: 24px;
@@ -322,7 +365,7 @@ select:focus-visible {
 
 .download-panel {
   align-items: center;
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border-block: 1px solid var(--border);
   display: grid;
   gap: 22px;
@@ -370,7 +413,7 @@ select:focus-visible {
 }
 
 .section-card {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   min-height: 230px;
   padding: 22px;
@@ -406,7 +449,7 @@ select:focus-visible {
 }
 
 .featured-chapter-card {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   display: grid;
   gap: 10px;
@@ -470,7 +513,7 @@ select:focus-visible {
 }
 
 .catalog-search input {
-  background: #fffaf0;
+  background: var(--input-bg);
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--text);
@@ -503,7 +546,7 @@ select:focus-visible {
 }
 
 .filter-chip {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--nav);
@@ -518,7 +561,7 @@ select:focus-visible {
 .filter-chip.is-active {
   background: var(--nav);
   border-color: var(--nav);
-  color: #fff;
+  color: var(--on-nav);
 }
 
 .catalog-filter-footer {
@@ -566,7 +609,7 @@ select:focus-visible {
 }
 
 .pattern-card {
-  background: linear-gradient(180deg, rgb(255 250 240 / 0.88), rgb(247 237 221 / 0.72));
+  background: linear-gradient(180deg, var(--panel-glass-strong), var(--panel-glass));
   border: 1px solid var(--border);
   display: grid;
   grid-template-rows: auto auto auto 1fr auto;
@@ -612,7 +655,7 @@ select:focus-visible {
 }
 
 .pattern-card__tags span {
-  background: rgb(255 255 255 / 0.66);
+  background: var(--tag-bg);
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--nav);
@@ -638,7 +681,7 @@ select:focus-visible {
 }
 
 .pattern-card__use {
-  background: rgb(255 250 240 / 0.66);
+  background: var(--panel-glass);
   border-left: 3px solid var(--accent);
   color: var(--text) !important;
   margin-top: 0.85rem;
@@ -659,7 +702,7 @@ select:focus-visible {
 }
 
 .catalog-empty {
-  background: rgb(255 250 240 / 0.74);
+  background: var(--panel-glass);
   border: 1px dashed var(--border);
   color: var(--muted);
   font-family: var(--font-ui);
@@ -672,7 +715,7 @@ select:focus-visible {
 }
 
 .section-use {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border-left: 4px solid var(--accent);
   color: var(--text);
   font-family: var(--font-ui);
@@ -684,7 +727,7 @@ select:focus-visible {
 }
 
 .section-guide-panel {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   display: grid;
   gap: 1px;
@@ -727,7 +770,7 @@ select:focus-visible {
 }
 
 .chapter-meta-panel {
-  border-block: 1px solid rgb(220 207 187 / 0.82);
+  border-block: 1px solid var(--border-glass);
   display: grid;
   gap: 12px;
   margin: 0 0 24px;
@@ -750,8 +793,8 @@ select:focus-visible {
 }
 
 .reader-path-tags span {
-  background: rgb(255 250 240 / 0.55);
-  border: 1px solid rgb(220 207 187 / 0.86);
+  background: var(--panel-glass);
+  border: 1px solid var(--border-glass);
   border-radius: 999px;
   color: var(--nav);
   font-family: var(--font-ui);
@@ -771,7 +814,7 @@ select:focus-visible {
 
 .chapter-meta-strip div {
   align-items: baseline;
-  border-right: 1px solid rgb(220 207 187 / 0.9);
+  border-right: 1px solid var(--border-glass);
   display: flex;
   gap: 6px;
   min-height: 0;
@@ -805,7 +848,7 @@ select:focus-visible {
 }
 
 .section-toc {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   margin-top: 24px;
   padding: clamp(22px, 4vw, 34px);
@@ -892,7 +935,7 @@ select:focus-visible {
 }
 
 .related-chapters {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   margin-top: 28px;
   padding: clamp(22px, 4vw, 34px);
@@ -965,7 +1008,7 @@ select:focus-visible {
 }
 
 .page-link {
-  background: rgb(255 250 240 / 0.72);
+  background: var(--panel-glass);
   border: 1px solid var(--border);
   color: var(--nav);
   display: grid;

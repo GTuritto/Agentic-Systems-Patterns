@@ -258,7 +258,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   }
 
   input {
-    background: #fffaf0;
+    background: var(--input-bg);
     border: 1px solid var(--border);
     border-radius: 999px;
     box-sizing: border-box;
@@ -292,7 +292,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
   .search-filter-row select {
     appearance: none;
-    background: #fffaf0;
+    background: var(--input-bg);
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--nav);
@@ -333,7 +333,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   #search-results :global(.search-result:hover),
   #search-results :global(.search-result.is-active),
   #search-results :global(.search-result:focus-visible) {
-    background: #fffaf0;
+    background: var(--input-bg);
     border-color: var(--accent);
   }
 
@@ -349,7 +349,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   }
 
   #search-results :global(.search-result-tags span) {
-    background: rgb(255 255 255 / 0.66);
+    background: var(--tag-bg);
     border: 1px solid var(--border);
     border-radius: 999px;
     color: var(--nav);
@@ -366,7 +366,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   }
 
   #search-results :global(.search-message) {
-    background: rgb(255 250 240 / 0.68);
+    background: var(--panel-glass);
     border: 1px dashed var(--border);
     border-radius: 8px;
     color: var(--muted);

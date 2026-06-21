@@ -10,6 +10,27 @@ const { currentSlug } = Astro.props;
     <span class="brand-kicker">Online book</span>
     <span>Agentic Systems Patterns</span>
   </a>
+  <section class="theme-control" aria-label="Color theme">
+    <div>
+      <span class="theme-kicker">Theme</span>
+      <strong data-theme-label>Light</strong>
+    </div>
+    <div class="theme-toggle" role="group" aria-label="Choose color theme">
+      <button type="button" data-theme-option="light" aria-pressed="false" title="Use light theme">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2.5M12 19.5V22M4.93 4.93 6.7 6.7M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07 6.7 17.3M17.3 6.7l1.77-1.77"></path>
+        </svg>
+        <span>Light</span>
+      </button>
+      <button type="button" data-theme-option="dark" aria-pressed="false" title="Use dark theme">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="M20 14.3A7.8 7.8 0 0 1 9.7 4a8.1 8.1 0 1 0 10.3 10.3Z"></path>
+        </svg>
+        <span>Dark</span>
+      </button>
+    </div>
+  </section>
   <SearchBox />
   <div class="utility-links" aria-label="Book shortcuts">
     <a href={`${siteBase}/book/publishing/how-to-read/`}>Reading paths</a>
@@ -53,6 +74,83 @@ const { currentSlug } = Astro.props;
     text-decoration: none;
   }
 
+  .theme-control {
+    align-items: center;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin: 0 0 16px;
+    padding: 10px;
+  }
+
+  .theme-control strong,
+  .theme-kicker {
+    display: block;
+    font-family: var(--font-ui);
+  }
+
+  .theme-kicker {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+  }
+
+  .theme-control strong {
+    color: var(--nav);
+    font-size: 0.86rem;
+    line-height: 1;
+  }
+
+  .theme-toggle {
+    background: var(--panel-deep);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(2, 34px);
+    padding: 3px;
+  }
+
+  .theme-toggle button {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+  }
+
+  .theme-toggle button[aria-pressed="true"] {
+    background: var(--nav);
+    color: var(--on-nav);
+  }
+
+  .theme-toggle svg {
+    fill: none;
+    height: 17px;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.9;
+    width: 17px;
+  }
+
+  .theme-toggle span {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
   .brand-kicker {
     color: var(--accent);
     font-family: var(--font-ui);
@@ -77,7 +175,7 @@ const { currentSlug } = Astro.props;
   .utility-links a {
     background: var(--nav);
     border-radius: 999px;
-    color: #fff;
+    color: var(--on-nav);
     font-family: var(--font-ui);
     font-size: 0.82rem;
     font-weight: 820;
@@ -122,7 +220,7 @@ const { currentSlug } = Astro.props;
   .nav-link.is-active {
     background: var(--nav);
     box-shadow: 0 10px 24px rgb(23 63 79 / 0.14);
-    color: #fff;
+    color: var(--on-nav);
     font-weight: 760;
   }
 </style>
