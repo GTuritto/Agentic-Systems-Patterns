@@ -55,6 +55,7 @@ const pdfMermaidDiagrams = new Map([
 ]);
 
 const generatedMermaidAltText = new Map([
+  ['publishing/content-index-mind-map.md:0', 'Content index mind map'],
   ['hands-on-labs/vertical-slice-examples.md:0', 'Support refund runtime flow'],
   ['hands-on-labs/vertical-slice-examples.md:1', 'Safe coding agent runtime flow'],
   ['hands-on-labs/vertical-slice-examples.md:2', 'Research to brief runtime flow'],

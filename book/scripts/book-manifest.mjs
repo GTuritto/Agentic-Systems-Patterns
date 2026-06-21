@@ -40,6 +40,7 @@ export const bookChapters = deepFreeze([
   chapter('introduction', 'Introduction', 'intro.md', 'front-matter'),
   chapter('how-to-read', 'How To Read This Book', 'publishing/how-to-read.md', 'front-matter'),
   chapter('logical-groups', 'Logical Groups', 'publishing/logical-groups.md', 'front-matter'),
+  chapter('content-index-mind-map', 'Content Index Mind Map', 'publishing/content-index-mind-map.md', 'front-matter'),
   chapter('what-is-an-agent', 'What Is An Agent?', 'foundations/what-is-an-agent.md', 'front-matter'),
   chapter('glossary', 'Glossary and Acronyms', 'publishing/glossary.md', 'front-matter'),
   chapter('ten-out-of-ten-production-gate', '10/10 Production Gate', 'publishing/ten-out-of-ten-production-gate.md', 'front-matter'),

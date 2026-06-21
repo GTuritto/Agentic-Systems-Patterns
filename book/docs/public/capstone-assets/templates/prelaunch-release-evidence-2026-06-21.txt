@@ -70,11 +70,11 @@ Evidence: Native LangGraph examples smoke checks OK.
 
 [x] npm run book:manifest:test
 Result: passed.
-Evidence: Book manifest OK: 103 chapters.
+Evidence: Book manifest OK: 104 chapters.
 
 [x] npm run book:visuals:verify
 Result: passed.
-Evidence: Visual coverage OK: 103/103 manifest chapters plus homepage.
+Evidence: Visual coverage OK: 104/104 manifest chapters plus homepage.
 
 [x] npm run book:quality
 Result: passed.
@@ -86,7 +86,7 @@ Evidence: VitePress authoring build completed. Vite emitted a non-blocking chunk
 
 [x] npm run site:build
 Result: passed.
-Evidence: Astro built 120 pages, generated sitemap.xml and robots.txt, and Pagefind indexed 120 pages with 4 filters and 2 sorts. Vite emitted a non-blocking chunk-size warning.
+Evidence: Astro built 121 pages, generated sitemap.xml and robots.txt, and Pagefind indexed 121 pages with 4 filters and 2 sorts. Vite emitted a non-blocking chunk-size warning.
 
 [x] npm run site:parity
 Result: passed.
@@ -138,7 +138,7 @@ Public probe result on 2026-06-21:
 The public GitHub Pages site serves the current Astro book deployment from commit 4acc30b. The online reader, chapter routes, Pagefind assets, PDF, EPUB, templates, traces, and diagrams are reachable from the public URL.
 
 Observed URL results:
-- https://gturitto.github.io/Agentic-Systems-Patterns/ returned HTTP 200 and exposed the current online book homepage with 103 chapters.
+- https://gturitto.github.io/Agentic-Systems-Patterns/ returned HTTP 200 and exposed the current online book homepage with 104 chapters.
 - https://gturitto.github.io/Agentic-Systems-Patterns/book/intro/ returned HTTP 200 and exposed the current Introduction chapter.
 - https://gturitto.github.io/Agentic-Systems-Patterns/book/publishing/how-to-read/ returned HTTP 200.
 - https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/ returned HTTP 200.

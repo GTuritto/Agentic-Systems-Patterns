@@ -6,7 +6,7 @@ title: Logical Groups
 
 This book is grouped by the order in which engineering decisions usually appear. Start with the problem and pattern choice, then add runtime primitives, engineering practice, risk controls, architecture, production operations, labs, and complete examples.
 
-Use this page when the sidebar feels large. Each group answers a different question.
+Use this page when the sidebar feels large. Each group answers a different question. Use [Content Index Mind Map](/publishing/content-index-mind-map) when you want a visual map of the full book before choosing a path.
 
 ## Group Map
 
@@ -93,16 +93,17 @@ Use this route when you want the diagrams to carry the first pass. It is useful 
 
 | Step | Chapter | What The Diagram Should Clarify |
 | --- | --- | --- |
-| 1 | [Pattern Classification Mind Map](/pattern-selection/pattern-classification-mind-map) | Where each pattern family fits before choosing one. |
-| 2 | [Agent Loop](/foundations/agent-loop) | How state, actions, observations, and stop conditions form a run. |
-| 3 | [Planning and Execution](/control-loops/planning-and-execution) | Who owns the plan, validation, execution, and progress. |
-| 4 | [Memory-Augmented Agent](/memory-knowledge/memory-augmented-agent) | How retrieval, context injection, storage, and correction stay governed. |
-| 5 | [Tool Capability Design](/tools-skills-protocols/tool-capability-design) | Where permissions, policy, tool calls, and audit records sit. |
-| 6 | [Secure Agent Communication](/tools-skills-protocols/secure-agent-communication) | Which authority gates protect agent-to-agent or remote-tool exchange. |
-| 7 | [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology) | When to delegate, supervise, debate, parallelize, or stay single-agent. |
-| 8 | [Agentic System Architecture](/systems-architecture/agentic-system-architecture) | How the patterns compose into services, state, policy, evals, and operations. |
-| 9 | [Production Runtime Overview](/production-runtime/overview) | What must exist around the agent before production use. |
-| 10 | [Event-Triggered Agents](/production-runtime/event-triggered-agents) | How unattended triggers stay idempotent, observable, replayable, and safe. |
+| 1 | [Content Index Mind Map](/publishing/content-index-mind-map) | How the full book is organized before choosing a route. |
+| 2 | [Pattern Classification Mind Map](/pattern-selection/pattern-classification-mind-map) | Where each pattern family fits before choosing one. |
+| 3 | [Agent Loop](/foundations/agent-loop) | How state, actions, observations, and stop conditions form a run. |
+| 4 | [Planning and Execution](/control-loops/planning-and-execution) | Who owns the plan, validation, execution, and progress. |
+| 5 | [Memory-Augmented Agent](/memory-knowledge/memory-augmented-agent) | How retrieval, context injection, storage, and correction stay governed. |
+| 6 | [Tool Capability Design](/tools-skills-protocols/tool-capability-design) | Where permissions, policy, tool calls, and audit records sit. |
+| 7 | [Secure Agent Communication](/tools-skills-protocols/secure-agent-communication) | Which authority gates protect agent-to-agent or remote-tool exchange. |
+| 8 | [Choosing Multi-Agent Topology](/multi-agent-systems/choosing-multi-agent-topology) | When to delegate, supervise, debate, parallelize, or stay single-agent. |
+| 9 | [Agentic System Architecture](/systems-architecture/agentic-system-architecture) | How the patterns compose into services, state, policy, evals, and operations. |
+| 10 | [Production Runtime Overview](/production-runtime/overview) | What must exist around the agent before production use. |
+| 11 | [Event-Triggered Agents](/production-runtime/event-triggered-agents) | How unattended triggers stay idempotent, observable, replayable, and safe. |
 
 After this route, use the pattern chapters as a reference. Each diagram should answer a concrete ownership question, not just decorate the page.
 

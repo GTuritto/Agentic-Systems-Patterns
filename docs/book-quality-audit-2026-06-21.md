@@ -20,8 +20,8 @@ This audit reflects the current worktree after the editorial passes on June 21, 
 
 Verified evidence:
 
-- `npm run book:manifest:test` passes with 103 chapters.
-- `npm run site:build` passes with 120 built pages and Pagefind search output.
+- `npm run book:manifest:test` passes with 104 chapters.
+- `npm run site:build` passes with 121 built pages and Pagefind search output.
 - `npm run site:parity` passes with route, sitemap, and internal-link checks.
 - `site/dist` contains reader-facing downloads, templates, trace examples, eval reports, and Pagefind assets.
 - The hands-on lab section now has review gates and production bridge sections for Labs 01-13, the mini-framework track, and vertical slice examples.
