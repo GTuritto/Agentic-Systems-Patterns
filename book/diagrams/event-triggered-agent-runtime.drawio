@@ -1,0 +1,106 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="event-triggered-agent-runtime" name="Event Triggered Agent Runtime">
+    <mxGraphModel dx="2600" dy="560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="560" math="0" shadow="0" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Event Triggered Agent Runtime" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;fontColor=#173F4F;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1097" y="26" width="406" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-1" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Event" target="Ingest">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-2" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Ingest" target="Dedupe">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-3" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Dedupe" target="Ack">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-4" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Dedupe" target="Context">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-5" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Context" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-6" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Escalate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-7" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Execute">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-8" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Execute" target="Checkpoint">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-9" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Checkpoint" target="Result">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-10" value="Success" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Result" target="Publish">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-11" value="Retryable failure" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Result" target="Retry">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-12" value="Permanent failure" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Result" target="DeadLetter">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-13" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Retry" target="Execute">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-14" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Publish" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-15" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="DeadLetter" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-16" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Escalate" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-17" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Ack" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="Event" value="Webhook, queue, schedule, or domain event" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Ingest" value="Ingest with event id and idempotency key" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="320" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Dedupe" value="Duplicate or stale?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="600" y="110" width="195" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Ack" value="Acknowledge without side effects" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="880" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Context" value="Load state, policy, memory, and config" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="880" y="234" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Gate" value="Policy and context sufficient?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="110" width="255" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Escalate" value="Reject, hold, or request human review" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Execute" value="Run bounded agent or workflow step" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="234" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Checkpoint" value="Checkpoint result, trace, cost, and error state" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1720" y="110" width="260" height="96" as="geometry"/>
+        </mxCell>
+        <mxCell id="Result" value="Step outcome" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="110" width="170" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Publish" value="Publish side effect or next event" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Retry" value="Retry with backoff and budget" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="234" width="250" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="DeadLetter" value="Dead-letter with replay data" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="358" width="244" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Audit" value="Audit trail and regression replay set" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="234" width="260" height="86" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="reflection-improvement-loop" name="Reflection Improvement Loop">
+    <mxGraphModel dx="2008" dy="560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2008" pageHeight="560" math="0" shadow="0" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Reflection Improvement Loop" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;fontColor=#173F4F;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="815" y="26" width="378" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-1" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Draft" target="Criteria">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-2" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Criteria" target="Critique">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-3" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Critique" target="Decision">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-4" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Decision" target="Accept">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-5" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Decision" target="Revise">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-6" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Revise" target="Validate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-7" value="No, within budget" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Validate" target="Critique">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-8" value="No, budget or risk hit" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Validate" target="Escalate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-9" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Validate" target="Accept">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-10" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Accept" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-11" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Escalate" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="Draft" value="Draft answer, plan, or action" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="250" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Criteria" value="Quality criteria and constraints" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="320" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Critique" value="Reflect: find concrete defects" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="600" y="110" width="255" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Decision" value="Actionable issue?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="880" y="110" width="184" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Accept" value="Accept current result" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="110" width="206" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Revise" value="Revise output or state" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="234" width="211" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Validate" value="Meets criteria?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="110" width="173" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Escalate" value="Escalate, refuse, or stop" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1720" y="110" width="228" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Audit" value="Trace critique, revision, stop reason" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="234" width="260" height="86" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const bookRoot = path.resolve(__dirname, '..');
 const docsRoot = path.join(bookRoot, 'docs');
+const sourceDiagramsRoot = path.join(bookRoot, 'diagrams');
 const diagramsRoot = path.join(docsRoot, 'public', 'diagrams');
 
 async function walk(dir) {
@@ -46,6 +47,12 @@ async function main() {
   const failures = [];
   let referencedDiagrams = 0;
 
+  const diagramSourceFiles = await walk(sourceDiagramsRoot);
+  const mermaidSourceFiles = diagramSourceFiles.filter(file => file.endsWith('.mmd'));
+  for (const file of mermaidSourceFiles) {
+    failures.push(`Mermaid diagram source remains; convert to draw.io: ${path.relative(bookRoot, file)}`);
+  }
+
   for (const markdownFile of markdownFiles) {
     const markdown = await fs.readFile(markdownFile, 'utf8');
     for (const match of markdown.matchAll(/!\[([^\]]*)]\(([^)]+)\)/g)) {
@@ -64,6 +71,15 @@ async function main() {
         if (!svg.includes('<svg')) {
           failures.push(`${path.relative(docsRoot, markdownFile)} -> ${path.relative(docsRoot, targetPath)} is not an SVG`);
         }
+        const diagramRelativePath = path.relative(diagramsRoot, targetPath);
+        if (!diagramRelativePath.startsWith('generated-mermaid/') && diagramRelativePath.endsWith('.svg')) {
+          const drawioPath = path.join(sourceDiagramsRoot, diagramRelativePath.replace(/\.svg$/, '.drawio'));
+          try {
+            await fs.access(drawioPath);
+          } catch {
+            failures.push(`${path.relative(docsRoot, markdownFile)} -> ${target} is missing draw.io source ${path.relative(bookRoot, drawioPath)}`);
+          }
+        }
       } catch {
         failures.push(`${path.relative(docsRoot, markdownFile)} -> ${target} missing`);
       }
@@ -71,6 +87,7 @@ async function main() {
   }
 
   const generatedMermaidRoot = path.join(diagramsRoot, 'generated-mermaid');
+  const generatedMermaidDrawioRoot = path.join(sourceDiagramsRoot, 'generated-mermaid');
   let generatedMermaidCount = 0;
   try {
     const generatedFiles = (await fs.readdir(generatedMermaidRoot)).filter(file => file.endsWith('.svg'));
@@ -78,6 +95,12 @@ async function main() {
     for (const file of generatedFiles) {
       const svg = await fs.readFile(path.join(generatedMermaidRoot, file), 'utf8');
       if (!svg.includes('<svg')) failures.push(`generated-mermaid/${file} is not an SVG`);
+      const drawioPath = path.join(generatedMermaidDrawioRoot, file.replace(/\.svg$/, '.drawio'));
+      try {
+        await fs.access(drawioPath);
+      } catch {
+        failures.push(`generated-mermaid/${file} is missing draw.io source ${path.relative(bookRoot, drawioPath)}`);
+      }
     }
   } catch (error) {
     if (error.code !== 'ENOENT') throw error;

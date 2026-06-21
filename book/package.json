@@ -7,6 +7,8 @@
     "manifest:test": "node scripts/book-manifest.spec.mjs",
     "content:verify": "node scripts/verify-editorial-content.mjs",
     "diagrams:verify": "node scripts/verify-diagram-assets.mjs",
+    "diagrams:convert-mmd": "node scripts/convert-mmd-to-drawio.mjs",
+    "diagrams:ensure-sources": "node scripts/ensure-drawio-sources.mjs",
     "visuals:verify": "node scripts/verify-visual-coverage.mjs",
     "diagrams": "node scripts/generate-diagrams.mjs",
     "content": "node scripts/generate-pattern-pages.mjs",

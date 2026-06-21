@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="computer-use-action-space" name="Computer Use Action Space">
+    <mxGraphModel dx="2880" dy="638" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2880" pageHeight="638" math="0" shadow="0" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Computer Use Action Space" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;fontColor=#173F4F;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1265" y="26" width="350" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-1" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Goal" target="Fit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-2" value="API, MCP, DB, workflow" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Fit" target="Tool">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-3" value="UI is only practical path" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Fit" target="Observe">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-4" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Observe" target="Evidence">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-5" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Evidence" target="Stop">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-6" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Evidence" target="Tier">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-7" value="Read screen or DOM" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Tier" target="Observe">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-8" value="Known selector" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Tier" target="Guided">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-9" value="Bounded form" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Tier" target="Form">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-10" value="File in sandbox" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Tier" target="File">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-11" value="Logged-in app" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Tier" target="Auth">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-12" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Guided" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-13" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Form" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-14" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="File" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-15" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Auth" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-16" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Execute">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-17" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Visual">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-18" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Visual" target="Approval">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-19" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Approval" target="Stop">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-20" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Approval" target="Execute">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-21" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Execute" target="Result">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-22" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Result" target="Trace">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-23" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Result" target="Recover">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-24" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Recover" target="Stop">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="Goal" value="User goal" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="170" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Fit" value="Safer interface exists?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="320" y="110" width="217" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Tool" value="Use typed tool or workflow" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="600" y="110" width="233" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Observe" value="Observe only" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="600" y="234" width="170" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Evidence" value="Observation evidence complete?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="880" y="110" width="255" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Stop" value="Stop or ask human" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="110" width="184" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Tier" value="Required action tier" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="234" width="200" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Guided" value="Guided action" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="110" width="170" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Form" value="Form completion" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="234" width="173" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="File" value="Sandboxed file workflow" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="358" width="217" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Auth" value="Authenticated operation" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="482" width="217" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Gate" value="High-risk action?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="1720" y="110" width="184" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Execute" value="Validate precondition, execute, check postcondition" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="110" width="260" height="96" as="geometry"/>
+        </mxCell>
+        <mxCell id="Visual" value="Visual confirmation gate" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="234" width="222" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Approval" value="Approved exact action?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="110" width="211" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Result" value="Postcondition passed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="234" width="206" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Trace" value="Store trace and artifact policy" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2560" y="110" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recover" value="Narrow recovery playbook" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2560" y="234" width="222" height="86" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

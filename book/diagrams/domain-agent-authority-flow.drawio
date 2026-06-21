@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net" modified="2026-06-21T00:00:00.000Z" agent="Codex" version="24.7.17">
+  <diagram id="domain-agent-authority-flow" name="Domain Agent Authority Flow">
+    <mxGraphModel dx="2518" dy="560" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2518" pageHeight="560" math="0" shadow="0" defaultFontFamily="Inter">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="Domain Agent Authority Flow" style="text;html=1;fontSize=28;fontStyle=1;fontFamily=Inter;fontColor=#173F4F;strokeColor=none;fillColor=none;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="26" width="378" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-1" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Request" target="Rights">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-2" value="Classify, extract, summarize" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Rights" target="Evidence">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-3" value="Recommend or draft" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Rights" target="Evidence">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-4" value="Execute, deny, approve, diagnose, decide" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Rights" target="Review">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-5" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Evidence" target="Sources">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-6" value="No, stale, conflicting" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Sources" target="Escalate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-7" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Sources" target="Policy">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-8" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Policy" target="Gate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-9" value="Allow draft" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Agent">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-10" value="Review required" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Review">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-11" value="Deny" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Gate" target="Escalate">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-12" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Agent" target="Human">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-13" value="No" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Human" target="Output">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-14" value="Yes" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Human" target="Review">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-15" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Review" target="Decision">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-16" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Decision" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="edge-17" value="" style="endArrow=block;html=1;rounded=0;strokeWidth=2;strokeColor=#5F6368;fontFamily=Inter;fontSize=13;fontColor=#202124;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="Output" target="Audit">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="Request" value="Domain request" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="170" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Rights" value="Decision right" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="320" y="110" width="170" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Evidence" value="Evidence packet" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="600" y="110" width="173" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Review" value="Required reviewer or policy owner" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="600" y="234" width="260" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Sources" value="Evidence sufficient?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="880" y="110" width="200" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Escalate" value="Ask, escalate, or block" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="110" width="217" height="86" as="geometry"/>
+        </mxCell>
+        <mxCell id="Policy" value="Domain policy check" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="234" width="195" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Gate" value="Allowed status" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="1440" y="110" width="170" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Agent" value="Domain agent produces draft or recommendation" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1720" y="110" width="260" height="96" as="geometry"/>
+        </mxCell>
+        <mxCell id="Human" value="Human review needed?" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#FFF4E5;strokeColor=#B7791F;" vertex="1" parent="1">
+          <mxGeometry x="2000" y="110" width="200" height="92" as="geometry"/>
+        </mxCell>
+        <mxCell id="Output" value="Auditable output" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="2280" y="110" width="178" height="64" as="geometry"/>
+        </mxCell>
+        <mxCell id="Decision" value="Reviewer accepts, edits, rejects, or escalates" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="880" y="234" width="260" height="96" as="geometry"/>
+        </mxCell>
+        <mxCell id="Audit" value="Audit record and regression eval" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;fontFamily=Inter;fontColor=#173F4F;strokeWidth=2;fillColor=#F6EFE2;strokeColor=#527887;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="358" width="260" height="86" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
