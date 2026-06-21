@@ -164,7 +164,6 @@ const authoredSummaryByPath = new Map([
   ['intro.md', 'The introduction defines the book promise: practical agentic system patterns, clear ownership boundaries, and release-quality evidence.'],
   ['publishing/how-to-read.md', 'This guide maps the book to reader goals: learning the field, choosing a pattern, building a lab, reviewing production risk, or publishing the book.'],
   ['publishing/logical-groups.md', 'Logical Groups organizes the chapters into a reading order that moves from foundations to selection, implementation, runtime, labs, and capstones.'],
-  ['publishing/content-index-mind-map.md', 'Content Index Mind Map gives a visual, section-by-section map of the book so readers can choose the right chapter path quickly.'],
   ['foundations/what-is-an-agent.md', 'This chapter defines an agent as a loop around goals, state, tools, context, decisions, and stop conditions.'],
   ['publishing/glossary.md', 'The glossary stabilizes the vocabulary used across the book so terms like state, memory, tool, policy, eval, and trace stay precise.'],
   ['publishing/ten-out-of-ten-production-gate.md', 'The 10/10 Production Gate defines the release bar for agentic systems that affect users, money, data, or operations.'],

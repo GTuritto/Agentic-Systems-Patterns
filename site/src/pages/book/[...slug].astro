@@ -43,15 +43,9 @@ const pagefind = {
 ---
 
 <BookLayout title={`${rendered.title} | Agentic Systems Patterns`} description={description} currentSlug={chapter.slug} pagefind={pagefind}>
-  <header class="chapter-meta-panel" aria-label="Chapter metadata">
-    <div>
-      <p class="eyebrow">Chapter guide</p>
-      <p class="chapter-meta-summary">{chapterSearchExcerpt(chapter)}</p>
-      <div class="reader-path-tags" aria-label="Recommended reader paths">
-        {chapter.readerPaths.map(path => <span>{path}</span>)}
-      </div>
-    </div>
-    <dl class="chapter-meta-grid">
+  <header class="chapter-meta-panel" aria-label="Chapter overview">
+    <p class="chapter-meta-summary">{chapterSearchExcerpt(chapter)}</p>
+    <dl class="chapter-meta-strip" aria-label="Chapter facts">
       <div>
         <dt>Section</dt>
         <dd>{sectionTitle}</dd>
@@ -73,6 +67,9 @@ const pagefind = {
         <dd>{chapter.effort}</dd>
       </div>
     </dl>
+    <div class="reader-path-tags" aria-label="Recommended reader paths">
+      {chapter.readerPaths.map(path => <span>{path}</span>)}
+    </div>
   </header>
   <article set:html={rendered.html} />
   {related.length > 0 && (

@@ -727,76 +727,81 @@ select:focus-visible {
 }
 
 .chapter-meta-panel {
-  align-items: stretch;
-  background: rgb(255 250 240 / 0.72);
-  border: 1px solid var(--border);
+  border-block: 1px solid rgb(220 207 187 / 0.82);
   display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-  margin-bottom: 24px;
-  padding: clamp(18px, 3vw, 26px);
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 15px 0 17px;
 }
 
 .chapter-meta-summary {
-  color: var(--muted);
-  font-size: 1rem !important;
-  line-height: 1.55 !important;
-  margin: 0.6rem 0 0 !important;
+  color: var(--text);
+  font-size: 0.98rem !important;
+  line-height: 1.58 !important;
+  margin: 0 !important;
+  max-width: 72ch;
 }
 
 .reader-path-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 7px;
+  margin-top: 0;
 }
 
 .reader-path-tags span {
-  background: rgb(255 255 255 / 0.72);
-  border: 1px solid var(--border);
+  background: rgb(255 250 240 / 0.55);
+  border: 1px solid rgb(220 207 187 / 0.86);
   border-radius: 999px;
   color: var(--nav);
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 840;
   line-height: 1;
-  padding: 7px 10px;
+  padding: 6px 9px;
 }
 
-.chapter-meta-grid {
-  display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.chapter-meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 0;
   margin: 0;
+  padding: 0;
 }
 
-.chapter-meta-grid div {
-  background: var(--panel-deep);
-  border: 1px solid var(--border);
-  min-height: 78px;
-  padding: 12px;
+.chapter-meta-strip div {
+  align-items: baseline;
+  border-right: 1px solid rgb(220 207 187 / 0.9);
+  display: flex;
+  gap: 6px;
+  min-height: 0;
+  padding-right: 12px;
 }
 
-.chapter-meta-grid div:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
+.chapter-meta-strip div:not(:first-child) {
+  padding-left: 12px;
 }
 
-.chapter-meta-grid dt {
+.chapter-meta-strip div:last-child {
+  border-right: 0;
+}
+
+.chapter-meta-strip dt {
   color: var(--muted);
   font-family: var(--font-ui);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   font-weight: 850;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.chapter-meta-grid dd {
+.chapter-meta-strip dd {
   color: var(--nav);
   font-family: var(--font-ui);
-  font-size: 0.92rem;
+  font-size: 0.78rem;
   font-weight: 820;
-  line-height: 1.25;
-  margin: 0.5rem 0 0;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .section-toc {
