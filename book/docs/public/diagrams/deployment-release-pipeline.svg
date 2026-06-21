@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" role="img" aria-labelledby="title desc">
+  <title id="title">Deployment release pipeline</title>
+  <desc id="desc">Release pipeline for an agentic system from local evidence through eval gates, canary, monitoring, rollback, and incident feedback.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .step{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.gate{fill:#ecfeff;stroke:#0891b2;stroke-width:1.8}.prod{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.8}.rollback{fill:#fff7ed;stroke:#f97316;stroke-width:1.8}
+      .label{font:700 13px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.back{stroke:#f97316;stroke-width:2;fill:none;marker-end:url(#orange)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+    <marker id="orange" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#f97316"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="700"/>
+  <text class="title" x="44" y="48">Deployment and Release Pipeline</text>
+  <text class="sub" x="44" y="72">Agent releases need evidence gates before traffic and feedback loops after traffic.</text>
+
+  <rect class="step" x="60" y="150" width="180" height="90" rx="10"/>
+  <text class="label" x="88" y="182">Local evidence</text>
+  <text class="txt" x="88" y="208">install, run, tests,</text>
+  <text class="txt" x="88" y="228">trace, cleanup</text>
+
+  <rect class="gate" x="280" y="150" width="180" height="90" rx="10"/>
+  <text class="label" x="312" y="182">Eval gate</text>
+  <text class="txt" x="312" y="208">quality, safety,</text>
+  <text class="txt" x="312" y="228">trajectory checks</text>
+
+  <rect class="step" x="500" y="150" width="180" height="90" rx="10"/>
+  <text class="label" x="526" y="182">Package release</text>
+  <text class="txt" x="526" y="208">version model, prompt,</text>
+  <text class="txt" x="526" y="228">tools, policy, evals</text>
+
+  <rect class="gate" x="720" y="150" width="180" height="90" rx="10"/>
+  <text class="label" x="762" y="182">Canary gate</text>
+  <text class="txt" x="762" y="208">small traffic,</text>
+  <text class="txt" x="762" y="228">override watch</text>
+
+  <rect class="prod" x="940" y="150" width="180" height="90" rx="10"/>
+  <text class="label" x="972" y="182">Production</text>
+  <text class="txt" x="972" y="208">budget, alerts,</text>
+  <text class="txt" x="972" y="228">runbooks</text>
+
+  <rect class="step" x="170" y="390" width="180" height="90" rx="10"/>
+  <text class="label" x="198" y="422">Trace review</text>
+  <text class="txt" x="198" y="448">model, tools, policy,</text>
+  <text class="txt" x="198" y="468">cost, stop reason</text>
+
+  <rect class="rollback" x="500" y="390" width="180" height="90" rx="10"/>
+  <text class="label" x="536" y="422">Rollback switch</text>
+  <text class="txt" x="536" y="448">disable capability,</text>
+  <text class="txt" x="536" y="468">tool, route, model</text>
+
+  <rect class="step" x="830" y="390" width="180" height="90" rx="10"/>
+  <text class="label" x="864" y="422">Incident to eval</text>
+  <text class="txt" x="864" y="448">turn failures into</text>
+  <text class="txt" x="864" y="468">blocking fixtures</text>
+
+  <path class="arrow" d="M240 195 H280"/><path class="arrow" d="M460 195 H500"/><path class="arrow" d="M680 195 H720"/><path class="arrow" d="M900 195 H940"/>
+  <path class="arrow" d="M1030 240 C1020 330 965 360 920 390"/>
+  <path class="arrow" d="M830 435 H680"/>
+  <path class="arrow" d="M500 435 H350"/>
+  <path class="back" d="M590 390 C560 320 400 300 370 240"/>
+  <path class="back" d="M920 480 C860 585 420 585 260 480"/>
+  <text class="small" x="64" y="615">Release rule: no traffic without local evidence, eval gates, rollback controls, and trace fields that explain every run.</text>
+</svg>

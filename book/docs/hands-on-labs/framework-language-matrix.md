@@ -6,6 +6,12 @@ title: Lab Framework and Language Matrix
 
 The labs are intentionally language- and framework-agnostic. They use different tools so you can see the architectural pattern beneath the framework API.
 
+## Coverage Graph
+
+Use this graph to see the learning emphasis across languages, runtimes, framework slices, and capstones. The goal is balanced architecture exposure, not equal package coverage.
+
+![Framework and language lab coverage](../public/diagrams/framework-language-coverage.svg)
+
 | Lab | Pattern | Language | Framework / Runtime | Framework-Agnostic Lesson |
 | --- | --- | --- | --- | --- |
 | [Lab 01 - Tool-Using Agent](./lab-01-tool-using-agent.md) | Tool use | TypeScript | Minimal custom runtime / AutoGen-style example | The model proposes a capability use; software owns validation and execution. |

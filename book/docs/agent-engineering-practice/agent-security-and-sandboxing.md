@@ -20,6 +20,12 @@ In production there is a fifth concern: how the request crosses trust boundaries
 
 The model can propose work. It should not mint credentials, choose its own scopes, decide that TLS is optional, approve its own network egress, or hide security events from traces.
 
+## Security Layers
+
+Use this diagram to see sandboxing as one layer in a larger security boundary. The model proposes work; identity, data access, tool policy, sandboxing, egress controls, approval, audit, and incident response decide what can actually happen.
+
+![Agent security layers](../public/diagrams/security-sandbox-layers.svg)
+
 ## Threats To Design For
 
 Agent security is easier to reason about when the threat is concrete. Start with these cases before adding more exotic ones.

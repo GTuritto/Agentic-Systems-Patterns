@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" role="img" aria-labelledby="title desc">
+  <title id="title">Hands-on lab progression map</title>
+  <desc id="desc">Progression from deterministic labs to mini-framework, native framework slices, vertical slices, and capstones.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .band{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.phase{font:700 14px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}
+      .small{font:12px Inter,Arial,sans-serif;fill:#475569}.node{fill:#eff6ff;stroke:#2563eb;stroke-width:1.5}.native{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.5}.cap{fill:#fff7ed;stroke:#f97316;stroke-width:1.5}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="700"/>
+  <text class="title" x="44" y="48">Lab Progression Map</text>
+  <text class="sub" x="44" y="72">The labs move from controlled primitives to framework comparison and product-shaped systems.</text>
+
+  <rect class="band" x="60" y="120" width="240" height="440" rx="12"/>
+  <text class="phase" x="92" y="154">1. Deterministic primitives</text>
+  <rect class="node" x="90" y="188" width="180" height="54" rx="8"/><text class="txt" x="116" y="220">Tool-using agent</text>
+  <rect class="node" x="90" y="260" width="180" height="54" rx="8"/><text class="txt" x="112" y="292">Loop and planning</text>
+  <rect class="node" x="90" y="332" width="180" height="54" rx="8"/><text class="txt" x="132" y="364">Agentic RAG</text>
+  <rect class="node" x="90" y="404" width="180" height="54" rx="8"/><text class="txt" x="122" y="436">A2A and MCP</text>
+  <text class="small" x="92" y="506">Reader learns boundaries:</text>
+  <text class="small" x="92" y="526">state, tools, stop, traces.</text>
+
+  <rect class="band" x="340" y="120" width="240" height="440" rx="12"/>
+  <text class="phase" x="386" y="154">2. Mini-framework</text>
+  <rect class="node" x="370" y="208" width="180" height="54" rx="8"/><text class="txt" x="402" y="240">Minimal loop</text>
+  <rect class="node" x="370" y="286" width="180" height="54" rx="8"/><text class="txt" x="400" y="318">Tool registry</text>
+  <rect class="node" x="370" y="364" width="180" height="54" rx="8"/><text class="txt" x="394" y="396">Memory and evals</text>
+  <text class="small" x="372" y="506">Reader sees what frameworks</text>
+  <text class="small" x="372" y="526">package under the hood.</text>
+
+  <rect class="band" x="620" y="120" width="240" height="440" rx="12"/>
+  <text class="phase" x="674" y="154">3. Native slices</text>
+  <rect class="native" x="650" y="188" width="180" height="54" rx="8"/><text class="txt" x="702" y="220">LangGraph</text>
+  <rect class="native" x="650" y="260" width="180" height="54" rx="8"/><text class="txt" x="708" y="292">Mastra</text>
+  <rect class="native" x="650" y="332" width="180" height="54" rx="8"/><text class="txt" x="708" y="364">CrewAI</text>
+  <rect class="native" x="650" y="404" width="180" height="54" rx="8"/><text class="txt" x="706" y="436">AutoGen</text>
+  <text class="small" x="652" y="506">Reader compares API shape</text>
+  <text class="small" x="652" y="526">against the same boundaries.</text>
+
+  <rect class="band" x="900" y="120" width="220" height="440" rx="12"/>
+  <text class="phase" x="944" y="154">4. Capstones</text>
+  <rect class="cap" x="930" y="208" width="160" height="54" rx="8"/><text class="txt" x="958" y="240">Refund agent</text>
+  <rect class="cap" x="930" y="286" width="160" height="54" rx="8"/><text class="txt" x="954" y="318">Research RAG</text>
+  <rect class="cap" x="930" y="364" width="160" height="54" rx="8"/><text class="txt" x="954" y="396">Delivery flow</text>
+  <text class="small" x="932" y="506">Reader sees release</text>
+  <text class="small" x="932" y="526">evidence and rollback.</text>
+
+  <path class="arrow" d="M300 340 H340"/><path class="arrow" d="M580 340 H620"/><path class="arrow" d="M860 340 H900"/>
+  <text class="small" x="70" y="620">Rule: run a deterministic lab first, then compare a native slice, then map the same behavior to a capstone.</text>
+</svg>

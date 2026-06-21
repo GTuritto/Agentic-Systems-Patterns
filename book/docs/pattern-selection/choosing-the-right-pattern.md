@@ -8,6 +8,12 @@ Agentic design is a spectrum. The best architecture is usually the least agentic
 
 Use this chapter before choosing a framework, adding agents, or building a multi-agent topology. The decision should start with the workload, not with the most powerful pattern available.
 
+## Selection Flow
+
+Use this diagram as a practical gate before moving up the autonomy ladder. The question is not "can an agent do it?" The question is which smaller pattern can satisfy the workload with less risk.
+
+![Pattern selection flow](../public/diagrams/pattern-selection-flow.svg)
+
 ## The Autonomy Ladder
 
 Move up the ladder only when the lower rung cannot handle the job.

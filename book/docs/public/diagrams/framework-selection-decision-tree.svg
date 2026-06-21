@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="760" viewBox="0 0 1180 760" role="img" aria-labelledby="title desc">
+  <title id="title">Framework selection decision tree</title>
+  <desc id="desc">Decision tree for choosing direct code, LangGraph, Mastra, AutoGen, CrewAI, or a custom mini-runtime.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .q{fill:#ecfeff;stroke:#0891b2;stroke-width:1.7}.fit{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.7}.warn{fill:#fff7ed;stroke:#f97316;stroke-width:1.7}
+      .label{font:700 13px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="760"/>
+  <text class="title" x="44" y="48">Framework Selection Decision Tree</text>
+  <text class="sub" x="44" y="72">Pick the framework that exposes your highest-risk boundary, not the one with the fastest demo.</text>
+
+  <rect class="q" x="430" y="112" width="320" height="86" rx="10"/>
+  <text class="label" x="466" y="144">Is the workflow short, stable, and narrow?</text>
+  <text class="txt" x="486" y="170">Few steps, exact control, existing infra.</text>
+
+  <rect class="fit" x="70" y="270" width="220" height="94" rx="10"/>
+  <text class="label" x="102" y="300">Direct Code</text>
+  <text class="txt" x="96" y="326">Best for narrow production</text>
+  <text class="txt" x="96" y="346">workflows with exact policy.</text>
+
+  <rect class="q" x="360" y="270" width="220" height="94" rx="10"/>
+  <text class="label" x="386" y="300">Need durable graph state?</text>
+  <text class="txt" x="386" y="326">Branches, checkpoints,</text>
+  <text class="txt" x="386" y="346">interrupts, resume.</text>
+
+  <rect class="fit" x="670" y="270" width="220" height="94" rx="10"/>
+  <text class="label" x="720" y="300">LangGraph</text>
+  <text class="txt" x="696" y="326">Use for explicit state graphs,</text>
+  <text class="txt" x="696" y="346">interrupts, and replay.</text>
+
+  <rect class="q" x="360" y="430" width="220" height="94" rx="10"/>
+  <text class="label" x="386" y="460">Need product runtime?</text>
+  <text class="txt" x="386" y="486">Packaging, workflows, tools,</text>
+  <text class="txt" x="386" y="506">memory, eval gate.</text>
+
+  <rect class="fit" x="670" y="430" width="220" height="94" rx="10"/>
+  <text class="label" x="730" y="460">Mastra</text>
+  <text class="txt" x="696" y="486">Use when runtime packaging</text>
+  <text class="txt" x="696" y="506">and eval operations matter.</text>
+
+  <rect class="q" x="70" y="430" width="220" height="94" rx="10"/>
+  <text class="label" x="98" y="460">Need role conversations?</text>
+  <text class="txt" x="96" y="486">Manager/worker turns,</text>
+  <text class="txt" x="96" y="506">transcripts, review roles.</text>
+
+  <rect class="fit" x="70" y="590" width="220" height="94" rx="10"/>
+  <text class="label" x="122" y="620">AutoGen</text>
+  <text class="txt" x="96" y="646">Use when transcript order</text>
+  <text class="txt" x="96" y="666">is the main evidence.</text>
+
+  <rect class="q" x="360" y="590" width="220" height="94" rx="10"/>
+  <text class="label" x="390" y="620">Need business flows?</text>
+  <text class="txt" x="386" y="646">Roles, tasks, handoffs,</text>
+  <text class="txt" x="386" y="666">flow acceptance.</text>
+
+  <rect class="fit" x="670" y="590" width="220" height="94" rx="10"/>
+  <text class="label" x="730" y="620">CrewAI</text>
+  <text class="txt" x="696" y="646">Use for flow and crew</text>
+  <text class="txt" x="696" y="666">coordination boundaries.</text>
+
+  <rect class="warn" x="940" y="270" width="190" height="414" rx="10"/>
+  <text class="label" x="966" y="302">Keep portable</text>
+  <text class="txt" x="966" y="334">Tool manifests</text>
+  <text class="txt" x="966" y="362">State schema</text>
+  <text class="txt" x="966" y="390">Policy rules</text>
+  <text class="txt" x="966" y="418">Approval rules</text>
+  <text class="txt" x="966" y="446">Eval fixtures</text>
+  <text class="txt" x="966" y="474">Trace schema</text>
+  <text class="txt" x="966" y="502">ADR decisions</text>
+  <text class="small" x="966" y="556">Frameworks execute</text>
+  <text class="small" x="966" y="574">product assets; they</text>
+  <text class="small" x="966" y="592">should not hide them.</text>
+
+  <path class="arrow" d="M500 198 C430 230 250 245 190 270"/>
+  <path class="arrow" d="M590 198 C560 230 500 245 470 270"/>
+  <path class="arrow" d="M580 317 H670"/>
+  <path class="arrow" d="M470 364 V430"/>
+  <path class="arrow" d="M580 477 H670"/>
+  <path class="arrow" d="M360 477 H290"/>
+  <path class="arrow" d="M180 524 V590"/>
+  <path class="arrow" d="M470 524 V590"/>
+  <path class="arrow" d="M580 637 H670"/>
+  <path class="arrow" d="M890 637 H940"/>
+  <path class="arrow" d="M890 317 H940"/>
+</svg>

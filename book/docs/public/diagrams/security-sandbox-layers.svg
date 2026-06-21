@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720" role="img" aria-labelledby="title desc">
+  <title id="title">Agent security and sandbox layers</title>
+  <desc id="desc">Layered security model for agents from identity and data access through tool policy, sandboxing, egress, approvals, audit, and incident response.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .layer{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.hot{fill:#fff7ed;stroke:#f97316;stroke-width:1.8}.safe{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.8}
+      .label{font:700 13px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="720"/>
+  <text class="title" x="44" y="48">Agent Security Layers</text>
+  <text class="sub" x="44" y="72">Sandboxing is one layer. Safe agents also need identity, policy, approval, egress control, and audit.</text>
+
+  <rect class="hot" x="70" y="135" width="230" height="86" rx="10"/>
+  <text class="label" x="98" y="167">Untrusted input</text>
+  <text class="txt" x="98" y="193">user text, documents, web,</text>
+  <text class="txt" x="98" y="213">tool results, messages</text>
+
+  <rect class="layer" x="350" y="105" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="136">1. Identity and tenant</text>
+  <text class="txt" x="380" y="158">who is acting, for whom</text>
+
+  <rect class="layer" x="350" y="195" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="226">2. Data boundary</text>
+  <text class="txt" x="380" y="248">source eligibility and redaction</text>
+
+  <rect class="layer" x="350" y="285" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="316">3. Tool policy</text>
+  <text class="txt" x="380" y="338">schema, scope, side effect</text>
+
+  <rect class="layer" x="350" y="375" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="406">4. Sandbox</text>
+  <text class="txt" x="380" y="428">workspace, process, browser</text>
+
+  <rect class="layer" x="350" y="465" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="496">5. Egress control</text>
+  <text class="txt" x="380" y="518">destination and network policy</text>
+
+  <rect class="layer" x="350" y="555" width="260" height="72" rx="10"/>
+  <text class="label" x="380" y="586">6. Approval and audit</text>
+  <text class="txt" x="380" y="608">exact action, trace, runbook</text>
+
+  <rect class="safe" x="750" y="230" width="300" height="180" rx="12"/>
+  <text class="label" x="790" y="266">Allowed action</text>
+  <text class="txt" x="790" y="294">The tool executes only after</text>
+  <text class="txt" x="790" y="318">identity, data, policy, sandbox,</text>
+  <text class="txt" x="790" y="342">egress, and approval gates agree.</text>
+  <text class="small" x="790" y="378">Trace proves who allowed what.</text>
+
+  <rect class="hot" x="750" y="465" width="300" height="110" rx="12"/>
+  <text class="label" x="790" y="500">Incident response</text>
+  <text class="txt" x="790" y="528">disable capability, revoke scopes,</text>
+  <text class="txt" x="790" y="550">convert failure to eval fixture</text>
+
+  <path class="arrow" d="M300 178 H350"/>
+  <path class="arrow" d="M610 141 C690 160 730 205 750 260"/>
+  <path class="arrow" d="M610 231 C675 240 720 260 750 290"/>
+  <path class="arrow" d="M610 321 H750"/>
+  <path class="arrow" d="M610 411 C675 400 720 375 750 350"/>
+  <path class="arrow" d="M610 501 C690 470 730 430 790 410"/>
+  <path class="arrow" d="M610 591 C700 610 790 600 850 575"/>
+  <path class="arrow" d="M900 410 V465"/>
+  <text class="small" x="70" y="665">Security rule: never let the model turn a request directly into authority. It proposes; the runtime authorizes.</text>
+</svg>

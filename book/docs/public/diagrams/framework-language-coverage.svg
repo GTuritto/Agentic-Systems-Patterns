@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-labelledby="title desc">
+  <title id="title">Framework and language lab coverage</title>
+  <desc id="desc">Coverage graph showing how labs span TypeScript, Python, mini-runtime, LangGraph, Mastra, CrewAI, AutoGen, A2A, MCP, and capstones.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .axis{stroke:#94a3b8;stroke-width:1}.grid{stroke:#e2e8f0;stroke-width:1}.barA{fill:#2563eb}.barB{fill:#16a34a}.barC{fill:#f97316}
+      .label{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#64748b}.legend{font:700 12px Inter,Arial,sans-serif;fill:#0f172a}
+    </style>
+  </defs>
+  <rect class="bg" width="1180" height="680"/>
+  <text class="title" x="44" y="48">Framework and Language Coverage</text>
+  <text class="sub" x="44" y="72">The lab track is intentionally framework-agnostic: architecture is repeated across languages and runtimes.</text>
+
+  <line class="axis" x1="190" y1="120" x2="190" y2="560"/><line class="axis" x1="190" y1="560" x2="1060" y2="560"/>
+  <g>
+    <line class="grid" x1="190" y1="480" x2="1060" y2="480"/><line class="grid" x1="190" y1="400" x2="1060" y2="400"/>
+    <line class="grid" x1="190" y1="320" x2="1060" y2="320"/><line class="grid" x1="190" y1="240" x2="1060" y2="240"/>
+    <text class="small" x="154" y="564">0</text><text class="small" x="154" y="484">2</text><text class="small" x="154" y="404">4</text><text class="small" x="154" y="324">6</text><text class="small" x="154" y="244">8</text>
+  </g>
+
+  <rect class="barA" x="230" y="200" width="54" height="360" rx="5"/><text class="label" x="222" y="590">TypeScript</text><text class="small" x="248" y="190">9</text>
+  <rect class="barB" x="335" y="320" width="54" height="240" rx="5"/><text class="label" x="338" y="590">Python</text><text class="small" x="353" y="310">6</text>
+  <rect class="barC" x="440" y="440" width="54" height="120" rx="5"/><text class="label" x="426" y="590">Mini-runtime</text><text class="small" x="458" y="430">3</text>
+  <rect class="barB" x="545" y="440" width="54" height="120" rx="5"/><text class="label" x="545" y="590">LangGraph</text><text class="small" x="563" y="430">3</text>
+  <rect class="barA" x="650" y="480" width="54" height="80" rx="5"/><text class="label" x="654" y="590">Mastra</text><text class="small" x="668" y="470">2</text>
+  <rect class="barB" x="755" y="480" width="54" height="80" rx="5"/><text class="label" x="760" y="590">CrewAI</text><text class="small" x="773" y="470">2</text>
+  <rect class="barA" x="860" y="480" width="54" height="80" rx="5"/><text class="label" x="862" y="590">AutoGen</text><text class="small" x="878" y="470">2</text>
+  <rect class="barC" x="965" y="400" width="54" height="160" rx="5"/><text class="label" x="962" y="590">Capstones</text><text class="small" x="983" y="390">4</text>
+
+  <rect class="barA" x="805" y="116" width="20" height="14" rx="2"/><text class="legend" x="834" y="128">TypeScript-heavy</text>
+  <rect class="barB" x="805" y="146" width="20" height="14" rx="2"/><text class="legend" x="834" y="158">Python/framework-heavy</text>
+  <rect class="barC" x="805" y="176" width="20" height="14" rx="2"/><text class="legend" x="834" y="188">Architecture composition</text>
+  <text class="small" x="190" y="635">Counts reflect learning emphasis across labs, native slices, and capstone paths, not package feature breadth.</text>
+</svg>

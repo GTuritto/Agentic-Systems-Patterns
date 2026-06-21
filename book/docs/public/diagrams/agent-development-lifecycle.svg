@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720" role="img" aria-labelledby="title desc">
+  <title id="title">Agent development lifecycle</title>
+  <desc id="desc">Lifecycle loop connecting capability framing, pattern selection, boundaries, implementation, evaluation, deployment, and governance.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .node{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.gate{fill:#ecfeff;stroke:#0891b2;stroke-width:1.8}.ops{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.8}
+      .label{font:700 13px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="720"/>
+  <text class="title" x="44" y="48">Agent Development Lifecycle</text>
+  <text class="sub" x="44" y="72">Autonomy stays controlled when each stage produces evidence for the next gate.</text>
+
+  <rect class="node" x="90" y="170" width="210" height="82" rx="10"/>
+  <text class="label" x="118" y="202">1. Capability framing</text>
+  <text class="txt" x="118" y="228">allowed, forbidden, risk</text>
+
+  <rect class="node" x="365" y="120" width="210" height="82" rx="10"/>
+  <text class="label" x="393" y="152">2. Pattern selection</text>
+  <text class="txt" x="393" y="178">least agentic shape</text>
+
+  <rect class="gate" x="650" y="170" width="210" height="82" rx="10"/>
+  <text class="label" x="678" y="202">3. Boundary design</text>
+  <text class="txt" x="678" y="228">state, policy, tools</text>
+
+  <rect class="node" x="870" y="320" width="210" height="82" rx="10"/>
+  <text class="label" x="898" y="352">4. Implementation</text>
+  <text class="txt" x="898" y="378">loop, workflow, runtime</text>
+
+  <rect class="gate" x="650" y="500" width="210" height="82" rx="10"/>
+  <text class="label" x="678" y="532">5. Evaluation</text>
+  <text class="txt" x="678" y="558">trajectory and release gates</text>
+
+  <rect class="ops" x="365" y="548" width="210" height="82" rx="10"/>
+  <text class="label" x="393" y="580">6. Deployment</text>
+  <text class="txt" x="393" y="606">observe, rollback, runbook</text>
+
+  <rect class="ops" x="90" y="500" width="210" height="82" rx="10"/>
+  <text class="label" x="118" y="532">7. Governance</text>
+  <text class="txt" x="118" y="558">incident loop, versioning</text>
+
+  <rect class="gate" x="440" y="310" width="300" height="92" rx="12"/>
+  <text class="label" x="500" y="344">Evidence checkpoint</text>
+  <text class="txt" x="480" y="370">Do traces, evals, policies, and runbooks</text>
+  <text class="txt" x="520" y="390">support higher autonomy?</text>
+
+  <path class="arrow" d="M300 198 C330 176 340 166 365 160"/>
+  <path class="arrow" d="M575 160 C610 160 625 182 650 198"/>
+  <path class="arrow" d="M860 220 C930 250 965 290 975 320"/>
+  <path class="arrow" d="M975 402 C950 470 900 520 860 540"/>
+  <path class="arrow" d="M650 555 C620 572 600 584 575 590"/>
+  <path class="arrow" d="M365 590 C335 582 320 555 300 540"/>
+  <path class="arrow" d="M195 500 C160 420 158 320 195 252"/>
+  <path class="arrow" d="M740 500 C720 455 705 420 690 402"/>
+  <path class="arrow" d="M470 548 C495 492 520 438 548 402"/>
+  <text class="small" x="64" y="666">Lifecycle rule: production incidents should update evals, policies, prompts, tools, or architecture, not only the prompt text.</text>
+</svg>

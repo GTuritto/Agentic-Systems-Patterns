@@ -10,6 +10,12 @@ Use this chapter to compare frameworks without turning the architecture into a f
 
 For a side-by-side comparison of LangGraph, AutoGen-style systems, Mastra AI, CrewAI, and a custom mini-runtime, use [Cross-Framework Decision Matrix](./cross-framework-decision-matrix). For concrete install and porting notes, use [Real Framework Setup Notes](./real-framework-setup-notes). For the decision record, use [Templates and Worksheets](./templates-and-worksheets).
 
+## Decision Tree
+
+Use this diagram to keep the framework conversation grounded in workload shape. The useful question is what the framework makes easier to inspect: direct state, graph execution, runtime packaging, role transcripts, or business-flow coordination.
+
+![Framework selection decision tree](../public/diagrams/framework-selection-decision-tree.svg)
+
 ## Intent
 
 Choose whether to build directly, use a lightweight library, or adopt a full agent framework.

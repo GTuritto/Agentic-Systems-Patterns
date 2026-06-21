@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="720" viewBox="0 0 1180 720" role="img" aria-labelledby="title desc">
+  <title id="title">Agent harness boundary</title>
+  <desc id="desc">Agent harness responsibilities around the model loop: context, tools, permissions, memory, traces, evals, and recovery.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .core{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.ring{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.gate{fill:#fff7ed;stroke:#f97316;stroke-width:1.8}
+      .txt{font:13px Inter,Arial,sans-serif;fill:#0f172a}.label{font:700 14px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="720"/>
+  <text class="title" x="44" y="48">Agent Harness Boundary</text>
+  <text class="sub" x="44" y="72">The harness is the controlled working environment around the model loop.</text>
+
+  <rect class="core" x="430" y="250" width="320" height="150" rx="16"/>
+  <text class="label" x="528" y="292">Agent Loop</text>
+  <text class="txt" x="482" y="324">observe -> decide -> act -> stop</text>
+  <text class="small" x="502" y="354">Model proposes; software validates.</text>
+
+  <rect class="ring" x="70" y="132" width="240" height="90" rx="10"/>
+  <text class="label" x="94" y="164">Context Manager</text>
+  <text class="txt" x="94" y="190">Builds scoped context packet</text>
+  <text class="small" x="94" y="210">prevents prompt sprawl</text>
+
+  <rect class="ring" x="470" y="112" width="240" height="90" rx="10"/>
+  <text class="label" x="494" y="144">State Workspace</text>
+  <text class="txt" x="494" y="170">Run state, artifacts, notes</text>
+  <text class="small" x="494" y="190">durable when needed</text>
+
+  <rect class="ring" x="870" y="132" width="240" height="90" rx="10"/>
+  <text class="label" x="894" y="164">Tool Registry</text>
+  <text class="txt" x="894" y="190">Typed tools and side effects</text>
+  <text class="small" x="894" y="210">schemas, scopes, timeouts</text>
+
+  <rect class="gate" x="70" y="312" width="240" height="90" rx="10"/>
+  <text class="label" x="94" y="344">Permission Gate</text>
+  <text class="txt" x="94" y="370">Policy before actions</text>
+  <text class="small" x="94" y="390">approval for high risk</text>
+
+  <rect class="gate" x="870" y="312" width="240" height="90" rx="10"/>
+  <text class="label" x="894" y="344">Sandbox</text>
+  <text class="txt" x="894" y="370">Contains code, browser, files</text>
+  <text class="small" x="894" y="390">no ambient authority</text>
+
+  <rect class="ring" x="70" y="500" width="240" height="90" rx="10"/>
+  <text class="label" x="94" y="532">Memory Layer</text>
+  <text class="txt" x="94" y="558">Reads and writes durable facts</text>
+  <text class="small" x="94" y="578">with source and retention</text>
+
+  <rect class="ring" x="470" y="520" width="240" height="90" rx="10"/>
+  <text class="label" x="494" y="552">Trace and Evals</text>
+  <text class="txt" x="494" y="578">Records path, not only answer</text>
+  <text class="small" x="494" y="598">release and incident evidence</text>
+
+  <rect class="ring" x="870" y="500" width="240" height="90" rx="10"/>
+  <text class="label" x="894" y="532">Recovery Controller</text>
+  <text class="txt" x="894" y="558">Retry, cancel, replay, fallback</text>
+  <text class="small" x="894" y="578">no duplicate side effects</text>
+
+  <path class="arrow" d="M310 177 C360 190 390 245 430 292"/>
+  <path class="arrow" d="M590 202 V250"/>
+  <path class="arrow" d="M870 177 C820 190 790 245 750 292"/>
+  <path class="arrow" d="M310 357 H430"/>
+  <path class="arrow" d="M750 357 H870"/>
+  <path class="arrow" d="M310 545 C365 520 395 405 430 370"/>
+  <path class="arrow" d="M590 520 V400"/>
+  <path class="arrow" d="M870 545 C815 520 785 405 750 370"/>
+</svg>

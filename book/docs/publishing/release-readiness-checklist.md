@@ -6,6 +6,12 @@ title: Release Readiness Checklist
 
 Use this checklist before publishing a new version of the book. The standard is not "the site builds." The standard is that a reader can move from concept, to pattern choice, to lab, to capstone, to release evidence without finding missing context.
 
+## Verification Coverage
+
+Use this graph to see why release readiness needs overlapping checks. Code tests, native example checks, content builds, site parity, PDF generation, and rendered-page QA each prove a different part of the release.
+
+![Release verification coverage](../public/diagrams/release-verification-coverage.svg)
+
 ## Reader Journey
 
 | Gate | Release Evidence |

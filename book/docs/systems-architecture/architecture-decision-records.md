@@ -10,6 +10,12 @@ Use ADRs when a decision affects safety, cost, reliability, user trust, or the a
 
 An ADR is not bureaucracy. It is a way to keep autonomy from becoming folklore. If the system can read private data, call tools, write memory, send messages, delegate to other agents, or run without a human watching, the team should be able to point to the decision record that explains why that is allowed.
 
+## ADR Lifecycle
+
+Use this diagram to decide when an agent decision needs a record and when an existing record must be superseded. Authority changes, memory changes, tool changes, eval changes, and rollback changes should leave evidence.
+
+![ADR lifecycle for agents](../public/diagrams/adr-lifecycle.svg)
+
 ## What to Record
 
 Record decisions about:

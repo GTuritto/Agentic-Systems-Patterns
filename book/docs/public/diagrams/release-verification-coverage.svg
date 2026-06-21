@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="680" viewBox="0 0 1180 680" role="img" aria-labelledby="title desc">
+  <title id="title">Release verification coverage</title>
+  <desc id="desc">Coverage graph showing which release checks prove code behavior, content integrity, site routes, PDF output, native examples, and rendered pages.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .head{fill:#0f172a}.headText{font:700 12px Inter,Arial,sans-serif;fill:#fff}.cell{fill:none;stroke:#cbd5e1;stroke-width:1.2}
+      .on{fill:#16a34a}.partial{fill:#f97316}.txt{font:12px Inter,Arial,sans-serif;fill:#0f172a}.row{font:700 12px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#64748b}
+    </style>
+  </defs>
+  <rect class="bg" width="1180" height="680"/>
+  <text class="title" x="44" y="48">Release Verification Coverage</text>
+  <text class="sub" x="44" y="72">Each release gate proves a different part of the book, examples, site, PDF, and rendered reader experience.</text>
+
+  <g transform="translate(60,118)">
+    <rect class="head" x="0" y="0" width="250" height="42" rx="6"/><text class="headText" x="18" y="26">Command / Check</text>
+    <rect class="head" x="250" y="0" width="110" height="42" rx="6"/><text class="headText" x="270" y="26">Code</text>
+    <rect class="head" x="360" y="0" width="110" height="42" rx="6"/><text class="headText" x="377" y="26">Native</text>
+    <rect class="head" x="470" y="0" width="110" height="42" rx="6"/><text class="headText" x="489" y="26">Content</text>
+    <rect class="head" x="580" y="0" width="110" height="42" rx="6"/><text class="headText" x="610" y="26">Site</text>
+    <rect class="head" x="690" y="0" width="110" height="42" rx="6"/><text class="headText" x="720" y="26">PDF</text>
+    <rect class="head" x="800" y="0" width="160" height="42" rx="6"/><text class="headText" x="822" y="26">Rendered UX</text>
+
+    <g transform="translate(0,42)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">npm test</text>
+      <circle class="on" cx="305" cy="26" r="10"/><circle class="partial" cx="525" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,94)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">typecheck</text>
+      <circle class="on" cx="305" cy="26" r="10"/><circle class="partial" cx="525" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,146)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">native example checks</text>
+      <circle class="on" cx="415" cy="26" r="10"/><circle class="partial" cx="525" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,198)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">book build</text>
+      <circle class="on" cx="525" cy="26" r="10"/><circle class="partial" cx="635" cy="26" r="10"/><circle class="partial" cx="745" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,250)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">site build + parity</text>
+      <circle class="on" cx="525" cy="26" r="10"/><circle class="on" cx="635" cy="26" r="10"/><circle class="partial" cx="855" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,302)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">book PDF</text>
+      <circle class="partial" cx="525" cy="26" r="10"/><circle class="on" cx="745" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+    <g transform="translate(0,354)">
+      <rect class="cell" x="0" y="0" width="250" height="52"/><text class="row" x="18" y="31">rendered page QA</text>
+      <circle class="partial" cx="525" cy="26" r="10"/><circle class="partial" cx="635" cy="26" r="10"/><circle class="on" cx="855" cy="26" r="10"/>
+      <rect class="cell" x="250" y="0" width="110" height="52"/><rect class="cell" x="360" y="0" width="110" height="52"/><rect class="cell" x="470" y="0" width="110" height="52"/><rect class="cell" x="580" y="0" width="110" height="52"/><rect class="cell" x="690" y="0" width="110" height="52"/><rect class="cell" x="800" y="0" width="160" height="52"/>
+    </g>
+  </g>
+
+  <circle class="on" cx="92" cy="610" r="9"/><text class="txt" x="112" y="614">primary proof</text>
+  <circle class="partial" cx="232" cy="610" r="9"/><text class="txt" x="252" y="614">supporting proof</text>
+  <text class="small" x="60" y="645">Release rule: no single command proves the whole release; coverage comes from overlapping gates.</text>
+</svg>

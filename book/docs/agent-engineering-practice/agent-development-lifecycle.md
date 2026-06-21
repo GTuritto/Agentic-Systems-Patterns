@@ -14,6 +14,12 @@ The lifecycle has one job: keep autonomy connected to evidence, state, policy, e
 
 The first discipline is not to start with the agent. Start with the task, the state it needs, the tools it may use, the risk it creates, and the evidence that proves success. Add autonomy only where it earns its keep.
 
+## Lifecycle Map
+
+Use this diagram to read the lifecycle as an evidence loop, not a sequence of project phases. Each stage should produce artifacts that make the next gate inspectable.
+
+![Agent development lifecycle](../public/diagrams/agent-development-lifecycle.svg)
+
 ## Lifecycle Stages
 
 | Stage | Main Question | Output |

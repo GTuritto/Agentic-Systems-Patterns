@@ -14,6 +14,12 @@ This chapter owns the agent's working environment. It does not own the model pro
 
 This chapter comes after the loop because the loop alone is too small for real work. Use it as the bridge from "what is the agent doing?" to "what environment keeps that work bounded?" The next production chapters take the same control ideas into runtime, observability, and security.
 
+## Harness Boundary
+
+Use this diagram to separate the model loop from the environment that makes the loop safe and useful. The harness owns the controls around the loop: context, tools, policy, memory, traces, evals, sandboxing, and recovery.
+
+![Agent harness boundary](../public/diagrams/agent-harness-boundary.svg)
+
 ## Why Harnesses Exist
 
 A raw agent loop is small enough to fit in a few functions. Real tasks need more than that: a place to keep intermediate work, a way to load only the context that matters, a way to call tools safely, a way to split work across subagents, a way to pause for approval, a way to remember useful facts, a way to recover after failure, and a way to inspect what happened afterward. All of that together is the harness.

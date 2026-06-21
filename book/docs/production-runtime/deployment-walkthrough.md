@@ -16,6 +16,12 @@ Use this walkthrough for systems that can read private data, call tools, write m
 
 For throwaway demos, keep the process lighter. For production, do not skip the gates that match the system's authority.
 
+## Release Pipeline
+
+Use this diagram as the deployment control path. A production agent release needs local evidence, eval gates, canary observation, rollback controls, and incident-to-eval feedback.
+
+![Deployment release pipeline](../public/diagrams/deployment-release-pipeline.svg)
+
 ## 1. Local Development
 
 Local development should prove the runtime contract before cloud infrastructure exists.

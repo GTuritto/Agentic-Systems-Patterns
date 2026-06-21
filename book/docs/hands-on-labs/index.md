@@ -20,6 +20,12 @@ npm run typecheck
 
 Some examples can run with deterministic fallbacks. Examples that call live models require a `.env` file with `MISTRAL_API_KEY`.
 
+## Lab Progression Map
+
+Use this map to understand why the labs are ordered this way. The sequence starts with deterministic primitives, exposes the mini-framework underneath agent runtimes, compares native framework slices, and then moves into capstone-level release evidence.
+
+![Lab progression map](../public/diagrams/lab-progression-map.svg)
+
 ## Lab Standard
 
 Each lab should leave you with three things: a runnable example, a specific design boundary you can explain, and one production hardening step you know how to make.

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" role="img" aria-labelledby="title desc">
+  <title id="title">ADR lifecycle for agents</title>
+  <desc id="desc">Lifecycle for agent architecture decision records from trigger to decision, implementation, verification, operation, and supersession.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.title{font:700 26px Inter,Arial,sans-serif;fill:#0f172a}.sub{font:14px Inter,Arial,sans-serif;fill:#475569}
+      .step{fill:#fff;stroke:#cbd5e1;stroke-width:1.5}.decision{fill:#ecfeff;stroke:#0891b2;stroke-width:1.8}.ops{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.8}.change{fill:#fff7ed;stroke:#f97316;stroke-width:1.8}
+      .label{font:700 13px Inter,Arial,sans-serif;fill:#0f172a}.txt{font:12.5px Inter,Arial,sans-serif;fill:#0f172a}.small{font:12px Inter,Arial,sans-serif;fill:#475569}
+      .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}.back{stroke:#f97316;stroke-width:2;fill:none;marker-end:url(#orange)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#334155"/></marker>
+    <marker id="orange" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#f97316"/></marker>
+  </defs>
+  <rect class="bg" width="1180" height="700"/>
+  <text class="title" x="44" y="48">ADR Lifecycle for Agents</text>
+  <text class="sub" x="44" y="72">Record decisions when autonomy, tools, memory, policy, evals, or deployment authority changes.</text>
+
+  <rect class="change" x="70" y="160" width="190" height="92" rx="10"/>
+  <text class="label" x="102" y="194">Decision trigger</text>
+  <text class="txt" x="102" y="220">new tool, memory,</text>
+  <text class="txt" x="102" y="240">model, autonomy</text>
+
+  <rect class="step" x="310" y="160" width="190" height="92" rx="10"/>
+  <text class="label" x="344" y="194">Context</text>
+  <text class="txt" x="344" y="220">constraints, options,</text>
+  <text class="txt" x="344" y="240">risk, non-goals</text>
+
+  <rect class="decision" x="550" y="160" width="190" height="92" rx="10"/>
+  <text class="label" x="584" y="194">Decision</text>
+  <text class="txt" x="584" y="220">chosen boundary,</text>
+  <text class="txt" x="584" y="240">owner, evidence</text>
+
+  <rect class="step" x="790" y="160" width="190" height="92" rx="10"/>
+  <text class="label" x="824" y="194">Implementation</text>
+  <text class="txt" x="824" y="220">code, policy, evals,</text>
+  <text class="txt" x="824" y="240">trace schema</text>
+
+  <rect class="decision" x="790" y="390" width="190" height="92" rx="10"/>
+  <text class="label" x="824" y="424">Verification</text>
+  <text class="txt" x="824" y="450">release gate proves</text>
+  <text class="txt" x="824" y="470">decision still holds</text>
+
+  <rect class="ops" x="550" y="390" width="190" height="92" rx="10"/>
+  <text class="label" x="584" y="424">Operation</text>
+  <text class="txt" x="584" y="450">traces, incidents,</text>
+  <text class="txt" x="584" y="470">overrides, cost</text>
+
+  <rect class="change" x="310" y="390" width="190" height="92" rx="10"/>
+  <text class="label" x="344" y="424">Supersede?</text>
+  <text class="txt" x="344" y="450">policy changed or</text>
+  <text class="txt" x="344" y="470">evidence failed</text>
+
+  <path class="arrow" d="M260 206 H310"/><path class="arrow" d="M500 206 H550"/><path class="arrow" d="M740 206 H790"/>
+  <path class="arrow" d="M885 252 V390"/><path class="arrow" d="M790 436 H740"/><path class="arrow" d="M550 436 H500"/>
+  <path class="back" d="M405 390 C340 315 290 265 260 232"/>
+  <path class="arrow" d="M405 482 C475 560 760 560 885 482"/>
+  <text class="small" x="70" y="620">ADR rule: if a release changes authority, memory, tools, eval gates, or rollback, the decision record changes too.</text>
+</svg>
