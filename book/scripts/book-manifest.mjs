@@ -143,7 +143,9 @@ export const bookChapters = deepFreeze([
   chapter('multi-agent-delivery-workflow-capstone', 'Multi-Agent Delivery Workflow', 'capstone-projects/multi-agent-delivery-workflow.md', 'capstone-projects'),
 
   chapter('historical-patterns', 'Historical Patterns', 'deprecated/historical-patterns.md', 'deprecated'),
-  chapter('publishing-and-releases', 'Publishing and Releases', 'publishing/publishing-and-releases.md', 'publishing')
+  chapter('publishing-and-releases', 'Publishing and Releases', 'publishing/publishing-and-releases.md', 'publishing'),
+  chapter('release-readiness-checklist', 'Release Readiness Checklist', 'publishing/release-readiness-checklist.md', 'publishing'),
+  chapter('release-notes', 'Release Notes', 'publishing/release-notes.md', 'publishing')
 ]);
 
 export const startHereChapterIds = deepFreeze([

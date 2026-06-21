@@ -28,16 +28,24 @@ The GitHub Pages deployment publishes the same PDF at:
 
 Each `Publish Book` workflow run also uploads the PDF as a workflow artifact. Use that artifact when you need to inspect the exact PDF produced by a specific CI run.
 
+Before tagging or announcing a release, use the [Release Readiness Checklist](./release-readiness-checklist.md). Use [Release Notes](./release-notes.md) as the reader-facing summary of what changed and what evidence supports the release.
+
 ## Local Publishing Commands
 
 From the repository root:
 
 ```sh
+npm test
+npm run typecheck
+npm run native-examples:validate
+npm run native-examples:smoke:langgraph
 npm run book:build
 npm run site:build
 npm run site:parity
 npm run book:pdf
 ```
+
+These commands cover runnable examples, TypeScript contracts, native framework slices, generated chapters, diagrams, site routes, internal links, and the downloadable PDF.
 
 Use `npm run site:dev` for the primary local reader preview.
 
@@ -58,6 +66,8 @@ The lower-level book pipeline commands are:
 npm run book:content
 npm run book:diagrams
 ```
+
+Run lower-level commands only when you are editing generated chapters, source bundles, or diagram exports directly. A release should still pass the full command set above.
 
 ## Deployment
 
