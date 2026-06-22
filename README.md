@@ -9,6 +9,7 @@ The project covers patterns for goals, loops, tools, skills, memory, structured 
 - Courtesy PDF: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf
 - Courtesy EPUB: https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub
 - Start the labs: https://gturitto.github.io/Agentic-Systems-Patterns/book/hands-on-labs/
+- Discuss the book: https://github.com/GTuritto/Agentic-Systems-Patterns/discussions
 - Browse the catalog: [Agentic_Patterns.md](./Agentic_Patterns.md)
 
 ## What Is Here
@@ -39,6 +40,8 @@ The active catalog is organized around current agent engineering practice:
 - Hands-on labs: guided exercises for tool use, planning loops, Agentic RAG, A2A communication, multi-agent supervision, and evals.
 
 Start with [Agentic_Patterns.md](./Agentic_Patterns.md) for the complete index.
+
+Use [GitHub Discussions](https://github.com/GTuritto/Agentic-Systems-Patterns/discussions) as the canonical feedback channel for reader questions, chapter comments, release feedback, and Spanish-edition editorial notes.
 
 ## Quick Start
 

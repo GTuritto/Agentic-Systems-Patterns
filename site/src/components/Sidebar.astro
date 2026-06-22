@@ -7,6 +7,7 @@ const { currentSlug, language = 'en', alternateHref } = Astro.props;
 const currentLanguage = language as Language;
 const siteSidebarGroups = sidebarGroupsForLanguage(currentLanguage);
 const baseHref = homeHref(currentLanguage);
+const discussionsUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns/discussions';
 ---
 
 <aside class="book-sidebar" aria-label="Book navigation">
@@ -44,6 +45,7 @@ const baseHref = homeHref(currentLanguage);
     <a href={`${baseHref}book/publishing/glossary/`}>Glossary</a>
     <a href={patternsHref(currentLanguage)}>Pattern catalog</a>
     <a href={`${baseHref}#sections`}>Logical groups</a>
+    <a href={discussionsUrl}>Discussions</a>
   </div>
   <nav class="book-nav">
     {siteSidebarGroups.map(group => (

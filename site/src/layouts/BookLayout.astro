@@ -30,6 +30,7 @@ const siteOrigin = 'https://gturitto.github.io';
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
 const previewImage = `${siteOrigin}/Agentic-Systems-Patterns/brand/agent-graph-cover.svg`;
 const repositoryUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
+const discussionsUrl = `${repositoryUrl}/discussions`;
 const currentLanguage = language as Language;
 const alternateLanguage = currentLanguage === 'es' ? 'en' : 'es';
 const alternateHref = `${localizedBase(alternateLanguage)}${alternatePath || '/'}`;
@@ -113,6 +114,7 @@ const structuredData = {
           <p>Book content, diagrams, worksheets, and generated publishing artifacts are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Code examples are licensed under <a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a>.</p>
           <nav aria-label="Footer links">
             <a href={repositoryUrl}>Source</a>
+            <a href={discussionsUrl}>Discussions</a>
             <a href={`${homeHref(currentLanguage)}book/publishing/publishing-and-releases/`}>Publishing notes</a>
             <a href={`${homeHref(currentLanguage)}book/publishing/release-readiness-checklist/`}>Release checklist</a>
           </nav>

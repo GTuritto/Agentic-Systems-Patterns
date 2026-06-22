@@ -964,6 +964,29 @@ select:focus-visible {
   padding: clamp(22px, 4vw, 34px);
 }
 
+.chapter-discussion {
+  border-bottom: 1px solid var(--border-glass);
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+  padding-bottom: 18px;
+}
+
+.chapter-discussion a {
+  border: 1px solid var(--border);
+  color: var(--accent-dark);
+  font-family: var(--font-ui);
+  font-size: 0.86rem;
+  font-weight: 850;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.chapter-discussion a:hover {
+  border-color: var(--accent);
+  color: var(--nav);
+}
+
 .related-chapters h2 {
   border: 0;
   margin: 0 0 18px;
@@ -1108,6 +1131,10 @@ select:focus-visible {
   }
 
   .reader-language-switch {
+    justify-content: flex-start;
+  }
+
+  .chapter-discussion {
     justify-content: flex-start;
   }
 

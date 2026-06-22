@@ -89,6 +89,7 @@ Para cada versión pública, registra:
 | Responsable de la versión | |
 | Comandos aprobados | |
 | URLs públicas verificadas | |
+| Discussions verificadas | |
 | Assets de descarga verificados | |
 | Evidencia de capstone verificada | |
 | Búsqueda verificada | |
@@ -107,6 +108,7 @@ Antes de publicar, verifica estas rutas del sitio generado:
 | Asset | Ruta |
 | --- | --- |
 | Libro en línea | `/Agentic-Systems-Patterns/` |
+| Discussions | `https://github.com/GTuritto/Agentic-Systems-Patterns/discussions` |
 | PDF de cortesía | `/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf` |
 | EPUB de cortesía | `/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub` |
 | Plantillas | `/Agentic-Systems-Patterns/capstone-assets/templates/` |
@@ -115,7 +117,7 @@ Antes de publicar, verifica estas rutas del sitio generado:
 | Descargas | `/Agentic-Systems-Patterns/downloads/` |
 | Índice y filtros de búsqueda | `/Agentic-Systems-Patterns/pagefind/` con metadatos de sección, tipo, nivel y ruta del lector. |
 
-La versión no debe anunciarse hasta que el sitio de GitHub Pages, el PDF de cortesía, el EPUB de cortesía, las descargas, las plantillas, los ejemplos de salida capturada y el índice de búsqueda de Pagefind estén todos generados a partir del mismo contenido.
+La versión no debe anunciarse hasta que el sitio de GitHub Pages, el canal de feedback en GitHub Discussions, el PDF de cortesía, el EPUB de cortesía, las descargas, las plantillas, los ejemplos de salida capturada y el índice de búsqueda de Pagefind estén todos generados desde el mismo contenido o verificados contra el mismo release.
 
 ## Límites conocidos del alcance
 

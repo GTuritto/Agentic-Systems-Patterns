@@ -20,6 +20,7 @@ const sectionTitle = siteSections.find(section => section.id === chapter.section
 const description = `${chapter.title}: ${rendered.summary}`;
 const chapterIndex = siteChapters.findIndex(item => item.id === chapter.id);
 const searchDescription = chapterSearchExcerpt(chapter);
+const discussionsUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns/discussions';
 const pagefind = {
   title: rendered.title,
   description: searchDescription,
@@ -74,6 +75,9 @@ const pagefind = {
     </div>
   </header>
   <article set:html={rendered.html} />
+  <aside class="chapter-discussion" aria-label="Discusión del capítulo">
+    <a href={discussionsUrl}>Discutir este capítulo</a>
+  </aside>
   {related.length > 0 && (
     <section class="related-chapters" aria-labelledby="related-chapters-title">
       <p class="eyebrow">Continue exploring</p>

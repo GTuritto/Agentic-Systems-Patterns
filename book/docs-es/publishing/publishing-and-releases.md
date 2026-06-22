@@ -12,6 +12,7 @@ El libro se publica para lectura en el sitio de Astro GitHub Pages. Los archivos
 - PDF de cortesía: <https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf>
 - EPUB de cortesía: <https://gturitto.github.io/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub>
 - Repositorio: <https://github.com/GTuritto/Agentic-Systems-Patterns>
+- Discussions: <https://github.com/GTuritto/Agentic-Systems-Patterns/discussions>
 
 ## Artifacts de Lanzamiento
 
@@ -31,7 +32,7 @@ El despliegue de GitHub Pages publica los mismos archivos en:
 
 Cada ejecución del workflow `Publish Book` también sube los formatos de cortesía como un workflow artifact. Usa ese artifact cuando necesites inspeccionar el PDF o EPUB exacto producido por una ejecución específica de CI.
 
-Antes de etiquetar o anunciar un lanzamiento, usa la [Release Readiness Checklist](./release-readiness-checklist.md). Usa las [Release Notes](./release-notes.md) como el resumen para lectores de lo que cambió y qué evidencia respalda el lanzamiento.
+Antes de etiquetar o anunciar un lanzamiento, usa la [Release Readiness Checklist](./release-readiness-checklist.md). Usa las [Release Notes](./release-notes.md) como el resumen para lectores de lo que cambió y qué evidencia respalda el lanzamiento. Usa [GitHub Discussions](https://github.com/GTuritto/Agentic-Systems-Patterns/discussions) como el canal público canónico para preguntas de lectores, feedback de capítulos y seguimiento del release.
 
 Descarga el artifact reutilizable de publicación: [release evidence record](/capstone-assets/templates/release-evidence-record.txt).
 

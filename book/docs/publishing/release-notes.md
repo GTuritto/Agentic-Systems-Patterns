@@ -89,6 +89,7 @@ For each public release, record:
 | Release owner | |
 | Commands passed | |
 | Public URLs checked | |
+| Discussions checked | |
 | Download assets checked | |
 | Capstone evidence checked | |
 | Search checked | |
@@ -107,6 +108,7 @@ Before publishing, verify these built-site paths:
 | Asset | Path |
 | --- | --- |
 | Online book | `/Agentic-Systems-Patterns/` |
+| Discussions | `https://github.com/GTuritto/Agentic-Systems-Patterns/discussions` |
 | Courtesy PDF | `/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.pdf` |
 | Courtesy EPUB | `/Agentic-Systems-Patterns/releases/Agentic-Systems-Patterns.epub` |
 | Templates | `/Agentic-Systems-Patterns/capstone-assets/templates/` |
@@ -115,7 +117,7 @@ Before publishing, verify these built-site paths:
 | Downloads | `/Agentic-Systems-Patterns/downloads/` |
 | Search index and filters | `/Agentic-Systems-Patterns/pagefind/` with section, type, level, and reader-path metadata. |
 
-The release should not be announced until the GitHub Pages site, courtesy PDF, courtesy EPUB, downloads, templates, captured output examples, and Pagefind search index are all generated from the same content.
+The release should not be announced until the GitHub Pages site, GitHub Discussions feedback channel, courtesy PDF, courtesy EPUB, downloads, templates, captured output examples, and Pagefind search index are all generated from the same content or verified against the same release.
 
 ## Known Scope Boundaries
 
