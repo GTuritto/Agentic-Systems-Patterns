@@ -1,0 +1,58 @@
+---
+import BookLayout from '../../layouts/BookLayout.astro';
+import { chapterSearchExcerpt, chaptersForSection, siteChapters, siteSections } from '../../lib/book-manifest';
+import { bookHref, releaseHref, sectionHref } from '../../lib/i18n';
+
+const language = 'es';
+const firstChapter = siteChapters[0];
+const sectionsWithChapters = siteSections
+  .map(section => ({ ...section, chapters: chaptersForSection(section.id) }))
+  .filter(section => section.chapters.length > 0);
+const chapterCountLabel = (count: number) => `${count} ${count === 1 ? 'chapter' : 'chapters'}`;
+---
+
+<BookLayout
+  title="Agentic Systems Patterns"
+  description="Edición en español latinoamericano de Agentic Systems Patterns."
+  language={language}
+  alternatePath="/"
+>
+  <section class="hero">
+    <p class="eyebrow">Edición en español</p>
+    <h1>Agentic Systems Patterns</h1>
+    <p class="lede">Un libro práctico para diseñar, evaluar y operar agentic systems: goals, loops, tools, skills, memory, protocols, multi-agent topologies y production runtimes.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href={bookHref(language, firstChapter.slug)}>Empezar</a>
+      <a class="button button-secondary" href="#courtesy-formats">PDF / EPUB</a>
+    </div>
+  </section>
+
+  <section id="courtesy-formats" class="download-panel" aria-labelledby="courtesy-formats-title">
+    <div>
+      <p class="eyebrow">Formatos descargables</p>
+      <h2 id="courtesy-formats-title">Lee primero en GitHub Pages.</h2>
+      <p>El reader online es la edición principal. PDF y EPUB se publican como copias de cortesía para lectura offline y anotaciones.</p>
+    </div>
+    <div class="download-actions">
+      <a class="button button-primary" href={releaseHref(language, 'Agentic-Systems-Patterns-es.pdf')}>Descargar PDF</a>
+      <a class="button button-secondary" href={releaseHref(language, 'Agentic-Systems-Patterns-es.epub')}>Descargar EPUB</a>
+    </div>
+  </section>
+
+  <section id="sections" class="section-grid">
+    <div class="section-heading">
+      <p class="eyebrow">Rutas de lectura</p>
+      <h2>Explora el libro</h2>
+    </div>
+    <div class="cards">
+      {sectionsWithChapters.map(section => (
+        <article class="section-card">
+          <span>{chapterCountLabel(section.chapters.length)}</span>
+          <h3>{section.title}</h3>
+          <p>{chapterSearchExcerpt(section.chapters[0])}</p>
+          <a href={sectionHref(language, section.id)}>Abrir sección</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BookLayout>

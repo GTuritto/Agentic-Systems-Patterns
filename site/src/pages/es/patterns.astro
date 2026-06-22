@@ -1,0 +1,45 @@
+---
+import BookLayout from '../../layouts/BookLayout.astro';
+import { chapterSearchExcerpt, siteChapters, siteSections } from '../../lib/book-manifest';
+import { bookHref, sectionHref } from '../../lib/i18n';
+
+const language = 'es';
+const sectionTitle = new Map(siteSections.map(section => [section.id, section.title]));
+const catalogChapters = siteChapters.filter(chapter => chapter.type === 'Pattern');
+---
+
+<BookLayout
+  title="Pattern Catalog | Agentic Systems Patterns"
+  description="Catálogo de patterns de Agentic Systems Patterns en español latinoamericano."
+  language={language}
+  alternatePath="/patterns/"
+>
+  <section class="catalog-hero">
+    <p class="eyebrow">Pattern catalog</p>
+    <h1>Encuentra el agentic pattern correcto</h1>
+    <p class="lede">Explora los chapters generados como catálogo. Elige el pattern por decisión técnica y revisa tradeoffs, failure modes, evals y production guidance.</p>
+  </section>
+
+  <section class="catalog-grid" aria-label="Pattern cards">
+    {catalogChapters.map((chapter, index) => (
+      <article class="pattern-card">
+        <div class="pattern-card__meta">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <span>{sectionTitle.get(chapter.sectionId)}</span>
+        </div>
+        <div class="pattern-card__tags" aria-label="Chapter metadata">
+          <span>{chapter.type}</span>
+          <span>{chapter.difficulty}</span>
+          <span>{chapter.effort}</span>
+          {chapter.readerPaths.map(path => <span>{path}</span>)}
+        </div>
+        <h2>{chapter.title}</h2>
+        <p>{chapterSearchExcerpt(chapter)}</p>
+        <div class="pattern-card__links">
+          <a href={bookHref(language, chapter.slug)}>Leer chapter</a>
+          <a href={sectionHref(language, chapter.sectionId)}>Ver sección</a>
+        </div>
+      </article>
+    ))}
+  </section>
+</BookLayout>

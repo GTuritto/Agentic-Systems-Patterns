@@ -39,6 +39,9 @@ jobs:
       - run: npm run book:quality
       - run: npm run book:pdf
       - run: npm run book:epub
+      - run: npm run book:translate:es:verify
+      - run: npm run book:pdf:es
+      - run: npm run book:epub:es
       - run: npm run book:build
       - run: npm run site:build
       - run: npm run site:parity
@@ -48,6 +51,8 @@ jobs:
           path: |
             book/releases/Agentic-Systems-Patterns.pdf
             book/releases/Agentic-Systems-Patterns.epub
+            book/releases/Agentic-Systems-Patterns-es.pdf
+            book/releases/Agentic-Systems-Patterns-es.epub
           retention-days: 30
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

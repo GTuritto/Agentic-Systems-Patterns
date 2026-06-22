@@ -1,0 +1,108 @@
+---
+import BookLayout from '../../../layouts/BookLayout.astro';
+import { chapterNavigation, chapterSearchExcerpt, relatedChapters, siteChapters, siteSections } from '../../../lib/book-manifest';
+import { bookHref } from '../../../lib/i18n';
+import { renderChapter } from '../../../lib/markdown';
+
+export function getStaticPaths() {
+  return siteChapters.map(chapter => ({
+    params: { slug: chapter.slug },
+    props: { chapter }
+  }));
+}
+
+const { chapter } = Astro.props;
+const language = 'es';
+const rendered = await renderChapter(chapter, language);
+const navigation = chapterNavigation(chapter.slug);
+const related = relatedChapters(chapter.slug);
+const sectionTitle = siteSections.find(section => section.id === chapter.sectionId)?.title ?? chapter.sectionId;
+const description = `${chapter.title}: ${rendered.summary}`;
+const chapterIndex = siteChapters.findIndex(item => item.id === chapter.id);
+const searchDescription = chapterSearchExcerpt(chapter);
+const pagefind = {
+  title: rendered.title,
+  description: searchDescription,
+  meta: [
+    { key: 'section', value: sectionTitle },
+    { key: 'type', value: chapter.type },
+    { key: 'level', value: chapter.difficulty },
+    { key: 'effort', value: chapter.effort },
+    { key: 'reader_paths', value: chapter.readerPaths.join(', ') },
+    { key: 'read_time', value: `${rendered.readingMinutes} min` }
+  ],
+  filters: [
+    { key: 'section', value: sectionTitle },
+    { key: 'type', value: chapter.type },
+    { key: 'level', value: chapter.difficulty },
+    { key: 'reader_path', value: chapter.readerPaths }
+  ],
+  sorts: [
+    { key: 'reading_minutes', value: rendered.readingMinutes },
+    { key: 'manifest_order', value: chapterIndex >= 0 ? String(chapterIndex + 1).padStart(3, '0') : '999' }
+  ]
+};
+---
+
+<BookLayout title={`${rendered.title} | Agentic Systems Patterns`} description={description} currentSlug={chapter.slug} language={language} alternatePath={`/book/${chapter.slug}/`} pagefind={pagefind}>
+  <header class="chapter-meta-panel" aria-label="Chapter overview">
+    <p class="chapter-meta-summary">{chapterSearchExcerpt(chapter)}</p>
+    <dl class="chapter-meta-strip" aria-label="Chapter facts">
+      <div>
+        <dt>Section</dt>
+        <dd>{sectionTitle}</dd>
+      </div>
+      <div>
+        <dt>Type</dt>
+        <dd>{chapter.type}</dd>
+      </div>
+      <div>
+        <dt>Level</dt>
+        <dd>{chapter.difficulty}</dd>
+      </div>
+      <div>
+        <dt>Read</dt>
+        <dd>{rendered.readingMinutes} min</dd>
+      </div>
+      <div>
+        <dt>Effort</dt>
+        <dd>{chapter.effort}</dd>
+      </div>
+    </dl>
+    <div class="reader-path-tags" aria-label="Recommended reader paths">
+      {chapter.readerPaths.map(path => <span>{path}</span>)}
+    </div>
+  </header>
+  <article set:html={rendered.html} />
+  {related.length > 0 && (
+    <section class="related-chapters" aria-labelledby="related-chapters-title">
+      <p class="eyebrow">Continue exploring</p>
+      <h2 id="related-chapters-title">Related chapters</h2>
+      <div class="related-chapter-grid">
+        {related.map(item => (
+          <a class="related-chapter-card" href={bookHref(language, item.slug)}>
+            <span>{item.type} · {item.difficulty}</span>
+            <span>{item.effort}</span>
+            <strong>{item.title}</strong>
+            <small>{item.readerPaths.join(' · ')}</small>
+            <p>{chapterSearchExcerpt(item)}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    {navigation.previous ? (
+      <a class="page-link page-link--previous" href={bookHref(language, navigation.previous.slug)}>
+        <span>Previous</span>
+        <strong>{navigation.previous.title}</strong>
+      </a>
+    ) : <span></span>}
+    {navigation.next ? (
+      <a class="page-link page-link--next" href={bookHref(language, navigation.next.slug)}>
+        <span>Next</span>
+        <strong>{navigation.next.title}</strong>
+      </a>
+    ) : <span></span>}
+  </nav>
+</BookLayout>

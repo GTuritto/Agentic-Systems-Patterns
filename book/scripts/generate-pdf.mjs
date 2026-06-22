@@ -12,15 +12,19 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const bookRoot = path.resolve(__dirname, '..');
-const docsRoot = path.join(bookRoot, 'docs');
+const language = process.env.BOOK_LANGUAGE === 'es' ? 'es' : 'en';
+const docsRoot = path.join(bookRoot, language === 'es' ? 'docs-es' : 'docs');
 const releasesRoot = path.join(bookRoot, 'releases');
-const publicReleasesRoot = path.join(docsRoot, 'public', 'releases');
-const pdfName = 'Agentic-Systems-Patterns.pdf';
-const epubName = 'Agentic-Systems-Patterns.epub';
+const publicReleasesRoot = path.join(bookRoot, 'docs', 'public', 'releases');
+const pdfName = language === 'es' ? 'Agentic-Systems-Patterns-es.pdf' : 'Agentic-Systems-Patterns.pdf';
+const epubName = language === 'es' ? 'Agentic-Systems-Patterns-es.epub' : 'Agentic-Systems-Patterns.epub';
 const edition = '2026-06-16';
-const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
-const pdfUrl = `${siteUrl}releases/${pdfName}`;
-const epubUrl = `${siteUrl}releases/${epubName}`;
+const siteUrl = language === 'es'
+  ? 'https://gturitto.github.io/Agentic-Systems-Patterns/es/'
+  : 'https://gturitto.github.io/Agentic-Systems-Patterns/';
+const releaseUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
+const pdfUrl = `${releaseUrl}releases/${pdfName}`;
+const epubUrl = `${releaseUrl}releases/${epubName}`;
 const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 const pdfPageWidthMm = 210;
 const pdfPageHeightMm = 297;
@@ -265,7 +269,7 @@ async function renderTableOfContents(browser) {
 
 function htmlDocument(toc, body) {
   return `<!doctype html>
-<html lang="en">
+<html lang="${language === 'es' ? 'es-419' : 'en'}">
 <head>
   <meta charset="utf-8">
   <title>Agentic Systems Patterns</title>

@@ -1,0 +1,56 @@
+---
+import BookLayout from '../../../layouts/BookLayout.astro';
+import { chapterSearchExcerpt, chaptersForSection, siteSections } from '../../../lib/book-manifest';
+import { bookHref } from '../../../lib/i18n';
+
+const language = 'es';
+
+export function getStaticPaths() {
+  const sectionsWithChapters = siteSections
+    .map(section => ({
+      ...section,
+      chapters: chaptersForSection(section.id)
+    }))
+    .filter(section => section.chapters.length > 0);
+
+  return sectionsWithChapters.map(section => ({
+    params: { section: section.id },
+    props: { section }
+  }));
+}
+
+const { section } = Astro.props;
+const description = `${section.title}: sección de Agentic Systems Patterns.`;
+const chapterCountLabel = (count: number) => `${count} ${count === 1 ? 'chapter' : 'chapters'}`;
+---
+
+<BookLayout title={`${section.title} | Agentic Systems Patterns`} description={description} language={language} alternatePath={`/sections/${section.id}/`}>
+  <section class="section-landing">
+    <p class="eyebrow">Guía de sección</p>
+    <h1>{section.title}</h1>
+    <p class="lede">Lee estos chapters en orden para conectar conceptos, patterns, labs y criterios de producción.</p>
+  </section>
+
+  <section class="section-toc" aria-labelledby="section-toc-title">
+    <div class="section-toc-header">
+      <h2 id="section-toc-title">Orden de lectura</h2>
+      <span>{chapterCountLabel(section.chapters.length)}</span>
+    </div>
+    <ol class="section-chapter-list">
+      {section.chapters.map((chapter, index) => (
+        <li>
+          <a href={bookHref(language, chapter.slug)}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <div>
+              <strong>{chapter.title}</strong>
+              <small>{chapter.type} · {chapter.difficulty}</small>
+              <small>{chapter.effort}</small>
+              <small>{chapter.readerPaths.join(' · ')}</small>
+              <p>{chapterSearchExcerpt(chapter)}</p>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</BookLayout>
