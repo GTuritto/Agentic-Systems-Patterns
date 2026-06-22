@@ -33,6 +33,9 @@ const repositoryUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 const currentLanguage = language as Language;
 const alternateLanguage = currentLanguage === 'es' ? 'en' : 'es';
 const alternateHref = `${localizedBase(alternateLanguage)}${alternatePath || '/'}`;
+const currentHref = Astro.url.pathname;
+const englishHref = currentLanguage === 'en' ? currentHref : alternateHref;
+const spanishHref = currentLanguage === 'es' ? currentHref : alternateHref;
 const pagefindMeta = expandPagefindAttributes([
   { key: 'title', value: pagefind.title ?? title },
   { key: 'description', value: pagefind.description ?? description },
@@ -101,6 +104,10 @@ const structuredData = {
     <div class="book-shell">
       <Sidebar currentSlug={currentSlug} language={currentLanguage} alternateHref={alternateHref} />
       <main class="book-content" id="main-content" data-pagefind-body>
+        <nav class="reader-language-switch" aria-label="Language selector">
+          <a href={englishHref} aria-current={currentLanguage === 'en' ? 'page' : undefined}>English</a>
+          <a href={spanishHref} aria-current={currentLanguage === 'es' ? 'page' : undefined}>Español</a>
+        </nav>
         <slot />
         <footer class="site-footer" aria-label="Site license and source">
           <p>Book content, diagrams, worksheets, and generated publishing artifacts are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Code examples are licensed under <a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a>.</p>

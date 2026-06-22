@@ -116,6 +116,29 @@ select:focus-visible {
   width: 100%;
 }
 
+.reader-language-switch {
+  display: flex;
+  font-family: var(--font-ui);
+  gap: 6px;
+  justify-content: flex-end;
+  margin: 0 0 18px;
+}
+
+.reader-language-switch a {
+  border: 1px solid var(--border);
+  color: var(--nav);
+  font-size: 0.82rem;
+  font-weight: 820;
+  line-height: 1;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+
+.reader-language-switch a[aria-current='page'] {
+  background: var(--nav);
+  color: var(--on-nav);
+}
+
 .book-content article {
   background: var(--panel-glass);
   border: 1px solid var(--border-glass);
@@ -1082,6 +1105,10 @@ select:focus-visible {
 
   .book-content {
     padding: 34px 18px 70px;
+  }
+
+  .reader-language-switch {
+    justify-content: flex-start;
   }
 
   .catalog-grid {
