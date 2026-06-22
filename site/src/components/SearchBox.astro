@@ -21,16 +21,19 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 }));
 ---
 
-<div class="search" role="search">
+<form class="search" role="search">
   <label for="search-input">Search book</label>
-  <input
-    id="search-input"
-    type="search"
-    placeholder="Search chapters..."
-    autocomplete="off"
-    aria-controls="search-results"
-    aria-expanded="false"
-  />
+  <div class="search-input-row">
+    <input
+      id="search-input"
+      type="search"
+      placeholder="Search chapters..."
+      autocomplete="off"
+      aria-controls="search-results"
+      aria-expanded="false"
+    />
+    <button type="submit">Search</button>
+  </div>
   <div class="search-filter-row" aria-label="Search filters">
     <label for="search-level-filter">
       <span>Level</span>
@@ -49,33 +52,31 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   </div>
   <div id="search-status" aria-live="polite"></div>
   <div id="search-results" role="listbox" aria-label="Search results"></div>
-</div>
+</form>
 
 <script id="search-fallback-data" type="application/json" set:html={JSON.stringify(fallbackSearchItems)}></script>
 
 <script define:vars={{ currentBase }}>
-  const input = document.querySelector<HTMLInputElement>('#search-input');
-  const levelFilter = document.querySelector<HTMLSelectElement>('#search-level-filter');
-  const typeFilter = document.querySelector<HTMLSelectElement>('#search-type-filter');
-  const results = document.querySelector<HTMLDivElement>('#search-results');
-  const status = document.querySelector<HTMLDivElement>('#search-status');
+  const input = document.querySelector('#search-input');
+  const form = document.querySelector('.search');
+  const levelFilter = document.querySelector('#search-level-filter');
+  const typeFilter = document.querySelector('#search-type-filter');
+  const results = document.querySelector('#search-results');
+  const status = document.querySelector('#search-status');
   const pagefindPath = '/Agentic-Systems-Patterns/pagefind/pagefind.js';
+  const pagefindBase = currentBase.replace(/\/es$/, '');
   let activeIndex = -1;
-  type SearchFilters = {
-    level?: string;
-    type?: string;
-  };
 
   async function loadPagefind() {
     const pagefind = await import(/* @vite-ignore */ pagefindPath);
-    await pagefind.options({ baseUrl: `${currentBase}/` });
+    await pagefind.options({ baseUrl: `${pagefindBase}/` });
     return pagefind;
   }
 
-  let pagefindPromise: ReturnType<typeof loadPagefind> | undefined;
+  let pagefindPromise;
   let searchRun = 0;
 
-  function setStatus(message: string) {
+  function setStatus(message) {
     if (status) status.textContent = message;
   }
 
@@ -87,10 +88,10 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
   }
 
   function resultLinks() {
-    return Array.from(results?.querySelectorAll<HTMLAnchorElement>('.search-result') ?? []);
+    return Array.from(results?.querySelectorAll('.search-result') ?? []);
   }
 
-  function setActiveResult(index: number) {
+  function setActiveResult(index) {
     const links = resultLinks();
     if (links.length === 0) return;
     activeIndex = (index + links.length) % links.length;
@@ -101,7 +102,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     links[activeIndex].focus();
   }
 
-  function escapeHtml(value: string) {
+  function escapeHtml(value) {
     return value
       .replaceAll('&', '&amp;')
       .replaceAll('<', '&lt;')
@@ -109,32 +110,33 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
       .replaceAll('"', '&quot;');
   }
 
-  function normalizeUrl(url: string) {
+  function normalizeUrl(url) {
     if (url.startsWith('/Agentic-Systems-Patterns/')) return url;
+    if (url.startsWith('/es/')) return `${pagefindBase}${url}`;
     if (url.startsWith('/')) return `${currentBase}${url}`;
     return `${currentBase}/${url}`;
   }
 
-  function activeFilters(): SearchFilters {
+  function activeFilters() {
     return {
       level: levelFilter?.value || undefined,
       type: typeFilter?.value || undefined
     };
   }
 
-  function pagefindSearchOptions(filters: SearchFilters) {
-    const pagefindFilters: SearchFilters = {};
+  function pagefindSearchOptions(filters) {
+    const pagefindFilters = {};
     if (filters.level) pagefindFilters.level = filters.level;
     if (filters.type) pagefindFilters.type = filters.type;
     return Object.keys(pagefindFilters).length > 0 ? { filters: pagefindFilters } : undefined;
   }
 
-  function fallbackSearch(q: string, filters: SearchFilters) {
-    const data = document.querySelector<HTMLScriptElement>('#search-fallback-data');
+  function fallbackSearch(q, filters) {
+    const data = document.querySelector('#search-fallback-data');
     const items = data?.textContent ? JSON.parse(data.textContent) : [];
     const normalizedQuery = q.toLowerCase();
     return items
-      .filter((item: { title: string; excerpt: string; searchText?: string; level?: string; type?: string }) => {
+      .filter(item => {
         const matchesQuery = (item.searchText ?? `${item.title} ${item.excerpt}`).toLowerCase().includes(normalizedQuery);
         const matchesLevel = !filters.level || item.level === filters.level;
         const matchesType = !filters.type || item.type === filters.type;
@@ -143,12 +145,12 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
       .slice(0, 6);
   }
 
-  function renderItems(items: Array<{ title: string; excerpt?: string; url: string; section?: string; type?: string; level?: string }>) {
-    results!.innerHTML = items.map((item, index) => {
+  function renderItems(items) {
+    results.innerHTML = items.map((item, index) => {
       const title = escapeHtml(item.title ?? 'Untitled chapter');
       const excerpt = item.excerpt ? escapeHtml(item.excerpt.replace(/<[^>]+>/g, '')) : 'Open this chapter from the search results.';
       const tags = [item.section, item.type, item.level]
-        .filter((tag): tag is string => Boolean(tag))
+        .filter(Boolean)
         .map(tag => `<span>${escapeHtml(tag)}</span>`)
         .join('');
       return `
@@ -212,6 +214,10 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     }
   }
 
+  form?.addEventListener('submit', event => {
+    event.preventDefault();
+    runSearch();
+  });
   input?.addEventListener('input', runSearch);
   levelFilter?.addEventListener('change', runSearch);
   typeFilter?.addEventListener('change', runSearch);
@@ -250,6 +256,12 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     padding-top: 18px;
   }
 
+  .search-input-row {
+    display: grid;
+    gap: 7px;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
   label {
     display: block;
     color: var(--muted);
@@ -270,6 +282,23 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
     font: 0.9rem var(--font-ui);
     padding: 10px 13px;
     width: 100%;
+  }
+
+  button {
+    background: var(--nav);
+    border: 1px solid var(--nav);
+    border-radius: 999px;
+    color: var(--on-nav);
+    cursor: pointer;
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 850;
+    padding: 0 12px;
+  }
+
+  button:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
   }
 
   .search-filter-row {
