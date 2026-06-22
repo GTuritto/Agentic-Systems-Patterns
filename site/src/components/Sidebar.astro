@@ -1,15 +1,22 @@
 ---
 import SearchBox from './SearchBox.astro';
-import { siteBase, siteSidebarGroups } from '../lib/book-manifest';
+import { sidebarGroupsForLanguage } from '../lib/book-manifest';
+import { homeHref, patternsHref, type Language } from '../lib/i18n';
 
-const { currentSlug } = Astro.props;
+const { currentSlug, language = 'en', alternateHref } = Astro.props;
+const currentLanguage = language as Language;
+const siteSidebarGroups = sidebarGroupsForLanguage(currentLanguage);
+const baseHref = homeHref(currentLanguage);
 ---
 
 <aside class="book-sidebar" aria-label="Book navigation">
-  <a class="brand" href={`${siteBase}/`}>
+  <a class="brand" href={baseHref}>
     <span class="brand-kicker">Online book</span>
     <span>Agentic Systems Patterns</span>
   </a>
+  <div class="sidebar-controls" aria-label="Reader controls">
+    <a class="language-switch" href={alternateHref}>{currentLanguage === 'es' ? 'English' : 'Español'}</a>
+  </div>
   <section class="theme-control" aria-label="Color theme">
     <div>
       <span class="theme-kicker">Theme</span>
@@ -31,12 +38,12 @@ const { currentSlug } = Astro.props;
       </button>
     </div>
   </section>
-  <SearchBox />
+  <SearchBox language={currentLanguage} />
   <div class="utility-links" aria-label="Book shortcuts">
-    <a href={`${siteBase}/book/publishing/how-to-read/`}>Reading paths</a>
-    <a href={`${siteBase}/book/publishing/glossary/`}>Glossary</a>
-    <a href={`${siteBase}/patterns/`}>Pattern catalog</a>
-    <a href={`${siteBase}/#sections`}>Logical groups</a>
+    <a href={`${baseHref}book/publishing/how-to-read/`}>Reading paths</a>
+    <a href={`${baseHref}book/publishing/glossary/`}>Glossary</a>
+    <a href={patternsHref(currentLanguage)}>Pattern catalog</a>
+    <a href={`${baseHref}#sections`}>Logical groups</a>
   </div>
   <nav class="book-nav">
     {siteSidebarGroups.map(group => (
@@ -82,6 +89,22 @@ const { currentSlug } = Astro.props;
     justify-content: space-between;
     margin: 0 0 16px;
     padding: 10px;
+  }
+
+  .sidebar-controls {
+    display: flex;
+    gap: 8px;
+    margin: -8px 0 16px;
+  }
+
+  .language-switch {
+    border: 1px solid var(--border);
+    color: var(--nav);
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    font-weight: 780;
+    padding: 8px 10px;
+    text-decoration: none;
   }
 
   .theme-control strong,

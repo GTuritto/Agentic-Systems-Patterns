@@ -1,12 +1,16 @@
 ---
-import { chapterSearchExcerpt, siteBase, siteChapters, siteSections } from '../lib/book-manifest.ts';
+import { chapterSearchExcerpt, siteChapters, siteSections } from '../lib/book-manifest.ts';
+import { bookHref, localizedBase, type Language } from '../lib/i18n.ts';
 
+const { language = 'en' } = Astro.props;
+const currentLanguage = language as Language;
+const currentBase = localizedBase(currentLanguage);
 const sectionTitle = new Map(siteSections.map(section => [section.id, section.title]));
 const levelFilters = [...new Set(siteChapters.map(chapter => chapter.difficulty))];
 const typeFilters = [...new Set(siteChapters.map(chapter => chapter.type))];
 const fallbackSearchItems = siteChapters.map(chapter => ({
   title: chapter.title,
-  url: `${siteBase}/book/${chapter.slug}/`,
+  url: bookHref(currentLanguage, chapter.slug),
   excerpt: chapterSearchExcerpt(chapter),
   section: sectionTitle.get(chapter.sectionId) ?? chapter.sectionId,
   type: chapter.type,
@@ -49,7 +53,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
 <script id="search-fallback-data" type="application/json" set:html={JSON.stringify(fallbackSearchItems)}></script>
 
-<script>
+<script define:vars={{ currentBase }}>
   const input = document.querySelector<HTMLInputElement>('#search-input');
   const levelFilter = document.querySelector<HTMLSelectElement>('#search-level-filter');
   const typeFilter = document.querySelector<HTMLSelectElement>('#search-type-filter');
@@ -64,7 +68,7 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
   async function loadPagefind() {
     const pagefind = await import(/* @vite-ignore */ pagefindPath);
-    await pagefind.options({ baseUrl: '/Agentic-Systems-Patterns/' });
+    await pagefind.options({ baseUrl: `${currentBase}/` });
     return pagefind;
   }
 
@@ -107,8 +111,8 @@ const fallbackSearchItems = siteChapters.map(chapter => ({
 
   function normalizeUrl(url: string) {
     if (url.startsWith('/Agentic-Systems-Patterns/')) return url;
-    if (url.startsWith('/')) return `/Agentic-Systems-Patterns${url}`;
-    return `/Agentic-Systems-Patterns/${url}`;
+    if (url.startsWith('/')) return `${currentBase}${url}`;
+    return `${currentBase}/${url}`;
   }
 
   function activeFilters(): SearchFilters {

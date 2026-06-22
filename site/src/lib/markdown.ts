@@ -3,10 +3,12 @@ import path from 'node:path';
 import MarkdownIt from 'markdown-it';
 import matter from 'gray-matter';
 import type { SiteChapter } from './book-manifest.ts';
-import { siteBase, siteChapters } from './book-manifest.ts';
+import { siteChapters } from './book-manifest.ts';
+import { localizedBase, siteBase, type Language } from './i18n.ts';
 
 const repoRoot = path.resolve(process.cwd(), '..');
 const docsRoot = path.join(repoRoot, 'book', 'docs');
+const spanishDocsRoot = path.join(repoRoot, 'book', 'docs-es');
 
 const md = new MarkdownIt({
   html: false,
@@ -50,9 +52,14 @@ md.renderer.rules.fence = (tokens: any, idx: any, options: any, env: any, self: 
   return defaultFence(tokens, idx, options, env, self);
 };
 
-function normalizeMarkdownTarget(target: string, fromChapterPath: string) {
+function docsRootForLanguage(language: Language) {
+  return language === 'es' ? spanishDocsRoot : docsRoot;
+}
+
+function normalizeMarkdownTarget(target: string, fromChapterPath: string, language: Language) {
   const [rawPath, hash] = target.split('#');
   const hashSuffix = hash ? `#${hash}` : '';
+  const base = localizedBase(language);
 
   if (rawPath.startsWith('../public/')) {
     return `${siteBase}/${rawPath.slice('../public/'.length)}${hashSuffix}`;
@@ -62,27 +69,31 @@ function normalizeMarkdownTarget(target: string, fromChapterPath: string) {
     return `${siteBase}${rawPath}${hashSuffix}`;
   }
 
+  if (rawPath.startsWith('/capstone-assets/')) {
+    return `${siteBase}${rawPath}${hashSuffix}`;
+  }
+
   if (rawPath.startsWith('/')) {
     const slug = rawPath.replace(/^\//, '').replace(/\/$/, '');
     if (siteChapters.some(chapter => chapter.slug === slug)) {
-      return `${siteBase}/book/${slug}/${hashSuffix}`;
+      return `${base}/book/${slug}/${hashSuffix}`;
     }
-    return `${siteBase}${rawPath}${hashSuffix}`;
+    return `${base}${rawPath}${hashSuffix}`;
   }
 
   if (rawPath.endsWith('.md')) {
     const fromDir = path.posix.dirname(fromChapterPath);
     const resolved = path.posix.normalize(path.posix.join(fromDir, rawPath));
     const slug = resolved.replace(/\.md$/, '').replace(/\/index$/, '');
-    return `${siteBase}/book/${slug}/${hashSuffix}`;
+    return `${base}/book/${slug}/${hashSuffix}`;
   }
 
   return target;
 }
 
-function rewriteLinks(markdown: string, fromChapterPath: string) {
+function rewriteLinks(markdown: string, fromChapterPath: string, language: Language) {
   return markdown.replace(/\]\((?!https?:\/\/|mailto:|#)([^)]+)\)/g, (_match, target) => {
-    return `](${normalizeMarkdownTarget(target, fromChapterPath)})`;
+    return `](${normalizeMarkdownTarget(target, fromChapterPath, language)})`;
   });
 }
 
@@ -117,11 +128,11 @@ function chapterSummary(markdown: string) {
   return summary.length > 180 ? `${summary.slice(0, 177).trim()}...` : summary;
 }
 
-export async function renderChapter(chapter: SiteChapter) {
-  const filePath = path.join(docsRoot, chapter.path);
+export async function renderChapter(chapter: SiteChapter, language: Language = 'en') {
+  const filePath = path.join(docsRootForLanguage(language), chapter.path);
   const raw = await fs.readFile(filePath, 'utf8');
   const parsed = matter(raw);
-  const body = rewriteLinks(parsed.content.trim(), chapter.path);
+  const body = rewriteLinks(parsed.content.trim(), chapter.path, language);
   const words = wordCount(parsed.content);
   return {
     title: parsed.data.title ?? chapter.title,

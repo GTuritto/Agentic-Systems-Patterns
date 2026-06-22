@@ -12,26 +12,34 @@ const siteBase = '/Agentic-Systems-Patterns';
 
 const missing = bookChapters
   .map(chapter => chapter.path.replace(/\.md$/, '').replace(/\/index$/, ''))
-  .filter(slug => !fs.existsSync(path.join(distRoot, 'book', slug, 'index.html')));
+  .flatMap(slug => [
+    { slug, file: path.join(distRoot, 'book', slug, 'index.html'), route: `/book/${slug}/` },
+    { slug, file: path.join(distRoot, 'es', 'book', slug, 'index.html'), route: `/es/book/${slug}/` }
+  ])
+  .filter(item => !fs.existsSync(item.file));
 
 if (missing.length > 0) {
   console.error(`Astro parity failed: ${missing.length} missing chapter route(s).`);
-  for (const slug of missing) console.error(`- /book/${slug}/`);
+  for (const item of missing) console.error(`- ${item.route}`);
   process.exit(1);
 }
 
 const generatedChapterPages = fs
   .readdirSync(path.join(distRoot, 'book'), { recursive: true, withFileTypes: true })
-  .filter(entry => entry.isFile() && entry.name === 'index.html').length;
+  .filter(entry => entry.isFile() && entry.name === 'index.html').length
+  + fs
+    .readdirSync(path.join(distRoot, 'es', 'book'), { recursive: true, withFileTypes: true })
+    .filter(entry => entry.isFile() && entry.name === 'index.html').length;
 
-if (generatedChapterPages !== bookChapters.length) {
+const expectedChapterPages = bookChapters.length * 2;
+if (generatedChapterPages !== expectedChapterPages) {
   console.error(
-    `Astro parity failed: generated ${generatedChapterPages} chapter pages, expected ${bookChapters.length}.`
+    `Astro parity failed: generated ${generatedChapterPages} chapter pages, expected ${expectedChapterPages}.`
   );
   process.exit(1);
 }
 
-console.log(`Astro parity OK: ${bookChapters.length} chapter routes generated.`);
+console.log(`Astro parity OK: ${expectedChapterPages} chapter routes generated.`);
 
 function walk(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {

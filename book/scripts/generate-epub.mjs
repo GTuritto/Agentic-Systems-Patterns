@@ -12,13 +12,17 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const bookRoot = path.resolve(__dirname, '..');
-const docsRoot = path.join(bookRoot, 'docs');
+const language = process.env.BOOK_LANGUAGE === 'es' ? 'es' : 'en';
+const docsRoot = path.join(bookRoot, language === 'es' ? 'docs-es' : 'docs');
 const releasesRoot = path.join(bookRoot, 'releases');
-const publicReleasesRoot = path.join(docsRoot, 'public', 'releases');
-const epubName = 'Agentic-Systems-Patterns.epub';
+const publicReleasesRoot = path.join(bookRoot, 'docs', 'public', 'releases');
+const epubName = language === 'es' ? 'Agentic-Systems-Patterns-es.epub' : 'Agentic-Systems-Patterns.epub';
 const edition = '2026-06-16';
-const siteUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
-const epubUrl = `${siteUrl}releases/${epubName}`;
+const siteUrl = language === 'es'
+  ? 'https://gturitto.github.io/Agentic-Systems-Patterns/es/'
+  : 'https://gturitto.github.io/Agentic-Systems-Patterns/';
+const releaseUrl = 'https://gturitto.github.io/Agentic-Systems-Patterns/';
+const epubUrl = `${releaseUrl}releases/${epubName}`;
 const repoUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
 
 const sectionsById = new Map(bookSections.map(section => [section.id, section]));
@@ -71,7 +75,7 @@ function rewriteLinks(markdown, fromChapterPath) {
     }
 
     if (rawPath.startsWith('../public/')) {
-      return `](${siteUrl}${rawPath.slice('../public/'.length)}${hashSuffix})`;
+      return `](${releaseUrl}${rawPath.slice('../public/'.length)}${hashSuffix})`;
     }
 
     if (rawPath.startsWith('../assets/')) {
@@ -83,6 +87,9 @@ function rewriteLinks(markdown, fromChapterPath) {
     }
 
     if (rawPath.startsWith('/')) {
+      if (rawPath.startsWith('/diagrams/') || rawPath.startsWith('/brand/') || rawPath.startsWith('/releases/')) {
+        return `](${releaseUrl}${rawPath.replace(/^\//, '')}${hashSuffix})`;
+      }
       return `](${siteUrl}${rawPath.replace(/^\//, '')}${hashSuffix})`;
     }
 
@@ -108,7 +115,7 @@ function collectEpubDiagramAssets(markdown) {
 function xhtmlDocument(title, body) {
   return `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="${language === 'es' ? 'es-419' : 'en'}" xml:lang="${language === 'es' ? 'es-419' : 'en'}">
 <head>
   <title>${escapeXml(title)}</title>
   <link rel="stylesheet" type="text/css" href="../styles.css" />
@@ -178,7 +185,7 @@ function navDocument(chapters) {
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" lang="${language === 'es' ? 'es-419' : 'en'}" xml:lang="${language === 'es' ? 'es-419' : 'en'}">
 <head>
   <title>Table of Contents</title>
   <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -213,7 +220,7 @@ function packageDocument(chapters, diagramAssets) {
     <dc:identifier id="book-id">https://gturitto.github.io/Agentic-Systems-Patterns/</dc:identifier>
     <dc:title>Agentic Systems Patterns</dc:title>
     <dc:creator>Giuseppe Turitto</dc:creator>
-    <dc:language>en</dc:language>
+    <dc:language>${language === 'es' ? 'es-419' : 'en'}</dc:language>
     <dc:date>${edition}</dc:date>
     <dc:rights>Content licensed under CC BY-NC-SA 4.0. Code examples licensed under MIT.</dc:rights>
     <meta property="dcterms:modified">${edition}T00:00:00Z</meta>

@@ -1,11 +1,14 @@
 ---
 import Sidebar from '../components/Sidebar.astro';
+import { homeHref, languages, localizedBase, siteBase, type Language } from '../lib/i18n';
 import '../styles/global.css';
 
 const {
   title = 'Agentic Systems Patterns',
   description = 'An online book for designing, evaluating, and operating agentic systems.',
   currentSlug,
+  language = 'en',
+  alternatePath = '',
   pagefind = {}
 } = Astro.props;
 
@@ -24,10 +27,12 @@ function expandPagefindAttributes(items: PagefindAttribute[] = []) {
 }
 
 const siteOrigin = 'https://gturitto.github.io';
-const siteBase = '/Agentic-Systems-Patterns';
 const canonicalUrl = new URL(Astro.url.pathname, siteOrigin).toString();
 const previewImage = `${siteOrigin}/Agentic-Systems-Patterns/brand/agent-graph-cover.svg`;
 const repositoryUrl = 'https://github.com/GTuritto/Agentic-Systems-Patterns';
+const currentLanguage = language as Language;
+const alternateLanguage = currentLanguage === 'es' ? 'en' : 'es';
+const alternateHref = `${localizedBase(alternateLanguage)}${alternatePath || '/'}`;
 const pagefindMeta = expandPagefindAttributes([
   { key: 'title', value: pagefind.title ?? title },
   { key: 'description', value: pagefind.description ?? description },
@@ -42,11 +47,11 @@ const structuredData = {
   description,
   url: canonicalUrl,
   image: previewImage,
-  inLanguage: 'en',
+  inLanguage: languages[currentLanguage].htmlLang,
   isPartOf: {
     '@type': 'Book',
-    name: 'Agentic Systems Patterns',
-    url: `${siteOrigin}${siteBase}/`
+    name: languages[currentLanguage].bookTitle,
+    url: `${siteOrigin}${homeHref(currentLanguage)}`
   },
   author: {
     '@type': 'Person',
@@ -57,7 +62,7 @@ const structuredData = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={languages[currentLanguage].htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -94,15 +99,15 @@ const structuredData = {
   </head>
   <body>
     <div class="book-shell">
-      <Sidebar currentSlug={currentSlug} />
+      <Sidebar currentSlug={currentSlug} language={currentLanguage} alternateHref={alternateHref} />
       <main class="book-content" id="main-content" data-pagefind-body>
         <slot />
         <footer class="site-footer" aria-label="Site license and source">
           <p>Book content, diagrams, worksheets, and generated publishing artifacts are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Code examples are licensed under <a href={`${repositoryUrl}/blob/main/LICENSE`}>MIT</a>.</p>
           <nav aria-label="Footer links">
             <a href={repositoryUrl}>Source</a>
-            <a href={`${siteBase}/book/publishing/publishing-and-releases/`}>Publishing notes</a>
-            <a href={`${siteBase}/book/publishing/release-readiness-checklist/`}>Release checklist</a>
+            <a href={`${homeHref(currentLanguage)}book/publishing/publishing-and-releases/`}>Publishing notes</a>
+            <a href={`${homeHref(currentLanguage)}book/publishing/release-readiness-checklist/`}>Release checklist</a>
           </nav>
         </footer>
       </main>

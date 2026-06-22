@@ -2,6 +2,8 @@
 import { bookChapters, bookSections, sidebarGroups } from '../../../book/scripts/book-manifest.mjs';
 // @ts-expect-error The shared pattern manifest is authored as ESM JavaScript.
 import { patterns } from '../../../book/scripts/pattern-manifest.mjs';
+import { bookHref, siteBase, type Language } from './i18n.ts';
+export { siteBase } from './i18n.ts';
 
 type BookChapter = {
   id: string;
@@ -37,8 +39,6 @@ export type SiteChapter = {
   effort: string;
   readerPaths: string[];
 };
-
-export const siteBase = '/Agentic-Systems-Patterns';
 
 export const featuredChapterIds = [
   'choosing-the-right-pattern',
@@ -251,9 +251,19 @@ export const siteSidebarGroups = typedSidebarGroups.map((group: SidebarGroup) =>
   ...group,
   items: group.items.map((item: SidebarItem) => ({
     ...item,
-    href: `${siteBase}/book/${chapterSlug(item.path)}/`
+    href: bookHref('en', chapterSlug(item.path))
   }))
 }));
+
+export function sidebarGroupsForLanguage(language: Language) {
+  return typedSidebarGroups.map((group: SidebarGroup) => ({
+    ...group,
+    items: group.items.map((item: SidebarItem) => ({
+      ...item,
+      href: bookHref(language, chapterSlug(item.path))
+    }))
+  }));
+}
 
 export function chapterBySlug(slug: string) {
   return siteChapters.find(chapter => chapter.slug === slug);
